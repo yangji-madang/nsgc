@@ -94,11 +94,13 @@
   }
   header .sub-link:hover{ text-decoration:underline; }
 
-  .filterbar{
+  .topbar{
     position:sticky;
     top:0;
     z-index:5;
     background:var(--bg);
+  }
+  .filterbar{
     padding:12px 18px 10px;
     border-bottom:1px solid var(--line);
     display:flex;
@@ -316,6 +318,7 @@
   }
 </style>
 
+<div class="topbar">
 <header>
   <p class="eyebrow">Zion Choir · 2026</p>
   <h1>2026년 시온찬양대 찬양곡목</h1>
@@ -345,6 +348,7 @@
       <div class="chips" id="typeChips"></div>
     </div>
   </div>
+</div>
 </div>
 
 <main>
@@ -1551,10 +1555,10 @@
       return Math.abs(a.dateSerial - todS) <= Math.abs(b.dateSerial - todS) ? a : b;
     });
     var card = listEl.querySelector('[data-row="' + closest.row + '"]');
-    var filterbar = document.querySelector('.filterbar');
-    if(card && filterbar){
+    var topbar = document.querySelector('.topbar');
+    if(card && topbar){
       var rect = card.getBoundingClientRect();
-      var offset = filterbar.getBoundingClientRect().height + 12;
+      var offset = topbar.getBoundingClientRect().height + 12;
       var targetY = window.pageYOffset + rect.top - offset;
       window.scrollTo({ top: Math.max(targetY, 0), behavior:'auto' });
     }
