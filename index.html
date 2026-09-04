@@ -84,11 +84,15 @@
     text-wrap:balance;
     font-weight:700;
   }
-  header p.sub{
+  header .sub-link{
+    display:inline-block;
     margin:0;
     font-size:13px;
-    color:var(--ink-soft);
+    font-weight:700;
+    color:var(--accent-ink);
+    text-decoration:none;
   }
+  header .sub-link:hover{ text-decoration:underline; }
 
   .filterbar{
     position:sticky;
@@ -107,8 +111,8 @@
     gap:8px;
     background:#ffffff;
     border:1px solid #d5d8e2;
-    border-radius:12px;
-    padding:9px 12px;
+    border-radius:10px;
+    padding:5px 10px;
   }
   .filter-panel{
     background:var(--filterbar-bg);
@@ -118,7 +122,7 @@
     flex-direction:column;
     gap:10px;
   }
-  .search-row svg{ flex:none; color:#8b8fa8; }
+  .search-row svg{ flex:none; color:#8b8fa8; width:15px; height:15px; }
   .search-row input{
     border:none;
     outline:none;
@@ -134,19 +138,21 @@
     border:none;
     background:transparent;
     color:#8b8fa8;
-    font-size:18px;
+    font-size:15px;
     line-height:1;
-    padding:2px 4px;
+    padding:0 2px;
     cursor:pointer;
   }
   .search-row button.show{ display:block; }
 
   .chip-group{
     display:flex;
-    flex-direction:column;
-    gap:6px;
+    flex-direction:row;
+    align-items:center;
+    gap:8px;
   }
   .chip-group .label{
+    flex:none;
     font-size:14.5px;
     letter-spacing:.05em;
     text-transform:uppercase;
@@ -156,6 +162,8 @@
   }
   .chips{
     display:flex;
+    flex:1;
+    min-width:0;
     gap:4px;
     overflow-x:auto;
     padding-bottom:2px;
@@ -249,7 +257,7 @@
     font-size:12px;
     color:var(--ink-faint);
     white-space:nowrap;
-    max-width:38%;
+    max-width:34%;
     overflow:hidden;
     text-overflow:ellipsis;
   }
@@ -286,11 +294,11 @@
     gap:5px;
     text-decoration:none;
     border-radius:999px;
-    padding:6px 13px;
+    padding:3px 11px;
     font-size:12.5px;
     font-weight:700;
     white-space:nowrap;
-    min-height:32px;
+    line-height:1.5;
   }
 
   .type-youtube{ background:var(--t-youtube-bg); color:var(--t-youtube-ink); }
@@ -311,12 +319,12 @@
 <header>
   <p class="eyebrow">Zion Choir · 2026</p>
   <h1>2026년 시온찬양대 찬양곡목</h1>
-  <p class="sub">주일별 연습 자료 · 유튜브 / mp3 / 동영상 다운로드</p>
+  <a class="sub-link" href="https://youtube.com/playlist?list=PLGf8Obfd0OaNlgdqO9u-beAlpkDgnm6vS&amp;si=x2QZR18_D6ORofSr" target="_blank" rel="noopener noreferrer">2026년 주일 찬양 보기 ▶</a>
 </header>
 
 <div class="filterbar">
   <div class="search-row">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
     <input id="searchInput" type="text" placeholder="곡목 · 책명 검색" autocomplete="off" />
     <button id="clearSearch" aria-label="검색어 지우기">×</button>
   </div>
@@ -796,7 +804,7 @@
         "dateSerial": 46278,
         "book": "중앙48",
         "page": "243",
-        "title": "23. 인도하심",
+        "title": "인도하심",
         "links": [
             {
                 "part": "Alt",
@@ -1012,6 +1020,302 @@
                 "url": "https://naver.me/52aEnhwJ"
             }
         ]
+    },
+    {
+        "row": 72,
+        "dateSerial": 46299,
+        "book": "시온4",
+        "page": "99",
+        "title": "하나되어",
+        "links": [
+            {
+                "part": "All",
+                "type": "youtube",
+                "url": "https://buly.kr/90dgKuH"
+            },
+            {
+                "part": "Sop",
+                "type": "youtube",
+                "url": "https://buly.kr/1GMLB32"
+            },
+            {
+                "part": "Alt",
+                "type": "youtube",
+                "url": "https://buly.kr/NmYGwo"
+            },
+            {
+                "part": "Ten",
+                "type": "youtube",
+                "url": "https://buly.kr/450Ss5X"
+            },
+            {
+                "part": "Bas",
+                "type": "youtube",
+                "url": "https://buly.kr/74ZLXxm"
+            },
+            {
+                "part": "Sop",
+                "type": "mp3",
+                "url": "https://naver.me/xIFDV2Ts"
+            },
+            {
+                "part": "Alt",
+                "type": "mp3",
+                "url": "https://naver.me/G8fzFwqB"
+            },
+            {
+                "part": "Ten",
+                "type": "mp3",
+                "url": "https://naver.me/GJZw2LnG"
+            },
+            {
+                "part": "Bas",
+                "type": "mp3",
+                "url": "https://naver.me/FethmZBt"
+            },
+            {
+                "part": "Sop",
+                "type": "mp4",
+                "url": "https://naver.me/5ulqHvRj"
+            },
+            {
+                "part": "Alt",
+                "type": "mp4",
+                "url": "https://naver.me/FyAf4pCx"
+            },
+            {
+                "part": "Ten",
+                "type": "mp4",
+                "url": "https://naver.me/xQJXfHyY"
+            },
+            {
+                "part": "Bas",
+                "type": "mp4",
+                "url": "https://naver.me/GT4PltML"
+            }
+        ]
+    },
+    {
+        "row": 75,
+        "dateSerial": 46306,
+        "book": "시온8",
+        "page": "40",
+        "title": "동행",
+        "links": [
+            {
+                "part": "All",
+                "type": "youtube",
+                "url": "https://buly.kr/DaRNsDY"
+            },
+            {
+                "part": "Sop",
+                "type": "youtube",
+                "url": "https://buly.kr/1x2LRl"
+            },
+            {
+                "part": "Alt",
+                "type": "youtube",
+                "url": "https://buly.kr/B7cm8pr"
+            },
+            {
+                "part": "Ten",
+                "type": "youtube",
+                "url": "https://buly.kr/NmYJ69"
+            },
+            {
+                "part": "Bas",
+                "type": "youtube",
+                "url": "https://buly.kr/1y1N8Sz"
+            },
+            {
+                "part": "Sop",
+                "type": "mp3",
+                "url": "https://buly.kr/CB7K2ur"
+            },
+            {
+                "part": "Alt",
+                "type": "mp3",
+                "url": "https://buly.kr/D3h6wwc"
+            },
+            {
+                "part": "Ten",
+                "type": "mp3",
+                "url": "https://naver.me/GIIdW8xq"
+            },
+            {
+                "part": "Bas",
+                "type": "mp3",
+                "url": "https://buly.kr/6Xp4en8"
+            },
+            {
+                "part": "Sop",
+                "type": "mp4",
+                "url": "https://naver.me/xVRZC4Ar"
+            },
+            {
+                "part": "Alt",
+                "type": "mp4",
+                "url": "https://naver.me/5kPMntBE"
+            },
+            {
+                "part": "Ten",
+                "type": "mp4",
+                "url": "https://naver.me/GfruJgtL"
+            },
+            {
+                "part": "Bas",
+                "type": "mp4",
+                "url": "https://naver.me/F93yXkHd"
+            }
+        ]
+    },
+    {
+        "row": 78,
+        "dateSerial": 46313,
+        "book": "중앙38",
+        "page": "",
+        "title": "주 임하소서",
+        "links": [
+            {
+                "part": "All",
+                "type": "youtube",
+                "url": "https://buly.kr/CrnM4H"
+            },
+            {
+                "part": "Sop",
+                "type": "youtube",
+                "url": "https://buly.kr/9iIiK9V"
+            },
+            {
+                "part": "Alt",
+                "type": "youtube",
+                "url": "https://buly.kr/Gkv1Ynz"
+            },
+            {
+                "part": "Ten",
+                "type": "youtube",
+                "url": "https://buly.kr/5fFHlRq"
+            },
+            {
+                "part": "Bas",
+                "type": "youtube",
+                "url": "https://buly.kr/58V0oyg"
+            },
+            {
+                "part": "Sop",
+                "type": "mp3",
+                "url": "https://naver.me/5g41DvrK"
+            },
+            {
+                "part": "Alt",
+                "type": "mp3",
+                "url": "https://naver.me/FEgMyl4j"
+            },
+            {
+                "part": "Ten",
+                "type": "mp3",
+                "url": "https://naver.me/5NeoZoX8"
+            },
+            {
+                "part": "Bas",
+                "type": "mp3",
+                "url": "https://naver.me/5qLwzwe1"
+            },
+            {
+                "part": "Sop",
+                "type": "mp4",
+                "url": "https://naver.me/xHER9xqy"
+            },
+            {
+                "part": "Alt",
+                "type": "mp4",
+                "url": "https://naver.me/GXFOPISz"
+            },
+            {
+                "part": "Ten",
+                "type": "mp4",
+                "url": "https://naver.me/Ge7zkzNj"
+            },
+            {
+                "part": "Bas",
+                "type": "mp4",
+                "url": "https://naver.me/5VxS9S5U"
+            }
+        ]
+    },
+    {
+        "row": 81,
+        "dateSerial": 46320,
+        "book": "시온7",
+        "page": "94",
+        "title": "꽃들도",
+        "links": [
+            {
+                "part": "All",
+                "type": "youtube",
+                "url": "https://buly.kr/CrnM4H"
+            },
+            {
+                "part": "Sop",
+                "type": "youtube",
+                "url": "https://buly.kr/4bkjxV8"
+            },
+            {
+                "part": "Alt",
+                "type": "youtube",
+                "url": "https://buly.kr/1x2SIp"
+            },
+            {
+                "part": "Ten",
+                "type": "youtube",
+                "url": "https://buly.kr/6teai7r"
+            },
+            {
+                "part": "Bas",
+                "type": "youtube",
+                "url": "https://buly.kr/6teai7r"
+            },
+            {
+                "part": "Sop",
+                "type": "mp3",
+                "url": "https://naver.me/5nhaHAag"
+            },
+            {
+                "part": "Alt",
+                "type": "mp3",
+                "url": "https://naver.me/xIFkOywh"
+            },
+            {
+                "part": "Ten",
+                "type": "mp3",
+                "url": "https://naver.me/GXFOH6Tq"
+            },
+            {
+                "part": "Bas",
+                "type": "mp3",
+                "url": "https://naver.me/GXFOH6Tq"
+            },
+            {
+                "part": "Sop",
+                "type": "mp4",
+                "url": "https://naver.me/GZDxUJOw"
+            },
+            {
+                "part": "Alt",
+                "type": "mp4",
+                "url": "https://naver.me/xjYEOaNQ"
+            },
+            {
+                "part": "Ten",
+                "type": "mp4",
+                "url": "https://naver.me/xB7O8CgV"
+            },
+            {
+                "part": "Bas",
+                "type": "mp4",
+                "url": "https://naver.me/xB7O8CgV"
+            }
+        ]
     }
 ]
 </script>
@@ -1159,16 +1463,19 @@
 
       var card = document.createElement('div');
       card.className = 'card';
+      card.dataset.row = song.row;
 
       var top = document.createElement('div');
       top.className = 'card-top';
+
       var dateBadge = document.createElement('span');
       dateBadge.className = 'date-badge';
       dateBadge.textContent = formatDate(song.dateSerial);
+      top.appendChild(dateBadge);
+
       var title = document.createElement('h2');
       title.className = 'title';
       title.textContent = song.title;
-      top.appendChild(dateBadge);
       top.appendChild(title);
 
       var metaText = [song.book, song.page ? ('p.' + song.page) : ''].filter(Boolean).join(' · ');
@@ -1230,6 +1537,30 @@
     countEl.innerHTML = '<strong>' + shown + '곡</strong> 표시 중 (전체 ' + raw.length + '곡)';
   }
 
+  function todaySerial(){
+    var now = new Date();
+    var utcNow = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
+    var epoch = Date.UTC(1899, 11, 30);
+    return Math.round((utcNow - epoch) / 86400000);
+  }
+
+  function scrollToNearest(){
+    if(raw.length === 0) return;
+    var todS = todaySerial();
+    var closest = raw.reduce(function(a, b){
+      return Math.abs(a.dateSerial - todS) <= Math.abs(b.dateSerial - todS) ? a : b;
+    });
+    var card = listEl.querySelector('[data-row="' + closest.row + '"]');
+    var filterbar = document.querySelector('.filterbar');
+    if(card && filterbar){
+      var rect = card.getBoundingClientRect();
+      var offset = filterbar.getBoundingClientRect().height + 12;
+      var targetY = window.pageYOffset + rect.top - offset;
+      window.scrollTo({ top: Math.max(targetY, 0), behavior:'auto' });
+    }
+  }
+
   renderList();
+  scrollToNearest();
 })();
 </script>
