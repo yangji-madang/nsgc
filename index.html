@@ -28,6 +28,7 @@
     --messiah-ink:#7a4a00;
     --full-bg:#7a3d10;      --full-ink:#fff7ea;
     --shadow:0 1px 2px rgba(30,35,64,0.06), 0 4px 14px rgba(30,35,64,0.06);
+    --accent-soft-ring:rgba(169,120,31,0.18);
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
@@ -111,7 +112,16 @@
   .count-row strong{color:var(--ink-soft);}
   .empty-state{text-align:center; padding:50px 20px; color:var(--ink-faint); font-size:14px;}
 
+  .card.is-next{border:2px solid var(--accent); box-shadow:0 0 0 3px var(--accent-soft-ring), var(--shadow);}
+  .next-tag{
+    display:inline-block; margin:0 0 6px; padding:1px 8px; border-radius:6px;
+    font-size:12px; font-weight:800; letter-spacing:.02em;
+    background:var(--accent); color:#fff;
+  }
+  :root[data-theme="dark"] .next-tag{color:#1c1608;}
+  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .next-tag{color:#1c1608;} }
   .card{
+    scroll-margin-top:var(--sticky-h, 150px);
     background:var(--surface); border:1px solid var(--line); border-radius:12px;
     box-shadow:var(--shadow); padding:10px 13px; margin-bottom:8px;
   }
@@ -1885,7 +1895,30 @@
     mp3:{cls:'type-mp3', name:'mp3다운로드'},
     mp4:{cls:'type-mp4', name:'동영상다운로드'}
   };
-  var state = {part:'ALL', type:'ALL', q:'', months:null};
+  // 오늘 날짜 (한국 시간 기준, YYYY-MM-DD)
+  function todayKST(){
+    try{
+      var p = new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());
+      var o = {}; p.forEach(function(x){ o[x.type] = x.value; });
+      return o.year + '-' + o.month + '-' + o.day;
+    }catch(e){
+      var d = new Date(Date.now() + 9*3600*1000);
+      return d.toISOString().slice(0,10);
+    }
+  }
+  var TODAY = todayKST();
+  // 오늘 또는 오늘 이후 가장 가까운 찬양일 (모두 지났으면 마지막 곡)
+  var nextSong = raw.filter(function(s){ return s.date >= TODAY; })[0] || raw[raw.length-1];
+  var NEXT_DATE = nextSong ? nextSong.date : null;
+  // [월] 기본 선택: 이번 달 이후의 월
+  var curMonth = parseInt(TODAY.slice(5,7),10), curYear = TODAY.slice(0,4);
+  var defaultMonths = null;
+  if(curYear === '2026'){
+    var ms = Array.from(new Set(raw.map(function(s){ return parseInt(s.date.slice(5,7),10); })))
+               .filter(function(m){ return m >= curMonth; }).sort(function(a,b){ return a-b; });
+    if(ms.length) defaultMonths = ms;
+  }
+  var state = {part:'ALL', type:'ALL', q:'', months:defaultMonths};
 
   function month(s){ return parseInt(s.date.slice(5,7),10); }
   function day(s){ return parseInt(s.date.slice(8,10),10); }
@@ -1951,6 +1984,12 @@
       shown++;
 
       var card = document.createElement('article'); card.className = 'card';
+      if(song.date === NEXT_DATE){
+        card.classList.add('is-next'); card.id = 'next-song';
+        var tg = document.createElement('span'); tg.className = 'next-tag';
+        tg.textContent = song.date === TODAY ? '이번 주일 찬양' : '다가오는 찬양';
+        card.appendChild(tg);
+      }
       var top = document.createElement('div'); top.className = 'card-top';
       var db = document.createElement('span'); db.className = 'date-badge';
       db.textContent = month(song) + '월 ' + day(song) + '일';
@@ -1994,6 +2033,21 @@
     countEl.innerHTML = '<strong>' + shown + '곡</strong> 표시 중 (전체 ' + raw.length + '곡)';
   }
   renderList();
+
+  // 첫 화면: 가장 가까운 찬양 카드가 필터 바로 아래에 오도록 이동
+  var filterbar = document.querySelector('.filterbar');
+  function goNext(){
+    var el = document.getElementById('next-song');
+    if(!el) return;
+    var h = filterbar.getBoundingClientRect().height + 8;
+    document.documentElement.style.setProperty('--sticky-h', h + 'px');
+    var y = el.getBoundingClientRect().top + window.pageYOffset - h;
+    window.scrollTo(0, Math.max(0, y));
+  }
+  if('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  requestAnimationFrame(function(){ requestAnimationFrame(goNext); });
+  window.addEventListener('load', goNext);
+  setTimeout(goNext, 350);
 })();
 </script>
 </body>
