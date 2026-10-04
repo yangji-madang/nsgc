@@ -93,15 +93,19 @@
     background:var(--filterbar-bg); border-radius:12px; padding:7px 8px;
     display:flex; flex-direction:column; gap:5px;
   }
-  .chip-group{display:flex; align-items:center; gap:8px;}
-  .chip-group .label{flex:none; width:30px; font-size:13.5px; color:var(--label-ink); font-weight:800;}
+  .chip-group{display:flex; align-items:center; gap:6px;}
+  #bookChips{flex-wrap:wrap; row-gap:4px; overflow:visible; flex:1; min-width:0;}
+  .book-group{align-items:flex-start;}
+  .book-group .label{padding-top:3px;}
+  .book-all{flex:none; display:flex; margin-right:-2px; padding:1px 0;}
+  .chip-group .label{flex:none; width:38px; white-space:nowrap; font-size:12.5px; letter-spacing:-.02em; color:var(--label-ink); font-weight:800;}
   .chips{display:flex; gap:4px; overflow-x:auto; scrollbar-width:none; padding:1px 0;}
   .chips::-webkit-scrollbar{display:none;}
   .chip{
     flex:none; appearance:none; cursor:pointer; font-family:inherit;
     border:1px solid var(--line); background:var(--surface); color:var(--ink-soft);
     font-size:13px; font-weight:700; line-height:1.2;
-    padding:2px 7px;                    /* 글자에 바짝 붙는 높이 */
+    padding:2px 6px;                    /* 글자에 바짝 붙는 높이 */
     border-radius:999px;
     transition:background .12s ease, color .12s ease, border-color .12s ease;
   }
@@ -132,7 +136,8 @@
   .title{font-size:15.5px; font-weight:700; line-height:1.3; margin:0; flex:1 1 auto; min-width:0; overflow-wrap:anywhere;}
   .meta{flex:none; font-size:15px; font-weight:600; color:var(--meta-ink); white-space:nowrap;}
 
-  .song-note{margin:-3px 0 7px; font-size:13px; font-weight:700; color:var(--season-ink);}
+  .song-note{margin:-3px 0 7px; font-size:13px; font-weight:700; color:var(--season-ink); white-space:pre-line; line-height:1.45;}
+  .part-note{font-size:13px; font-weight:700; color:var(--ink-soft); padding:5px 0;}
   .linklist{display:flex; flex-direction:column; gap:6px;}
   .linkrow{display:flex; align-items:center; gap:9px;}
   .part-tag{flex:none; width:36px; font-size:12.5px; font-weight:700; color:var(--ink-soft);}
@@ -186,6 +191,7 @@
     <div class="chip-group"><div class="label">월</div><div class="chips" id="monthChips"></div></div>
     <div class="chip-group"><div class="label">파트</div><div class="chips" id="partChips"></div></div>
     <div class="chip-group"><div class="label">파일</div><div class="chips" id="typeChips"></div></div>
+    <div class="chip-group book-group"><div class="label">책명</div><div class="book-all" id="bookAll"></div><div class="chips" id="bookChips"></div></div>
   </div>
 </div>
 </div>
@@ -1092,7 +1098,7 @@
   "book": "시온7",
   "page": "94",
   "title": "꽃들도",
-  "note": "* 3부합창 반주입니다.",
+  "note": "* 3부합창 반주입니다. 4부는 반주파일만 제공됩니다.\n* Bas.파트 반주파일은 없습니다.",
   "links": [
    {
     "part": "All",
@@ -1115,11 +1121,6 @@
     "url": "https://buly.kr/6teai7r"
    },
    {
-    "part": "Bas",
-    "type": "youtube",
-    "url": "https://buly.kr/6teai7r"
-   },
-   {
     "part": "Sop",
     "type": "mp3",
     "url": "https://naver.me/5nhaHAag"
@@ -1131,11 +1132,6 @@
    },
    {
     "part": "Ten",
-    "type": "mp3",
-    "url": "https://naver.me/GXFOH6Tq"
-   },
-   {
-    "part": "Bas",
     "type": "mp3",
     "url": "https://naver.me/GXFOH6Tq"
    },
@@ -1155,11 +1151,15 @@
     "url": "https://naver.me/xB7O8CgV"
    },
    {
-    "part": "Bas",
-    "type": "mp4",
-    "url": "https://naver.me/xB7O8CgV"
+    "part": "All",
+    "type": "mp3",
+    "url": "https://naver.me/Gnt4AWZ3",
+    "name": "4부 반주 mp3다운로드"
    }
-  ]
+  ],
+  "partNotes": {
+   "Bas": "Ten. 및 4부 반주 mp3 파일 참고"
+  }
  },
  {
   "date": "2026-11-01",
@@ -1921,7 +1921,17 @@
                .filter(function(m){ return m >= curMonth; }).sort(function(a,b){ return a-b; });
     if(ms.length) defaultMonths = ms;
   }
-  var state = {part:'ALL', type:'ALL', q:'', months:defaultMonths};
+  var state = {part:'ALL', type:'ALL', q:'', months:defaultMonths, book:'ALL'};
+  // 책명: 괄호 설명을 뺀 이름으로 묶어 계열순 정렬
+  function bookKey(s){ return (s.book || '').replace(/\s*\(.*?\)\s*/g, '').trim(); }
+  var BOOKS = [{key:'ALL', label:'전체'}].concat(
+    Array.from(new Set(raw.map(bookKey).filter(Boolean)))
+      .sort(function(a,b){
+        // 시온 계열 → 중앙 계열 → 메시아 → 기타, 같은 계열 안에서는 번호순
+        function grp(x){ return x.indexOf('시온') === 0 ? 0 : x.indexOf('중앙') === 0 ? 1 : x.indexOf('메시아') === 0 ? 2 : 3; }
+        return grp(a) - grp(b) || a.localeCompare(b, 'ko', {numeric:true});
+      })
+      .map(function(b){ return {key:b, label:b}; }));
 
   function month(s){ return parseInt(s.date.slice(5,7),10); }
   function day(s){ return parseInt(s.date.slice(8,10),10); }
@@ -1955,6 +1965,16 @@
   renderMonths();
   renderChips(document.getElementById('partChips'), PARTS, 'part');
   renderChips(document.getElementById('typeChips'), TYPES, 'type');
+  // 책명: '전체'는 왼쪽에 고정, 나머지 책 버튼만 줄바꿈 → 둘째 줄이 첫 책 버튼(시온3) 위치에서 시작
+  function renderBooks(){
+    var allEl = document.getElementById('bookAll'), el = document.getElementById('bookChips');
+    allEl.innerHTML = ''; el.innerHTML = '';
+    BOOKS.forEach(function(it, i){
+      var b = chipBtn(it.label, state.book === it.key, function(){ state.book = it.key; renderBooks(); renderList(); });
+      (i === 0 ? allEl : el).appendChild(b);
+    });
+  }
+  renderBooks();
 
 
   var searchInput = document.getElementById('searchInput'), clearBtn = document.getElementById('clearSearch');
@@ -1975,6 +1995,7 @@
     raw.forEach(function(song){
       if(state.q && (song.title + ' ' + song.book + ' ' + song.season).toLowerCase().indexOf(state.q.toLowerCase()) === -1) return;
       if(state.months !== null && state.months.indexOf(month(song)) === -1) return;
+      if(state.book !== 'ALL' && bookKey(song) !== state.book) return;
 
       var full = song.links.filter(function(l){ return l.part === 'Full'; });
       var normal = song.links.filter(function(l){
@@ -1984,7 +2005,9 @@
       var messiah = song.links.filter(function(l){
         return l.part === 'Messiah' && (state.type === 'ALL' || l.type === state.type);
       });
-      if(!full.length && !normal.length && !messiah.length) return;
+      var pnotes = song.partNotes || {};
+      var noteParts = Object.keys(pnotes).filter(function(p){ return state.part === 'ALL' || state.part === p; });
+      if(!full.length && !normal.length && !messiah.length && !noteParts.length) return;
       shown++;
 
       var card = document.createElement('article'); card.className = 'card';
@@ -2015,11 +2038,13 @@
 
       var byPart = {};
       normal.forEach(function(l){ (byPart[l.part] = byPart[l.part] || []).push(l); });
+      noteParts.forEach(function(p){ if(!byPart[p]) byPart[p] = []; });
       Object.keys(byPart).sort(function(a,b){ return partOrder[a]-partOrder[b]; }).forEach(function(p){
         var row = document.createElement('div'); row.className = 'linkrow';
         var tag = document.createElement('div'); tag.className = 'part-tag'; tag.textContent = p === 'All' ? '합창' : p + '.';
         var pg = document.createElement('div'); pg.className = 'pill-group';
-        byPart[p].sort(function(a,b){ return typeOrder[a.type]-typeOrder[b.type]; }).forEach(function(l){ pg.appendChild(pill(l)); });
+        byPart[p].sort(function(a,b){ return typeOrder[a.type]-typeOrder[b.type]; }).forEach(function(l){ pg.appendChild(pill(l, l.name)); });
+        if(pnotes[p]){ var pn = document.createElement('span'); pn.className = 'part-note'; pn.textContent = pnotes[p]; pg.appendChild(pn); }
         row.appendChild(tag); row.appendChild(pg); ll.appendChild(row);
       });
 
