@@ -114,7 +114,7 @@
   :root[data-theme="dark"] .chip.active{color:#1c1608;}
   @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .chip.active{color:#1c1608;} }
 
-  main{padding:10px 10px 28px;}
+  main{padding:8px 6px 28px;}
   .count-row{font-size:12.5px; color:var(--ink-faint); padding:0 4px 8px;}
   .count-row strong{color:var(--ink-soft);}
   .empty-state{text-align:center; padding:50px 20px; color:var(--ink-faint); font-size:14px;}
@@ -128,7 +128,7 @@
   .card{
     scroll-margin-top:var(--sticky-h, 150px);
     background:var(--surface); border:1px solid var(--line); border-radius:12px;
-    box-shadow:var(--shadow); padding:10px 13px; margin-bottom:8px;
+    box-shadow:var(--shadow); padding:9px 8px; margin-bottom:8px;
   }
   .card-top{display:flex; align-items:baseline; gap:8px; margin-bottom:8px;}
   .date-badge{font-size:15px; font-weight:800; color:var(--accent-ink); white-space:nowrap; flex:none;}
@@ -138,13 +138,13 @@
 
   .song-note{margin:-3px 0 7px; font-size:13px; font-weight:700; color:var(--season-ink); white-space:pre-line; line-height:1.45;}
   .part-note{font-size:13px; font-weight:700; color:var(--ink-soft); padding:5px 0;}
-  .linklist{display:flex; flex-direction:column; gap:6px;}
-  .linkrow{display:flex; align-items:center; gap:9px;}
-  .part-tag{flex:none; width:36px; font-size:12.5px; font-weight:700; color:var(--ink-soft);}
-  .pill-group{display:flex; align-items:center; gap:5px; flex-wrap:wrap; flex:1; min-width:0;}
+  .linklist{display:flex; flex-direction:column; gap:4px;}
+  .linkrow{display:flex; align-items:center; gap:5px;}
+  .part-tag{flex:none; width:31px; white-space:nowrap; letter-spacing:-.02em; font-size:12.5px; font-weight:700; color:var(--ink-soft);}
+  .pill-group{display:flex; align-items:center; gap:4px; flex-wrap:wrap; flex:1; min-width:0;}
   .link-pill{
     display:inline-flex; align-items:center; text-decoration:none; border-radius:999px;
-    padding:5px 12px; font-size:12.5px; font-weight:700; white-space:nowrap; min-height:29px;
+    padding:2px 7px; font-size:12.5px; font-weight:700; white-space:nowrap; line-height:1.25; letter-spacing:-.01em;
   }
   .link-pill:hover{filter:brightness(1.1);}
   .type-youtube{background:var(--t-youtube-bg); color:var(--t-youtube-ink);}
@@ -152,9 +152,18 @@
   .type-mp4{background:var(--t-mp4-bg); color:var(--t-mp4-ink);}
 
   /* 2025 메시아 공연: Bas. 아래 한 줄 강조 */
+  @media (max-width:389px){
+    .filterbar{padding-left:6px; padding-right:6px;}
+    .filter-panel{padding:6px 6px;}
+    .chip{font-size:12px; padding:2px 5px;}
+    .chips{gap:3px;}
+    .chip-group{gap:4px;}
+    .chip-group .label{width:30px; font-size:12px;}
+  }
+  @media (max-width:339px){ .link-pill{font-size:11.5px; padding:2px 5px;} .part-tag{width:28px; font-size:11.5px;} }
   .messiah-row{
     display:flex; align-items:center; gap:8px; flex-wrap:wrap;
-    margin-top:2px; padding:6px 9px;
+    margin-top:2px; padding:3px 8px;
     background:var(--messiah-bg); border:1.5px solid var(--messiah-line); border-radius:10px;
   }
   .messiah-row .m-label{font-size:13px; font-weight:900; color:var(--messiah-ink); white-space:nowrap;}
@@ -163,7 +172,7 @@
   /* 11/15 전체보기 */
   .full-pill{
     display:flex; justify-content:center; align-items:center; gap:6px;
-    text-decoration:none; border-radius:10px; padding:9px 12px;
+    text-decoration:none; border-radius:10px; padding:4px 10px;
     background:var(--full-bg); color:var(--full-ink);
     font-size:14.5px; font-weight:800;
   }
