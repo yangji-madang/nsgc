@@ -88,7 +88,7 @@ header.top h1{font-size:22px;line-height:1.2}
 .kt .n b{color:var(--ink)}
 .up{color:var(--good);font-weight:800}.dn{color:var(--bad);font-weight:800}
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:6px 10px;box-shadow:var(--shadow);min-width:0}
-.panel h2,h2.sec,.kt .k{font-size:inherit;margin:0 0 6px;display:flex;flex-wrap:wrap;align-items:center;gap:1px 10px;color:var(--head-ink);font-weight:800;background:var(--hl-bg);border-left:4px solid var(--gold);border-radius:6px;padding:3px 8px}
+.kt .k,.panel h2,h2.sec{font-size:inherit;margin:0 0 6px;display:flex;flex-wrap:wrap;align-items:center;gap:1px 10px;color:var(--head-ink);font-weight:800;background:var(--hl-bg);border-left:4px solid var(--gold);border-radius:6px;padding:3px 8px}
 h2.sec{margin:4px 0 0}
 .panel h2 .sp{margin-left:auto;display:flex;gap:6px;align-items:center}
 .panel h2 small{font-weight:400;color:var(--ink-soft)}
@@ -192,6 +192,13 @@ h2.sec .exc{margin-left:22px;padding:0 10px;border-radius:999px;background:#fff;
 .mt .mr{display:block;border-radius:4px 4px 0 0;padding:1px 4px}
 .mt .ma{display:block;border-radius:0 0 4px 4px;padding:1px 4px;background:#fde7c4;color:#6b4a0a}
 .mt .ma.hi{color:#1d4ed8}.mt .ma.lo{color:#d11a2a}
+/* 지표 제목: 배경과 확실히 구분되는 짙은 남색 띠 + 흰 글씨, ' : ' 뒤쪽은 금색 */
+.panel h2,h2.sec{background:#1f2f6b;color:#fff;border-left-color:var(--gold)}
+.panel h2 small,h2.sec small{color:#d5dcf5}
+.panel h2 .t2{color:#ffd37a}
+.panel h2 .hi,.panel h2 small .hi{color:#9cc2ff}
+.panel h2 .lo,.panel h2 small .lo{color:#ff9aa4}
+.kt .k{background:#1f2f6b;color:#fff;border-left-color:var(--kc,var(--gold))}
 
 </style>
 </head>
@@ -291,6 +298,7 @@ function compute(){
   return {mem,act,ret,span,W,R,RV,avg:avgOf(R),avgV:avgOf(RV)};
 }
 
+const ttlH=t=>{const i=t.indexOf(' : ');return i<0?t:`${t.slice(0,i)} : <span class="t2">${t.slice(i+3)}</span>`;};
 /* ===================== 출석 현황 대시보드 (dash.html) ===================== */
 (()=>{
 'use strict';
@@ -515,7 +523,7 @@ function panelHtml(key){
   const leg=sp.part
     ?`<span style="color:${cv(sp.part)}"><i class="bx" style="background:${cv(sp.part)}"></i>인원(명)</span><span style="color:#1b2a66"><i style="background:#1b2a66"></i>출석률(%)</span>`
     :sp.legend().map(([n,c])=>`<span style="color:${c}"><i style="background:${c}"></i>${n}</span>`).join('');
-  return `<div class="panel" data-ch="${key}"><h2><span class="ttl">${sp.title('w')}</span><small>${sp.sub}</small>
+  return `<div class="panel" data-ch="${key}"><h2><span class="ttl">${ttlH(sp.title('w'))}</span><small>${sp.sub}</small>
     <span class="sp">${key==='trend'?'<button class="btn" id="replay">▶ 다시 재생</button>':''}<span class="seg" role="group" aria-label="집계 단위"><button data-md="w" class="on">주별</button><button data-md="m">월별</button></span></span></h2>
     <div class="legend">${leg}<span style="color:#1d4ed8"><i class="mk" style="background:#1d4ed8"></i>최고</span><span style="color:#d11a2a"><i class="mk" style="background:#d11a2a"></i>최저</span><span style="color:var(--ink-soft)"><i class="ds"></i>점선 = 해당 항목의 <span class="avg">평균</span> (입력된 ${R.length}주 기준)</span></div>
     <div class="chart" id="ch-${key}"></div></div>`;
@@ -525,7 +533,7 @@ function drawChart(key,animate){
   const old=charts.find(c=>c.key===key);if(old){old.stop();charts=charts.filter(c=>c!==old);}
   const mode=modes[key]||'w';
   const c=chart(host,cfgFor(key,mode));c.key=key;charts.push(c);
-  const t=document.querySelector(`[data-ch="${key}"] .ttl`);if(t)t.textContent=SPEC[key].title(mode);
+  const t=document.querySelector(`[data-ch="${key}"] .ttl`);if(t)t.innerHTML=ttlH(SPEC[key].title(mode));
   c.play(!animate);
 }
 
@@ -575,9 +583,9 @@ function render(){
   const gM=sing.filter(m=>m.gender==='M').length,gF=sing.filter(m=>m.gender==='F').length;
   const tot0=cS+cO+cE;
   const distMem=`<div class="dgrid">
-    <div class="panel"><h2>대원인원분포(전체) : 총 ${tot0}명</h2>
+    <div class="panel"><h2>${ttlH(`대원인원분포(전체) : 총 ${tot0}명`)}</h2>
       ${pie3d([{label:'Singer',n:cS,color:cv('Singer')},{label:'Orc',n:cO,color:cv('Orc')},{label:'기타',n:cE,color:cv('기타')}],'전체 대원 구성')}<div class="pnote">기타 : 지휘/반주/수어</div></div>
-    <div class="panel"><h2>대원인원분포(Singer) : 총 ${cS}명</h2>
+    <div class="panel"><h2>${ttlH(`대원인원분포(Singer) : 총 ${cS}명`)}</h2>
       <div class="pies"><div><div class="dsub">파트별</div>${pie3d(PARTS.map(p=>({label:p,n:sing.filter(m=>m.part===p).length,color:cv(p)})),'Singer 파트별 구성')}</div>
       <div><div class="dsub">남·여</div>${pie3d([{label:'남',n:gM,color:'#2f4f9e'},{label:'여',n:gF,color:'#c0407a'}],'Singer 남여 구성')}</div></div></div></div>`;
 
@@ -637,7 +645,7 @@ function render(){
   const topAll=rank(live).slice(0,10);
   const topRow=`<div class="toprow">
     <div class="panel"><h2>전체 Top 10 <small>${perfect.length?`개근 ${perfect.length}명`:'개근 대원 없음'} · 동률은 이름 가나다순</small></h2><div class="chips col col2">${topAll.map(chipT).join('')||none}</div></div>
-    ${PARTS.map(p=>`<div class="panel"><h2 style="color:${cv(p)};border-left-color:${cv(p)}">${AB(p)} Top 5</h2><div class="chips col">${rank(live.filter(x=>x.g===p)).slice(0,5).map(chipT).join('')||none}</div></div>`).join('')}</div>`;
+    ${PARTS.map(p=>`<div class="panel"><h2 style="border-left-color:${cv(p)}">${AB(p)} Top 5</h2><div class="chips col">${rank(live.filter(x=>x.g===p)).slice(0,5).map(chipT).join('')||none}</div></div>`).join('')}</div>`;
   /* 연속 결석: 2~4주 / 5~8주 / 9주 이상 */
   const watch=live.filter(x=>x.tail>=2).sort((a,b)=>b.tail-a.tail||collator.compare(nkey(a.m),nkey(b.m)));
   const bk=[['2~4주 연속 결석',x=>x.tail>=2&&x.tail<=4],['5~8주 연속 결석',x=>x.tail>=5&&x.tail<=8],['9주 이상 연속 결석',x=>x.tail>=9]];
