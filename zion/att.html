@@ -108,7 +108,7 @@ table#tb{border-collapse:separate;border-spacing:0;table-layout:fixed;font-varia
 #tb thead th.fut{opacity:.55}
 #tb .allbtn{display:block;margin:2px auto 0;border:1px solid currentColor;background:transparent;color:inherit;border-radius:5px;line-height:1.3;padding:0 6px;cursor:pointer}
 #tb .allbtn:hover{background:#fff;color:var(--head-ink)}
-#tb td.nm{font-weight:700}
+#tb td.nm{font-weight:700;text-align:left;padding-left:6px}
 #tb td.ptc{text-align:left;padding-left:6px}
 #tb td.ptc i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px;vertical-align:0}
 #tb .dotc{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:3px}
@@ -223,6 +223,7 @@ const SEED={"members":[{"id":"m01","name":"강경원","group":"Singer","part":"S
 const YEAR=2026;
 const PARTS=['Sop','Alt','Ten','Bas'], GROUPS=['Sop','Alt','Ten','Bas','기타'], ETC_PARTS=['지휘','반주','수화'];
 const COLOR={all:'--c-all',Singer:'--c-singer',Orc:'--c-orc',Sop:'--c-sop',Alt:'--c-alt',Ten:'--c-ten',Bas:'--c-bas','기타':'--c-etc'};
+const AB=k=>({Sop:'S',Alt:'A',Ten:'T',Bas:'B',Orc:'O',all:'ALL'}[k]||k);
 const pad=n=>String(n).padStart(2,'0');
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const md=iso=>`${+iso.slice(5,7)}/${+iso.slice(8,10)}`;          // 앞자리 0 생략: 1/4, 10/4
@@ -351,13 +352,13 @@ function colsDef(){
   return [{...base[4],w:editMode?100:58},{...base[5],w:76},{...base[6],s:0},base[7]];
 }
 function dockGroups(){
-  const ALLG=[['all','전체'],['Singer','Singer'],['Sop','Sop'],['Alt','Alt'],['Ten','Ten'],['Bas','Bas'],['기타','기타'],['Orc','Orc']];
+  const ALLG=[['all','ALL'],['Singer','Singer'],['Sop','S'],['Alt','A'],['Ten','T'],['Bas','B'],['기타','기타'],['Orc','O']];
   if(partSel.size){
-    const g=[['all','전체']],sing=PARTS.filter(p=>partSel.has(p));
+    const g=[['all','ALL']],sing=PARTS.filter(p=>partSel.has(p));
     if(sing.length>=2)g.push(['Singer','Singer']);
-    sing.forEach(p=>g.push([p,p]));
+    sing.forEach(p=>g.push([p,AB(p)]));
     if(partSel.has('기타'))g.push(['기타','기타']);
-    if(partSel.has('Orc'))g.push(['Orc','Orc']);
+    if(partSel.has('Orc'))g.push(['Orc','O']);
     return g;
   }
   return dockFull?ALLG:[ALLG[0]];
@@ -390,8 +391,8 @@ function buildTable(){
       else if(c.k==='grp')inner=m.group;
       else if(c.k==='part'){
         cls='ptc';
-        inner=editMode?`<select class="pedit" data-pe="${m.id}">${PARTS.concat(ETC_PARTS).map(p=>`<option${p===m.part?' selected':''}>${p}</option>`).join('')}</select>`
-          :`<i style="background:var(${COLOR[g]})"></i>${esc(m.part)}`;
+        inner=editMode?`<select class="pedit" data-pe="${m.id}">${PARTS.concat(ETC_PARTS).map(p=>`<option value="${p}"${p===m.part?' selected':''}>${AB(p)}</option>`).join('')}</select>`
+          :`<i style="background:var(${COLOR[g]})"></i>${esc(AB(m.part))}`;
       }
       else if(c.k==='name'){
         cls='nm';
@@ -521,7 +522,7 @@ function syncChips(){
 function buildFilters(){
   const P=['Sop','Alt','Ten','Bas','기타','Orc'];
   $('#filters').innerHTML=
-   `<div class="frow"><span class="fl">파트</span><div class="chips"><button class="fc" data-p="*">전체</button>${P.map(p=>`<button class="fc" data-p="${p}">${p}</button>`).join('')}</div></div>
+   `<div class="frow"><span class="fl">파트</span><div class="chips"><button class="fc" data-p="*">ALL</button>${P.map(p=>`<button class="fc" data-p="${p}">${AB(p)}</button>`).join('')}</div></div>
     <div class="frow"><span class="fl">이름</span><input id="nameQ" type="search" placeholder="이름 검색" autocomplete="off" aria-label="이름 검색"></div>
     <div class="frow"><span class="fl">기간</span><div class="chips"><button class="fc" data-m="*">전체</button>${Array.from({length:12},(_,i)=>`<button class="fc" data-m="${pad(i+1)}">${i+1}월</button>`).join('')}</div></div>`;
   syncChips();
@@ -626,7 +627,7 @@ $('#sheet').addEventListener('input',e=>{
 $('#sheet').addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.matches('input[data-join],input[data-leave],input[data-ne]'))e.target.blur();});
 
 /* ---------- 대원 추가 · 수정 ---------- */
-$('#addPart').innerHTML=PARTS.concat(ETC_PARTS).map(p=>`<option>${p}</option>`).join('');
+$('#addPart').innerHTML=PARTS.concat(ETC_PARTS).map(p=>`<option value="${p}">${AB(p)}</option>`).join('');
 const closeBars=()=>{$('#addbar').hidden=true;$('#pubbar').hidden=true;$('#btnAdd').setAttribute('aria-pressed','false');};
 $('#btnAdd').onclick=()=>{const b=$('#addbar'),open=b.hidden;closeBars();if(open){b.hidden=false;$('#btnAdd').setAttribute('aria-pressed','true');$('#addJoin').value=fmtJoin(todayISO);$('#addName').focus();}};
 $('#addClose').onclick=closeBars;

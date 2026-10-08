@@ -124,7 +124,7 @@ table.mt{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums;m
 .hmw{overflow:auto;max-height:540px;position:relative}
 table.hm{border-collapse:separate;border-spacing:1px 1.5px}
 .hm td{width:17px;min-width:17px;height:14px;padding:0;border-radius:2px;text-align:center}
-.hm td.nmc{width:auto;min-width:54px;height:auto;text-align:right;padding:0 6px;color:var(--ink);white-space:nowrap;position:sticky;left:0;background:var(--surface);z-index:2;border-radius:0}
+.hm td.nmc{width:auto;min-width:54px;height:auto;text-align:left;padding:0 6px;color:var(--ink);white-space:nowrap;position:sticky;left:0;background:var(--surface);z-index:2;border-radius:0}
 .hm td.sp{width:9px;min-width:9px;background:transparent;border-left:1px dashed var(--line-strong);border-radius:0}
 .hm tr.mh td.m{height:auto;font-weight:800;color:var(--head-ink);background:var(--hl-bg);border-radius:4px;position:static}
 .hm tr.mh td.m.o{background:var(--gold-soft);color:var(--gold-ink)}
@@ -151,6 +151,7 @@ const SEED={"members":[{"id":"m01","name":"강경원","group":"Singer","part":"S
 const YEAR=2026;
 const PARTS=['Sop','Alt','Ten','Bas'], GROUPS=['Sop','Alt','Ten','Bas','기타'], ETC_PARTS=['지휘','반주','수화'];
 const COLOR={all:'--c-all',Singer:'--c-singer',Orc:'--c-orc',Sop:'--c-sop',Alt:'--c-alt',Ten:'--c-ten',Bas:'--c-bas','기타':'--c-etc'};
+const AB=k=>({Sop:'S',Alt:'A',Ten:'T',Bas:'B',Orc:'O',all:'ALL'}[k]||k);
 const pad=n=>String(n).padStart(2,'0');
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const md=iso=>`${+iso.slice(5,7)}/${+iso.slice(8,10)}`;          // 앞자리 0 생략: 1/4, 10/4
@@ -234,7 +235,7 @@ function compute(){
 (()=>{
 'use strict';
 const KEY='choir-attendance-2026-v1';
-const NAME={all:'전체',Singer:'Singer',Orc:'Orc',Sop:'Sop',Alt:'Alt',Ten:'Ten',Bas:'Bas','기타':'기타'};
+const NAME={all:'ALL',Singer:'Singer',Orc:'O',Sop:'S',Alt:'A',Ten:'T',Bas:'B','기타':'기타'};
 const cv=k=>`var(${COLOR[k]})`;
 const tw=s=>[...String(s)].reduce((a,c)=>a+(c.charCodeAt(0)>255?12:6.7),0);
 const mean=a=>a.length?a.reduce((s,v)=>s+v,0)/a.length:null;
@@ -422,7 +423,7 @@ const SPEC={
   singer:{title:m=>`Singer ${m==='w'?'주별':'월별'} 출석인원 추이`,sub:'Singer 합계와 파트별 출석 인원(명)',h:360,keys:['Singer','Sop','Alt','Ten','Bas'],
     legend:()=>['Singer','Sop','Alt','Ten','Bas'].map(k=>[NAME[k],cv(k)])}
 };
-PARTS.forEach(p=>{SPEC['p'+p]={title:m=>`${p} ${m==='w'?'주별':'월별'} 출석 · 인원과 출석률`,sub:'막대 = 인원(왼쪽 축) · 선 = 출석률(오른쪽 축)',h:270,part:p};});
+PARTS.forEach(p=>{SPEC['p'+p]={title:m=>`${AB(p)} ${m==='w'?'주별':'월별'} 출석 · 인원과 출석률`,sub:'막대 = 인원(왼쪽 축) · 선 = 출석률(오른쪽 축)',h:270,part:p};});
 
 function cfgFor(key,mode){
   const sp=SPEC[key],{gs,xl,lab}=groupsOf(mode),A=Mx.avg;
@@ -516,14 +517,14 @@ function render(){
   const distP=`<div class="panel"><h2>대원 출석률 분포 <small>입력된 주 기준 · 명</small></h2><div class="dist">${buckets.map(([l],i)=>`<div><b>${cnt[i]}</b><i style="height:${cnt[i]/cm*66}px"></i>${l}</div>`).join('')}</div></div>`;
   /* Top : 전체 10명, 파트별 5명 (동률은 이름 가나다순) */
   const rank=arr=>arr.filter(x=>x.den>=4&&x.r!=null).sort((a,b)=>b.r-a.r||collator.compare(nkey(a.m),nkey(b.m)));
-  const chipT=x=>`<span class="chip"><b>${esc(x.m.name)}</b> <em>${x.g}</em> ${(x.r*100).toFixed(1)}%</span>`;
+  const chipT=x=>`<span class="chip"><b>${esc(x.m.name)}</b> <em>${AB(x.g)}</em> ${(x.r*100).toFixed(1)}%</span>`;
   const topAll=rank(live).slice(0,10);
   const topP=`<div class="panel"><h2>출석률 상위 대원 · 전체 Top 10 <small>입력된 주 4회 이상${perfect.length?` · 개근 ${perfect.length}명`:' · 개근 대원 없음'} · 동률은 이름 가나다순</small></h2><div class="chips">${topAll.map(chipT).join('')||'<span class="note">대상 대원이 없습니다.</span>'}</div></div>`;
-  const topPart=PARTS.map(p=>`<div class="panel"><h2 style="color:${cv(p)}">${p} Top 5</h2><div class="chips">${rank(live.filter(x=>x.g===p)).slice(0,5).map(chipT).join('')||'<span class="note">대상 대원이 없습니다.</span>'}</div></div>`).join('');
+  const topPart=PARTS.map(p=>`<div class="panel"><h2 style="color:${cv(p)}">${AB(p)} Top 5</h2><div class="chips">${rank(live.filter(x=>x.g===p)).slice(0,5).map(chipT).join('')||'<span class="note">대상 대원이 없습니다.</span>'}</div></div>`).join('');
   /* 연속 결석: 2~4주 / 5~8주 / 9주 이상 */
   const watch=live.filter(x=>x.tail>=2).sort((a,b)=>b.tail-a.tail||collator.compare(nkey(a.m),nkey(b.m)));
   const bk=[['2~4주 연속 결석',x=>x.tail>=2&&x.tail<=4],['5~8주 연속 결석',x=>x.tail>=5&&x.tail<=8],['9주 이상 연속 결석',x=>x.tail>=9]];
-  const watchP=`<div class="grid3">${bk.map(([t,f])=>{const l=watch.filter(f);return `<div class="panel"><h2>${t} <small>${l.length}명</small></h2><div class="chips">${l.length?l.map(x=>`<span class="chip warn"><b>${esc(x.m.name)}</b> <em>${x.g}</em> ${x.tail}주</span>`).join(''):'<span class="note">해당 대원이 없습니다.</span>'}</div></div>`;}).join('')}</div>`;
+  const watchP=`<div class="grid3">${bk.map(([t,f])=>{const l=watch.filter(f);return `<div class="panel"><h2>${t} <small>${l.length}명</small></h2><div class="chips">${l.length?l.map(x=>`<span class="chip warn"><b>${esc(x.m.name)}</b> <em>${AB(x.g)}</em> ${x.tail}주</span>`).join(''):'<span class="note">해당 대원이 없습니다.</span>'}</div></div>`;}).join('')}</div>`;
 
   /* 히트맵 : 월별 구분(월 머리글 · 간격 · 날짜 줄) */
   const cols=[];let pm=null;
@@ -538,7 +539,7 @@ function render(){
   hm+='</tr><tr class="dh"><td class="nmc"></td>'+cols.map(c=>c.sp?'<td class="sp"></td>':`<td>${+sundays[c.i].slice(8,10)}</td>`).join('')+'</tr>';
   let pg=null;
   dstat.forEach(x=>{
-    if(pg!==x.g){pg=x.g;hm+=`<tr class="gh"><td colspan="${cols.length+1}" style="color:${x.g==='퇴단'?'var(--ink-faint)':cv(x.g)}">${x.g==='퇴단'?'퇴단 대원':x.g}</td></tr>`;}
+    if(pg!==x.g){pg=x.g;hm+=`<tr class="gh"><td colspan="${cols.length+1}" style="color:${x.g==='퇴단'?'var(--ink-faint)':cv(x.g)}">${x.g==='퇴단'?'퇴단 대원':AB(x.g)}</td></tr>`;}
     const sp=Mx.span.get(x.m.id);
     hm+=`<tr><td class="nmc">${esc(x.m.name)}</td>`+cols.map(c=>{
       if(c.sp)return '<td class="sp"></td>';
