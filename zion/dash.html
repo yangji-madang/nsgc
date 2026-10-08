@@ -253,6 +253,10 @@ h2.sec .exc{margin-left:22px;padding:0 10px;border-radius:999px;background:#fff;
 .sbk .tg.lo2{margin-left:0}
 @media (min-width:621px){.dgrid .dwrap{justify-content:flex-start;gap:10px}.dgrid .dwrap .pie3d{margin:0}}
 @media (min-width:621px){.dst.g2{flex:0 0 275px}}
+@media (max-width:620px){.dwrap{gap:2px}.dgrid .pie3d{max-width:260px}.dgrid .panel{padding-bottom:6px}.pnote{padding-top:2px}.dsub{margin-top:2px}}
+@media (min-width:1200px){.dgrid .pie3d{flex:0 0 202px;width:202px}}
+@media (min-width:621px) and (max-width:1199px){.dgrid .pie3d{flex:0 0 192px;width:192px}}
+@media (min-width:1200px){.dgrid .pie3d{flex:0 0 232px;width:232px}}
 
 </style>
 </head>
@@ -633,7 +637,7 @@ function render(){
       }
       a0=a1;
     });
-    return `<svg class="pie3d" viewBox="0 0 ${W0} ${H0}" role="img" aria-label="${aria}"><ellipse cx="${cx}" cy="${cy+d+6}" rx="${rx+6}" ry="${ry+4}" fill="#000" fill-opacity=".08"/>${walls}${tops}${labs}</svg>`;
+    return `<svg class="pie3d" viewBox="40 8 260 190" role="img" aria-label="${aria}"><ellipse cx="${cx}" cy="${cy+d+6}" rx="${rx+6}" ry="${ry+4}" fill="#000" fill-opacity=".08"/>${walls}${tops}${labs}</svg>`;
   };
   const sing=act.filter(m=>m.group==='Singer');
   const gM=sing.filter(m=>m.gender==='M').length,gF=sing.filter(m=>m.gender==='F').length;
