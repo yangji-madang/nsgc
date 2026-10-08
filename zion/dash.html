@@ -541,7 +541,7 @@ function render(){
         const s0=Math.max(a0,lo),e0=Math.min(a1,hi);
         if(e0-s0>1e-4)walls+=`<path d="M${px(s0)} ${py(s0)}A${rx} ${ry} 0 0 1 ${px(e0)} ${py(e0)}L${px(e0)} ${py(e0)+d}A${rx} ${ry} 0 0 0 ${px(s0)} ${py(s0)+d}Z" fill="${x.color}"/><path d="M${px(s0)} ${py(s0)}A${rx} ${ry} 0 0 1 ${px(e0)} ${py(e0)}L${px(e0)} ${py(e0)+d}A${rx} ${ry} 0 0 0 ${px(s0)} ${py(s0)+d}Z" fill="#000" fill-opacity=".30"/>`;
       });
-      const m=(a0+a1)/2,share=x.n/tot*100,txt=`${x.n}명(${share.toFixed(1)})`;
+      const m=(a0+a1)/2,share=x.n/tot*100,txt=`${x.n}명(${share.toFixed(1)}%)`;
       if(share>=11){
         const lx=px(m,.62),ly=py(m,.62);
         labs+=`<text class="pl" x="${lx}" y="${ly-1}" text-anchor="middle">${x.label}</text><text class="pl" x="${lx}" y="${ly+12}" text-anchor="middle">${txt}</text>`;
