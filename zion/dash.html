@@ -165,7 +165,7 @@ h2 small .hi{color:#1d4ed8;font-weight:800}h2 small .lo{color:#d11a2a;font-weigh
 .tg.hi2{background:#dbe7ff;color:#1d4ed8}.tg.lo2{background:#fde1e1;color:#c01c2c;margin-left:4px}
 
 .pie3d{display:block;width:100%;max-width:420px;height:auto;margin:0 auto}
-.pie3d text{font-size:12px;font-weight:800}
+.pie3d text{font-size:13.5px;font-weight:800}
 .pie3d .pl{fill:#fff;stroke:rgba(0,0,0,.45);stroke-width:2.5px;paint-order:stroke;stroke-linejoin:round}
 .pie3d .po{paint-order:stroke;stroke:#fff;stroke-width:3px}
 .pies{display:grid;grid-template-columns:1fr 1fr;gap:8px}
@@ -174,6 +174,15 @@ h2 small .hi{color:#1d4ed8;font-weight:800}h2 small .lo{color:#d11a2a;font-weigh
 .dgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:8px}
 @media (max-width:900px){.dgrid{grid-template-columns:minmax(0,1fr)}}
 .dgrid .pie3d{width:100%;max-width:320px}
+
+.dist div[data-b]{cursor:pointer;border-radius:6px}
+.dist div[data-b]:hover{background:var(--hl-bg)}
+.distpop{position:fixed;z-index:90;background:#fff;border:1px solid var(--line-strong);border-radius:10px;box-shadow:0 6px 24px rgba(30,35,64,.25);padding:6px 10px;max-width:min(560px,94vw);max-height:70vh;overflow:auto}
+.distpop .pph{font-weight:800;color:var(--head-ink);background:var(--hl-bg);border-left:4px solid var(--gold);border-radius:5px;padding:1px 8px;margin-bottom:4px}
+.distpop .ppg{margin-top:3px}
+.distpop .ppl{display:flex;flex-wrap:wrap;gap:2px 10px;padding-left:8px}
+.distpop .ppl span{white-space:nowrap}
+.distpop .ppl i{font-style:normal;font-weight:800;color:var(--head-ink)}
 
 </style>
 </head>
@@ -282,7 +291,7 @@ const AB=k=>k;   // 대시보드는 파트명을 줄이지 않음 (S·A·T·B·O
 const cv=k=>`var(${COLOR[k]})`;
 const tw=s=>[...String(s)].reduce((a,c)=>a+(c.charCodeAt(0)>255?12:6.7),0);
 const mean=a=>a.length?a.reduce((s,v)=>s+v,0)/a.length:null;
-let charts=[], R=[], W=[], Mx=null, modes={}, seq=0, ro=null;
+let distData=[], charts=[], R=[], W=[], Mx=null, modes={}, seq=0, ro=null;
 
 /* ---------- 자료 읽기: data.json → 이 기기 저장본 → 내장 원본 ---------- */
 async function load(){
@@ -608,8 +617,10 @@ function render(){
   const live=dstat.filter(x=>!x.m.retired);
   const perfect=live.filter(x=>x.den>=4&&x.num===x.den);
   const buckets=[['90%↑',x=>x>=.9],['80~89',x=>x>=.8&&x<.9],['70~79',x=>x>=.7&&x<.8],['60~69',x=>x>=.6&&x<.7],['60% 미만',x=>x<.6]];
-  const cnt=buckets.map(([,f])=>live.filter(x=>x.r!=null&&f(x.r)).length),cm=Math.max(...cnt,1);
-  const distP=`<div class="panel"><h2>대원 출석률 분포 <small>입력된 주 기준 · 명</small></h2><div class="dist">${buckets.map(([l],i)=>`<div><b>${cnt[i]}</b><i style="height:${cnt[i]/cm*66}px"></i>${l}</div>`).join('')}</div></div>`;
+  const bmem=buckets.map(([,f])=>live.filter(x=>x.r!=null&&f(x.r)));
+  distData=bmem.map((l,i)=>({label:buckets[i][0],list:l}));
+  const cnt=bmem.map(l=>l.length),cm=Math.max(...cnt,1);
+  const distP=`<div class="panel"><h2>대원 출석률 분포 <small>입력된 주 기준 · 명 · 막대 위에 마우스를 올리면 대상자(파트별 출석률 높은 순)가 표시됩니다</small></h2><div class="dist">${buckets.map(([l],i)=>`<div data-b="${i}"><b>${cnt[i]}</b><i style="height:${cnt[i]/cm*66}px"></i>${l}</div>`).join('')}</div></div>`;
   /* Top : 전체 10명, 파트별 5명 (동률은 이름 가나다순) */
   const rank=arr=>arr.filter(x=>x.den>=4&&x.r!=null).sort((a,b)=>b.r-a.r||collator.compare(nkey(a.m),nkey(b.m)));
   const chipT=x=>`<span class="chip"><b>${esc(x.m.name)}</b> <em>${AB(x.g)}</em> <i>${(x.r*100).toFixed(1)}%</i></span>`;
@@ -670,6 +681,26 @@ document.addEventListener('click',e=>{
   b.parentNode.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));
   drawChart(key,true);
 });
+
+/* 출석률 분포 막대: 마우스를 올리면 대상자 팝업 (파트별, 출석률 높은 순) */
+const pop=document.createElement('div');pop.className='distpop';pop.hidden=true;document.body.appendChild(pop);
+function showPop(bar){
+  const d=distData[+bar.dataset.b];if(!d)return;
+  const order=['Sop','Alt','Ten','Bas','기타'];
+  const by={};d.list.forEach(x=>{(by[x.g]=by[x.g]||[]).push(x);});
+  let h=`<div class="pph">${d.label} · ${d.list.length}명</div>`;
+  if(!d.list.length)h+='<div class="note">해당 대원이 없습니다.</div>';
+  order.forEach(g=>{const l=(by[g]||[]).sort((a,b)=>b.r-a.r||collator.compare(nkey(a.m),nkey(b.m)));if(!l.length)return;
+    h+=`<div class="ppg"><b style="color:${cv(g)}">${g} ${l.length}명</b><div class="ppl">${l.map(x=>`<span>${esc(x.m.name)} <i>${(x.r*100).toFixed(1)}%</i></span>`).join('')}</div></div>`;});
+  pop.innerHTML=h;pop.hidden=false;
+  const rc=bar.parentNode.getBoundingClientRect(),w=pop.offsetWidth,hh=pop.offsetHeight;
+  let left=Math.max(8,Math.min(innerWidth-w-8,bar.getBoundingClientRect().left+bar.offsetWidth/2-w/2));
+  let top=rc.top-hh-6;if(top<8)top=Math.min(innerHeight-hh-8,rc.bottom+6);
+  pop.style.left=left+'px';pop.style.top=Math.max(8,top)+'px';
+}
+document.addEventListener('mouseover',e=>{const b=e.target.closest('.dist [data-b]');if(b)showPop(b);else if(!e.target.closest('.distpop'))pop.hidden=true;});
+document.addEventListener('click',e=>{const b=e.target.closest('.dist [data-b]');if(b)showPop(b);else if(!e.target.closest('.distpop'))pop.hidden=true;});
+document.addEventListener('scroll',()=>{pop.hidden=true;},{passive:true});
 
 /* 폭이 바뀌면 차트만 다시 그림 */
 let lastW=0,rt=0;
