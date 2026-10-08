@@ -1,0 +1,723 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>시온찬양대 출석관리</title>
+<style>
+/* 시온찬양대 · 밝은 톤(연보라 필터바 + 골드 포인트) · 모든 글자 12px 동일 */
+:root{
+  color-scheme:light;
+  --bg:#eef0f7; --surface:#ffffff; --ink:#0f1226; --ink-soft:#383c58; --ink-faint:#5c6083; --line:#cfd3e2; --line-strong:#a9afc8;
+  --panel:#a3afdc; --panel-ink:#0f1226; --gold:#a9781f; --gold-ink:#7a5c1d; --label-ink:#6e4a00; --gold-soft:#fbf1d6;
+  --hl-ink:#1d3f9a; --hl-bg:#dfe6fb; --head:#dfe6fb; --head-ink:#1b2a66;
+  --present:#2f4f9e; --on-bg:#e8eefc; --off-bg:#fdeceb; --pre-bg:#fbf1c7; --pre-line:#e6d58a;
+  --good:#15803d; --bad:#c23a26; --bad-soft:#fbe4e1; --warn-ink:#8a4b00;
+  --bar-a:rgba(47,79,158,.70); --bar-b:rgba(47,79,158,.05);
+  --c-all:#6a3fb0; --c-singer:#1b2a66; --c-orc:#c07a12; --c-sop:#c2410c; --c-alt:#1d6fb8; --c-ten:#0e8a5e; --c-bas:#a63d8f; --c-etc:#7a6a1e;
+  --hm-on:#2f4f9e; --hm-off:#f3c3c0; --hm-none:#e9ebf3;
+  --shadow:0 1px 2px rgba(30,35,64,.06),0 4px 14px rgba(30,35,64,.07);
+  --font:'Malgun Gothic','맑은 고딕','Apple SD Gothic Neo','Noto Sans KR',system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:12px;line-height:1.4;
+  padding-inline:16px;padding-block:8px 4px;overflow:hidden;position:relative;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+/* 상단 은은한 빛 그라데이션 (교회 분위기) */
+body::before{content:"";position:absolute;left:0;right:0;top:0;height:210px;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 46% 130px at 50% -10px,rgba(255,232,160,.85),rgba(255,232,160,0) 72%),
+    radial-gradient(ellipse 40% 170px at 8% 0,rgba(163,175,220,.75),rgba(163,175,220,0) 74%),
+    radial-gradient(ellipse 40% 170px at 92% 0,rgba(214,196,240,.65),rgba(214,196,240,0) 74%),
+    repeating-conic-gradient(from 76deg at 50% -50px,rgba(255,255,255,.34) 0 3deg,rgba(255,255,255,0) 3deg 9deg),
+    linear-gradient(180deg,#dfe5f6 0,rgba(238,240,247,0) 100%);
+  -webkit-mask-image:linear-gradient(180deg,#000 40%,transparent 100%);mask-image:linear-gradient(180deg,#000 40%,transparent 100%)}
+.wrap{position:relative;z-index:1;height:100%;display:flex;flex-direction:column;gap:6px;min-width:0}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
+header.top{display:flex;align-items:center;gap:6px 12px;flex-wrap:wrap}
+h1{font-size:inherit;margin:0;font-weight:800;color:var(--head-ink);white-space:nowrap}
+h1 em{font-style:normal;color:var(--gold-ink)}
+.nav{display:flex;gap:2px;background:rgba(255,255,255,.7);padding:2px;border-radius:8px;border:1px solid var(--line)}
+.nav a,.nav span{padding:2px 12px;border-radius:6px;text-decoration:none;font-weight:700;color:var(--ink-faint)}
+.nav .on{background:var(--gold);color:#fff}
+.nav a:hover{color:var(--gold-ink)}
+.btn{border:1px solid var(--line-strong);background:var(--surface);padding:2px 10px;border-radius:7px;cursor:pointer;white-space:nowrap;line-height:1.5}
+.btn:hover{border-color:var(--gold);color:var(--gold-ink)}
+.btn.primary{background:var(--present);border-color:var(--present);color:#fff}
+.btn.primary:hover{filter:brightness(1.12);color:#fff}
+.btn[aria-pressed="true"]{background:var(--gold-soft);border-color:var(--gold);color:var(--gold-ink)}
+.btn.danger{border-color:var(--bad);color:var(--bad)}
+.btn.arm,.mini.arm,.rt.arm{background:var(--bad);color:#fff;border-color:var(--bad)}
+.cp{align-self:flex-end;color:var(--ink-faint);line-height:1.2;white-space:nowrap;padding-top:2px}
+.toast{position:fixed;left:50%;bottom:calc(26px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--head-ink);color:#fff;border:1px solid var(--gold);padding:6px 14px;border-radius:9px;z-index:80;opacity:0;pointer-events:none;transition:opacity .2s;max-width:92vw}
+.toast.show{opacity:.97}
+.pill-on{background:var(--gold);color:#fff}
+/* 칩 */
+.chip,.fc{border:1px solid var(--line-strong);background:var(--surface);color:var(--ink-soft);border-radius:999px;padding:1px 9px;cursor:pointer;white-space:nowrap;line-height:1.5;font-weight:700}
+.fc:hover{border-color:var(--gold)}
+.fc.on{background:var(--gold);border-color:var(--gold);color:#fff}
+/* 차트 공통 */
+.chart{position:relative;width:100%;overflow-x:auto;overflow-y:hidden}
+.chart svg{display:block;overflow:visible}
+.chart svg text{font-size:12px;font-family:var(--font)}
+.chart .tip{position:absolute;pointer-events:none;background:var(--surface);border:1px solid var(--line-strong);border-radius:7px;padding:4px 8px;box-shadow:var(--shadow);white-space:nowrap;z-index:5;display:none}
+.pt,.lb{opacity:0;transition:opacity .28s}
+.pt.on,.lb.on{opacity:1}
+.lb{font-weight:700;paint-order:stroke;stroke:#fff;stroke-width:3px;stroke-linejoin:round}
+@media (prefers-reduced-motion: reduce){.pt,.lb{transition:none}}
+small,sup,sub{font-size:inherit}
+
+.tools{margin-left:auto;display:flex;gap:5px;align-items:center;position:relative}
+#menu{position:absolute;right:0;top:100%;margin-top:4px;background:var(--surface);border:1px solid var(--line-strong);border-radius:9px;box-shadow:var(--shadow);padding:4px;display:flex;flex-direction:column;gap:2px;z-index:60;min-width:190px}
+#menu .btn{text-align:left;border-color:transparent}
+#menu .btn:hover{background:var(--gold-soft)}
+/* 검색영역: 파트 / 이름 / 기간 각각 한 줄 */
+.fpanel{background:var(--panel);border-radius:12px;padding:5px 8px;display:flex;flex-direction:column;gap:3px;box-shadow:var(--shadow)}
+.frow{display:flex;align-items:center;gap:6px;min-width:0}
+.fl{flex:none;width:32px;color:var(--label-ink);font-weight:800}
+.chips{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;min-width:0;padding-block:1px}
+.chips::-webkit-scrollbar{display:none}
+.fpanel .fc{flex:none}
+#nameQ{width:150px;border:1px solid var(--line-strong);border-radius:999px;padding:1px 10px;background:#fff;line-height:1.5}
+.status{display:flex;flex-wrap:wrap;gap:0 12px;align-items:center;color:var(--ink-faint);line-height:1.3;min-height:16px}
+.status b{color:var(--ink)}
+.status .warn{color:var(--warn-ink);font-weight:700}
+.status .gold{color:var(--gold-ink);font-weight:700}
+.lnk{border:0;background:none;color:var(--hl-ink);text-decoration:underline;cursor:pointer;padding:0 2px}
+.addbar{display:flex;flex-wrap:wrap;gap:5px 10px;align-items:center;background:var(--gold-soft);border:1px solid var(--gold);border-radius:9px;padding:4px 8px}
+.addbar label{display:inline-flex;gap:5px;align-items:center;font-weight:800;color:var(--gold-ink)}
+.addbar input,.addbar select{border:1px solid var(--line-strong);border-radius:6px;padding:1px 6px;background:#fff;color:var(--ink);font-weight:400}
+.addbar .note{color:var(--ink-faint)}
+
+/* ---------- 출석부 표 ---------- */
+#att{flex:1;min-height:0;display:flex;flex-direction:column;gap:5px}
+#sheetWrap{flex:1;min-height:0;position:relative;display:flex}
+.sheet{flex:1;min-width:0;background:var(--surface);border:1px solid var(--line);border-radius:9px;overflow:auto;box-shadow:var(--shadow);overscroll-behavior:contain}
+.empty{position:absolute;left:0;right:0;top:80px;text-align:center;color:var(--ink-faint);pointer-events:none;padding:0 20px}
+table#tb{border-collapse:separate;border-spacing:0;table-layout:fixed;font-variant-numeric:tabular-nums}
+#tb th,#tb td{height:26px;padding:0 3px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);text-align:center;white-space:nowrap;overflow:hidden;background:var(--surface)}
+#tb thead th{position:sticky;top:0;background:var(--head);color:var(--head-ink);font-weight:800;z-index:3;height:38px;padding-top:2px;border-color:var(--line-strong)}
+#tb thead th.fz{z-index:7}
+#tb thead th sup{color:var(--gold-ink)}
+#tb .fz{position:sticky;z-index:2}
+#tb .lastfz{border-right:2px solid var(--gold)}
+#tb thead th.cur{background:var(--gold);color:#fff}
+#tb thead th.fut{opacity:.55}
+#tb .allbtn{display:block;margin:2px auto 0;border:1px solid currentColor;background:transparent;color:inherit;border-radius:5px;line-height:1.3;padding:0 6px;cursor:pointer}
+#tb .allbtn:hover{background:#fff;color:var(--head-ink)}
+#tb td.nm{font-weight:700}
+#tb td.ptc{text-align:left;padding-left:6px}
+#tb td.ptc i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px;vertical-align:0}
+#tb .dotc{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:3px}
+#tb tr.gstart td{border-top:2px solid var(--line-strong)}
+#tb tr.ret td{color:var(--ink-faint)}
+#tb tr.ret td.nm{text-decoration:line-through;text-decoration-thickness:1px}
+#tb tr.flash td{background:var(--gold-soft)}
+#tb td.rate{padding:0;font-weight:800}
+#tb td.rate i{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,var(--bar-a),var(--bar-b));pointer-events:none}
+#tb td.rate b{position:relative;z-index:1;text-shadow:0 0 3px #fff,0 0 3px #fff}
+#tb td.join,#tb td.leave{padding:0 2px}
+#tb input[data-join],#tb input[data-leave]{width:100%;border:1px solid transparent;border-radius:4px;background:transparent;text-align:center;padding:1px 0}
+#tb td.leave input[data-leave]{width:62px}
+#tb input[data-join]::placeholder,#tb input[data-leave]::placeholder{color:var(--ink-faint);opacity:.35}
+#tb input[data-join]:hover,#tb input[data-leave]:hover{border-color:var(--line-strong)}
+#tb input[data-join]:focus,#tb input[data-leave]:focus{border-color:var(--gold);background:#fff}
+#tb input.bad{border-color:var(--bad)!important;background:var(--bad-soft)!important}
+#tb td.leave{text-align:left}
+#tb .rt,#tb .mini{border:1px solid var(--line-strong);background:#fff;border-radius:5px;padding:0 6px;cursor:pointer;line-height:1.5;color:var(--ink-faint)}
+#tb .rt:hover,#tb .mini:hover{border-color:var(--gold);color:var(--gold-ink)}
+#tb .mini{padding:0 5px;margin-left:3px}
+#tb .mini.bad:hover{border-color:var(--bad);color:var(--bad)}
+/* 출석 체크: 원형 라디오 형태, 체크=출석 / 미체크=결석 */
+#tb td.s{padding:0;background:var(--surface)}
+#tb td.s.on{background:var(--on-bg)}
+#tb td.s.off{background:var(--off-bg)}
+#tb td.s.pre{background:repeating-linear-gradient(135deg,var(--pre-bg) 0 6px,transparent 6px 12px);background-color:var(--pre-bg);border-bottom-color:var(--pre-line)}
+#tb td.s.post{background:repeating-linear-gradient(135deg,#e6e8f0 0 6px,transparent 6px 12px);background-color:#e6e8f0}
+#tb td.s.fut{background:#f4f5fa}
+#tb td.s label{display:flex;justify-content:center;align-items:center;height:25px;cursor:pointer}
+#tb td.s input{appearance:none;-webkit-appearance:none;width:16px;height:16px;border-radius:50%;border:1.6px solid var(--line-strong);background:#fff;margin:0;cursor:pointer}
+#tb td.s.off input{border-color:#e3a39c}
+#tb td.s input:hover:not(:checked):not(:disabled){border-color:var(--present)}
+#tb td.s input:checked{border-color:var(--present);background:var(--present);box-shadow:inset 0 0 0 3.5px #fff}
+#tb td.s input:disabled{cursor:not-allowed;opacity:.4}
+#tb td.curc{box-shadow:inset -2px 0 0 var(--gold)}
+#tb tr.sec td{background:var(--gold-soft);color:var(--gold-ink);font-weight:800;text-align:left;padding-left:8px;height:22px;border-top:2px solid var(--gold)}
+#tb input.ne{width:100%;border:1px solid var(--line-strong);border-radius:4px;padding:1px 4px;background:#fff;font-weight:700}
+#tb select.pedit{width:100%;border:1px solid var(--line-strong);border-radius:4px;background:#fff;padding:1px 0}
+/* 하단 고정 요약 */
+#tb td.dkn,#tb td.dkf{position:sticky;height:28px;padding:0 1px;line-height:13px;border-top:1px solid var(--line-strong);background:var(--surface);z-index:4}
+#tb td.dkf{z-index:5}
+#tb tr.dkh td{height:18px;line-height:17px;background:var(--head);color:var(--head-ink);font-weight:800;border-top:2px solid var(--gold);border-color:var(--line-strong)}
+#tb tr.dkh td.curd{background:var(--gold);color:#fff}
+#tb tr.dkh td.dkf{text-align:left;padding-left:4px}
+#tb tr.dkh td.lastfz{text-align:center;border-right:2px solid var(--gold)}
+.dkt{border:0;background:transparent;color:inherit;font-weight:800;cursor:pointer;padding:0}
+.dkt:hover{color:var(--gold-ink)}
+#tb td.gl{font-weight:800;text-align:left;padding-left:6px;background:var(--head);color:var(--head-ink)}
+#tb td.gl span{border-left:4px solid var(--gc);padding-left:5px}
+#tb td.av{background:var(--hl-bg);font-weight:800}
+#tb td.sc .l1{font-weight:800}
+#tb td.sc .l2{color:var(--present);font-weight:800}
+#tb tr.dk.big td.sc{background:var(--hl-bg)}
+#tb td.sc input{width:20px;border:1px solid var(--line-strong);border-radius:3px;text-align:center;padding:0;background:#fff;line-height:13px;height:14px;-moz-appearance:textfield}
+#tb td.sc input::-webkit-outer-spin-button,#tb td.sc input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+#tb td.sc input::placeholder{color:var(--ink-faint);opacity:.6}
+#tb td.sc input:disabled{opacity:.3}
+@media (max-width:720px){
+  header.top{gap:4px 8px}
+  .nav a,.nav span{padding:2px 9px}
+  #nameQ{width:120px}
+}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1>시온찬양대 <em>출석관리</em></h1>
+    <nav class="nav"><span class="on">출석부</span><a href="dash.html?local=1">대시보드</a></nav>
+    <div class="tools">
+      <button class="btn primary" id="btnAdd" aria-pressed="false" title="대원 추가">＋ 대원 추가</button>
+      <button class="btn" id="btnEdit" aria-pressed="false" title="이름·파트 수정">수정</button>
+      <button class="btn" id="btnMore" aria-label="더보기">⋯</button>
+      <div id="menu" hidden>
+        <button class="btn" id="btnPub">대시보드에 반영 (GitHub)</button>
+        <button class="btn" id="btnJson">data.json 내려받기</button>
+        <button class="btn" id="btnCsv">CSV 내보내기</button>
+        <button class="btn" id="btnRestore">data.json 불러오기</button>
+        <button class="btn danger" id="btnReset">원본으로 초기화</button>
+      </div>
+      <input type="file" id="fileIn" accept=".json,application/json" hidden>
+    </div>
+  </header>
+
+  <section id="att">
+    <div class="fpanel" id="filters"></div>
+    <div class="addbar" id="addbar" hidden>
+      <label>이름 <input id="addName" size="7" placeholder="홍길동" maxlength="12"></label>
+      <label>파트 <select id="addPart"></select></label>
+      <label>입단일 <input id="addJoin" size="8" placeholder="YY.M.D" inputmode="numeric" maxlength="10"></label>
+      <button class="btn primary" id="addGo">추가</button>
+      <button class="btn" id="addClose">닫기</button>
+      <span class="note">파트 안에서 이름순으로 자동 정렬됩니다. 입단일을 비우면 올해 첫 일요일부터 계산합니다.</span>
+    </div>
+    <div class="addbar" id="pubbar" hidden>
+      <label>GitHub 토큰 <input id="pubTok" type="password" size="22" autocomplete="off" placeholder="github_pat_…"></label>
+      <label><input type="checkbox" id="pubSave"> 이 기기에 저장</label>
+      <button class="btn primary" id="pubGo">반영</button>
+      <button class="btn" id="pubClose">닫기</button>
+      <span class="note">저장소 yangji-madang/nsgc 의 Contents 읽기·쓰기 권한이 있는 토큰이 필요합니다. 토큰은 이 브라우저에만 보관되며 GitHub 외에는 전송되지 않습니다.</span>
+    </div>
+    <div class="status" id="status"></div>
+    <div id="sheetWrap"><div class="sheet" id="sheet"></div></div>
+  </section>
+  <div class="cp">(C)2026. Yoon, hyunchul All Rights Reserved.</div>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<script>
+const SEED={"members":[{"id":"m01","name":"강경원","group":"Singer","part":"Sop","join":"","leave":"","retired":false},{"id":"m02","name":"강지인","group":"Singer","part":"Sop","join":"","leave":"","retired":false},{"id":"m03","name":"권 미","group":"Singer","part":"Sop","join":"","leave":"","retired":false},{"id":"m04","name":"김 숙","group":"Singer","part":"Sop","join":"","leave":"","retired":false},{"id":"m05","name":"김기경","group":"Singer","part":"Sop","join":"","leave":"","retired":false},{"id":"m06","name":"김순영","group":"Singer","part":"Sop","join":"","leave":"","retired":false},{"id":"m07","name":"김영미","group":"Singer","part":"Sop","join":"","leave":"","retired":false},{"id":"m08","name":"김정숙","group":"Singer","part":"Sop","join":"2026-03-08","leave":"","retired":false},{"id":"m09","name":"김정현","group":"Singer","part":"Sop","join":"","leave":"","retired":false},{"id":"m10","name":"송정은","group":"Singer","part":"Sop","join":"","leave":"","retired":false},{"id":"m11","name":"이명자","group":"Singer","part":"Sop","join":"","leave":"","retired":false},{"id":"m12","name":"임은경","group":"Singer","part":"Sop","join":"","leave":"","retired":false},{"id":"m13","name":"전인숙","group":"Singer","part":"Sop","join":"","leave":"","retired":false},{"id":"m14","name":"정현주","group":"Singer","part":"Sop","join":"","leave":"","retired":false},{"id":"m15","name":"조연주","group":"Singer","part":"Sop","join":"","leave":"","retired":false},{"id":"m16","name":"최금옥","group":"Singer","part":"Sop","join":"","leave":"","retired":false},{"id":"m17","name":"최지선","group":"Singer","part":"Sop","join":"","leave":"","retired":false},{"id":"m18","name":"함영자","group":"Singer","part":"Sop","join":"","leave":"","retired":false},{"id":"m19","name":"강민주","group":"Singer","part":"Alt","join":"2026-10-04","leave":"","retired":false},{"id":"m20","name":"강정원","group":"Singer","part":"Alt","join":"","leave":"","retired":false},{"id":"m21","name":"김경희","group":"Singer","part":"Alt","join":"","leave":"","retired":false},{"id":"m22","name":"김용주","group":"Singer","part":"Alt","join":"","leave":"","retired":false},{"id":"m23","name":"박현자","group":"Singer","part":"Alt","join":"","leave":"","retired":false},{"id":"m24","name":"서희정","group":"Singer","part":"Alt","join":"","leave":"","retired":false},{"id":"m25","name":"안 옥","group":"Singer","part":"Alt","join":"","leave":"","retired":false},{"id":"m26","name":"염선영","group":"Singer","part":"Alt","join":"","leave":"","retired":false},{"id":"m27","name":"윤수진","group":"Singer","part":"Alt","join":"2026-01-18","leave":"","retired":false},{"id":"m28","name":"이미현","group":"Singer","part":"Alt","join":"2026-04-26","leave":"","retired":false},{"id":"m29","name":"이순란","group":"Singer","part":"Alt","join":"","leave":"","retired":false},{"id":"m30","name":"이영주","group":"Singer","part":"Alt","join":"","leave":"","retired":false},{"id":"m31","name":"임순남","group":"Singer","part":"Alt","join":"","leave":"","retired":false},{"id":"m32","name":"전미숙","group":"Singer","part":"Alt","join":"","leave":"","retired":false},{"id":"m33","name":"정진규","group":"Singer","part":"Alt","join":"","leave":"","retired":false},{"id":"m34","name":"최복순","group":"Singer","part":"Alt","join":"","leave":"","retired":false},{"id":"m35","name":"홍찬의","group":"Singer","part":"Alt","join":"2026-09-20","leave":"","retired":false},{"id":"m36","name":"김세준","group":"Singer","part":"Ten","join":"","leave":"","retired":false},{"id":"m37","name":"김현철","group":"Singer","part":"Ten","join":"","leave":"","retired":false},{"id":"m38","name":"서영철","group":"Singer","part":"Ten","join":"","leave":"","retired":false},{"id":"m39","name":"신용관","group":"Singer","part":"Ten","join":"","leave":"","retired":false},{"id":"m40","name":"엄기호","group":"Singer","part":"Ten","join":"","leave":"","retired":false},{"id":"m41","name":"이수행","group":"Singer","part":"Ten","join":"","leave":"","retired":false},{"id":"m42","name":"정은석","group":"Singer","part":"Ten","join":"2026-01-18","leave":"","retired":false},{"id":"m43","name":"정지우","group":"Singer","part":"Ten","join":"2026-01-18","leave":"","retired":false},{"id":"m44","name":"권남회","group":"Singer","part":"Bas","join":"","leave":"","retired":false},{"id":"m45","name":"김규철","group":"Singer","part":"Bas","join":"2026-01-18","leave":"","retired":false},{"id":"m46","name":"류방열","group":"Singer","part":"Bas","join":"","leave":"","retired":false},{"id":"m47","name":"성요길","group":"Singer","part":"Bas","join":"","leave":"","retired":false},{"id":"m48","name":"윤여훈","group":"Singer","part":"Bas","join":"","leave":"","retired":false},{"id":"m49","name":"윤현철","group":"Singer","part":"Bas","join":"","leave":"","retired":false},{"id":"m50","name":"이명헌","group":"Singer","part":"Bas","join":"","leave":"","retired":false},{"id":"m51","name":"이병재","group":"Singer","part":"Bas","join":"","leave":"","retired":false},{"id":"m52","name":"정운채","group":"Singer","part":"Bas","join":"","leave":"","retired":false},{"id":"m53","name":"정윤택","group":"Singer","part":"Bas","join":"","leave":"","retired":false},{"id":"m54","name":"조경식","group":"Singer","part":"Bas","join":"","leave":"","retired":false},{"id":"m55","name":"조성수","group":"Singer","part":"Bas","join":"2026-09-20","leave":"","retired":false},{"id":"m56","name":"한명민","group":"Singer","part":"Bas","join":"","leave":"","retired":false},{"id":"m57","name":"서승연","group":"기타","part":"지휘","join":"","leave":"","retired":false},{"id":"m58","name":"진윤정","group":"기타","part":"반주","join":"","leave":"","retired":false},{"id":"m59","name":"원정옥","group":"기타","part":"수화","join":"","leave":"","retired":false},{"id":"m60","name":"이해옥","group":"기타","part":"수화","join":"","leave":"","retired":false}],"marks":{"m01":{"2026-01-04":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-24":1,"2026-05-31":1,"2026-06-14":1,"2026-06-21":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-20":1,"2026-09-27":1},"m02":{"2026-01-04":1,"2026-01-11":1,"2026-01-25":1,"2026-02-08":1,"2026-03-01":1,"2026-03-08":1,"2026-03-29":1,"2026-04-26":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-27":1},"m03":{"2026-01-04":1,"2026-01-11":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-04-12":1,"2026-05-10":1,"2026-05-17":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m04":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-20":1},"m05":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m06":{"2026-01-18":1,"2026-01-25":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m07":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1},"m08":{"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m09":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-10":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m10":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-04-19":1,"2026-04-26":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-14":1,"2026-06-21":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-09":1,"2026-08-30":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m11":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1},"m12":{"2026-01-04":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m13":{"2026-01-11":1,"2026-01-18":1,"2026-02-01":1,"2026-02-08":1,"2026-02-22":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-05-31":1,"2026-06-07":1,"2026-06-28":1,"2026-07-05":1,"2026-08-16":1,"2026-08-30":1,"2026-09-06":1,"2026-09-20":1},"m14":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-15":1,"2026-02-22":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-24":1,"2026-06-07":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m15":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-04-05":1,"2026-04-12":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-21":1,"2026-06-28":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m16":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m17":{"2026-03-29":1,"2026-04-05":1,"2026-04-19":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m18":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m19":{},"m20":{"2026-01-11":1,"2026-01-18":1,"2026-02-01":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-05-17":1,"2026-05-24":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1},"m21":{"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m22":{"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-20":1,"2026-09-27":1},"m23":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-23":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m24":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1},"m25":{"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1},"m26":{"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m27":{"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1},"m28":{"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-09-06":1,"2026-09-27":1},"m29":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m30":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-02-01":1,"2026-02-08":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1},"m31":{"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-27":1},"m32":{"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m33":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m34":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m35":{"2026-09-20":1,"2026-09-27":1},"m36":{"2026-01-04":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m37":{"2026-01-18":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m38":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m39":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-26":1,"2026-05-10":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-28":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m40":{"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m41":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m42":{"2026-01-18":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-23":1,"2026-09-13":1,"2026-09-20":1},"m43":{"2026-01-18":1,"2026-01-25":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-10":1,"2026-05-17":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1},"m44":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m45":{"2026-01-18":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m46":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-15":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-06-07":1,"2026-06-14":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1},"m47":{"2026-01-11":1,"2026-01-18":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-08":1,"2026-03-15":1,"2026-03-29":1,"2026-04-12":1,"2026-04-19":1,"2026-05-10":1,"2026-05-17":1,"2026-06-21":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-08-09":1,"2026-08-16":1,"2026-08-30":1,"2026-09-13":1,"2026-09-20":1},"m48":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-08":1,"2026-02-15":1,"2026-03-08":1,"2026-03-15":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m49":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m50":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m51":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-27":1},"m52":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-16":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m53":{"2026-01-04":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m54":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m55":{"2026-09-20":1,"2026-09-27":1},"m56":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-27":1},"m57":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-16":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m58":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-16":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m59":{"2026-01-04":1,"2026-01-11":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-09-06":1,"2026-09-20":1,"2026-09-27":1},"m60":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-16":1,"2026-09-06":1,"2026-09-20":1,"2026-09-27":1}},"orc":{"2026-01-04":{"a":19,"e":21},"2026-01-11":{"a":15,"e":21},"2026-01-18":{"a":19,"e":21},"2026-01-25":{"a":14,"e":21},"2026-02-01":{"a":12,"e":21},"2026-02-08":{"a":15,"e":21},"2026-02-15":{"a":14,"e":21},"2026-02-22":{"a":15,"e":21},"2026-03-01":{"a":18,"e":21},"2026-03-08":{"a":20,"e":21},"2026-03-15":{"a":20,"e":21},"2026-03-22":{"a":19,"e":21},"2026-03-29":{"a":20,"e":22},"2026-04-05":{"a":19,"e":22},"2026-04-12":{"a":18,"e":22},"2026-04-19":{"a":17,"e":22},"2026-04-26":{"a":19,"e":22},"2026-05-03":{"a":18,"e":22},"2026-05-10":{"a":18,"e":23},"2026-05-17":{"a":20,"e":23},"2026-05-24":{"a":14,"e":23},"2026-05-31":{"a":18,"e":23},"2026-06-07":{"a":18,"e":23},"2026-06-14":{"a":18,"e":23},"2026-06-21":{"a":18,"e":23},"2026-06-28":{"a":19,"e":23},"2026-07-05":{"a":19,"e":23},"2026-07-12":{"a":19,"e":23},"2026-07-19":{"a":19,"e":23},"2026-07-26":{"a":19,"e":23},"2026-08-02":{"a":19,"e":23},"2026-08-09":{"a":19,"e":23},"2026-08-16":{"a":19,"e":23},"2026-08-23":{"a":19,"e":23},"2026-08-30":{"a":19,"e":23},"2026-09-06":{"a":19,"e":23},"2026-09-13":{"a":19,"e":23},"2026-09-20":{"a":19,"e":23},"2026-09-27":{"a":19,"e":23}},"updated":"2026-10-08T00:00:00+09:00"};
+const YEAR=2026;
+const PARTS=['Sop','Alt','Ten','Bas'], GROUPS=['Sop','Alt','Ten','Bas','기타'], ETC_PARTS=['지휘','반주','수화'];
+const COLOR={all:'--c-all',Singer:'--c-singer',Orc:'--c-orc',Sop:'--c-sop',Alt:'--c-alt',Ten:'--c-ten',Bas:'--c-bas','기타':'--c-etc'};
+const pad=n=>String(n).padStart(2,'0');
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const md=iso=>`${+iso.slice(5,7)}/${+iso.slice(8,10)}`;          // 앞자리 0 생략: 1/4, 10/4
+const fmtJoin=iso=>iso?`${iso.slice(2,4)}.${+iso.slice(5,7)}.${+iso.slice(8,10)}`:'';   // 26.3.8
+const pct=v=>v==null?'-':(v*100).toFixed(1)+'%';
+const f1=v=>v==null?'-':v.toFixed(1);
+const $=s=>document.querySelector(s);
+const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const collator=new Intl.Collator('ko');
+
+/* ---------- 날짜 ---------- */
+const sundays=[];
+for(let k=0;k<53;k++){const d=new Date(Date.UTC(YEAR,0,4+7*k));if(d.getUTCFullYear()!==YEAR)break;sundays.push(d.toISOString().slice(0,10));}
+const now=new Date();
+const todayISO=`${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}`;
+const pi=sundays.filter(d=>d<=todayISO).length;      // 지나간(오늘 포함) 일요일 수
+const curIdx=pi-1;
+
+/* ---------- 데이터 ---------- */
+function valid(x){return x&&Array.isArray(x.members)&&x.marks&&typeof x.marks==='object'&&x.orc&&typeof x.orc==='object';}
+function normalize(x){           // 체크(1)만 남기고 미체크는 결석으로 간주
+  x.members.forEach(m=>{m.leave=m.leave||'';m.retired=!!m.retired;m.join=m.join||'';});
+  Object.keys(x.marks).forEach(id=>{const o={};Object.keys(x.marks[id]).forEach(d=>{if(x.marks[id][d]===1)o[d]=1;});x.marks[id]=o;});
+  return x;
+}
+let S=null;
+let monthSel=new Set();
+const pk=m=>m.group==='Singer'?m.part:'기타';
+const nkey=m=>m.name.replace(/\s+/g,'');
+function sortMembers(arr){
+  return arr.slice().sort((a,b)=>GROUPS.indexOf(pk(a))-GROUPS.indexOf(pk(b))
+    ||(pk(a)==='기타'?ETC_PARTS.indexOf(a.part)-ETC_PARTS.indexOf(b.part):0)
+    ||collator.compare(nkey(a),nkey(b)));
+}
+function startIdx(m){if(!m.join)return 0;const i=sundays.findIndex(d=>d>=m.join);return i<0?Infinity:i;}
+function endIdx(m){if(!m.leave)return sundays.length-1;let e=-1;for(let i=0;i<sundays.length;i++)if(sundays[i]<=m.leave)e=i;return e;}
+const checked=(id,d)=>!!(S.marks[id]&&S.marks[id][d]===1);
+function visIdx(){const a=[];sundays.forEach((d,i)=>{if(!monthSel.size||monthSel.has(d.slice(5,7)))a.push(i);});return a;}
+
+/* ---------- 집계 : 전체 = Singer + Orc (기타 제외) ---------- */
+const KEYS=['all','Singer','Sop','Alt','Ten','Bas','기타','Orc'];
+function rateOf(x){return (x&&x.a!=null&&x.e>0)?x.a/x.e:null;}
+function compute(){
+  const act=sortMembers(S.members.filter(m=>!m.retired)), ret=sortMembers(S.members.filter(m=>m.retired));
+  const mem=act.concat(ret),N=sundays.length,span=new Map();
+  mem.forEach(m=>span.set(m.id,{s:startIdx(m),e:endIdx(m)}));
+  const W=[];let lastE=null;
+  for(let i=0;i<N;i++){
+    const d=sundays[i],att={},enr={};let rec=false;
+    GROUPS.forEach(g=>{att[g]=0;enr[g]=0;});
+    for(const m of mem){
+      const sp=span.get(m.id);if(i<sp.s||i>sp.e)continue;
+      const g=pk(m);enr[g]++;
+      if(checked(m.id,d)){att[g]++;rec=true;}
+    }
+    const o=S.orc[d]||{};
+    const oa=(o.a===''||o.a==null)?null:+o.a, oe=(o.e===''||o.e==null)?null:+o.e;
+    if(oe!=null)lastE=oe;
+    const orcE=oe!=null?oe:lastE;
+    const orcIn=oa!=null&&orcE!=null;
+    if(oa!=null)rec=true;
+    const sa=PARTS.reduce((s,g)=>s+att[g],0), se=PARTS.reduce((s,g)=>s+enr[g],0);
+    const row={};
+    PARTS.forEach(g=>row[g]={a:att[g],e:enr[g]});
+    row['기타']={a:att['기타'],e:enr['기타']};
+    row.Singer={a:sa,e:se};
+    row.Orc={a:oa,e:orcE};
+    row.all={a:sa+(orcIn?oa:0),e:se+(orcIn?orcE:0)};
+    W.push({d,rec,show:i<pi&&rec,row});
+  }
+  const R=[];W.forEach((w,i)=>{if(w.show)R.push(i);});
+  const visSet=new Set(visIdx()),RV=R.filter(i=>visSet.has(i));
+  const mean=a=>a.length?a.reduce((s,v)=>s+v,0)/a.length:null;
+  const avgOf=list=>{const o={};KEYS.forEach(k=>{const A=[],E=[],Rt=[];
+    list.forEach(i=>{const x=W[i].row[k];if(x.a==null)return;A.push(x.a);E.push(x.e);if(x.e>0)Rt.push(x.a/x.e);});
+    o[k]={a:mean(A),e:mean(E),r:mean(Rt)};});return o;};
+  return {mem,act,ret,span,W,R,RV,avg:avgOf(R),avgV:avgOf(RV)};
+}
+
+/* ===================== 출석관리 (att.html) ===================== */
+(()=>{
+'use strict';
+const KEY='choir-attendance-2026-v1', REPO='yangji-madang/nsgc', FPATH='zion/data.json', TK='choir-gh-token-v1';
+let canStore=true, saveT=0;
+let editMode=false, compact=matchMedia('(max-width:720px)').matches;
+let partSel=new Set(), nameQ='';
+let dockFull=innerWidth>720&&innerHeight>=760;
+let M, vis=[], refs={};
+
+function save(){
+  S.updated=new Date().toISOString();
+  clearTimeout(saveT);
+  saveT=setTimeout(()=>{try{localStorage.setItem(KEY,JSON.stringify(S));canStore=true;}catch(e){canStore=false;renderStatus();}},150);
+}
+let toastT=0;
+function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),3400);}
+
+/* ---------- 날짜 입력 (YY.M.D 자유 형식) ---------- */
+function parseJoin(txt){
+  const t=txt.trim();if(!t)return {ok:true,iso:''};
+  let y,mo,d;const parts=t.split(/\D+/).filter(Boolean);
+  if(parts.length===3){[y,mo,d]=parts.map(Number);}
+  else if(parts.length===1&&/^\d{6}$/.test(parts[0])){y=+parts[0].slice(0,2);mo=+parts[0].slice(2,4);d=+parts[0].slice(4,6);}
+  else if(parts.length===1&&/^\d{8}$/.test(parts[0])){y=+parts[0].slice(0,4);mo=+parts[0].slice(4,6);d=+parts[0].slice(6,8);}
+  else return {ok:false};
+  if(y<100)y+=2000;
+  const dt=new Date(Date.UTC(y,mo-1,d));
+  if(dt.getUTCFullYear()!==y||dt.getUTCMonth()!==mo-1||dt.getUTCDate()!==d)return {ok:false};
+  return {ok:true,iso:`${y}-${pad(mo)}-${pad(d)}`};
+}
+
+function memberRate(m){
+  const sp=M.span.get(m.id);let den=0,num=0;
+  for(const i of vis){if(i<sp.s||i>sp.e||i>=pi)continue;den++;if(checked(m.id,sundays[i]))num++;}
+  return den?num/den:null;
+}
+
+/* ---------- 표 ---------- */
+const SUN_W=48, DK_H=18, DK_R=28;
+function colsDef(){
+  const base=[
+    {k:'total',w:36,h:'Total',s:1},{k:'no',w:30,h:'No.',s:1},{k:'grp',w:50,h:'구분',s:1},
+    {k:'part',w:editMode?66:44,h:'파트',s:1},{k:'name',w:editMode?104:60,h:'이름',s:1},
+    {k:'rate',w:84,h:'출석률',s:1},{k:'join',w:64,h:'입단일',s:1},{k:'leave',w:116,h:'퇴단일',s:0}];
+  if(!compact)return base;
+  return [{...base[4],w:editMode?100:58},{...base[5],w:76},{...base[6],s:0},base[7]];
+}
+function dockGroups(){
+  const ALLG=[['all','전체'],['Singer','Singer'],['Sop','Sop'],['Alt','Alt'],['Ten','Ten'],['Bas','Bas'],['기타','기타'],['Orc','Orc']];
+  if(partSel.size){
+    const g=[['all','전체']],sing=PARTS.filter(p=>partSel.has(p));
+    if(sing.length>=2)g.push(['Singer','Singer']);
+    sing.forEach(p=>g.push([p,p]));
+    if(partSel.has('기타'))g.push(['기타','기타']);
+    if(partSel.has('Orc'))g.push(['Orc','Orc']);
+    return g;
+  }
+  return dockFull?ALLG:[ALLG[0]];
+}
+function buildTable(){
+  const sh=$('#sheet'),had=!!$('#tb'),sl=sh.scrollLeft,stp=sh.scrollTop;
+  M=compute();vis=visIdx();
+  const cols=colsDef();let left=0;
+  cols.forEach(c=>{if(c.s){c.left=left;left+=c.w;}});
+  const sticky=cols.filter(c=>c.s),nst=sticky.length,lastSt=sticky[nst-1];
+  const extras=cols.filter(c=>!c.s),stW=left,exW=extras.reduce((s,c)=>s+c.w,0);
+  const tw=stW+exW+vis.length*SUN_W;
+  refs={rate:{},dk:{},head:{},rec:{},stW,exW};
+  const fzc=c=>c.s?`class="fz${c===lastSt?' lastfz':''}" style="left:${c.left}px"`:'class="ns"';
+
+  /* 머리글은 한 줄: 주(일요일) 날짜만 표기 */
+  let hd=cols.map(c=>`<th ${fzc(c)}>${c.h}${c.k==='rate'&&monthSel.size?'<sup title="선택한 기간 기준">*</sup>':''}</th>`).join('');
+  hd+=vis.map(k=>{
+    const cls=k===curIdx?'cur':(k>=pi?'fut':'');
+    const btn=k<pi?`<button class="allbtn" data-all="${k}" title="이 날 재적 대원 전원을 출석으로 체크">전원</button>`:'';
+    return `<th class="${cls}" data-h="${k}"><div>${md(sundays[k])}</div>${btn}</th>`;
+  }).join('');
+
+  const rowHtml=(m,num,gno,retired)=>{
+    const g=pk(m),sp=M.span.get(m.id);
+    const cells=cols.map(c=>{
+      let inner='',cls='';
+      if(c.k==='total')inner=retired?'-':num;
+      else if(c.k==='no')inner=retired?'-':gno;
+      else if(c.k==='grp')inner=m.group;
+      else if(c.k==='part'){
+        cls='ptc';
+        inner=editMode?`<select class="pedit" data-pe="${m.id}">${PARTS.concat(ETC_PARTS).map(p=>`<option${p===m.part?' selected':''}>${p}</option>`).join('')}</select>`
+          :`<i style="background:var(${COLOR[g]})"></i>${esc(m.part)}`;
+      }
+      else if(c.k==='name'){
+        cls='nm';
+        const dot=compact?`<i class="dotc" style="background:var(${COLOR[g]})"></i>`:'';
+        inner=editMode?`<input class="ne" data-ne="${m.id}" value="${esc(m.name)}" maxlength="12" aria-label="이름">`:dot+esc(m.name);
+      }
+      else if(c.k==='rate'){cls='rate';inner='<i></i><b></b>';}
+      else if(c.k==='join')cls='join',inner=`<input data-join="${m.id}" value="${fmtJoin(m.join)}" placeholder="YY.M.D" inputmode="numeric" maxlength="10" aria-label="${esc(m.name)} 입단일">`;
+      else if(c.k==='leave'){
+        cls='leave';
+        inner=retired?`<input data-leave="${m.id}" value="${fmtJoin(m.leave)}" placeholder="YY.M.D" inputmode="numeric" maxlength="10" aria-label="${esc(m.name)} 퇴단일"><button class="mini" data-back="${m.id}" title="현재 대원으로 복귀">복귀</button><button class="mini bad" data-purge="${m.id}" title="완전 삭제">삭제</button>`
+          :`<button class="rt" data-ret="${m.id}" title="퇴단 대원으로 이동">퇴단</button>`;
+      }
+      return `<td ${c.s?`style="left:${c.left}px" `:''}data-c="${c.k}" data-r="${m.id}" class="${c.s?'fz '+(c===lastSt?'lastfz ':''):'ns '}${cls}">${inner}</td>`;
+    }).join('');
+    const sc=vis.map(k=>{
+      const d=sundays[k];
+      if(k<sp.s)return `<td class="s pre" title="입단 전"></td>`;
+      if(k>sp.e)return `<td class="s pre post" title="퇴단 후"></td>`;
+      const on=checked(m.id,d),dis=k>=pi?' disabled':'';
+      return `<td class="s${on?' on':''}${k>=pi?' fut':''}${k===curIdx?' curc':''}" data-m="${m.id}" data-i="${k}"><label><input type="checkbox"${on?' checked':''}${dis} aria-label="${esc(m.name)} ${md(d)} 출석"></label></td>`;
+    }).join('');
+    return `<tr data-row="${m.id}" class="${retired?'ret':''}">${cells}${sc}</tr>`;
+  };
+
+  let body='',gc={};
+  M.act.forEach((m,idx)=>{const g=pk(m);gc[g]=(gc[g]||0)+1;body+=rowHtml(m,idx+1,gc[g],false);});
+  if(M.ret.length){
+    body+=`<tr class="sec" id="retSec"><td class="fz lastfz" colspan="${nst}" style="left:0">퇴단 대원 ${M.ret.length}명 · 퇴단일 이후 칸은 재적·출석률에서 제외됩니다</td><td colspan="${extras.length+vis.length}"></td></tr>`;
+    M.ret.forEach(m=>{body+=rowHtml(m,0,0,true);});
+  }
+
+  /* 하단 고정 요약 */
+  const DG=dockGroups(),rowsH=[DK_H].concat(DG.map(()=>DK_R));
+  const botOf=r=>rowsH.slice(r+1).reduce((s,v)=>s+v,0);
+  const lblSpan=nst-1;
+  const stl=(r,extra='')=>`style="bottom:${botOf(r)}px;${extra}"`;
+  let dk=`<tr class="dkh"><td class="fz dkf" colspan="${lblSpan}" ${stl(0,'left:0')}><button class="dkt" id="dkToggle" title="요약 행 펼치기/접기">주별 요약 ${dockFull?'▾':'▴'}</button></td>
+    <td class="fz dkf lastfz" ${stl(0,`left:${lastSt.left}px`)} title="입력된 일요일 평균 (출석/재적, 출석률)">평균</td>
+    ${extras.length?`<td class="dkn" colspan="${extras.length}" ${stl(0)}>출석/재적 · 출석률</td>`:''}
+    ${vis.map(k=>`<td class="dkn${k===curIdx?' curd':''}" ${stl(0)}>${md(sundays[k])}</td>`).join('')}</tr>`;
+  DG.forEach(([k,label],gi)=>{
+    const r=gi+1,big=(k==='all'||k==='Singer')?' big':'';
+    dk+=`<tr class="dk${big}"><td class="fz dkf gl" colspan="${lblSpan}" ${stl(r,'left:0')}><span style="--gc:var(${COLOR[k]})">${label}</span></td>
+      <td class="fz dkf lastfz av" ${stl(r,`left:${lastSt.left}px`)} data-av="${k}"><div class="l1"></div><div class="l2"></div></td>
+      ${extras.length?`<td class="dkn" colspan="${extras.length}" ${stl(r)}></td>`:''}
+      ${vis.map(i=>{
+        if(k==='Orc')return `<td class="dkn sc" ${stl(r)} data-d="${k}|${i}"><div class="l1"><input type="number" min="0" max="99" inputmode="numeric" data-orc="${i}|a" aria-label="Orc ${md(sundays[i])} 출석"${i>=pi?' disabled':''}>/<input type="number" min="0" max="99" inputmode="numeric" data-orc="${i}|e" aria-label="Orc ${md(sundays[i])} 재적"${i>=pi?' disabled':''}></div><div class="l2"></div></td>`;
+        return `<td class="dkn sc" ${stl(r)} data-d="${k}|${i}"><div class="l1"></div><div class="l2"></div></td>`;
+      }).join('')}</tr>`;
+  });
+
+  sh.innerHTML=`<table id="tb" style="width:${tw}px"><colgroup>${cols.map(c=>`<col style="width:${c.w}px">`).join('')}${vis.map(()=>`<col style="width:${SUN_W}px">`).join('')}</colgroup>
+    <thead><tr>${hd}</tr></thead><tbody>${body}${dk}</tbody></table>`;
+  const tb=$('#tb');
+  tb.querySelectorAll('td[data-c="rate"]').forEach(td=>{refs.rate[td.dataset.r]={i:td.firstChild,b:td.lastChild};});
+  tb.querySelectorAll('td[data-d]').forEach(td=>{refs.dk[td.dataset.d]=td;});
+  tb.querySelectorAll('td[data-av]').forEach(td=>{refs.dk['av|'+td.dataset.av]=td;});
+  tb.querySelectorAll('thead th[data-h]').forEach(th=>{refs.head[+th.dataset.h]=th;});
+  tb.querySelectorAll('input[data-orc]').forEach(inp=>{
+    const [i,f]=inp.dataset.orc.split('|');const o=S.orc[sundays[+i]]||{};
+    const v=o[f];inp.value=(v==null||v==='')?'':v;
+  });
+  refs.DG=DG;
+  paint();applyFilters();
+  if(had){sh.scrollLeft=sl;sh.scrollTop=stp;}
+}
+
+/* ---------- 계산값 그리기 ---------- */
+function paint(){
+  M=compute();
+  const tb=$('#tb');if(!tb)return;
+  M.mem.forEach(m=>{
+    const r=memberRate(m),ref=refs.rate[m.id];if(!ref)return;
+    if(r==null){ref.i.style.width='0';ref.b.textContent='-';}
+    else{const s=(r*100).toFixed(1)+'%';ref.i.style.width=s;ref.b.textContent=s;}
+  });
+  /* 입력된 주(체크가 1건 이상 있는 주)의 미체크 칸은 결석으로 표시 */
+  vis.forEach(i=>{
+    const rec=i<pi&&M.W[i].rec;
+    if(refs.rec[i]===rec)return;
+    refs.rec[i]=rec;
+    tb.querySelectorAll(`td.s[data-i="${i}"]`).forEach(td=>td.classList.toggle('off',rec&&!td.classList.contains('on')));
+  });
+  refs.DG.forEach(([k])=>{
+    vis.forEach(i=>{
+      const w=M.W[i],x=w.row[k],td=refs.dk[`${k}|${i}`];if(!td)return;
+      const l1=td.querySelector('.l1'),l2=td.querySelector('.l2');
+      const r=w.show?rateOf(x):null;
+      if(k==='Orc'){
+        const ie=l1.querySelector('input[data-orc$="|e"]'),o=S.orc[sundays[i]]||{};
+        ie.placeholder=((o.e===''||o.e==null)&&x.e!=null&&i<pi)?String(x.e):'';
+      }else l1.textContent=w.show?`${x.a}/${x.e}`:'';
+      l2.textContent=r==null?'':(r*100).toFixed(1)+'%';
+    });
+    const a=M.avgV[k],td=refs.dk['av|'+k];
+    if(td){td.firstChild.textContent=(a.a==null)?'-':`${f1(a.a)}/${f1(a.e)}`;td.lastChild.textContent=pct(a.r);}
+  });
+  renderStatus();
+}
+
+/* ---------- 검색 (파트 / 이름 / 기간: 각각 한 줄) ---------- */
+function applyFilters(){
+  const tb=$('#tb');if(!tb)return;
+  const q=nameQ.replace(/\s+/g,'').toLowerCase(),byId=new Map(S.members.map(m=>[m.id,m]));
+  let last=null,retVis=0,actVis=0;
+  tb.querySelectorAll('tbody tr[data-row]').forEach(tr=>{
+    const m=byId.get(tr.dataset.row);if(!m)return;
+    const ok=(!partSel.size||partSel.has(pk(m)))&&(!q||nkey(m).toLowerCase().includes(q));
+    tr.hidden=!ok;
+    if(!ok)return;
+    if(m.retired)retVis++;else actVis++;
+    const g=m.retired?'ret':pk(m);
+    tr.classList.toggle('gstart',g!==last);last=g;
+  });
+  const sec=$('#retSec');if(sec)sec.hidden=!retVis;
+  let em=$('#emptyMsg');
+  if(!actVis&&!retVis){
+    if(!em){em=document.createElement('div');em.id='emptyMsg';em.className='empty';$('#sheetWrap').appendChild(em);}
+    em.textContent=(partSel.size===1&&partSel.has('Orc'))?'Orc는 대원 명단 없이 아래 요약표의 출석/재적 칸에 직접 입력합니다.':'조건에 맞는 대원이 없습니다.';
+  }else if(em)em.remove();
+}
+function syncChips(){
+  document.querySelectorAll('#filters [data-p]').forEach(b=>{const v=b.dataset.p;b.classList.toggle('on',v==='*'?!partSel.size:partSel.has(v));});
+  document.querySelectorAll('#filters [data-m]').forEach(b=>{const v=b.dataset.m;b.classList.toggle('on',v==='*'?!monthSel.size:monthSel.has(v));});
+}
+function buildFilters(){
+  const P=['Sop','Alt','Ten','Bas','기타','Orc'];
+  $('#filters').innerHTML=
+   `<div class="frow"><span class="fl">파트</span><div class="chips"><button class="fc" data-p="*">전체</button>${P.map(p=>`<button class="fc" data-p="${p}">${p}</button>`).join('')}</div></div>
+    <div class="frow"><span class="fl">이름</span><input id="nameQ" type="search" placeholder="이름 검색" autocomplete="off" aria-label="이름 검색"></div>
+    <div class="frow"><span class="fl">기간</span><div class="chips"><button class="fc" data-m="*">전체</button>${Array.from({length:12},(_,i)=>`<button class="fc" data-m="${pad(i+1)}">${i+1}월</button>`).join('')}</div></div>`;
+  syncChips();
+}
+$('#filters').addEventListener('click',e=>{
+  const b=e.target.closest('.fc');if(!b)return;
+  const toggle=(set,v)=>{if(v==='*')set.clear();else if(set.has(v))set.delete(v);else set.add(v);};
+  if(b.dataset.p!==undefined)toggle(partSel,b.dataset.p);else toggle(monthSel,b.dataset.m);
+  syncChips();buildTable();
+});
+$('#filters').addEventListener('input',e=>{if(e.target.id==='nameQ'){nameQ=e.target.value;applyFilters();}});
+
+function renderStatus(){
+  const R=M.R,lastRec=R.length?md(sundays[R[R.length-1]]):'-';
+  const miss=[];for(let i=0;i<pi;i++)if(!M.W[i].rec)miss.push(i);
+  let h=`<span>기준 <b>${md(todayISO)}</b> · 지난 일요일 <b>${pi}</b>회 · 입력 마지막 주 <b>${lastRec}</b></span>`;
+  if(monthSel.size)h+=`<span class="gold">기간 ${[...monthSel].map(Number).join('·')}월 기준 (출석률*, 평균)</span>`;
+  if(miss.length)h+=`<span class="warn">미입력 주 ${miss.map(i=>md(sundays[i])).join(', ')} <button class="lnk" id="goMiss">이동</button></span>`;
+  if(!canStore)h+=`<span class="warn">자동 저장 불가 · data.json을 자주 내려받아 보관해 주세요</span>`;
+  $('#status').innerHTML=h;
+  const gm=$('#goMiss');if(gm)gm.onclick=()=>{if(!vis.includes(miss[0])){monthSel.clear();syncChips();buildTable();}scrollToWeek(miss[0]);};
+}
+function scrollToWeek(i){
+  const sh=$('#sheet'),th=refs.head&&refs.head[i];if(!sh||!th)return;
+  sh.scrollTo({left:Math.max(0,th.offsetLeft-refs.stW-SUN_W*2),behavior:reduced?'auto':'smooth'});
+}
+
+/* ---------- 출석 체크 ---------- */
+function setMark(id,i,v){
+  const d=sundays[i];
+  if(!S.marks[id])S.marks[id]={};
+  if(v)S.marks[id][d]=1;else delete S.marks[id][d];
+  const td=document.querySelector(`td.s[data-m="${id}"][data-i="${i}"]`);
+  if(td){
+    td.classList.toggle('on',!!v);
+    td.classList.toggle('off',!v&&!!refs.rec[i]);
+    const inp=td.querySelector('input');if(inp)inp.checked=!!v;
+  }
+}
+const armed=new Map();
+function arm(btn,txt,fn){
+  if(btn.classList.contains('arm')){clearTimeout(armed.get(btn));fn();return;}
+  const old=btn.textContent;btn.classList.add('arm');btn.textContent=txt;
+  armed.set(btn,setTimeout(()=>{if(btn.isConnected){btn.classList.remove('arm');btn.textContent=old;}},2800));
+}
+$('#sheet').addEventListener('change',e=>{
+  const t=e.target;
+  if(t.matches('td.s input[type=checkbox]')){
+    const td=t.closest('td.s');
+    setMark(td.dataset.m,+td.dataset.i,t.checked?1:null);
+    save();paint();return;
+  }
+  if(t.dataset.join!==undefined||t.dataset.leave!==undefined){
+    const isJ=t.dataset.join!==undefined,id=isJ?t.dataset.join:t.dataset.leave;
+    const m=S.members.find(x=>x.id===id),p=parseJoin(t.value);
+    if(!p.ok){t.classList.add('bad');toast('날짜는 YY.M.D 형식으로 입력해 주세요. 예: 26.3.8');return;}
+    if(isJ)m.join=p.iso;else m.leave=p.iso;
+    t.value=fmtJoin(p.iso);save();buildTable();
+    const sp=M.span.get(m.id);
+    if(isJ)toast(m.join?`${m.name}: ${isFinite(sp.s)?md(sundays[sp.s]):'올해 일요일 없음'} 일요일부터 출석률을 계산합니다.`:`${m.name}: 올해 첫 일요일부터 계산합니다.`);
+    else toast(m.leave?`${m.name}: ${sp.e>=0?md(sundays[sp.e]):'-'} 일요일까지 재적으로 계산합니다.`:`${m.name}: 퇴단일이 비어 있어 올해 끝까지 재적으로 계산합니다.`);
+    return;
+  }
+  if(t.dataset.ne!==undefined){
+    const m=S.members.find(x=>x.id===t.dataset.ne),v=t.value.trim();
+    if(!v){t.value=m.name;return;}m.name=v;save();buildTable();
+  }
+  if(t.dataset.pe!==undefined){
+    const m=S.members.find(x=>x.id===t.dataset.pe);m.part=t.value;m.group=PARTS.includes(t.value)?'Singer':'기타';save();buildTable();
+  }
+});
+$('#sheet').addEventListener('click',e=>{
+  const t=e.target;
+  const all=t.closest('[data-all]');
+  if(all){
+    const i=+all.dataset.all;let n=0;
+    M.mem.forEach(m=>{const sp=M.span.get(m.id);if(i>=sp.s&&i<=sp.e&&!checked(m.id,sundays[i])){setMark(m.id,i,1);n++;}});
+    save();paint();toast(`${md(sundays[i])} 재적 대원 ${n}명을 출석으로 체크했습니다. 결석자만 체크를 해제해 주세요.`);return;
+  }
+  const ret=t.closest('[data-ret]');
+  if(ret){arm(ret,'확인?',()=>{
+    const m=S.members.find(x=>x.id===ret.dataset.ret);m.retired=true;m.leave=todayISO;save();buildTable();
+    toast(`${m.name} 대원을 퇴단 대원(맨 아래)으로 옮겼습니다. 퇴단일은 ${fmtJoin(todayISO)}로 입력되었고 수정할 수 있습니다.`);
+    const tr=document.querySelector(`tr[data-row="${m.id}"]`);if(tr)tr.scrollIntoView({block:'center'});
+  });return;}
+  const back=t.closest('[data-back]');
+  if(back){const m=S.members.find(x=>x.id===back.dataset.back);m.retired=false;m.leave='';save();buildTable();toast(`${m.name} 대원을 현재 대원으로 되돌렸습니다.`);return;}
+  const purge=t.closest('[data-purge]');
+  if(purge){arm(purge,'삭제?',()=>{const id=purge.dataset.purge;S.members=S.members.filter(m=>m.id!==id);delete S.marks[id];save();buildTable();toast('퇴단 대원을 완전히 삭제했습니다.');});return;}
+  if(t.closest('#dkToggle')){dockFull=!dockFull;buildTable();}
+});
+$('#sheet').addEventListener('input',e=>{
+  const t=e.target;
+  if(t.dataset.join!==undefined||t.dataset.leave!==undefined)t.classList.remove('bad');
+  if(t.dataset.orc!==undefined){
+    const [i,f]=t.dataset.orc.split('|'),d=sundays[+i];
+    const o=S.orc[d]||(S.orc[d]={a:null,e:null});
+    o[f]=t.value===''?null:Math.max(0,Math.min(99,Math.floor(+t.value)));
+    save();paint();
+  }
+});
+$('#sheet').addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.matches('input[data-join],input[data-leave],input[data-ne]'))e.target.blur();});
+
+/* ---------- 대원 추가 · 수정 ---------- */
+$('#addPart').innerHTML=PARTS.concat(ETC_PARTS).map(p=>`<option>${p}</option>`).join('');
+const closeBars=()=>{$('#addbar').hidden=true;$('#pubbar').hidden=true;$('#btnAdd').setAttribute('aria-pressed','false');};
+$('#btnAdd').onclick=()=>{const b=$('#addbar'),open=b.hidden;closeBars();if(open){b.hidden=false;$('#btnAdd').setAttribute('aria-pressed','true');$('#addJoin').value=fmtJoin(todayISO);$('#addName').focus();}};
+$('#addClose').onclick=closeBars;
+function addMember(){
+  const name=$('#addName').value.trim(),part=$('#addPart').value,p=parseJoin($('#addJoin').value);
+  if(!name){toast('이름을 입력해 주세요.');$('#addName').focus();return;}
+  if(!p.ok){toast('입단일은 YY.M.D 형식으로 입력해 주세요. 비워도 됩니다.');return;}
+  const id='n'+Date.now().toString(36)+Math.floor(Math.random()*99);
+  S.members.push({id,name,group:PARTS.includes(part)?'Singer':'기타',part,join:p.iso,leave:'',retired:false});
+  if(partSel.size&&!partSel.has(PARTS.includes(part)?part:'기타')){partSel.clear();syncChips();}
+  nameQ='';$('#nameQ').value='';
+  save();buildTable();$('#addName').value='';
+  toast(`${name} 대원을 ${part} 파트의 이름순 위치에 추가했습니다.${p.iso?` ${fmtJoin(p.iso)} 입단 기준으로 계산합니다.`:''}`);
+  const tr=document.querySelector(`tr[data-row="${id}"]`);if(tr){tr.scrollIntoView({block:'center'});tr.classList.add('flash');setTimeout(()=>tr.classList.remove('flash'),2200);}
+}
+$('#addGo').onclick=addMember;
+$('#addName').addEventListener('keydown',e=>{if(e.key==='Enter')addMember();});
+$('#btnEdit').onclick=()=>{editMode=!editMode;$('#btnEdit').setAttribute('aria-pressed',editMode);buildTable();};
+
+/* ---------- 메뉴 · 내보내기 · GitHub 반영 ---------- */
+const menu=$('#menu');
+$('#btnMore').onclick=e=>{e.stopPropagation();menu.hidden=!menu.hidden;};
+document.addEventListener('click',e=>{if(!menu.hidden&&!e.target.closest('#menu')&&e.target.id!=='btnMore')menu.hidden=true;});
+function download(name,text,type){
+  menu.hidden=true;
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type}));a.download=name;
+  document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+}
+$('#btnJson').onclick=()=>{S.updated=new Date().toISOString();download('data.json',JSON.stringify(S),'application/json');toast('data.json을 내려받았습니다. 저장소 zion 폴더에 올리면 대시보드에 반영됩니다.');};
+$('#btnCsv').onclick=()=>{
+  M=compute();
+  const head=['구분','파트','이름','입단일','퇴단일','출석률'].concat(sundays.map(md));
+  const rows=M.mem.map(m=>{const sp=M.span.get(m.id);
+    return [m.group,m.part,m.name,fmtJoin(m.join),fmtJoin(m.leave),pct(memberRate(m)).replace('-','')].concat(sundays.map((d,i)=>(i<sp.s||i>sp.e)?'':(checked(m.id,d)?1:0)));});
+  const csv='﻿'+[head].concat(rows).map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(',')).join('\r\n');
+  download('성가대출석_2026.csv',csv,'text/csv;charset=utf-8');
+};
+$('#btnRestore').onclick=()=>{menu.hidden=true;$('#fileIn').click();};
+$('#fileIn').onchange=e=>{
+  const f=e.target.files[0];if(!f)return;
+  const rd=new FileReader();
+  rd.onload=()=>{try{const p=JSON.parse(rd.result);if(!valid(p))throw 0;S=normalize(p);save();buildTable();toast('파일을 불러왔습니다.');}catch(err){toast('올바른 data.json 파일이 아닙니다.');}};
+  rd.readAsText(f);e.target.value='';
+};
+$('#btnReset').onclick=function(){
+  arm(this,'정말 초기화? (한 번 더)',()=>{
+    S=normalize(JSON.parse(JSON.stringify(SEED)));partSel.clear();monthSel.clear();syncChips();save();buildTable();menu.hidden=true;toast('엑셀 원본 데이터로 되돌렸습니다.');
+  });
+};
+const b64=s=>btoa(unescape(encodeURIComponent(s)));
+$('#btnPub').onclick=()=>{
+  menu.hidden=true;closeBars();
+  try{$('#pubTok').value=localStorage.getItem(TK)||'';$('#pubSave').checked=!!localStorage.getItem(TK);}catch(e){}
+  $('#pubbar').hidden=false;$('#pubTok').focus();
+};
+$('#pubClose').onclick=closeBars;
+$('#pubGo').onclick=async()=>{
+  const tok=$('#pubTok').value.trim();
+  if(!tok){toast('GitHub 토큰을 입력해 주세요.');return;}
+  const btn=$('#pubGo');btn.disabled=true;
+  try{
+    const api=`https://api.github.com/repos/${REPO}/contents/${FPATH}`;
+    const H={Authorization:'Bearer '+tok,Accept:'application/vnd.github+json'};
+    let sha;
+    const g=await fetch(api+'?ref=main',{headers:H,cache:'no-store'});
+    if(g.ok)sha=(await g.json()).sha;else if(g.status!==404)throw new Error('조회 실패 '+g.status);
+    S.updated=new Date().toISOString();
+    const body={message:`출석 데이터 갱신 ${md(todayISO)}`,content:b64(JSON.stringify(S)),branch:'main'};
+    if(sha)body.sha=sha;
+    const p=await fetch(api,{method:'PUT',headers:{...H,'Content-Type':'application/json'},body:JSON.stringify(body)});
+    if(!p.ok)throw new Error('반영 실패 '+p.status);
+    try{if($('#pubSave').checked)localStorage.setItem(TK,tok);else localStorage.removeItem(TK);}catch(e){}
+    save();closeBars();toast('GitHub에 반영했습니다. 대시보드에는 1~2분 뒤 나타납니다.');
+  }catch(err){toast(`반영하지 못했습니다 (${err.message}). 토큰 권한(Contents 읽기·쓰기)을 확인해 주세요.`);}
+  finally{btn.disabled=false;}
+};
+
+let rzT=0;
+addEventListener('resize',()=>{clearTimeout(rzT);rzT=setTimeout(()=>{const c=matchMedia('(max-width:720px)').matches;if(c!==compact){compact=c;buildTable();}},150);});
+
+/* ---------- 시작 ---------- */
+(async()=>{
+  let p=null;
+  try{const raw=localStorage.getItem(KEY);if(raw){const x=JSON.parse(raw);if(valid(x))p=x;}}catch(e){canStore=false;}
+  if(!p){try{const r=await fetch('data.json',{cache:'no-store'});if(r.ok){const x=await r.json();if(valid(x))p=x;}}catch(e){}}
+  if(!p)p=JSON.parse(JSON.stringify(SEED));
+  S=normalize(p);
+  buildFilters();buildTable();
+})();
+})();
+
+</script>
+</body>
+</html>
