@@ -171,10 +171,9 @@ h2 small .hi{color:#1d4ed8;font-weight:800}h2 small .lo{color:#d11a2a;font-weigh
 .pies{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 @media (max-width:620px){.pies{grid-template-columns:1fr}}
 
-.dgrid{display:grid;grid-template-columns:minmax(0,.75fr) minmax(0,1.6fr);gap:8px}
+.dgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:8px}
 @media (max-width:900px){.dgrid{grid-template-columns:minmax(0,1fr)}}
-.dgrid>.panel:first-child .pie3d{max-width:270px}
-.dgrid>.panel:last-child .pie3d{max-width:none}
+.dgrid .pie3d{width:100%;max-width:320px}
 
 </style>
 </head>
