@@ -121,12 +121,11 @@ table#tb{border-collapse:separate;border-spacing:0;table-layout:fixed;font-varia
 #tb td.rate b{position:relative;z-index:1;text-shadow:0 0 3px #fff,0 0 3px #fff}
 #tb td.join,#tb td.leave{padding:0 2px}
 #tb input[data-join],#tb input[data-leave]{width:100%;border:1px solid transparent;border-radius:4px;background:transparent;text-align:center;padding:1px 0}
-#tb td.leave input[data-leave]{width:62px}
 #tb input[data-join]::placeholder,#tb input[data-leave]::placeholder{color:var(--ink-faint);opacity:.35}
 #tb input[data-join]:hover,#tb input[data-leave]:hover{border-color:var(--line-strong)}
 #tb input[data-join]:focus,#tb input[data-leave]:focus{border-color:var(--gold);background:#fff}
 #tb input.bad{border-color:var(--bad)!important;background:var(--bad-soft)!important}
-#tb td.leave{text-align:left}
+#tb td.leave{text-align:center}
 #tb .rt,#tb .mini{border:1px solid var(--line-strong);background:#fff;border-radius:5px;padding:0 6px;cursor:pointer;line-height:1.5;color:var(--ink-faint)}
 #tb .rt:hover,#tb .mini:hover{border-color:var(--gold);color:var(--gold-ink)}
 #tb .mini{padding:0 5px;margin-left:3px}
@@ -139,10 +138,10 @@ table#tb{border-collapse:separate;border-spacing:0;table-layout:fixed;font-varia
 #tb td.s.post{background:repeating-linear-gradient(135deg,#e6e8f0 0 6px,transparent 6px 12px);background-color:#e6e8f0}
 #tb td.s.fut{background:#f4f5fa}
 #tb td.s label{display:flex;justify-content:center;align-items:center;height:25px;cursor:pointer}
-#tb td.s input{appearance:none;-webkit-appearance:none;width:16px;height:16px;border-radius:50%;border:1.6px solid var(--line-strong);background:#fff;margin:0;cursor:pointer}
+#tb td.s input{appearance:none;-webkit-appearance:none;width:13px;height:13px;border-radius:50%;border:1.6px solid var(--line-strong);background:#fff;margin:0;cursor:pointer}
 #tb td.s.off input{border-color:#e3a39c}
 #tb td.s input:hover:not(:checked):not(:disabled){border-color:var(--present)}
-#tb td.s input:checked{border-color:var(--present);background:var(--present);box-shadow:inset 0 0 0 3.5px #fff}
+#tb td.s input:checked{border-color:var(--present);background:var(--present);box-shadow:inset 0 0 0 2.8px #fff}
 #tb td.s input:disabled{cursor:not-allowed;opacity:.4}
 #tb td.curc{box-shadow:inset -2px 0 0 var(--gold)}
 #tb tr.sec td{background:var(--gold-soft);color:var(--gold-ink);font-weight:800;text-align:left;padding-left:8px;height:22px;border-top:2px solid var(--gold)}
@@ -347,7 +346,7 @@ function colsDef(){
   const base=[
     {k:'total',w:36,h:'Total',s:1},{k:'no',w:30,h:'No.',s:1},{k:'grp',w:50,h:'구분',s:1},
     {k:'part',w:editMode?66:44,h:'파트',s:1},{k:'name',w:editMode?104:60,h:'이름',s:1},
-    {k:'rate',w:84,h:'출석률',s:1},{k:'join',w:64,h:'입단일',s:1},{k:'leave',w:116,h:'퇴단일',s:0}];
+    {k:'rate',w:84,h:'출석률',s:1},{k:'join',w:64,h:'입단일',s:1},{k:'act',w:86,h:'관리',s:0}];
   if(!compact)return base;
   return [{...base[4],w:editMode?100:58},{...base[5],w:76},{...base[6],s:0},base[7]];
 }
@@ -400,11 +399,15 @@ function buildTable(){
         inner=editMode?`<input class="ne" data-ne="${m.id}" value="${esc(m.name)}" maxlength="12" aria-label="이름">`:dot+esc(m.name);
       }
       else if(c.k==='rate'){cls='rate';inner='<i></i><b></b>';}
-      else if(c.k==='join')cls='join',inner=`<input data-join="${m.id}" value="${fmtJoin(m.join)}" placeholder="YY.M.D" inputmode="numeric" maxlength="10" aria-label="${esc(m.name)} 입단일">`;
-      else if(c.k==='leave'){
+      else if(c.k==='join'){
+        cls='join';
+        inner=retired?`<input data-leave="${m.id}" class="lv" value="${fmtJoin(m.leave)}" placeholder="YY.M.D" inputmode="numeric" maxlength="10" title="퇴단일" aria-label="${esc(m.name)} 퇴단일">`
+          :`<input data-join="${m.id}" value="${fmtJoin(m.join)}" placeholder="YY.M.D" inputmode="numeric" maxlength="10" aria-label="${esc(m.name)} 입단일">`;
+      }
+      else if(c.k==='act'){
         cls='leave';
-        inner=retired?`<input data-leave="${m.id}" value="${fmtJoin(m.leave)}" placeholder="YY.M.D" inputmode="numeric" maxlength="10" aria-label="${esc(m.name)} 퇴단일"><button class="mini" data-back="${m.id}" title="현재 대원으로 복귀">복귀</button><button class="mini bad" data-purge="${m.id}" title="완전 삭제">삭제</button>`
-          :`<button class="rt" data-ret="${m.id}" title="퇴단 대원으로 이동">퇴단</button>`;
+        inner=retired?`<button class="mini" data-back="${m.id}" title="현재 대원으로 복귀">복귀</button><button class="mini bad" data-purge="${m.id}" title="완전 삭제">삭제</button>`
+          :`<button class="rt" data-ret="${m.id}" title="퇴단 대원 영역으로 이동">퇴단</button>`;
       }
       return `<td ${c.s?`style="left:${c.left}px" `:''}data-c="${c.k}" data-r="${m.id}" class="${c.s?'fz '+(c===lastSt?'lastfz ':''):'ns '}${cls}">${inner}</td>`;
     }).join('');
@@ -421,7 +424,7 @@ function buildTable(){
   let body='',gc={};
   M.act.forEach((m,idx)=>{const g=pk(m);gc[g]=(gc[g]||0)+1;body+=rowHtml(m,idx+1,gc[g],false);});
   if(M.ret.length){
-    body+=`<tr class="sec" id="retSec"><td class="fz lastfz" colspan="${nst}" style="left:0">퇴단 대원 ${M.ret.length}명 · 퇴단일 이후 칸은 재적·출석률에서 제외됩니다</td><td colspan="${extras.length+vis.length}"></td></tr>`;
+    body+=`<tr class="sec" id="retSec"><td class="fz lastfz" colspan="${nst}" style="left:0">퇴단 대원 ${M.ret.length}명 (입단일 칸 = 퇴단일)</td><td colspan="${extras.length+vis.length}"></td></tr>`;
     M.ret.forEach(m=>{body+=rowHtml(m,0,0,true);});
   }
 
