@@ -171,6 +171,11 @@ h2 small .hi{color:#1d4ed8;font-weight:800}h2 small .lo{color:#d11a2a;font-weigh
 .pies{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 @media (max-width:620px){.pies{grid-template-columns:1fr}}
 
+.dgrid{display:grid;grid-template-columns:minmax(0,.75fr) minmax(0,1.6fr);gap:8px}
+@media (max-width:900px){.dgrid{grid-template-columns:minmax(0,1fr)}}
+.dgrid>.panel:first-child .pie3d{max-width:270px}
+.dgrid>.panel:last-child .pie3d{max-width:none}
+
 </style>
 </head>
 <body>
@@ -552,7 +557,7 @@ function render(){
   const sing=act.filter(m=>m.group==='Singer');
   const gM=sing.filter(m=>m.gender==='M').length,gF=sing.filter(m=>m.gender==='F').length;
   const tot0=cS+cO+cE;
-  const distMem=`<div class="grid2">
+  const distMem=`<div class="dgrid">
     <div class="panel"><h2>대원 인원 분포 · 전체 <small>Singer · Orc · 기타 포함 · 합계 ${tot0}명 · 인원수(구성비율)</small></h2>
       ${pie3d([{label:'Singer',n:cS,color:cv('Singer')},{label:'Orc',n:cO,color:cv('Orc')},{label:'기타',n:cE,color:cv('기타')}],'전체 대원 구성')}</div>
     <div class="panel"><h2>대원 인원 분포 · Singer <small>합계 ${cS}명 · 파트별 / 남·여 · 인원수(구성비율)</small></h2>
