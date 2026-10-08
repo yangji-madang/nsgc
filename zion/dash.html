@@ -186,6 +186,7 @@ h2 small .hi{color:#1d4ed8;font-weight:800}h2 small .lo{color:#d11a2a;font-weigh
 
 .dgrid>.panel:first-child{display:flex;flex-direction:column}
 .pnote{margin-top:auto;padding:6px 4px 2px;color:var(--ink-soft);font-weight:700}
+h2.sec .exc{margin-left:22px;padding:0 10px;border-radius:999px;background:#fff;border:1px solid var(--gold);color:var(--gold-ink);font-weight:700}
 
 </style>
 </head>
@@ -616,21 +617,21 @@ function render(){
     const sp=Mx.span.get(m.id),rows=R.filter(i=>i>=sp.s&&i<=sp.e);
     const seq=rows.map(i=>checked(m.id,sundays[i])?1:0);
     const num=seq.reduce((a,b)=>a+b,0);let tail=0;for(let k=seq.length-1;k>=0&&seq[k]===0;k--)tail++;
-    return {m,den:seq.length,num,r:seq.length?num/seq.length:null,tail,g:m.retired?'퇴단':pk(m)};});
+    return {m,den:seq.length,num,r:seq.length?num/seq.length:null,tail,g:m.retired?'퇴단':pk(m),first:sp.s===0};});
   const live=dstat.filter(x=>!x.m.retired);
-  const perfect=live.filter(x=>x.den>=4&&x.num===x.den);
+  const perfect=live.filter(x=>x.first&&x.den>0&&x.num===x.den);
   const buckets=[['90%↑',x=>x>=.9],['80~89',x=>x>=.8&&x<.9],['70~79',x=>x>=.7&&x<.8],['60~69',x=>x>=.6&&x<.7],['60% 미만',x=>x<.6]];
   const bmem=buckets.map(([,f])=>live.filter(x=>x.r!=null&&f(x.r)));
   distData=bmem.map((l,i)=>({label:buckets[i][0],list:l}));
   const cnt=bmem.map(l=>l.length),cm=Math.max(...cnt,1);
   const distP=`<div class="panel"><h2>대원 출석률 분포 <small>입력된 주 기준 · 명 · 막대 위에 마우스를 올리면 대상자(파트별 출석률 높은 순)가 표시됩니다</small></h2><div class="dist">${buckets.map(([l],i)=>`<div data-b="${i}"><b>${cnt[i]}</b><i style="height:${cnt[i]/cm*66}px"></i>${l}</div>`).join('')}</div></div>`;
   /* Top : 전체 10명, 파트별 5명 (동률은 이름 가나다순) */
-  const rank=arr=>arr.filter(x=>x.den>=4&&x.r!=null).sort((a,b)=>b.r-a.r||collator.compare(nkey(a.m),nkey(b.m)));
+  const rank=arr=>arr.filter(x=>x.first&&x.r!=null).sort((a,b)=>b.r-a.r||collator.compare(nkey(a.m),nkey(b.m)));
   const chipT=x=>`<span class="chip"><b>${esc(x.m.name)}</b> <em>${AB(x.g)}</em> <i>${(x.r*100).toFixed(1)}%</i></span>`;
   const none='<span class="note">대상 대원이 없습니다.</span>';
   const topAll=rank(live).slice(0,10);
   const topRow=`<div class="toprow">
-    <div class="panel"><h2>전체 Top 10 <small>입력된 주 4회 이상${perfect.length?` · 개근 ${perfect.length}명`:' · 개근 대원 없음'} · 동률은 이름 가나다순</small></h2><div class="chips col col2">${topAll.map(chipT).join('')||none}</div></div>
+    <div class="panel"><h2>전체 Top 10 <small>${perfect.length?`개근 ${perfect.length}명`:'개근 대원 없음'} · 동률은 이름 가나다순</small></h2><div class="chips col col2">${topAll.map(chipT).join('')||none}</div></div>
     ${PARTS.map(p=>`<div class="panel"><h2 style="color:${cv(p)};border-left-color:${cv(p)}">${AB(p)} Top 5 <small>파트별 상위 5명</small></h2><div class="chips col">${rank(live.filter(x=>x.g===p)).slice(0,5).map(chipT).join('')||none}</div></div>`).join('')}</div>`;
   /* 연속 결석: 2~4주 / 5~8주 / 9주 이상 */
   const watch=live.filter(x=>x.tail>=2).sort((a,b)=>b.tail-a.tail||collator.compare(nkey(a.m),nkey(b.m)));
@@ -671,7 +672,7 @@ function render(){
 
   root.innerHTML=`${distMem}<div class="kgrid">${tiles}</div>
     ${panelHtml('trend')}${panelHtml('singer')}${PARTS.map(p=>panelHtml('p'+p)).join('')}
-    ${monthPanel}${distP}<h2 class="sec">출석률 상위 대원</h2>${topRow}${watchP}${hmP}
+    ${monthPanel}${distP}<h2 class="sec">출석률 상위 대원<span class="exc">중간 입단 대원 제외</span></h2>${topRow}${watchP}${hmP}
     <p class="note" style="margin:0">그래프·평균·분포는 출석이 입력된 일요일만 집계합니다. 전체 = Singer + Orc (기타 제외). 출석률은 입단일 이후·퇴단일 이전 재적 기준입니다.</p>`;
 
   Object.keys(SPEC).forEach(k=>{modes[k]=modes[k]||'w';drawChart(k,true);});
