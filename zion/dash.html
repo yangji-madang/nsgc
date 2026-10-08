@@ -632,7 +632,7 @@ function render(){
   const topAll=rank(live).slice(0,10);
   const topRow=`<div class="toprow">
     <div class="panel"><h2>전체 Top 10 <small>${perfect.length?`개근 ${perfect.length}명`:'개근 대원 없음'} · 동률은 이름 가나다순</small></h2><div class="chips col col2">${topAll.map(chipT).join('')||none}</div></div>
-    ${PARTS.map(p=>`<div class="panel"><h2 style="color:${cv(p)};border-left-color:${cv(p)}">${AB(p)} Top 5 <small>파트별 상위 5명</small></h2><div class="chips col">${rank(live.filter(x=>x.g===p)).slice(0,5).map(chipT).join('')||none}</div></div>`).join('')}</div>`;
+    ${PARTS.map(p=>`<div class="panel"><h2 style="color:${cv(p)};border-left-color:${cv(p)}">${AB(p)} Top 5</h2><div class="chips col">${rank(live.filter(x=>x.g===p)).slice(0,5).map(chipT).join('')||none}</div></div>`).join('')}</div>`;
   /* 연속 결석: 2~4주 / 5~8주 / 9주 이상 */
   const watch=live.filter(x=>x.tail>=2).sort((a,b)=>b.tail-a.tail||collator.compare(nkey(a.m),nkey(b.m)));
   const bk=[['2~4주 연속 결석',x=>x.tail>=2&&x.tail<=4],['5~8주 연속 결석',x=>x.tail>=5&&x.tail<=8],['9주 이상 연속 결석',x=>x.tail>=9]];
