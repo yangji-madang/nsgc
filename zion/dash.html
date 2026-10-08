@@ -257,6 +257,20 @@ h2.sec .exc{margin-left:22px;padding:0 10px;border-radius:999px;background:#fff;
 @media (min-width:1200px){.dgrid .pie3d{flex:0 0 202px;width:202px}}
 @media (min-width:621px) and (max-width:1199px){.dgrid .pie3d{flex:0 0 192px;width:192px}}
 @media (min-width:1200px){.dgrid .pie3d{flex:0 0 232px;width:232px}}
+/* 모바일: 평균·최다·최소를 한 줄에 */
+@media (max-width:620px){
+.dst.g2{grid-template-columns:1fr}
+.sbk{display:flex;flex-wrap:wrap;align-items:center;gap:0 8px;padding:2px 6px}
+.sbk .sh{flex:0 0 100%}
+.sbk .sl{margin:0;white-space:nowrap}
+.sbk .tg,.sbk .avg{width:auto;min-width:0;padding:0 4px;margin-right:2px}
+.dst,.dst.g2{gap:4px}
+}
+@media (max-width:620px){
+.pies>div .dwrap .dst.g2,.dst.g2{grid-template-columns:1fr}
+.sbk{gap:0 5px;padding:2px 5px}
+.sbk .tg,.sbk .avg{padding:0 3px;margin-right:1px;border-radius:4px}
+}
 
 </style>
 </head>
