@@ -164,6 +164,13 @@ h2 small .hi{color:#1d4ed8;font-weight:800}h2 small .lo{color:#d11a2a;font-weigh
 .tg{display:inline-block;background:var(--hl-bg);color:var(--head-ink);border-radius:5px;padding:0 6px;font-weight:700}
 .tg.hi2{background:#dbe7ff;color:#1d4ed8}.tg.lo2{background:#fde1e1;color:#c01c2c;margin-left:4px}
 
+.pie3d{display:block;width:100%;max-width:420px;height:auto;margin:0 auto}
+.pie3d text{font-size:12px;font-weight:800}
+.pie3d .pl{fill:#fff;stroke:rgba(0,0,0,.45);stroke-width:2.5px;paint-order:stroke;stroke-linejoin:round}
+.pie3d .po{paint-order:stroke;stroke:#fff;stroke-width:3px}
+.pies{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media (max-width:620px){.pies{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -514,16 +521,43 @@ function render(){
   /* 대원 인원 분포 (현재 재적 기준) : 인원수(구성비율 숫자) */
   const act=S.members.filter(m=>!m.retired);
   const cS=act.filter(m=>m.group==='Singer').length,cE=act.filter(m=>m.group!=='Singer').length,cO=W[last].row.Orc.e||0;
-  const drow=(label,n,total,color)=>`<div class="dr"><span class="dl" style="color:${color}">${label}</span><div class="dt"><i style="width:${total?n/total*100:0}%;background:${color}"></i></div><span class="dc"><b>${n}명</b>(${total?(n/total*100).toFixed(1):'0.0'})</span></div>`;
+  /* 3D 원형 차트: 윗면 부채꼴 + 아랫면 옆벽, 각 조각 위에 이름·인원수(구성비율) 표기 */
+  const pie3d=(items,aria)=>{
+    const tot=items.reduce((t,x)=>t+x.n,0),W0=340,H0=230,cx=170,cy=98,rx=108,ry=62,d=24;
+    if(!tot)return '<div class="note">자료가 없습니다.</div>';
+    const px=(a,k=1)=>cx+rx*k*Math.cos(a),py=(a,k=1)=>cy+ry*k*Math.sin(a);
+    let a0=-Math.PI/2,walls='',tops='',labs='';
+    const TAU=Math.PI*2;
+    items.filter(x=>x.n>0).forEach(x=>{
+      let a1=a0+TAU*x.n/tot;if(a1-a0>=TAU-1e-6)a1=a0+TAU-1e-3;
+      const large=a1-a0>Math.PI?1:0;
+      tops+=`<path d="M${cx} ${cy}L${px(a0)} ${py(a0)}A${rx} ${ry} 0 ${large} 1 ${px(a1)} ${py(a1)}Z" fill="${x.color}" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>`;
+      /* 옆벽: 화면 아래쪽(각도 0~π)에 걸치는 부분만 */
+      [[0,Math.PI],[TAU,TAU+Math.PI],[-TAU,-TAU+Math.PI]].forEach(([lo,hi])=>{
+        const s0=Math.max(a0,lo),e0=Math.min(a1,hi);
+        if(e0-s0>1e-4)walls+=`<path d="M${px(s0)} ${py(s0)}A${rx} ${ry} 0 0 1 ${px(e0)} ${py(e0)}L${px(e0)} ${py(e0)+d}A${rx} ${ry} 0 0 0 ${px(s0)} ${py(s0)+d}Z" fill="${x.color}"/><path d="M${px(s0)} ${py(s0)}A${rx} ${ry} 0 0 1 ${px(e0)} ${py(e0)}L${px(e0)} ${py(e0)+d}A${rx} ${ry} 0 0 0 ${px(s0)} ${py(s0)+d}Z" fill="#000" fill-opacity=".30"/>`;
+      });
+      const m=(a0+a1)/2,share=x.n/tot*100,txt=`${x.n}명(${share.toFixed(1)})`;
+      if(share>=11){
+        const lx=px(m,.62),ly=py(m,.62);
+        labs+=`<text class="pl" x="${lx}" y="${ly-1}" text-anchor="middle">${x.label}</text><text class="pl" x="${lx}" y="${ly+12}" text-anchor="middle">${txt}</text>`;
+      }else{
+        const lx=px(m,1.14),ly=py(m,1.14)+(Math.sin(m)>0?d:0),right=Math.cos(m)>=0;
+        labs+=`<text class="po" x="${lx}" y="${ly-1}" text-anchor="${right?'start':'end'}" fill="${x.color}">${x.label}</text><text class="po" x="${lx}" y="${ly+12}" text-anchor="${right?'start':'end'}" fill="${x.color}">${txt}</text>`;
+      }
+      a0=a1;
+    });
+    return `<svg class="pie3d" viewBox="0 0 ${W0} ${H0}" role="img" aria-label="${aria}"><ellipse cx="${cx}" cy="${cy+d+6}" rx="${rx+6}" ry="${ry+4}" fill="#000" fill-opacity=".08"/>${walls}${tops}${labs}</svg>`;
+  };
   const sing=act.filter(m=>m.group==='Singer');
   const gM=sing.filter(m=>m.gender==='M').length,gF=sing.filter(m=>m.gender==='F').length;
   const tot0=cS+cO+cE;
   const distMem=`<div class="grid2">
     <div class="panel"><h2>대원 인원 분포 · 전체 <small>Singer · Orc · 기타 포함 · 합계 ${tot0}명 · 인원수(구성비율)</small></h2>
-      ${drow('Singer',cS,tot0,cv('Singer'))}${drow('Orc',cO,tot0,cv('Orc'))}${drow('기타',cE,tot0,cv('기타'))}</div>
+      ${pie3d([{label:'Singer',n:cS,color:cv('Singer')},{label:'Orc',n:cO,color:cv('Orc')},{label:'기타',n:cE,color:cv('기타')}],'전체 대원 구성')}</div>
     <div class="panel"><h2>대원 인원 분포 · Singer <small>합계 ${cS}명 · 파트별 / 남·여 · 인원수(구성비율)</small></h2>
-      <div class="dsub">파트별</div>${PARTS.map(p=>drow(p,sing.filter(m=>m.part===p).length,cS,cv(p))).join('')}
-      <div class="dsub">남·여</div>${drow('남',gM,cS,'#2f4f9e')}${drow('여',gF,cS,'#c0407a')}</div></div>`;
+      <div class="pies"><div><div class="dsub">파트별</div>${pie3d(PARTS.map(p=>({label:p,n:sing.filter(m=>m.part===p).length,color:cv(p)})),'Singer 파트별 구성')}</div>
+      <div><div class="dsub">남·여</div>${pie3d([{label:'남',n:gM,color:'#2f4f9e'},{label:'여',n:gF,color:'#c0407a'}],'Singer 남여 구성')}</div></div></div></div>`;
 
   /* 지표: Singer · Orc · ALL (ALL은 기타 포함) */
   const rowOf=(k,i)=>{const x=W[i].row;return k==='allx'?{a:x.all.a+x['기타'].a,e:x.all.e+x['기타'].e}:x[k];};
