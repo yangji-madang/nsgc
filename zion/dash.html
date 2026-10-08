@@ -577,11 +577,11 @@ function cfgFor(key,mode){
 function panelHtml(key){
   const sp=SPEC[key];
   const leg=sp.part
-    ?`<span style="color:${cv(sp.part)}"><i class="bx" style="background:${cv(sp.part)}"></i>인원(명)</span><span style="color:#1b2a66"><i style="background:#1b2a66"></i>출석률(%)</span>`
+    ?''
     :sp.legend().map(([n,c])=>`<span style="color:${c}"><i style="background:${c}"></i>${n}</span>`).join('');
   return `<div class="panel" data-ch="${key}"><h2><span class="ttl">${ttlH(sp.title('w'))}</span>${sp.sub?`<small>${sp.sub}</small>`:''}
     <span class="sp">${key==='trend'?'<button class="btn" id="replay">▶ 다시 재생</button>':''}<span class="seg" role="group" aria-label="집계 단위"><button data-md="w" class="on">주별</button><button data-md="m">월별</button></span></span></h2>
-    <div class="legend">${leg}${true?'':`<span style="color:#1d4ed8"><i class="mk" style="background:#1d4ed8"></i>최고</span><span style="color:#d11a2a"><i class="mk" style="background:#d11a2a"></i>최저</span><span style="color:var(--ink-soft)"><i class="ds"></i>점선 = 해당 항목의 <span class="avg">평균</span> (입력된 ${R.length}주 기준)</span>`}</div>
+    ${(leg||!sp.part)?`<div class="legend">${leg}${true?'':`<span style="color:#1d4ed8"><i class="mk" style="background:#1d4ed8"></i>최고</span><span style="color:#d11a2a"><i class="mk" style="background:#d11a2a"></i>최저</span><span style="color:var(--ink-soft)"><i class="ds"></i>점선 = 해당 항목의 <span class="avg">평균</span> (입력된 ${R.length}주 기준)</span>`}</div>`:''}
     <div class="chart" id="ch-${key}"></div></div>`;
 }
 function drawChart(key,animate){
