@@ -451,7 +451,7 @@ function chart(host,cfg){
     P[si].forEach((p,i)=>{
       if(!p)return;
       const y=p.y,h=mt+ph-y;
-      const mk=bmx&&i===bmx[1]?'#1d4ed8':bmn&&i===bmn[1]?'#d11a2a':null;
+      const mk=cfg.noMark?null:(bmx&&i===bmx[1]?'#1d4ed8':bmn&&i===bmn[1]?'#d11a2a':null);
       bars+=`<rect x="${p.x-bw/2}" y="${y}" width="${bw}" height="${Math.max(0,h)}" rx="2" fill="${s.color}" fill-opacity=".85"${mk?` stroke="${mk}" stroke-width="3"`:''}/>`;
       const txt=s.lfmt(p.v),w=tw(txt)+1;
       const inside=h>=16&&w<=bw+4;
@@ -553,7 +553,7 @@ const SPEC={
   singer:{title:m=>`${m==='w'?'주별':'월별'} 출석인원 : Singer`,sub:'',h:360,keys:['Singer','Sop','Alt','Ten','Bas'],
     legend:()=>['Singer','Sop','Alt','Ten','Bas'].map(k=>[NAME[k],cv(k)])}
 };
-PARTS.forEach(p=>{SPEC['p'+p]={title:m=>`${m==='w'?'주별':'월별'} 출석인원 : ${p}`,sub:'막대 = 인원(왼쪽 축) · 선 = 출석률(오른쪽 축)',h:270,part:p};});
+PARTS.forEach(p=>{SPEC['p'+p]={title:m=>`${m==='w'?'주별':'월별'} 출석인원 : ${p}`,sub:'',h:270,part:p};});
 
 function cfgFor(key,mode){
   const sp=SPEC[key],{gs,xl,lab}=groupsOf(mode),A=Mx.avg;
@@ -562,11 +562,11 @@ function cfgFor(key,mode){
     const p=sp.part,c=cv(p),av=aOf(p,gs),rv=rOf(p,gs);
     return {...base,aria:`${p} 인원과 출석률`,barFrac:.58,
       series:[{vals:av,color:c,type:'bar',axis:'L',lfmt:fA(mode)},{vals:rv,color:'#1b2a66',axis:'R',lfmt:fR(mode)}],
-      avgs:[{v:A[p].a,axis:'L',color:c,text:`평균 인원 ${fi(A[p].a)}명`},{v:A[p].r,axis:'R',color:'#1b2a66',text:`평균 출석률 ${pct(A[p].r)}`}],
+      noMark:true,avgs:[],
       tip:i=>`<b>${lab[i]}</b><br>${mode==='w'?`출석 <b>${W[R[i]].row[p].a}</b> / 재적 ${W[R[i]].row[p].e}`:`평균 출석 <b>${fi(av[i])}</b>명`} · 출석률 <b>${pct(rv[i])}</b>`};
   }
   const ks=sp.keys;
-  const plain=key==='trend'||key==='singer';
+  const plain=true;
   return {...base,aria:sp.title(mode),noMark:plain,
     series:ks.map(k=>({vals:aOf(k,gs),color:cv(k),axis:'L',lfmt:fA(mode)})),
     avgs:plain?[]:ks.map(k=>({v:A[k].a,axis:'L',color:cv(k),text:`${NAME[k]} 평균 ${fi(A[k].a)}명`})).filter(a=>a.v!=null),
@@ -581,7 +581,7 @@ function panelHtml(key){
     :sp.legend().map(([n,c])=>`<span style="color:${c}"><i style="background:${c}"></i>${n}</span>`).join('');
   return `<div class="panel" data-ch="${key}"><h2><span class="ttl">${ttlH(sp.title('w'))}</span>${sp.sub?`<small>${sp.sub}</small>`:''}
     <span class="sp">${key==='trend'?'<button class="btn" id="replay">▶ 다시 재생</button>':''}<span class="seg" role="group" aria-label="집계 단위"><button data-md="w" class="on">주별</button><button data-md="m">월별</button></span></span></h2>
-    <div class="legend">${leg}${(key==='trend'||key==='singer')?'':`<span style="color:#1d4ed8"><i class="mk" style="background:#1d4ed8"></i>최고</span><span style="color:#d11a2a"><i class="mk" style="background:#d11a2a"></i>최저</span><span style="color:var(--ink-soft)"><i class="ds"></i>점선 = 해당 항목의 <span class="avg">평균</span> (입력된 ${R.length}주 기준)</span>`}</div>
+    <div class="legend">${leg}${true?'':`<span style="color:#1d4ed8"><i class="mk" style="background:#1d4ed8"></i>최고</span><span style="color:#d11a2a"><i class="mk" style="background:#d11a2a"></i>최저</span><span style="color:var(--ink-soft)"><i class="ds"></i>점선 = 해당 항목의 <span class="avg">평균</span> (입력된 ${R.length}주 기준)</span>`}</div>
     <div class="chart" id="ch-${key}"></div></div>`;
 }
 function drawChart(key,animate){
