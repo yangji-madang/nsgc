@@ -184,6 +184,9 @@ h2 small .hi{color:#1d4ed8;font-weight:800}h2 small .lo{color:#d11a2a;font-weigh
 .distpop .ppl span{white-space:nowrap}
 .distpop .ppl i{font-style:normal;font-weight:800;color:var(--head-ink)}
 
+.dgrid>.panel:first-child{display:flex;flex-direction:column}
+.pnote{margin-top:auto;padding:6px 4px 2px;color:var(--ink-soft);font-weight:700}
+
 </style>
 </head>
 <body>
@@ -566,9 +569,9 @@ function render(){
   const gM=sing.filter(m=>m.gender==='M').length,gF=sing.filter(m=>m.gender==='F').length;
   const tot0=cS+cO+cE;
   const distMem=`<div class="dgrid">
-    <div class="panel"><h2>대원 인원 분포 · 전체 <small>Singer · Orc · 기타 포함 · 합계 ${tot0}명 · 인원수(구성비율)</small></h2>
-      ${pie3d([{label:'Singer',n:cS,color:cv('Singer')},{label:'Orc',n:cO,color:cv('Orc')},{label:'기타',n:cE,color:cv('기타')}],'전체 대원 구성')}</div>
-    <div class="panel"><h2>대원 인원 분포 · Singer <small>합계 ${cS}명 · 파트별 / 남·여 · 인원수(구성비율)</small></h2>
+    <div class="panel"><h2>대원인원분포(전체) : 총 ${tot0}명</h2>
+      ${pie3d([{label:'Singer',n:cS,color:cv('Singer')},{label:'Orc',n:cO,color:cv('Orc')},{label:'기타',n:cE,color:cv('기타')}],'전체 대원 구성')}<div class="pnote">기타 : 지휘/반주/수어</div></div>
+    <div class="panel"><h2>대원인원분포(Singer) : 총 ${cS}명</h2>
       <div class="pies"><div><div class="dsub">파트별</div>${pie3d(PARTS.map(p=>({label:p,n:sing.filter(m=>m.part===p).length,color:cv(p)})),'Singer 파트별 구성')}</div>
       <div><div class="dsub">남·여</div>${pie3d([{label:'남',n:gM,color:'#2f4f9e'},{label:'여',n:gF,color:'#c0407a'}],'Singer 남여 구성')}</div></div></div></div>`;
 
