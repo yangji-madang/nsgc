@@ -154,6 +154,16 @@ h2 small .hi{color:#1d4ed8;font-weight:800}h2 small .lo{color:#d11a2a;font-weigh
 .legend i.mk{width:11px;height:11px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px currentColor}
 .kt .k{color:var(--kc,var(--head-ink));border-left-color:var(--kc,var(--gold))}
 
+.dr{display:grid;grid-template-columns:44px minmax(0,1fr) 110px;gap:8px;align-items:center;margin-top:5px}
+.dr .dl{font-weight:800}
+.dr .dt{height:14px;background:var(--hm-none);border-radius:4px;overflow:hidden}
+.dr .dt i{display:block;height:100%;border-radius:4px}
+.dr .dc{text-align:right}
+.dsub{margin-top:8px;font-weight:800;color:var(--ink-soft);border-bottom:1px dashed var(--line-strong)}
+.ent .e3{padding-left:12px;margin-top:2px}
+.tg{display:inline-block;background:var(--hl-bg);color:var(--head-ink);border-radius:5px;padding:0 6px;font-weight:700}
+.tg.hi2{background:#dbe7ff;color:#1d4ed8}.tg.lo2{background:#fde1e1;color:#c01c2c;margin-left:4px}
+
 </style>
 </head>
 <body>
@@ -172,6 +182,7 @@ const YEAR=2026;
 const PARTS=['Sop','Alt','Ten','Bas'], GROUPS=['Sop','Alt','Ten','Bas','기타'], ETC_PARTS=['지휘','반주','수화'];
 const COLOR={all:'--c-all',Singer:'--c-singer',Orc:'--c-orc',Sop:'--c-sop',Alt:'--c-alt',Ten:'--c-ten',Bas:'--c-bas','기타':'--c-etc'};
 const AB=k=>({Sop:'S',Alt:'A',Ten:'T',Bas:'B',Orc:'O',all:'ALL'}[k]||k);
+const defGender=m=>m.group!=='Singer'?'':(m.part==='Sop'||m.part==='Alt')?'F':'M';   // 파트 기준 기본값(수정 가능)
 const pad=n=>String(n).padStart(2,'0');
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const md=iso=>`${+iso.slice(5,7)}/${+iso.slice(8,10)}`;          // 앞자리 0 생략: 1/4, 10/4
@@ -193,7 +204,7 @@ const curIdx=pi-1;
 /* ---------- 데이터 ---------- */
 function valid(x){return x&&Array.isArray(x.members)&&x.marks&&typeof x.marks==='object'&&x.orc&&typeof x.orc==='object';}
 function normalize(x){           // 체크(1)만 남기고 미체크는 결석으로 간주
-  x.members.forEach(m=>{m.leave=m.leave||'';m.retired=!!m.retired;m.join=m.join||'';});
+  x.members.forEach(m=>{m.leave=m.leave||'';m.retired=!!m.retired;m.join=m.join||'';m.gender=m.gender||defGender(m);});
   Object.keys(x.marks).forEach(id=>{const o={};Object.keys(x.marks[id]).forEach(d=>{if(x.marks[id][d]===1)o[d]=1;});x.marks[id]=o;});
   return x;
 }
@@ -500,28 +511,39 @@ function render(){
   const last=R[R.length-1],prev=R.length>1?R[R.length-2]:null;
   const arrow=(v)=>v==null||v===0?'':`<span class="${v>0?'up':'dn'}">${v>0?'▲':'▼'} ${Math.abs(v)}명</span>`;
 
-  /* 지표 1줄: Singer · Orc · ALL (평균출석 → 최근주 형태) */
+  /* 대원 인원 분포 (현재 재적 기준) : 인원수(구성비율 숫자) */
+  const act=S.members.filter(m=>!m.retired);
+  const cS=act.filter(m=>m.group==='Singer').length,cE=act.filter(m=>m.group!=='Singer').length,cO=W[last].row.Orc.e||0;
+  const drow=(label,n,total,color)=>`<div class="dr"><span class="dl" style="color:${color}">${label}</span><div class="dt"><i style="width:${total?n/total*100:0}%;background:${color}"></i></div><span class="dc"><b>${n}명</b>(${total?(n/total*100).toFixed(1):'0.0'})</span></div>`;
+  const sing=act.filter(m=>m.group==='Singer');
+  const gM=sing.filter(m=>m.gender==='M').length,gF=sing.filter(m=>m.gender==='F').length;
+  const tot0=cS+cO+cE;
+  const distMem=`<div class="grid2">
+    <div class="panel"><h2>대원 인원 분포 · 전체 <small>Singer · Orc · 기타 포함 · 합계 ${tot0}명 · 인원수(구성비율)</small></h2>
+      ${drow('Singer',cS,tot0,cv('Singer'))}${drow('Orc',cO,tot0,cv('Orc'))}${drow('기타',cE,tot0,cv('기타'))}</div>
+    <div class="panel"><h2>대원 인원 분포 · Singer <small>합계 ${cS}명 · 파트별 / 남·여 · 인원수(구성비율)</small></h2>
+      <div class="dsub">파트별</div>${PARTS.map(p=>drow(p,sing.filter(m=>m.part===p).length,cS,cv(p))).join('')}
+      <div class="dsub">남·여</div>${drow('남',gM,cS,'#2f4f9e')}${drow('여',gF,cS,'#c0407a')}</div></div>`;
+
+  /* 지표: Singer · Orc · ALL (ALL은 기타 포함) */
+  const rowOf=(k,i)=>{const x=W[i].row;return k==='allx'?{a:x.all.a+x['기타'].a,e:x.all.e+x['기타'].e}:x[k];};
+  const avgOf=k=>{if(k!=='allx')return A[k];const v=R.map(i=>rowOf(k,i));return {a:mean(v.map(x=>x.a)),r:mean(v.map(x=>rateOf(x)).filter(z=>z!=null))};};
   const entry=(k,label,sub)=>{
-    const w=W[last].row[k],r=rateOf(w);
-    return `<div class="ent${sub?' sb':''}"><div class="e1"><b style="color:${cv(k)}">${label}</b> : <span class="avg">평균출석</span> <b>${f1(A[k].a)}명(${pct(A[k].r)})</b></div>
-      <div class="e2">최근주 ${md(sundays[last])} : ${w.a==null?'-':w.a}/${w.e==null?'-':w.e}명(출석률 ${pct(r)})</div></div>`;
+    const ck=k==='allx'?'all':k,av=avgOf(k),w=rowOf(k,last),r=rateOf(w);
+    const vs=R.map(i=>[rowOf(k,i).a,i]).filter(x=>x[0]!=null);
+    let mx=vs[0],mn=vs[0];vs.forEach(x=>{if(x[0]>mx[0])mx=x;if(x[0]<mn[0])mn=x;});
+    const r4=mean(R.slice(-4).map(i=>rateOf(rowOf(k,i))).filter(z=>z!=null));
+    return `<div class="ent${sub?' sb':''}"><div class="e1"><b style="color:${cv(ck)}">${label}</b> : <span class="avg">평균출석</span> <b>${f1(av.a)}명(${pct(av.r)})</b></div>
+      <div class="e2">최근주 ${md(sundays[last])} : ${w.a==null?'-':w.a}/${w.e==null?'-':w.e}명(출석률 ${pct(r)})</div>
+      <div class="e3"><span class="tg">최근 4주 평균 출석률</span> <b>${pct(r4)}</b></div>
+      <div class="e3"><span class="tg hi2">최다 출석주</span> <b>${mx[0]}명</b>(${md(sundays[mx[1]])}) <span class="tg lo2">최소 출석주</span> <b>${mn[0]}명</b>(${md(sundays[mn[1]])})</div></div>`;
   };
   const tile=(k,title,list)=>`<div class="kt" style="--kc:${cv(k)}"><div class="k">${title}</div>${list.map(([kk,l],i)=>entry(kk,l,i>0)).join('')}</div>`;
   const tiles=[
     tile('Singer','Singer 현황',[['Singer','Singer'],['Sop','Sop'],['Alt','Alt'],['Ten','Ten'],['Bas','Bas']]),
     tile('Orc','Orc 현황',[['Orc','Orc']]),
-    tile('all','ALL 현황 (Singer + Orc)',[['all','ALL'],['Singer','Singer'],['Orc','Orc'],['기타','기타 (ALL에서 제외)']])
+    tile('all','ALL 현황 (Singer + Orc + 기타)',[['allx','ALL'],['Singer','Singer'],['Orc','Orc'],['기타','기타']])
   ].join('');
-  const tot=R.map(i=>W[i].row.all.a);
-  const maxI=R[tot.indexOf(Math.max(...tot))],minI=R[tot.indexOf(Math.min(...tot))];
-  const r4=R.slice(-4).map(i=>rateOf(W[i].row.all)).filter(v=>v!=null),r4a=mean(r4),dd=(r4a-A.all.r)*100;
-  const newcomers=S.members.filter(m=>!m.retired&&m.join&&m.join>sundays[0]&&m.join<=todayISO).length;
-  const k2=`<div class="kgrid k5">
-    <div class="kt"><div class="k">연간 <span class="avg">평균</span> 출석률 (ALL)</div><div class="v">${pct(A.all.r)}</div><div class="n"><span class="avg">평균</span> 출석 ${f1(A.all.a)}명 / 재적 ${f1(A.all.e)}명</div></div>
-    <div class="kt"><div class="k">최근 4주 <span class="avg">평균</span> 출석률</div><div class="v">${pct(r4a)}</div><div class="n">연간 평균 대비 <span class="${dd>=0?'up':'dn'}">${dd>=0?'▲':'▼'} ${Math.abs(dd).toFixed(1)}%p</span></div></div>
-    <div class="kt"><div class="k">최다 출석 주</div><div class="v">${W[maxI].row.all.a}명 · ${md(sundays[maxI])}</div><div class="n">출석률 ${pct(rateOf(W[maxI].row.all))}</div></div>
-    <div class="kt"><div class="k">최소 출석 주</div><div class="v">${W[minI].row.all.a}명 · ${md(sundays[minI])}</div><div class="n">출석률 ${pct(rateOf(W[minI].row.all))}</div></div>
-    <div class="kt"><div class="k">현재 재적 대원</div><div class="v">${W[last].row.Singer.e+W[last].row['기타'].e}명</div><div class="n">올해 신규 입단 ${newcomers}명 · Orc ${W[last].row.Orc.e??'-'}명 별도</div></div></div>`;
 
   /* 월별 평균 표 */
   const months=[...new Set(R.map(i=>sundays[i].slice(5,7)))];
@@ -595,7 +617,7 @@ function render(){
   hm+='</table>';
   const hmP=`<div class="panel"><h2>대원별 출석 히트맵 <small>세로 대원 · 가로 일요일(월별로 구분) · <span class="lg c1">출석</span> <span class="lg c0">결석</span> <span class="lg cn">입단 전·퇴단 후</span></small></h2><div class="hmw">${hm}</div></div>`;
 
-  root.innerHTML=`<div class="kgrid">${tiles}</div>${k2}
+  root.innerHTML=`${distMem}<div class="kgrid">${tiles}</div>
     ${panelHtml('trend')}${panelHtml('singer')}${PARTS.map(p=>panelHtml('p'+p)).join('')}
     ${monthPanel}${distP}<h2 class="sec">출석률 상위 대원</h2>${topRow}${watchP}${hmP}
     <p class="note" style="margin:0">그래프·평균·분포는 출석이 입력된 일요일만 집계합니다. 전체 = Singer + Orc (기타 제외). 출석률은 입단일 이후·퇴단일 이전 재적 기준입니다.</p>`;

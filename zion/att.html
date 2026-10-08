@@ -223,6 +223,7 @@ const YEAR=2026;
 const PARTS=['Sop','Alt','Ten','Bas'], GROUPS=['Sop','Alt','Ten','Bas','기타'], ETC_PARTS=['지휘','반주','수화'];
 const COLOR={all:'--c-all',Singer:'--c-singer',Orc:'--c-orc',Sop:'--c-sop',Alt:'--c-alt',Ten:'--c-ten',Bas:'--c-bas','기타':'--c-etc'};
 const AB=k=>({Sop:'S',Alt:'A',Ten:'T',Bas:'B',Orc:'O',all:'ALL'}[k]||k);
+const defGender=m=>m.group!=='Singer'?'':(m.part==='Sop'||m.part==='Alt')?'F':'M';   // 파트 기준 기본값(수정 가능)
 const pad=n=>String(n).padStart(2,'0');
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const md=iso=>`${+iso.slice(5,7)}/${+iso.slice(8,10)}`;          // 앞자리 0 생략: 1/4, 10/4
@@ -244,7 +245,7 @@ const curIdx=pi-1;
 /* ---------- 데이터 ---------- */
 function valid(x){return x&&Array.isArray(x.members)&&x.marks&&typeof x.marks==='object'&&x.orc&&typeof x.orc==='object';}
 function normalize(x){           // 체크(1)만 남기고 미체크는 결석으로 간주
-  x.members.forEach(m=>{m.leave=m.leave||'';m.retired=!!m.retired;m.join=m.join||'';});
+  x.members.forEach(m=>{m.leave=m.leave||'';m.retired=!!m.retired;m.join=m.join||'';m.gender=m.gender||defGender(m);});
   Object.keys(x.marks).forEach(id=>{const o={};Object.keys(x.marks[id]).forEach(d=>{if(x.marks[id][d]===1)o[d]=1;});x.marks[id]=o;});
   return x;
 }
@@ -387,7 +388,7 @@ function buildTable(){
       let inner='',cls='';
       if(c.k==='total')inner=retired?'-':num;
       else if(c.k==='no')inner=retired?'-':gno;
-      else if(c.k==='grp')inner=m.group;
+      else if(c.k==='grp')inner=(editMode&&m.group==='Singer')?`<select class="pedit" data-ge="${m.id}" title="성별"><option value="M"${m.gender==='M'?' selected':''}>남</option><option value="F"${m.gender==='F'?' selected':''}>여</option></select>`:m.group;
       else if(c.k==='part'){
         cls='ptc';
         inner=editMode?`<select class="pedit" data-pe="${m.id}">${PARTS.concat(ETC_PARTS).map(p=>`<option value="${p}"${p===m.part?' selected':''}>${AB(p)}</option>`).join('')}</select>`
@@ -593,6 +594,7 @@ $('#sheet').addEventListener('change',e=>{
     const m=S.members.find(x=>x.id===t.dataset.ne),v=t.value.trim();
     if(!v){t.value=m.name;return;}m.name=v;save();buildTable();
   }
+  if(t.dataset.ge!==undefined){const m=S.members.find(x=>x.id===t.dataset.ge);m.gender=t.value;save();toast(`${m.name} 대원의 성별을 저장했습니다 (${t.value==="M"?"남":"여"}).`);return;}
   if(t.dataset.pe!==undefined){
     const m=S.members.find(x=>x.id===t.dataset.pe);m.part=t.value;m.group=PARTS.includes(t.value)?'Singer':'기타';save();buildTable();
   }
@@ -639,7 +641,7 @@ function addMember(){
   if(!name){toast('이름을 입력해 주세요.');$('#addName').focus();return;}
   if(!p.ok){toast('입단일은 YY.M.D 형식으로 입력해 주세요. 비워도 됩니다.');return;}
   const id='n'+Date.now().toString(36)+Math.floor(Math.random()*99);
-  S.members.push({id,name,group:PARTS.includes(part)?'Singer':'기타',part,join:p.iso,leave:'',retired:false});
+  {const nm={id,name,group:PARTS.includes(part)?'Singer':'기타',part,join:p.iso,leave:'',retired:false};nm.gender=defGender(nm);S.members.push(nm);}
   if(partSel.size&&!partSel.has(PARTS.includes(part)?part:'기타')){partSel.clear();syncChips();}
   nameQ='';$('#nameQ').value='';
   save();buildTable();$('#addName').value='';
