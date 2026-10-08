@@ -244,6 +244,15 @@ h2.sec .exc{margin-left:22px;padding:0 10px;border-radius:999px;background:#fff;
 @media (min-width:1200px){.dgrid .pie3d{flex:0 0 262px;width:262px}}
 @media (max-width:1199px){.dgrid{grid-template-columns:minmax(0,1fr)}.dgrid .pie3d{flex:0 0 250px;width:250px}.pies{grid-template-columns:auto 1fr}.dst{flex:0 0 172px}}
 @media (max-width:620px){.dwrap{flex-direction:column;align-items:stretch}.dgrid .pie3d{flex:none;width:100%;max-width:300px;margin:0 auto}.dst,.dst.g2{flex:none}.pies>div .dwrap .dst.g2{grid-template-columns:1fr 1fr}}
+/* 남·여 차트는 파트별 차트 아래로 */
+.pies,.pies{grid-template-columns:1fr !important}
+.pies>div:last-child .pie3d{margin:0 0 0 0}
+.pies>div:last-child .dwrap{justify-content:flex-start}
+/* 평균/최다/최소 라벨 폭을 같게 해서 값의 시작점을 맞춤 */
+.sbk .tg,.sbk .avg{display:inline-block;box-sizing:border-box;width:42px;min-width:0;text-align:center;margin:0}
+.sbk .tg.lo2{margin-left:0}
+@media (min-width:621px){.dgrid .dwrap{justify-content:flex-start;gap:10px}.dgrid .dwrap .pie3d{margin:0}}
+@media (min-width:621px){.dst.g2{flex:0 0 275px}}
 
 </style>
 </head>
@@ -541,7 +550,7 @@ const fR=mode=>mode==='w'?(v=>(v*100).toFixed(0)+'%'):(v=>(v*100).toFixed(1)+'%'
 const SPEC={
   trend:{title:m=>`${m==='w'?'주별':'월별'} 출석인원 : ALL`,sub:'',h:360,keys:['all','Singer','Orc'],
     legend:()=>['all','Singer','Orc'].map(k=>[NAME[k],cv(k)])},
-  singer:{title:m=>`${m==='w'?'주별':'월별'} 출석인원 : Singer`,sub:'Singer 합계와 파트별 출석 인원(명) 추이',h:360,keys:['Singer','Sop','Alt','Ten','Bas'],
+  singer:{title:m=>`${m==='w'?'주별':'월별'} 출석인원 : Singer`,sub:'',h:360,keys:['Singer','Sop','Alt','Ten','Bas'],
     legend:()=>['Singer','Sop','Alt','Ten','Bas'].map(k=>[NAME[k],cv(k)])}
 };
 PARTS.forEach(p=>{SPEC['p'+p]={title:m=>`${m==='w'?'주별':'월별'} 출석인원 : ${p}`,sub:'막대 = 인원(왼쪽 축) · 선 = 출석률(오른쪽 축)',h:270,part:p};});
@@ -571,7 +580,7 @@ function panelHtml(key){
     :sp.legend().map(([n,c])=>`<span style="color:${c}"><i style="background:${c}"></i>${n}</span>`).join('');
   return `<div class="panel" data-ch="${key}"><h2><span class="ttl">${ttlH(sp.title('w'))}</span>${sp.sub?`<small>${sp.sub}</small>`:''}
     <span class="sp">${key==='trend'?'<button class="btn" id="replay">▶ 다시 재생</button>':''}<span class="seg" role="group" aria-label="집계 단위"><button data-md="w" class="on">주별</button><button data-md="m">월별</button></span></span></h2>
-    <div class="legend">${leg}${key==='trend'?'':`<span style="color:#1d4ed8"><i class="mk" style="background:#1d4ed8"></i>최고</span><span style="color:#d11a2a"><i class="mk" style="background:#d11a2a"></i>최저</span><span style="color:var(--ink-soft)"><i class="ds"></i>점선 = 해당 항목의 <span class="avg">평균</span> (입력된 ${R.length}주 기준)</span>`}</div>
+    <div class="legend">${leg}${(key==='trend'||key==='singer')?'':`<span style="color:#1d4ed8"><i class="mk" style="background:#1d4ed8"></i>최고</span><span style="color:#d11a2a"><i class="mk" style="background:#d11a2a"></i>최저</span><span style="color:var(--ink-soft)"><i class="ds"></i>점선 = 해당 항목의 <span class="avg">평균</span> (입력된 ${R.length}주 기준)</span>`}</div>
     <div class="chart" id="ch-${key}"></div></div>`;
 }
 function drawChart(key,animate){
