@@ -188,6 +188,10 @@ h2 small .hi{color:#1d4ed8;font-weight:800}h2 small .lo{color:#d11a2a;font-weigh
 .pnote{margin-top:auto;padding:6px 4px 2px;color:var(--ink-soft);font-weight:700}
 h2.sec .exc{margin-left:22px;padding:0 10px;border-radius:999px;background:#fff;border:1px solid var(--gold);color:var(--gold-ink);font-weight:700}
 .toprow .chips.col .chip{background:#fff;border:1px solid var(--line-strong);box-shadow:0 1px 0 rgba(15,18,38,.06)}
+.mt td.mc{padding:2px 3px}
+.mt .mr{display:block;border-radius:4px 4px 0 0;padding:1px 4px}
+.mt .ma{display:block;border-radius:0 0 4px 4px;padding:1px 4px;background:#fde7c4;color:#6b4a0a}
+.mt .ma.hi{color:#1d4ed8}.mt .ma.lo{color:#d11a2a}
 
 </style>
 </head>
@@ -608,8 +612,8 @@ function render(){
     const [rM,rm]=ext(v=>v.r),[aM,am]=ext(v=>v.a);
     const cl=(v,M,m)=>v==null||M===m?'':v===M?'hi':v===m?'lo':'';
     const tds=vals.map(v=>{
-      const bg=v.r==null?'transparent':`color-mix(in srgb, var(--present) ${Math.max(0,(v.r-0.5))*90}%, transparent)`;
-      return `<td style="background:${bg}"><span class="${cl(v.r,rM,rm)}">${pct(v.r)}</span><small class="${cl(v.a,aM,am)}">${f1(v.a)}명</small></td>`;}).join('');
+      const bg=v.r==null?'transparent':`color-mix(in srgb, #5b7fd6 ${18+Math.max(0,(v.r-0.5))*70}%, #fff)`;
+      return `<td class="mc"><span class="mr ${cl(v.r,rM,rm)}" style="background:${bg}">${pct(v.r)}</span><small class="ma ${cl(v.a,aM,am)}">${f1(v.a)}명</small></td>`;}).join('');
     return `<tr><td style="color:${cv(k)}">${NAME[k]}</td>${tds}<td style="font-weight:800">${pct(A[k].r)}<small>${f1(A[k].a)}명</small></td></tr>`;}).join('');
   const monthPanel=`<div class="panel"><h2>월별 <span class="avg">평균</span> 출석률 <small>행(구분)별로 월 평균 중 <span class="hi">최고</span>는 굵은 파란색, <span class="lo">최저</span>는 굵은 빨간색 (인원·출석률 각각) · 칸 배경이 진할수록 출석률이 높습니다</small></h2><div class="scroll"><table class="mt"><thead><tr><th>구분</th>${months.map(m=>`<th>${+m}월</th>`).join('')}<th>연간 <span class="avg">평균</span></th></tr></thead><tbody>${mrows}</tbody></table></div></div>`;
 
