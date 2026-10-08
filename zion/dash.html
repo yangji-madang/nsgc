@@ -199,6 +199,19 @@ h2.sec .exc{margin-left:22px;padding:0 10px;border-radius:999px;background:#fff;
 .panel h2 .hi,.panel h2 small .hi{color:#9cc2ff}
 .panel h2 .lo,.panel h2 small .lo{color:#ff9aa4}
 .kt .k{background:#1f2f6b;color:#fff;border-left-color:var(--kc,var(--gold))}
+/* 요약 카드: 4+3 배치 */
+.kgrid{grid-template-columns:repeat(12,minmax(0,1fr))}
+.kt.k4{grid-column:span 4}.kt.k3{grid-column:span 3}
+@media (max-width:900px){.kt.k4{grid-column:span 6}.kt.k3{grid-column:span 6}}
+@media (max-width:620px){.kt.k4,.kt.k3{grid-column:span 12}}
+.kt .e3{padding-left:0;margin-top:3px}
+/* 집계 버튼 · 다시 재생: 남색 띠 위에서 보이게 */
+.panel h2 .seg{display:inline-flex;border:1px solid #fff;border-radius:7px;overflow:hidden}
+.panel h2 .seg button{background:#fff;color:#1f2f6b;border:0;padding:1px 10px;font:inherit;font-weight:700;cursor:pointer}
+.panel h2 .seg button.on{background:var(--gold);color:#fff}
+.panel h2 #replay{background:#fff;color:#1f2f6b;font-weight:700}
+.dist div[data-b]{font-weight:800;color:var(--head-ink)}
+.cp{font-weight:800;text-transform:uppercase}
 
 </style>
 </head>
@@ -209,7 +222,7 @@ h2.sec .exc{margin-left:22px;padding:0 10px;border-radius:999px;background:#fff;
     <span class="asof" id="asof"></span>
   </header>
   <main id="dashBody"></main>
-  <div class="cp">(C)2026. Yoon, hyunchul All Rights Reserved.</div>
+  <div class="cp">(C)2026. YOON, HYUNCHUL ALL RIGHTS RESERVED.</div>
 </div>
 <div class="toast" id="toast" role="status"></div>
 <script>
@@ -488,12 +501,13 @@ function groupsOf(mode){
 }
 const aOf=(k,gs)=>gs.map(g=>mean(g.map(i=>W[i].row[k].a).filter(v=>v!=null)));
 const rOf=(k,gs)=>gs.map(g=>mean(g.map(i=>rateOf(W[i].row[k])).filter(v=>v!=null)));
-const fA=mode=>mode==='w'?(v=>String(Math.round(v))):(v=>f1(v));
+const fi=v=>v==null?'-':String(Math.round(v));
+const fA=mode=>mode==='w'?(v=>String(Math.round(v))):(v=>fi(v));
 const fR=mode=>mode==='w'?(v=>(v*100).toFixed(0)+'%'):(v=>(v*100).toFixed(1)+'%');
 
 /* 차트 정의 */
 const SPEC={
-  trend:{title:m=>`${m==='w'?'주별':'월별'} 출석 추이`,sub:'출석 인원(명) · 전체 = Singer + Orc (기타 제외)',h:360,keys:['all','Singer','Orc'],
+  trend:{title:m=>`${m==='w'?'주별':'월별'} 출석인원 : ALL`,sub:'',h:360,keys:['all','Singer','Orc'],
     legend:()=>['all','Singer','Orc'].map(k=>[NAME[k],cv(k)])},
   singer:{title:m=>`${m==='w'?'주별':'월별'} 출석인원 : Singer`,sub:'Singer 합계와 파트별 출석 인원(명) 추이',h:360,keys:['Singer','Sop','Alt','Ten','Bas'],
     legend:()=>['Singer','Sop','Alt','Ten','Bas'].map(k=>[NAME[k],cv(k)])}
@@ -507,25 +521,25 @@ function cfgFor(key,mode){
     const p=sp.part,c=cv(p),av=aOf(p,gs),rv=rOf(p,gs);
     return {...base,aria:`${p} 인원과 출석률`,barFrac:.58,
       series:[{vals:av,color:c,type:'bar',axis:'L',lfmt:fA(mode)},{vals:rv,color:'#1b2a66',axis:'R',lfmt:fR(mode)}],
-      avgs:[{v:A[p].a,axis:'L',color:c,text:`평균 인원 ${f1(A[p].a)}명`},{v:A[p].r,axis:'R',color:'#1b2a66',text:`평균 출석률 ${pct(A[p].r)}`}],
-      tip:i=>`<b>${lab[i]}</b><br>${mode==='w'?`출석 <b>${W[R[i]].row[p].a}</b> / 재적 ${W[R[i]].row[p].e}`:`평균 출석 <b>${f1(av[i])}</b>명`} · 출석률 <b>${pct(rv[i])}</b>`};
+      avgs:[{v:A[p].a,axis:'L',color:c,text:`평균 인원 ${fi(A[p].a)}명`},{v:A[p].r,axis:'R',color:'#1b2a66',text:`평균 출석률 ${pct(A[p].r)}`}],
+      tip:i=>`<b>${lab[i]}</b><br>${mode==='w'?`출석 <b>${W[R[i]].row[p].a}</b> / 재적 ${W[R[i]].row[p].e}`:`평균 출석 <b>${fi(av[i])}</b>명`} · 출석률 <b>${pct(rv[i])}</b>`};
   }
   const ks=sp.keys;
   return {...base,aria:sp.title(mode),
     series:ks.map(k=>({vals:aOf(k,gs),color:cv(k),axis:'L',lfmt:fA(mode)})),
-    avgs:ks.map(k=>({v:A[k].a,axis:'L',color:cv(k),text:`${NAME[k]} 평균 ${f1(A[k].a)}명`})).filter(a=>a.v!=null),
+    avgs:ks.map(k=>({v:A[k].a,axis:'L',color:cv(k),text:`${NAME[k]} 평균 ${fi(A[k].a)}명`})).filter(a=>a.v!=null),
     tip:i=>`<b>${lab[i]}</b><br>`+ks.map(k=>{
       const v=aOf(k,[gs[i]])[0],r=rOf(k,[gs[i]])[0];
-      return `<span style="color:${cv(k)};font-weight:700">${NAME[k]}</span> ${mode==='w'?`${W[R[i]].row[k].a}/${W[R[i]].row[k].e}명`:`${f1(v)}명`} · ${pct(r)}`;}).join('<br>')};
+      return `<span style="color:${cv(k)};font-weight:700">${NAME[k]}</span> ${mode==='w'?`${W[R[i]].row[k].a}/${W[R[i]].row[k].e}명`:`${fi(v)}명`} · ${pct(r)}`;}).join('<br>')};
 }
 function panelHtml(key){
   const sp=SPEC[key];
   const leg=sp.part
     ?`<span style="color:${cv(sp.part)}"><i class="bx" style="background:${cv(sp.part)}"></i>인원(명)</span><span style="color:#1b2a66"><i style="background:#1b2a66"></i>출석률(%)</span>`
     :sp.legend().map(([n,c])=>`<span style="color:${c}"><i style="background:${c}"></i>${n}</span>`).join('');
-  return `<div class="panel" data-ch="${key}"><h2><span class="ttl">${ttlH(sp.title('w'))}</span><small>${sp.sub}</small>
+  return `<div class="panel" data-ch="${key}"><h2><span class="ttl">${ttlH(sp.title('w'))}</span>${sp.sub?`<small>${sp.sub}</small>`:''}
     <span class="sp">${key==='trend'?'<button class="btn" id="replay">▶ 다시 재생</button>':''}<span class="seg" role="group" aria-label="집계 단위"><button data-md="w" class="on">주별</button><button data-md="m">월별</button></span></span></h2>
-    <div class="legend">${leg}<span style="color:#1d4ed8"><i class="mk" style="background:#1d4ed8"></i>최고</span><span style="color:#d11a2a"><i class="mk" style="background:#d11a2a"></i>최저</span><span style="color:var(--ink-soft)"><i class="ds"></i>점선 = 해당 항목의 <span class="avg">평균</span> (입력된 ${R.length}주 기준)</span></div>
+    <div class="legend">${leg}${key==='trend'?'':`<span style="color:#1d4ed8"><i class="mk" style="background:#1d4ed8"></i>최고</span><span style="color:#d11a2a"><i class="mk" style="background:#d11a2a"></i>최저</span><span style="color:var(--ink-soft)"><i class="ds"></i>점선 = 해당 항목의 <span class="avg">평균</span> (입력된 ${R.length}주 기준)</span>`}</div>
     <div class="chart" id="ch-${key}"></div></div>`;
 }
 function drawChart(key,animate){
@@ -543,7 +557,7 @@ function render(){
   charts.forEach(c=>c.stop());charts=[];
   const root=$('#dashBody'),A=Mx.avg;
   const ld=R.length?sundays[R[R.length-1]]:null;
-  $('#asof').textContent=ld?`자료 기준 ${ld.slice(0,4)}.${+ld.slice(5,7)}.${+ld.slice(8,10)}(일) 출석 입력분`:'';
+  $('#asof').textContent=ld?`기준일 : ${ld.slice(0,4)}.${+ld.slice(5,7)}.${+ld.slice(8,10)}.`:'';
   if(!R.length){root.innerHTML='<div class="panel"><b>아직 입력된 출석이 없습니다.</b></div>';return;}
   const last=R[R.length-1],prev=R.length>1?R[R.length-2]:null;
   const arrow=(v)=>v==null||v===0?'':`<span class="${v>0?'up':'dn'}">${v>0?'▲':'▼'} ${Math.abs(v)}명</span>`;
@@ -592,21 +606,20 @@ function render(){
   /* 지표: Singer · Orc · ALL (ALL은 기타 포함) */
   const rowOf=(k,i)=>{const x=W[i].row;return k==='allx'?{a:x.all.a+x['기타'].a,e:x.all.e+x['기타'].e}:x[k];};
   const avgOf=k=>{if(k!=='allx')return A[k];const v=R.map(i=>rowOf(k,i));return {a:mean(v.map(x=>x.a)),r:mean(v.map(x=>rateOf(x)).filter(z=>z!=null))};};
-  const entry=(k,label,sub)=>{
-    const ck=k==='allx'?'all':k,av=avgOf(k),w=rowOf(k,last),r=rateOf(w);
+  const entry=(k)=>{
+    const av=avgOf(k);
     const vs=R.map(i=>[rowOf(k,i).a,i]).filter(x=>x[0]!=null);
     let mx=vs[0],mn=vs[0];vs.forEach(x=>{if(x[0]>mx[0])mx=x;if(x[0]<mn[0])mn=x;});
-    const r4=mean(R.slice(-4).map(i=>rateOf(rowOf(k,i))).filter(z=>z!=null));
-    return `<div class="ent${sub?' sb':''}"><div class="e1"><b style="color:${cv(ck)}">${label}</b> : <span class="avg">평균출석</span> <b>${f1(av.a)}명(${pct(av.r)})</b></div>
-      <div class="e2">최근주 ${md(sundays[last])} : ${w.a==null?'-':w.a}/${w.e==null?'-':w.e}명(출석률 ${pct(r)})</div>
-      <div class="e3"><span class="tg">최근 4주 평균 출석률</span> <b>${pct(r4)}</b></div>
-      <div class="e3"><span class="tg hi2">최다 출석주</span> <b>${mx[0]}명</b>(${md(sundays[mx[1]])}) <span class="tg lo2">최소 출석주</span> <b>${mn[0]}명</b>(${md(sundays[mn[1]])})</div></div>`;
+    return `<div class="e3"><span class="avg">평균</span> <b>${fi(av.a)}명(${pct(av.r)})</b></div>
+      <div class="e3"><span class="tg hi2">최다출석</span> <b>${mx[0]}명</b>(${md(sundays[mx[1]])})</div>
+      <div class="e3"><span class="tg lo2">최소출석</span> <b>${mn[0]}명</b>(${md(sundays[mn[1]])})</div>`;
   };
-  const tile=(k,title,list)=>`<div class="kt" style="--kc:${cv(k)}"><div class="k">${title}</div>${list.map(([kk,l],i)=>entry(kk,l,i>0)).join('')}</div>`;
+  const tile=(k,ck,title,cls)=>`<div class="kt ${cls}" style="--kc:${cv(ck)}"><div class="k">${title}</div>${entry(k)}</div>`;
   const tiles=[
-    tile('Singer','Singer 현황',[['Singer','Singer'],['Sop','Sop'],['Alt','Alt'],['Ten','Ten'],['Bas','Bas']]),
-    tile('Orc','Orc 현황',[['Orc','Orc']]),
-    tile('all','ALL 현황 (Singer + Orc + 기타)',[['allx','ALL'],['Singer','Singer'],['Orc','Orc'],['기타','기타']])
+    tile('Singer','Singer','Singer 현황','k4'),
+    tile('Orc','Orc','Orc 현황','k4'),
+    tile('allx','all','ALL 현황 (Singer + Orc + 기타)','k4'),
+    ...PARTS.map(p=>tile(p,p,`${p} 현황`,'k3'))
   ].join('');
 
   /* 월별 평균 표 */
@@ -621,9 +634,9 @@ function render(){
     const cl=(v,M,m)=>v==null||M===m?'':v===M?'hi':v===m?'lo':'';
     const tds=vals.map(v=>{
       const bg=v.r==null?'transparent':`color-mix(in srgb, #5b7fd6 ${18+Math.max(0,(v.r-0.5))*70}%, #fff)`;
-      return `<td class="mc"><span class="mr ${cl(v.r,rM,rm)}" style="background:${bg}">${pct(v.r)}</span><small class="ma ${cl(v.a,aM,am)}">${f1(v.a)}명</small></td>`;}).join('');
-    return `<tr><td style="color:${cv(k)}">${NAME[k]}</td>${tds}<td style="font-weight:800">${pct(A[k].r)}<small>${f1(A[k].a)}명</small></td></tr>`;}).join('');
-  const monthPanel=`<div class="panel"><h2>월별 <span class="avg">평균</span> 출석률 <small>행(구분)별로 월 평균 중 <span class="hi">최고</span>는 굵은 파란색, <span class="lo">최저</span>는 굵은 빨간색 (인원·출석률 각각) · 칸 배경이 진할수록 출석률이 높습니다</small></h2><div class="scroll"><table class="mt"><thead><tr><th>구분</th>${months.map(m=>`<th>${+m}월</th>`).join('')}<th>연간 <span class="avg">평균</span></th></tr></thead><tbody>${mrows}</tbody></table></div></div>`;
+      return `<td class="mc"><span class="mr ${cl(v.r,rM,rm)}" style="background:${bg}">${pct(v.r)}</span><small class="ma ${cl(v.a,aM,am)}">${fi(v.a)}명</small></td>`;}).join('');
+    return `<tr><td style="color:${cv(k)}">${NAME[k]}</td>${tds}<td style="font-weight:800">${pct(A[k].r)}<small>${fi(A[k].a)}명</small></td></tr>`;}).join('');
+  const monthPanel=`<div class="panel"><h2>월별 평균 출석 현황</h2><div class="scroll"><table class="mt"><thead><tr><th>구분</th>${months.map(m=>`<th>${+m}월</th>`).join('')}<th>연간 <span class="avg">평균</span></th></tr></thead><tbody>${mrows}</tbody></table></div></div>`;
 
   /* 개인별 */
   const dstat=Mx.mem.map(m=>{
@@ -637,7 +650,7 @@ function render(){
   const bmem=buckets.map(([,f])=>live.filter(x=>x.r!=null&&f(x.r)));
   distData=bmem.map((l,i)=>({label:buckets[i][0],list:l}));
   const cnt=bmem.map(l=>l.length),cm=Math.max(...cnt,1);
-  const distP=`<div class="panel"><h2>대원 출석률 분포 <small>입력된 주 기준 · 명 · 막대 위에 마우스를 올리면 대상자(파트별 출석률 높은 순)가 표시됩니다</small></h2><div class="dist">${buckets.map(([l],i)=>`<div data-b="${i}"><b>${cnt[i]}</b><i style="height:${cnt[i]/cm*66}px"></i>${l}</div>`).join('')}</div></div>`;
+  const distP=`<div class="panel"><h2>출석률 구간별 현황 <small>인원(명) · 막대 위에 마우스를 올리면 대상자(파트별 출석률 높은 순)가 표시됩니다</small></h2><div class="dist">${buckets.map(([l],i)=>`<div data-b="${i}"><b>${cnt[i]}</b><i style="height:${cnt[i]/cm*66}px"></i>${l}</div>`).join('')}</div></div>`;
   /* Top : 전체 10명, 파트별 5명 (동률은 이름 가나다순) */
   const rank=arr=>arr.filter(x=>x.first&&x.r!=null).sort((a,b)=>b.r-a.r||collator.compare(nkey(a.m),nkey(b.m)));
   const chipT=x=>`<span class="chip"><b>${esc(x.m.name)}</b> <em>${AB(x.g)}</em> <i>${(x.r*100).toFixed(1)}%</i></span>`;
@@ -681,13 +694,20 @@ function render(){
     hm+=row+'</tr>';
   });
   hm+='</table>';
-  const hmP=`<div class="panel"><h2>대원별 출석 히트맵 <small>세로 대원 · 가로 일요일(월별로 구분) · <span class="lg c1">출석</span> <span class="lg c0">결석</span> <span class="lg cn">입단 전·퇴단 후</span></small></h2><div class="hmw">${hm}</div></div>`;
+  const hmP=`<div class="panel"><h2>대원별 출석 히트맵 <small><span class="lg c1">출석</span> <span class="lg c0">결석</span> <span class="lg cn">등록일</span></small></h2><div class="hmw">${hm}</div></div>`;
 
   root.innerHTML=`${distMem}<div class="kgrid">${tiles}</div>
     ${panelHtml('trend')}${panelHtml('singer')}${PARTS.map(p=>panelHtml('p'+p)).join('')}
-    ${monthPanel}${distP}<h2 class="sec">출석률 상위 대원<span class="exc">중간 입단 대원 제외</span></h2>${topRow}${watchP}${hmP}
-    <p class="note" style="margin:0">그래프·평균·분포는 출석이 입력된 일요일만 집계합니다. 전체 = Singer + Orc (기타 제외). 출석률은 입단일 이후·퇴단일 이전 재적 기준입니다.</p>`;
+    ${monthPanel}${distP}<h2 class="sec">출석률 상위 대원<span class="exc">중간 입단 대원 제외</span></h2>${topRow}${watchP}${hmP}`;
 
+  /* 히트맵 등록일 칸이 좁으면 그 칸만 글자를 줄여 날짜가 보이게 */
+  document.querySelectorAll('.hm td.mg').forEach(td=>{
+    let fs=12;td.dataset.full=td.textContent;
+    const fit=()=>td.scrollWidth<=td.clientWidth;
+    while(!fit()&&fs>6){fs-=0.5;td.style.fontSize=fs+'px';td.style.paddingLeft=td.style.paddingRight=fs<10?'1px':'';}
+    if(!fit()){td.textContent=td.dataset.full.replace(/ (입단|퇴단)$/,'');fs=Math.min(fs,10);td.style.fontSize=fs+'px';
+      while(!fit()&&fs>5){fs-=0.5;td.style.fontSize=fs+'px';}}
+  });
   Object.keys(SPEC).forEach(k=>{modes[k]=modes[k]||'w';drawChart(k,true);});
   const rp=$('#replay');if(rp)rp.onclick=()=>charts.forEach(c=>c.play());
 }
