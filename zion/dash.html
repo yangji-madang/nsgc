@@ -173,7 +173,7 @@ h2 small .hi{color:#1d4ed8;font-weight:800}h2 small .lo{color:#d11a2a;font-weigh
 
 .dgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:8px}
 @media (max-width:900px){.dgrid{grid-template-columns:minmax(0,1fr)}}
-.dgrid .pie3d{width:100%;max-width:320px}
+.dgrid .pie3d{width:100%}
 
 .dist div[data-b]{cursor:pointer;border-radius:6px}
 .dist div[data-b]:hover{background:var(--hl-bg)}
@@ -212,6 +212,38 @@ h2.sec .exc{margin-left:22px;padding:0 10px;border-radius:999px;background:#fff;
 .panel h2 #replay{background:#fff;color:#1f2f6b;font-weight:700}
 .dist div[data-b]{font-weight:800;color:var(--head-ink)}
 .cp{font-weight:800;text-transform:uppercase}
+/* 인원분포 옆 출석 요약 */
+.dgrid{grid-template-columns:minmax(0,1.05fr) minmax(0,1.95fr)}
+.dwrap{display:flex;align-items:center;gap:6px}
+.dwrap .pie3d{flex:1 1 55%;min-width:0;max-width:none}
+.dst{flex:1 1 45%;min-width:0;display:flex;flex-direction:column;gap:5px}
+.dst.g2{display:grid;grid-template-columns:1fr 1fr;gap:5px 6px}
+.sbk{border:1px solid var(--line);border-left:4px solid var(--kc,var(--gold));border-radius:6px;padding:2px 6px;background:#fff;min-width:0}
+.sbk .sh{font-weight:800;color:var(--kc,var(--head-ink))}
+.sbk .sl{white-space:nowrap;margin-top:1px}
+.sbk .tg,.sbk .avg{padding:0 4px;line-height:1.4}
+.pies{grid-template-columns:1.75fr 1fr}
+@media (max-width:620px){.dwrap{flex-direction:column}.dgrid .pie3d{max-width:320px}.pies{grid-template-columns:1fr}}
+.dgrid{grid-template-columns:minmax(0,1.3fr) minmax(0,1.7fr)}
+.dwrap .pie3d{flex:1 1 0}
+.dst{flex:0 0 172px}
+.dst.g2{flex:0 0 262px}
+.pies{grid-template-columns:2fr 1fr}
+.sbk .tg,.sbk .avg{display:inline-block;min-width:34px;text-align:center}
+@media (max-width:900px){.dst,.dst.g2{flex:1 1 auto}}
+.dgrid{grid-template-columns:minmax(0,1.1fr) minmax(0,1.9fr)}
+.dst{flex:0 0 166px}
+.dst.g2{flex:0 0 240px}
+.pies{grid-template-columns:2.5fr 1fr}
+@media (min-width:901px){
+.dgrid{grid-template-columns:auto minmax(0,1fr)}
+.dgrid .pie3d{flex:0 0 220px;width:220px}
+.pies{grid-template-columns:auto 1fr}
+.pies>div:last-child .pie3d{margin:0 auto}
+}
+@media (min-width:1200px){.dgrid .pie3d{flex:0 0 262px;width:262px}}
+@media (max-width:1199px){.dgrid{grid-template-columns:minmax(0,1fr)}.dgrid .pie3d{flex:0 0 250px;width:250px}.pies{grid-template-columns:auto 1fr}.dst{flex:0 0 172px}}
+@media (max-width:620px){.dwrap{flex-direction:column;align-items:stretch}.dgrid .pie3d{flex:none;width:100%;max-width:300px;margin:0 auto}.dst,.dst.g2{flex:none}.pies>div .dwrap .dst.g2{grid-template-columns:1fr 1fr}}
 
 </style>
 </head>
@@ -596,31 +628,25 @@ function render(){
   const sing=act.filter(m=>m.group==='Singer');
   const gM=sing.filter(m=>m.gender==='M').length,gF=sing.filter(m=>m.gender==='F').length;
   const tot0=cS+cO+cE;
-  const distMem=`<div class="dgrid">
+  const mkDist=()=>`<div class="dgrid">
     <div class="panel"><h2>${ttlH(`대원인원분포(전체) : 총 ${tot0}명`)}</h2>
-      ${pie3d([{label:'Singer',n:cS,color:cv('Singer')},{label:'Orc',n:cO,color:cv('Orc')},{label:'기타',n:cE,color:cv('기타')}],'전체 대원 구성')}<div class="pnote">기타 : 지휘/반주/수어</div></div>
+      <div class="dwrap">${pie3d([{label:'Singer',n:cS,color:cv('Singer')},{label:'Orc',n:cO,color:cv('Orc')},{label:'기타',n:cE,color:cv('기타')}],'전체 대원 구성')}<div class="dst">${blk('allx','ALL','all')}${blk('Singer','Singer','Singer')}${blk('Orc','Orc','Orc')}</div></div><div class="pnote">기타 : 지휘/반주/수어</div></div>
     <div class="panel"><h2>${ttlH(`대원인원분포(Singer) : 총 ${cS}명`)}</h2>
-      <div class="pies"><div><div class="dsub">파트별</div>${pie3d(PARTS.map(p=>({label:p,n:sing.filter(m=>m.part===p).length,color:cv(p)})),'Singer 파트별 구성')}</div>
+      <div class="pies"><div><div class="dsub">파트별</div><div class="dwrap">${pie3d(PARTS.map(p=>({label:p,n:sing.filter(m=>m.part===p).length,color:cv(p)})),'Singer 파트별 구성')}<div class="dst g2">${PARTS.map(p=>blk(p,p,p)).join('')}</div></div></div>
       <div><div class="dsub">남·여</div>${pie3d([{label:'남',n:gM,color:'#2f4f9e'},{label:'여',n:gF,color:'#c0407a'}],'Singer 남여 구성')}</div></div></div></div>`;
 
   /* 지표: Singer · Orc · ALL (ALL은 기타 포함) */
   const rowOf=(k,i)=>{const x=W[i].row;return k==='allx'?{a:x.all.a+x['기타'].a,e:x.all.e+x['기타'].e}:x[k];};
   const avgOf=k=>{if(k!=='allx')return A[k];const v=R.map(i=>rowOf(k,i));return {a:mean(v.map(x=>x.a)),r:mean(v.map(x=>rateOf(x)).filter(z=>z!=null))};};
-  const entry=(k)=>{
+  const blk=(k,label,ck)=>{
     const av=avgOf(k);
     const vs=R.map(i=>[rowOf(k,i).a,i]).filter(x=>x[0]!=null);
     let mx=vs[0],mn=vs[0];vs.forEach(x=>{if(x[0]>mx[0])mx=x;if(x[0]<mn[0])mn=x;});
-    return `<div class="e3"><span class="avg">평균</span> <b>${fi(av.a)}명(${pct(av.r)})</b></div>
-      <div class="e3"><span class="tg hi2">최다출석</span> <b>${mx[0]}명</b>(${md(sundays[mx[1]])})</div>
-      <div class="e3"><span class="tg lo2">최소출석</span> <b>${mn[0]}명</b>(${md(sundays[mn[1]])})</div>`;
+    return `<div class="sbk" style="--kc:${cv(ck)}"><div class="sh">${label}</div>
+      <div class="sl"><span class="avg">평균</span> <b>${fi(av.a)}명(${pct(av.r)})</b></div>
+      <div class="sl"><span class="tg hi2">최다</span> <b>${mx[0]}명</b>(${md(sundays[mx[1]])})</div>
+      <div class="sl"><span class="tg lo2">최소</span> <b>${mn[0]}명</b>(${md(sundays[mn[1]])})</div></div>`;
   };
-  const tile=(k,ck,title,cls)=>`<div class="kt ${cls}" style="--kc:${cv(ck)}"><div class="k">${title}</div>${entry(k)}</div>`;
-  const tiles=[
-    tile('Singer','Singer','Singer 현황','k4'),
-    tile('Orc','Orc','Orc 현황','k4'),
-    tile('allx','all','ALL 현황 (Singer + Orc + 기타)','k4'),
-    ...PARTS.map(p=>tile(p,p,`${p} 현황`,'k3'))
-  ].join('');
 
   /* 월별 평균 표 */
   const months=[...new Set(R.map(i=>sundays[i].slice(5,7)))];
@@ -696,7 +722,7 @@ function render(){
   hm+='</table>';
   const hmP=`<div class="panel"><h2>대원별 출석 히트맵 <small><span class="lg c1">출석</span> <span class="lg c0">결석</span> <span class="lg cn">등록일</span></small></h2><div class="hmw">${hm}</div></div>`;
 
-  root.innerHTML=`${distMem}<div class="kgrid">${tiles}</div>
+  root.innerHTML=`${mkDist()}
     ${panelHtml('trend')}${panelHtml('singer')}${PARTS.map(p=>panelHtml('p'+p)).join('')}
     ${monthPanel}${distP}<h2 class="sec">출석률 상위 대원<span class="exc">중간 입단 대원 제외</span></h2>${topRow}${watchP}${hmP}`;
 
