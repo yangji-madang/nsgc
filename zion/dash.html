@@ -88,13 +88,10 @@ header.top h1{font-size:22px;line-height:1.2}
 .kt .n b{color:var(--ink)}
 .up{color:var(--good);font-weight:800}.dn{color:var(--bad);font-weight:800}
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:6px 10px;box-shadow:var(--shadow);min-width:0}
-.panel h2,h2.sec{font-size:inherit;margin:0 0 6px;display:flex;flex-wrap:wrap;align-items:center;gap:2px 10px;color:var(--head-ink);font-weight:800;border-left:4px solid var(--gold);padding:2px 0 3px 8px;border-bottom:1px solid var(--line)}
-h2.sec{margin:4px 0 0;border-bottom:0}
-.panel h2 .sp{margin-left:auto;display:flex;gap:6px;align-items:center;order:2}
-.panel h2 small{flex-basis:100%;order:3;font-weight:400;color:var(--ink-faint);margin-top:3px}
-.seg{display:inline-flex;border:1px solid var(--line-strong);border-radius:999px;overflow:hidden;background:#fff}
-.seg button{border:0;background:transparent;padding:0 10px;line-height:1.6;cursor:pointer;color:var(--ink-soft);font-weight:700}
-.seg button.on{background:var(--gold);color:#fff}
+.panel h2,h2.sec,.kt .k{font-size:inherit;margin:0 0 6px;display:flex;flex-wrap:wrap;align-items:center;gap:1px 10px;color:var(--head-ink);font-weight:800;background:var(--hl-bg);border-left:4px solid var(--gold);border-radius:6px;padding:3px 8px}
+h2.sec{margin:4px 0 0}
+.panel h2 .sp{margin-left:auto;display:flex;gap:6px;align-items:center}
+.panel h2 small{font-weight:400;color:var(--ink-soft)}
 .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
 .grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
 .grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
@@ -135,9 +132,9 @@ table.hm{border-collapse:separate;border-spacing:1px 1.5px}
 .hm tr.mh td.nmc,.hm tr.dh td.nmc{z-index:3}
 .hm tr.gh td{height:auto;text-align:left;font-weight:800;padding:2px 6px 0;background:transparent;border-radius:0}
 .hm tr.gh td.nmc{text-align:left}
-.hm td.c1{background:var(--hm-on)}.hm td.c0{background:var(--hm-off)}.hm td.cn{background:var(--hm-none);opacity:.5}
+.hm td.c1{background:var(--hm-on)}.hm td.c0{background:var(--hm-off)}
+.hm td.mg{background:#7d8399;color:#fff;font-weight:700;text-align:left;padding:0 5px;overflow:hidden;white-space:nowrap;border-radius:3px}
 
-.kt .k{padding-bottom:3px;margin-bottom:5px;border-bottom:1px solid var(--line)}
 .ent{margin-top:5px}.ent:first-of-type{margin-top:0}
 .ent.sb{padding-left:12px;border-left:2px solid var(--line)}
 .ent .e2{padding-left:12px;color:var(--ink-faint)}
@@ -150,10 +147,12 @@ h2 small .hi{color:#1d4ed8;font-weight:800}h2 small .lo{color:#d11a2a;font-weigh
 .chips.col .chip i{font-style:normal;font-weight:800;color:var(--head-ink)}
 .chips.col2{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(5,auto);grid-auto-flow:column;gap:3px 8px}
 .lg{display:inline-block;padding:0 8px;border-radius:4px;font-weight:700;margin:0 1px}
-.lg.c1{background:var(--hm-on);color:#fff}.lg.c0{background:var(--hm-off);color:#7a2a24}.lg.cn{background:var(--hm-none);color:var(--ink-faint)}
+.lg.c1{background:var(--hm-on);color:#fff}.lg.c0{background:var(--hm-off);color:#7a2a24}.lg.cn{background:#7d8399;color:#fff}
 
 .avg{display:inline-block;background:var(--gold-soft);color:var(--gold-ink);border:1px solid var(--gold);border-radius:5px;padding:0 6px;font-weight:800;line-height:1.5}
 .mt th .avg{background:#fff}
+.legend i.mk{width:11px;height:11px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px currentColor}
+.kt .k{color:var(--kc,var(--head-ink));border-left-color:var(--kc,var(--gold))}
 
 </style>
 </head>
@@ -345,10 +344,13 @@ function chart(host,cfg){
   /* 막대 먼저 (라벨 자리 확보) */
   ser.forEach((s,si)=>{
     if(s.type!=='bar')return;
+    const bv=P[si].map((p,i)=>p?[p.v,i]:null).filter(Boolean);
+    let bmx=null,bmn=null;if(bv.length>1){bmx=bv[0];bmn=bv[0];bv.forEach(a=>{if(a[0]>bmx[0])bmx=a;if(a[0]<bmn[0])bmn=a;});if(bmx[0]===bmn[0])bmx=bmn=null;}
     P[si].forEach((p,i)=>{
       if(!p)return;
       const y=p.y,h=mt+ph-y;
-      bars+=`<rect x="${p.x-bw/2}" y="${y}" width="${bw}" height="${Math.max(0,h)}" rx="2" fill="${s.color}" fill-opacity=".85"/>`;
+      const mk=bmx&&i===bmx[1]?'#1d4ed8':bmn&&i===bmn[1]?'#d11a2a':null;
+      bars+=`<rect x="${p.x-bw/2}" y="${y}" width="${bw}" height="${Math.max(0,h)}" rx="2" fill="${s.color}" fill-opacity=".85"${mk?` stroke="${mk}" stroke-width="3"`:''}/>`;
       const txt=s.lfmt(p.v),w=tw(txt)+1;
       const inside=h>=16&&w<=bw+4;
       const ly=inside?y+13:y-4;
@@ -363,6 +365,9 @@ function chart(host,cfg){
     pts.forEach(p=>{if(!p){pen=false;return;}d+=(pen?'L':'M')+p.x.toFixed(1)+' '+p.y.toFixed(1);pen=true;});
     lines+=`<path d="${d}" fill="none" stroke="${s.color}" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>`;
     pts.forEach((p,i)=>{if(p)dots+=`<circle class="pt" data-x="${p.x}" cx="${p.x}" cy="${p.y}" r="3" fill="#fff" stroke="${s.color}" stroke-width="2"/>`;});
+    {const vs=pts.map((p,i)=>p?[p.v,i]:null).filter(Boolean);
+     if(vs.length>1){let mx=vs[0],mn=vs[0];vs.forEach(a=>{if(a[0]>mx[0])mx=a;if(a[0]<mn[0])mn=a;});
+       if(mx[0]!==mn[0])[[mx,'#1d4ed8'],[mn,'#d11a2a']].forEach(([a,c])=>{const p=pts[a[1]];dots+=`<circle class="pt" data-x="${p.x}" cx="${p.x}" cy="${p.y}" r="6" fill="${c}" stroke="#fff" stroke-width="2"/>`;});}}
     const lastI=(()=>{for(let i=pts.length-1;i>=0;i--)if(pts[i])return i;return -1;})();
     pts.forEach((p,i)=>{
       if(!p)return;
@@ -472,7 +477,7 @@ function panelHtml(key){
     :sp.legend().map(([n,c])=>`<span style="color:${c}"><i style="background:${c}"></i>${n}</span>`).join('');
   return `<div class="panel" data-ch="${key}"><h2><span class="ttl">${sp.title('w')}</span><small>${sp.sub}</small>
     <span class="sp">${key==='trend'?'<button class="btn" id="replay">▶ 다시 재생</button>':''}<span class="seg" role="group" aria-label="집계 단위"><button data-md="w" class="on">주별</button><button data-md="m">월별</button></span></span></h2>
-    <div class="legend">${leg}<span style="color:var(--ink-soft)"><i class="ds"></i>점선 = 해당 항목의 <span class="avg">평균</span> (입력된 ${R.length}주 기준)</span></div>
+    <div class="legend">${leg}<span style="color:#1d4ed8"><i class="mk" style="background:#1d4ed8"></i>최고</span><span style="color:#d11a2a"><i class="mk" style="background:#d11a2a"></i>최저</span><span style="color:var(--ink-soft)"><i class="ds"></i>점선 = 해당 항목의 <span class="avg">평균</span> (입력된 ${R.length}주 기준)</span></div>
     <div class="chart" id="ch-${key}"></div></div>`;
 }
 function drawChart(key,animate){
@@ -561,7 +566,7 @@ function render(){
   /* 히트맵 : 월별 구분(월 머리글 · 간격 · 날짜 줄) */
   const cols=[];let pm=null;
   R.forEach(i=>{const mo=sundays[i].slice(5,7);if(pm&&mo!==pm)cols.push({sp:1});cols.push({i,mo});pm=mo;});
-  let hm='<table class="hm"><tr class="mh"><td class="nmc"></td>';
+  let hm=`<table class="hm" style="table-layout:fixed;width:${64+cols.reduce((t,c)=>t+(c.sp?11:19),0)}px"><colgroup><col style="width:64px">${cols.map(c=>`<col style="width:${c.sp?11:19}px">`).join('')}</colgroup><tr class="mh">`;hm+='<td class="nmc"></td>';
   let ci=0,oi=0;
   while(ci<cols.length){
     if(cols[ci].sp){hm+='<td class="sp"></td>';ci++;continue;}
@@ -573,12 +578,19 @@ function render(){
   dstat.forEach(x=>{
     if(pg!==x.g){pg=x.g;hm+=`<tr class="gh"><td colspan="${cols.length+1}" style="color:${x.g==='퇴단'?'var(--ink-faint)':cv(x.g)}">${x.g==='퇴단'?'퇴단 대원':AB(x.g)}</td></tr>`;}
     const sp=Mx.span.get(x.m.id);
-    hm+=`<tr><td class="nmc">${esc(x.m.name)}</td>`+cols.map(c=>{
-      if(c.sp)return '<td class="sp"></td>';
-      const i=c.i;
-      if(i<sp.s||i>sp.e)return `<td class="cn" title="${esc(x.m.name)} ${md(sundays[i])} ${i<sp.s?'입단 전':'퇴단 후'}"></td>`;
-      const v=checked(x.m.id,sundays[i]);
-      return `<td class="c${v?1:0}" title="${esc(x.m.name)} ${md(sundays[i])} ${v?'출석':'결석'}"></td>`;}).join('')+'</tr>';
+    const inS=c=>!c.sp&&c.i>=sp.s&&c.i<=sp.e;
+    let a0=cols.findIndex(inS);if(a0<0)a0=cols.length;
+    let a1=-1;cols.forEach((c,j)=>{if(inS(c))a1=j;});
+    let row=`<tr><td class="nmc">${esc(x.m.name)}</td>`;
+    if(a0>0)row+=`<td class="mg" colspan="${a0}" title="${esc(x.m.name)} 입단일 ${fmtJoin(x.m.join)}">${x.m.join?fmtJoin(x.m.join)+' 입단':''}</td>`;
+    for(let j=a0;j<=a1;j++){
+      const c=cols[j];
+      if(c.sp){row+='<td class="sp"></td>';continue;}
+      const v=checked(x.m.id,sundays[c.i]);
+      row+=`<td class="c${v?1:0}" title="${esc(x.m.name)} ${md(sundays[c.i])} ${v?'출석':'결석'}"></td>`;
+    }
+    if(a1>=0&&a1<cols.length-1)row+=`<td class="mg" colspan="${cols.length-1-a1}" title="${esc(x.m.name)} 퇴단일 ${fmtJoin(x.m.leave)}">${x.m.leave?fmtJoin(x.m.leave)+' 퇴단':''}</td>`;
+    hm+=row+'</tr>';
   });
   hm+='</table>';
   const hmP=`<div class="panel"><h2>대원별 출석 히트맵 <small>세로 대원 · 가로 일요일(월별로 구분) · <span class="lg c1">출석</span> <span class="lg c0">결석</span> <span class="lg cn">입단 전·퇴단 후</span></small></h2><div class="hmw">${hm}</div></div>`;
