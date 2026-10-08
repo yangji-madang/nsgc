@@ -172,6 +172,21 @@ table#tb{border-collapse:separate;border-spacing:0;table-layout:fixed;font-varia
   #nameQ{width:120px}
 }
 
+/* 제목행(진한 남색) ↔ 입력 영역(흰색) 구분 */
+#tb thead th{background:#1f2f6b;color:#fff;border-color:#3a4a8a}
+#tb thead th sup{color:#ffd978}
+#tb thead th.cur{background:var(--gold);color:#fff}
+#tb thead th .allbtn:hover{background:#fff;color:#1f2f6b}
+#tb td.s.on{background:#fff}
+#tb td.s.off{background:#fdeceb}
+#tb td.s.mg{background:#7d8399;background-image:none;color:#fff;font-weight:700;text-align:left;padding:0 6px;border-bottom-color:#6a7088}
+#tb tr.dkh td{background:#1f2f6b;color:#fff;border-color:#3a4a8a}
+#tb tr.dkh td.curd{background:var(--gold);color:#fff}
+#tb td.gl{background:#e4e9f7}
+#tb td.av{background:#eef1fb}
+.fpanel{border:1px solid #8794c9}
+.sheet{border:1px solid var(--line-strong)}
+
 </style>
 </head>
 <body>
@@ -412,10 +427,13 @@ function buildTable(){
       }
       return `<td ${c.s?`style="left:${c.left}px" `:''}data-c="${c.k}" data-r="${m.id}" class="${c.s?'fz '+(c===lastSt?'lastfz ':''):'ns '}${cls}">${inner}</td>`;
     }).join('');
+    /* 입단 전 / 퇴단 후 기간은 한 칸으로 병합하고 입단일·퇴단일을 표기 */
+    const nPre=vis.filter(k=>k<sp.s).length,nPost=vis.filter(k=>k>sp.e).length;
+    let preDone=false,postDone=false;
     const sc=vis.map(k=>{
       const d=sundays[k];
-      if(k<sp.s)return `<td class="s pre" title="입단 전"></td>`;
-      if(k>sp.e)return `<td class="s pre post" title="퇴단 후"></td>`;
+      if(k<sp.s){if(preDone)return '';preDone=true;return `<td class="s pre mg" colspan="${nPre}" title="입단 전 (${m.join?fmtJoin(m.join)+' 입단':'입단일 없음'})">${m.join?fmtJoin(m.join)+' 입단':''}</td>`;}
+      if(k>sp.e){if(postDone)return '';postDone=true;return `<td class="s pre mg" colspan="${nPost}" title="퇴단 후 (${fmtJoin(m.leave)} 퇴단)">${m.leave?fmtJoin(m.leave)+' 퇴단':''}</td>`;}
       const on=checked(m.id,d),dis=k>=pi?' disabled':'';
       return `<td class="s${on?' on':''}${k>=pi?' fut':''}${k===curIdx?' curc':''}" data-m="${m.id}" data-i="${k}"><label><input type="checkbox"${on?' checked':''}${dis} aria-label="${esc(m.name)} ${md(d)} 출석"></label></td>`;
     }).join('');
