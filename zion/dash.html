@@ -562,14 +562,14 @@ function cfgFor(key,mode){
     const p=sp.part,c=cv(p),av=aOf(p,gs),rv=rOf(p,gs);
     return {...base,aria:`${p} 인원과 출석률`,barFrac:.58,
       series:[{vals:av,color:c,type:'bar',axis:'L',lfmt:fA(mode)},{vals:rv,color:'#1b2a66',axis:'R',lfmt:fR(mode)}],
-      noMark:true,avgs:[],
+      noMark:true,avgs:[{v:A[p].a,axis:'L',color:c,text:`평균 인원 ${fi(A[p].a)}명`},{v:A[p].r,axis:'R',color:'#1b2a66',text:`평균 출석률 ${pct(A[p].r)}`}],
       tip:i=>`<b>${lab[i]}</b><br>${mode==='w'?`출석 <b>${W[R[i]].row[p].a}</b> / 재적 ${W[R[i]].row[p].e}`:`평균 출석 <b>${fi(av[i])}</b>명`} · 출석률 <b>${pct(rv[i])}</b>`};
   }
   const ks=sp.keys;
   const plain=true;
   return {...base,aria:sp.title(mode),noMark:plain,
     series:ks.map(k=>({vals:aOf(k,gs),color:cv(k),axis:'L',lfmt:fA(mode)})),
-    avgs:plain?[]:ks.map(k=>({v:A[k].a,axis:'L',color:cv(k),text:`${NAME[k]} 평균 ${fi(A[k].a)}명`})).filter(a=>a.v!=null),
+    avgs:ks.map(k=>({v:A[k].a,axis:'L',color:cv(k),text:`${NAME[k]} 평균 ${fi(A[k].a)}명`})).filter(a=>a.v!=null),
     tip:i=>`<b>${lab[i]}</b><br>`+ks.map(k=>{
       const v=aOf(k,[gs[i]])[0],r=rOf(k,[gs[i]])[0];
       return `<span style="color:${cv(k)};font-weight:700">${NAME[k]}</span> ${mode==='w'?`${W[R[i]].row[k].a}/${W[R[i]].row[k].e}명`:`${fi(v)}명`} · ${pct(r)}`;}).join('<br>')};
