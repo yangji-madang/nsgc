@@ -271,6 +271,19 @@ h2.sec .exc{margin-left:22px;padding:0 10px;border-radius:999px;background:#fff;
 .sbk{gap:0 5px;padding:2px 5px}
 .sbk .tg,.sbk .avg{padding:0 3px;margin-right:1px;border-radius:4px}
 }
+/* 모바일: 이름과 평균·최다·최소를 같은 줄에 */
+@media (max-width:620px){
+.sbk{flex-wrap:nowrap;gap:0 5px;padding:3px 5px}
+.sbk .sh{flex:0 0 auto;margin-right:7px;min-width:38px}
+.sbk .sl{flex:0 0 auto}
+}
+@media (max-width:620px){
+.sbk{font-size:11px;gap:0 4px;padding:3px 4px}
+.sbk .sh{margin-right:4px;min-width:34px}
+.sbk .tg,.sbk .avg{padding:0 2px;margin-right:0;font-size:11px}
+}
+@media (max-width:380px){.sbk{flex-wrap:wrap}}
+@media (max-width:620px){.sbk .sh{min-width:34px;margin-right:5px}}
 
 </style>
 </head>
