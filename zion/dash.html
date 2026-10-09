@@ -847,6 +847,16 @@ function render(){
     ${panelHtml('trend')}${panelHtml('singer')}${PARTS.map(p=>panelHtml('p'+p)).join('')}
     ${monthPanel}${distP}<h2 class="sec">출석률 상위 대원<span class="exc">중간 입단 대원 제외</span></h2>${topRow}${watchP}${hmP}`;
 
+  /* 히트맵 이름·출석률 칸을 글자 폭에 딱 맞춤 */
+  {const tb=document.querySelector('table.hm');if(tb){
+    const fitW=sel=>{let m=0;tb.querySelectorAll(sel).forEach(td=>{if(!td.textContent.trim()||td.colSpan>1)return;const sp=document.createElement('span');sp.style.cssText='position:absolute;visibility:hidden;white-space:nowrap';sp.textContent=td.textContent;td.appendChild(sp);m=Math.max(m,sp.getBoundingClientRect().width);sp.remove();});return Math.ceil(m);};
+    const nw=fitW('tr:not(.gh) td.nmc')+6,rw=fitW('tr:not(.gh) td.rtc')+6;
+    const cg=tb.querySelectorAll('col');cg[0].style.width=nw+'px';cg[1].style.width=rw+'px';
+    tb.style.width=(parseFloat(tb.style.width)-94+nw+rw)+'px';
+    tb.querySelectorAll('td.rtc').forEach(td=>td.style.left=nw+'px');
+    tb.querySelectorAll('td.nmc').forEach(td=>{td.style.padding='0 3px'});
+    tb.querySelectorAll('td.rtc').forEach(td=>{td.style.padding='0 3px'});
+  }}
   /* 히트맵 틀 고정: 날짜 줄은 월 줄 높이만큼 아래에 붙인다 */
   {const mh=document.querySelector('.hm tr.mh td.m');const th=mh?mh.getBoundingClientRect().height:18;document.querySelectorAll('.hm tr.dh td').forEach(td=>td.style.top=(th+1.5)+'px');}
   /* 히트맵 등록일 칸이 좁으면 그 칸만 글자를 줄여 날짜가 보이게 */
