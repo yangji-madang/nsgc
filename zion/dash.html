@@ -470,11 +470,30 @@ function chart(host,cfg){
   let avLines='',avPills='';
   const avo=avs.map(a=>({...a,y:(a.axis==='R'?YR:YL)(a.v)})).sort((a,b)=>a.y-b.y);
   const pillRects=[];
+  const barBoxes=[];{const bw0=Math.min(22,band*.62);ser.forEach((s,si)=>{if(s.type!=='bar')return;P[si].forEach(p=>{if(p)barBoxes.push([p.x-bw0/2-2,p.y-16,bw0+4,mt+ph-p.y+16]);});});}
+  /* 평균 라벨(pill): 값·점·막대를 가리지 않는 자리를 찾아 놓고, 선에서 떨어지면 지시선으로 연결 */
   avo.forEach(a=>{
     avLines+=`<line x1="${ml}" x2="${W-mr}" y1="${a.y}" y2="${a.y}" stroke="${a.color}" stroke-width="1.5" stroke-dasharray="6 4"/>`;
-    const w=tw(a.text)+12,h=15,x=ml+4;let y=a.y-h-2;if(y<2)y=a.y+3;
-    for(let t=0;t<12;t++){let hit=false;for(const r of pillRects)if(x<r[0]+r[2]+2&&x+w+2>r[0]&&y<r[1]+r[3]+2&&y+h+2>r[1]){hit=true;y=r[1]+r[3]+3;break;}if(!hit)break;}
+    const w=tw(a.text)+12,h=15;
+    const ys=[a.y-h-2,a.y+3,a.y-h-16,a.y+17,a.y-h-30,a.y+31];
+    let best=null,bs=1e9;
+    for(let k=0;k<ys.length;k++){
+      const y=ys[k];if(y<2||y+h>mt+ph+2)continue;
+      for(let x=ml+4;x<=W-mr-w-4;x+=6){
+        let sc=0;
+        for(const q of samples)if(q[0]>x-5&&q[0]<x+w+5&&q[1]>y-14&&q[1]<y+h+14)sc++;
+        for(const bb of barBoxes)if(x<bb[0]+bb[2]&&x+w>bb[0]&&y<bb[1]+bb[3]&&y+h>bb[1])sc+=8;
+        for(const r of pillRects)if(x<r[0]+r[2]+4&&x+w+4>r[0]&&y<r[1]+r[3]+4&&y+h+4>r[1])sc+=500;
+        sc+=k*0.8+(x-ml)*0.004;
+        if(sc<bs){bs=sc;best=[x,y,k];}
+      }
+      if(bs<1)break;
+    }
+    if(!best)best=[ml+4,ys[0],0];
+    const [x,y,k]=best;
     pillRects.push([x,y,w,h]);placed.push([x,y,w,h]);
+    if(k>=2){const up=y<a.y,ay=up?y+h:y,cx=x+Math.min(14,w/2);
+      avLines+=`<line x1="${cx}" x2="${cx}" y1="${ay}" y2="${a.y}" style="stroke:${a.color};stroke-width:1.3px"/>`;}
     avPills+=`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="7.5" fill="${a.color}" stroke="#fff" stroke-width="1"/><text x="${x+6}" y="${y+11}" fill="#fff" font-weight="800">${a.text}</text>`;
   });
 
