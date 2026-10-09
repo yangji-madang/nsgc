@@ -830,7 +830,7 @@ function render(){
     let a0=cols.findIndex(inS);if(a0<0)a0=cols.length;
     let a1=-1;cols.forEach((c,j)=>{if(inS(c))a1=j;});
     let row=`<tr><td class="nmc">${esc(x.m.name)}</td><td class="rtc">${x.r==null?'-':(x.r*100).toFixed(1)+'%'}</td>`;
-    if(a0>0)row+=`<td class="mg" colspan="${a0}" title="${esc(x.m.name)} 입단일 ${fmtJoin(x.m.join)}">${x.m.join?fmtJoin(x.m.join)+' 입단':''}</td>`;
+    if(a0>0)row+=`<td class="mg" colspan="${a0}" title="${esc(x.m.name)} 등록일 ${fmtJoin(x.m.join)}">${x.m.join?fmtJoin(x.m.join)+' 등록':''}</td>`;
     for(let j=a0;j<=a1;j++){
       const c=cols[j];
       if(c.sp){row+='<td class="sp"></td>';continue;}
@@ -845,7 +845,7 @@ function render(){
 
   root.innerHTML=`${mkDist()}
     ${panelHtml('trend')}${panelHtml('singer')}${PARTS.map(p=>panelHtml('p'+p)).join('')}
-    ${monthPanel}${distP}<h2 class="sec">출석률 상위 대원<span class="exc">중간 입단 대원 제외</span></h2>${topRow}${watchP}${hmP}`;
+    ${monthPanel}${distP}<h2 class="sec">출석률 상위 대원<span class="exc">중간 등록 대원 제외</span></h2>${topRow}${watchP}${hmP}`;
 
   /* 히트맵 이름·출석률 칸을 글자 폭에 딱 맞춤 */
   {const tb=document.querySelector('table.hm');if(tb){
@@ -864,7 +864,7 @@ function render(){
     let fs=12;td.dataset.full=td.textContent;
     const fit=()=>td.scrollWidth<=td.clientWidth;
     while(!fit()&&fs>6){fs-=0.5;td.style.fontSize=fs+'px';td.style.paddingLeft=td.style.paddingRight=fs<10?'1px':'';}
-    if(!fit()){td.textContent=td.dataset.full.replace(/ (입단|퇴단)$/,'');fs=Math.min(fs,10);td.style.fontSize=fs+'px';
+    if(!fit()){td.textContent=td.dataset.full.replace(/ (등록|퇴단)$/,'');fs=Math.min(fs,10);td.style.fontSize=fs+'px';
       while(!fit()&&fs>5){fs-=0.5;td.style.fontSize=fs+'px';}}
   });
   Object.keys(SPEC).forEach(k=>{modes[k]=modes[k]||'w';drawChart(k,true);});

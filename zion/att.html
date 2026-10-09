@@ -214,10 +214,10 @@ table#tb{border-collapse:separate;border-spacing:0;table-layout:fixed;font-varia
     <div class="addbar" id="addbar" hidden>
       <label>이름 <input id="addName" size="7" placeholder="홍길동" maxlength="12"></label>
       <label>파트 <select id="addPart"></select></label>
-      <label>입단일 <input id="addJoin" size="8" placeholder="YY.M.D" inputmode="numeric" maxlength="10"></label>
+      <label>등록일 <input id="addJoin" size="8" placeholder="YY.M.D" inputmode="numeric" maxlength="10"></label>
       <button class="btn primary" id="addGo">추가</button>
       <button class="btn" id="addClose">닫기</button>
-      <span class="note">파트 안에서 이름순으로 자동 정렬됩니다. 입단일을 비우면 올해 첫 일요일부터 계산합니다.</span>
+      <span class="note">파트 안에서 이름순으로 자동 정렬됩니다. 등록일을 비우면 올해 첫 일요일부터 계산합니다.</span>
     </div>
     <div class="addbar" id="pubbar" hidden>
       <label>GitHub 토큰 <input id="pubTok" type="password" size="22" autocomplete="off" placeholder="github_pat_…"></label>
@@ -363,7 +363,7 @@ function colsDef(){
   const base=[
     {k:'total',w:36,h:'Total',s:1},{k:'no',w:30,h:'No.',s:1},{k:'grp',w:50,h:'구분',s:1},
     {k:'part',w:editMode?66:44,h:'파트',s:1},{k:'name',w:editMode?104:60,h:'이름',s:1},
-    {k:'rate',w:84,h:'출석률',s:1},{k:'join',w:64,h:'입단일',s:1},{k:'act',w:86,h:'관리',s:0}];
+    {k:'rate',w:84,h:'출석률',s:1},{k:'join',w:64,h:'등록일',s:1},{k:'act',w:86,h:'관리',s:0}];
   if(!compact)return base;
   return [{...base[4],w:editMode?100:58},{...base[5],w:76},{...base[6],s:0},base[7]];
 }
@@ -419,7 +419,7 @@ function buildTable(){
       else if(c.k==='join'){
         cls='join';
         inner=retired?`<input data-leave="${m.id}" class="lv" value="${fmtJoin(m.leave)}" placeholder="YY.M.D" inputmode="numeric" maxlength="10" title="퇴단일" aria-label="${esc(m.name)} 퇴단일">`
-          :`<input data-join="${m.id}" value="${fmtJoin(m.join)}" placeholder="YY.M.D" inputmode="numeric" maxlength="10" aria-label="${esc(m.name)} 입단일">`;
+          :`<input data-join="${m.id}" value="${fmtJoin(m.join)}" placeholder="YY.M.D" inputmode="numeric" maxlength="10" aria-label="${esc(m.name)} 등록일">`;
       }
       else if(c.k==='act'){
         cls='leave';
@@ -428,12 +428,12 @@ function buildTable(){
       }
       return `<td ${c.s?`style="left:${c.left}px" `:''}data-c="${c.k}" data-r="${m.id}" class="${c.s?'fz '+(c===lastSt?'lastfz ':''):'ns '}${cls}">${inner}</td>`;
     }).join('');
-    /* 입단 전 / 퇴단 후 기간은 한 칸으로 병합하고 입단일·퇴단일을 표기 */
+    /* 등록 전 / 퇴단 후 기간은 한 칸으로 병합하고 등록일·퇴단일을 표기 */
     const nPre=vis.filter(k=>k<sp.s).length,nPost=vis.filter(k=>k>sp.e).length;
     let preDone=false,postDone=false;
     const sc=vis.map(k=>{
       const d=sundays[k];
-      if(k<sp.s){if(preDone)return '';preDone=true;return `<td class="s pre mg" colspan="${nPre}" title="입단 전 (${m.join?fmtJoin(m.join)+' 입단':'입단일 없음'})">${m.join?fmtJoin(m.join)+' 입단':''}</td>`;}
+      if(k<sp.s){if(preDone)return '';preDone=true;return `<td class="s pre mg" colspan="${nPre}" title="등록 전 (${m.join?fmtJoin(m.join)+' 등록':'등록일 없음'})">${m.join?fmtJoin(m.join)+' 등록':''}</td>`;}
       if(k>sp.e){if(postDone)return '';postDone=true;return `<td class="s pre mg" colspan="${nPost}" title="퇴단 후 (${fmtJoin(m.leave)} 퇴단)">${m.leave?fmtJoin(m.leave)+' 퇴단':''}</td>`;}
       const on=checked(m.id,d),dis=k>=pi?' disabled':'';
       return `<td class="s${on?' on':''}${k>=pi?' fut':''}${k===curIdx?' curc':''}" data-m="${m.id}" data-i="${k}"><label><input type="checkbox"${on?' checked':''}${dis} aria-label="${esc(m.name)} ${md(d)} 출석"></label></td>`;
@@ -444,7 +444,7 @@ function buildTable(){
   let body='',gc={};
   M.act.forEach((m,idx)=>{const g=pk(m);gc[g]=(gc[g]||0)+1;body+=rowHtml(m,idx+1,gc[g],false);});
   if(M.ret.length){
-    body+=`<tr class="sec" id="retSec"><td class="fz lastfz" colspan="${nst}" style="left:0">퇴단 대원 ${M.ret.length}명 (입단일 칸 = 퇴단일)</td><td colspan="${extras.length+vis.length}"></td></tr>`;
+    body+=`<tr class="sec" id="retSec"><td class="fz lastfz" colspan="${nst}" style="left:0">퇴단 대원 ${M.ret.length}명 (등록일 칸 = 퇴단일)</td><td colspan="${extras.length+vis.length}"></td></tr>`;
     M.ret.forEach(m=>{body+=rowHtml(m,0,0,true);});
   }
 
@@ -658,13 +658,13 @@ $('#addClose').onclick=closeBars;
 function addMember(){
   const name=$('#addName').value.trim(),part=$('#addPart').value,p=parseJoin($('#addJoin').value);
   if(!name){toast('이름을 입력해 주세요.');$('#addName').focus();return;}
-  if(!p.ok){toast('입단일은 YY.M.D 형식으로 입력해 주세요. 비워도 됩니다.');return;}
+  if(!p.ok){toast('등록일은 YY.M.D 형식으로 입력해 주세요. 비워도 됩니다.');return;}
   const id='n'+Date.now().toString(36)+Math.floor(Math.random()*99);
   {const nm={id,name,group:PARTS.includes(part)?'Singer':'기타',part,join:p.iso,leave:'',retired:false};nm.gender=defGender(nm);S.members.push(nm);}
   if(partSel.size&&!partSel.has(PARTS.includes(part)?part:'기타')){partSel.clear();syncChips();}
   nameQ='';$('#nameQ').value='';
   save();buildTable();$('#addName').value='';
-  toast(`${name} 대원을 ${part} 파트의 이름순 위치에 추가했습니다.${p.iso?` ${fmtJoin(p.iso)} 입단 기준으로 계산합니다.`:''}`);
+  toast(`${name} 대원을 ${part} 파트의 이름순 위치에 추가했습니다.${p.iso?` ${fmtJoin(p.iso)} 등록 기준으로 계산합니다.`:''}`);
   const tr=document.querySelector(`tr[data-row="${id}"]`);if(tr){tr.scrollIntoView({block:'center'});tr.classList.add('flash');setTimeout(()=>tr.classList.remove('flash'),2200);}
 }
 $('#addGo').onclick=addMember;
@@ -683,7 +683,7 @@ function download(name,text,type){
 $('#btnJson').onclick=()=>{S.updated=new Date().toISOString();download('data.json',JSON.stringify(S),'application/json');toast('data.json을 내려받았습니다. 저장소 zion 폴더에 올리면 대시보드에 반영됩니다.');};
 $('#btnCsv').onclick=()=>{
   M=compute();
-  const head=['구분','파트','이름','입단일','퇴단일','출석률'].concat(sundays.map(md));
+  const head=['구분','파트','이름','등록일','퇴단일','출석률'].concat(sundays.map(md));
   const rows=M.mem.map(m=>{const sp=M.span.get(m.id);
     return [m.group,m.part,m.name,fmtJoin(m.join),fmtJoin(m.leave),pct(memberRate(m)).replace('-','')].concat(sundays.map((d,i)=>(i<sp.s||i>sp.e)?'':(checked(m.id,d)?1:0)));});
   const csv='﻿'+[head].concat(rows).map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(',')).join('\r\n');
