@@ -393,7 +393,7 @@ const ttlH=t=>{const i=t.indexOf(' : ');return i<0?t:`${t.slice(0,i)} : <span cl
 (()=>{
 'use strict';
 const KEY='choir-attendance-2026-v1';
-const NAME={all:'ALL',Singer:'Singer',Orc:'Orc',Sop:'Sop',Alt:'Alt',Ten:'Ten',Bas:'Bas','기타':'기타'};
+const NAME={all:'ALL',allx:'ALL',Singer:'Singer',Orc:'Orc',Sop:'Sop',Alt:'Alt',Ten:'Ten',Bas:'Bas','기타':'기타'};
 const AB=k=>k;   // 대시보드는 파트명을 줄이지 않음 (S·A·T·B·O 약자는 관리페이지 전용)
 const cv=k=>`var(${COLOR[k]})`;
 const tw=s=>[...String(s)].reduce((a,c)=>a+(c.charCodeAt(0)>255?12:6.7),0);
@@ -588,8 +588,8 @@ const fR=mode=>mode==='w'?(v=>(v*100).toFixed(0)+'%'):(v=>(v*100).toFixed(1)+'%'
 
 /* 차트 정의 */
 const SPEC={
-  trend:{title:m=>`${m==='w'?'주별':'월별'} 출석인원 : ALL`,sub:'',h:360,keys:['all','Singer','Orc'],
-    legend:()=>['all','Singer','Orc'].map(k=>[NAME[k],cv(k)])},
+  trend:{title:m=>`${m==='w'?'주별':'월별'} 출석인원 : ALL`,sub:'',h:360,keys:['allx','Singer','Orc'],
+    legend:()=>['allx','Singer','Orc'].map(k=>[NAME[k],cv(k)])},
   singer:{title:m=>`${m==='w'?'주별':'월별'} 출석인원 : Singer`,sub:'',h:360,keys:['Singer','Sop','Alt','Ten','Bas'],
     legend:()=>['Singer','Sop','Alt','Ten','Bas'].map(k=>[NAME[k],cv(k)])}
 };
@@ -710,7 +710,7 @@ function render(){
 
   /* 월별 평균 표 */
   const months=[...new Set(R.map(i=>sundays[i].slice(5,7)))];
-  const mkeys=['all','Singer','Sop','Alt','Ten','Bas','Orc'];
+  const mkeys=['allx','Singer','Sop','Alt','Ten','Bas','Orc'];
   const mrows=mkeys.map(k=>{
     const vals=months.map(mo=>{
       const idx=R.filter(i=>sundays[i].slice(5,7)===mo);
