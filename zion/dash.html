@@ -484,10 +484,10 @@ function chart(host,cfg){
         for(const q of samples)if(q[0]>x-5&&q[0]<x+w+5&&q[1]>y-14&&q[1]<y+h+14)sc++;
         for(const bb of barBoxes)if(x<bb[0]+bb[2]&&x+w>bb[0]&&y<bb[1]+bb[3]&&y+h>bb[1])sc+=8;
         for(const r of pillRects)if(x<r[0]+r[2]+4&&x+w+4>r[0]&&y<r[1]+r[3]+4&&y+h+4>r[1])sc+=500;
-        sc+=k*0.8+(x-ml)*0.004;
+        sc+=k*0.5+(x-ml)*0.035;
         if(sc<bs){bs=sc;best=[x,y,k];}
       }
-      if(bs<1)break;
+      if(bs<0.6)break;
     }
     if(!best)best=[ml+4,ys[0],0];
     const [x,y,k]=best;
