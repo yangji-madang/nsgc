@@ -290,6 +290,10 @@ h2.sec .exc{margin-left:22px;padding:0 10px;border-radius:999px;background:#fff;
 .dgrid .panel h2{font-size:14.4px}
 .mt td.rt:first-child{text-align:right}
 
+.hm td.rtc{height:auto;min-width:0;text-align:right;padding:0 5px;color:var(--ink);font-weight:700;font-size:11px;white-space:nowrap;position:sticky;left:64px;background:var(--surface);z-index:2;border-radius:0;box-shadow:2px 0 0 var(--line-strong)}
+.hm tr.mh td.rtc,.hm tr.dh td.rtc{z-index:3}
+.hm tr.dh td.rtc{color:var(--ink-faint);font-weight:400;font-size:10px}
+
 </style>
 </head>
 <body>
@@ -798,22 +802,22 @@ function render(){
   /* 히트맵 : 월별 구분(월 머리글 · 간격 · 날짜 줄) */
   const cols=[];let pm=null;
   R.forEach(i=>{const mo=sundays[i].slice(5,7);if(pm&&mo!==pm)cols.push({sp:1});cols.push({i,mo});pm=mo;});
-  let hm=`<table class="hm" style="table-layout:fixed;width:${64+cols.reduce((t,c)=>t+(c.sp?11:19),0)}px"><colgroup><col style="width:64px">${cols.map(c=>`<col style="width:${c.sp?11:19}px">`).join('')}</colgroup><tr class="mh">`;hm+='<td class="nmc"></td>';
+  let hm=`<table class="hm" style="table-layout:fixed;width:${64+46+cols.reduce((t,c)=>t+(c.sp?11:19),0)}px"><colgroup><col style="width:64px"><col style="width:46px">${cols.map(c=>`<col style="width:${c.sp?11:19}px">`).join('')}</colgroup><tr class="mh">`;hm+='<td class="nmc"></td><td class="rtc"></td>';
   let ci=0,oi=0;
   while(ci<cols.length){
     if(cols[ci].sp){hm+='<td class="sp"></td>';ci++;continue;}
     const mo=cols[ci].mo;let cj=ci;while(cj<cols.length&&!cols[cj].sp&&cols[cj].mo===mo)cj++;
     hm+=`<td class="m ${oi%2?'o':''}" colspan="${cj-ci}">${+mo}월</td>`;ci=cj;oi++;
   }
-  hm+='</tr><tr class="dh"><td class="nmc"></td>'+cols.map(c=>c.sp?'<td class="sp"></td>':`<td>${+sundays[c.i].slice(8,10)}</td>`).join('')+'</tr>';
+  hm+='</tr><tr class="dh"><td class="nmc"></td><td class="rtc">출석률</td>'+cols.map(c=>c.sp?'<td class="sp"></td>':`<td>${+sundays[c.i].slice(8,10)}</td>`).join('')+'</tr>';
   let pg=null;
   dstat.forEach(x=>{
-    if(pg!==x.g){pg=x.g;hm+=`<tr class="gh"><td colspan="${cols.length+1}" style="color:${x.g==='퇴단'?'var(--ink-faint)':cv(x.g)}">${x.g==='퇴단'?'퇴단 대원':AB(x.g)}</td></tr>`;}
+    if(pg!==x.g){pg=x.g;hm+=`<tr class="gh"><td colspan="${cols.length+2}" style="color:${x.g==='퇴단'?'var(--ink-faint)':cv(x.g)}">${x.g==='퇴단'?'퇴단 대원':AB(x.g)}</td></tr>`;}
     const sp=Mx.span.get(x.m.id);
     const inS=c=>!c.sp&&c.i>=sp.s&&c.i<=sp.e;
     let a0=cols.findIndex(inS);if(a0<0)a0=cols.length;
     let a1=-1;cols.forEach((c,j)=>{if(inS(c))a1=j;});
-    let row=`<tr><td class="nmc">${esc(x.m.name)}</td>`;
+    let row=`<tr><td class="nmc">${esc(x.m.name)}</td><td class="rtc">${x.r==null?'-':(x.r*100).toFixed(1)+'%'}</td>`;
     if(a0>0)row+=`<td class="mg" colspan="${a0}" title="${esc(x.m.name)} 입단일 ${fmtJoin(x.m.join)}">${x.m.join?fmtJoin(x.m.join)+' 입단':''}</td>`;
     for(let j=a0;j<=a1;j++){
       const c=cols[j];
