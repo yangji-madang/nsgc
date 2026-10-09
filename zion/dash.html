@@ -478,6 +478,33 @@ function chart(host,cfg){
     avPills+=`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="7.5" fill="${a.color}" stroke="#fff" stroke-width="1"/><text x="${x+6}" y="${y+11}" fill="#fff" font-weight="800">${a.text}</text>`;
   });
 
+  /* 최고·최저 글자: 평균 라벨·값·선과 겹치지 않는 자리를 찾아 놓고, 떨어져 있으면 지시선으로 연결 */
+  const mkLab=(px,py,c,t,up,hw)=>{
+    const w=tw(t)+4,h=13,cand=[[0,13],[0,24],[24,18],[-24,18],[38,10],[-38,10],[0,36],[34,30],[-34,30],[54,22],[-54,22],[0,50],[70,14],[-70,14]];
+    let best=null,bs=1e9;
+    const cand2=[];cand.forEach(c=>{cand2.push([c[0],c[1],up]);});cand.forEach(c=>{cand2.push([c[0],c[1]+2,!up]);});
+    for(const [dx,d0,upp] of cand2){
+      const cx=px+dx,cy=upp?py-d0:py+d0+7,bx=cx-w/2,by=cy-11;
+      if(bx<ml-2||bx+w>W-mr+4||by<mt-8||by+h>mt+ph+6)continue;
+      let sc=0;
+      for(const q of samples)if(q[0]>bx-2&&q[0]<bx+w+2&&q[1]>by-2&&q[1]<by+h+2)sc++;
+      for(const b of placed)if(bx<b[0]+b[2]+3&&bx+w+3>b[0]&&by<b[1]+b[3]+3&&by+h+3>b[1])sc+=60;
+      sc+=d0*.02+Math.abs(dx)*.01+(upp===up?0:2);
+      if(sc<bs){bs=sc;best=[cx,cy,dx,d0,bx,by,upp];}
+      if(sc<.9)break;
+    }
+    if(!best)best=[px,up?py-13:py+20,0,13,px-w/2,(up?py-13:py+20)-11];
+    const [cx,cy,dx,d0,bx,by,upB]=best.length>6?best:best.concat([up]);
+    placed.push([bx,by,w,h]);
+    let out='';
+    if(dx!==0||d0>13){
+      const sx=hw?px+(dx>=0?hw:-hw):px,sy=py,ex=cx,ey=upB?by+h-1:by+1;
+      const L=Math.hypot(ex-sx,ey-sy)||1,r0=hw?0:6;
+      out+=`<line class="lb" data-x="${px}" x1="${sx+(ex-sx)/L*r0}" y1="${sy+(ey-sy)/L*r0}" x2="${ex}" y2="${ey}" style="stroke:${c};stroke-width:1.3px"/>`;
+    }
+    return out+`<text class="lb" data-x="${px}" x="${cx}" y="${cy}" text-anchor="middle" fill="${c}" font-weight="800" stroke="#fff" stroke-width="3" paint-order="stroke">${t}</text>`;
+  };
+
   let bars='',lines='',dots='',labels='';
   const bw=Math.min(22,band*.62);
   /* 막대 먼저 (라벨 자리 확보) */
@@ -496,8 +523,7 @@ function chart(host,cfg){
       const rect=[p.x-w/2,ly-11,w,12];
       placed.push(rect);
       labels+=`<text class="lb ${inside?'bl':''}" data-x="${p.x}" x="${p.x}" y="${ly}" text-anchor="middle" fill="${inside?'#fff':s.color}">${txt}</text>`;
-      if(mk){const t=mk==='#1d4ed8'?'최고':'최저',ty=inside?y-4:y-16,w2=tw(t)+4;placed.push([p.x-w2/2,ty-11,w2,13]);
-        labels+=`<text class="lb" data-x="${p.x}" x="${p.x}" y="${ty}" text-anchor="middle" fill="${mk}" font-weight="800" stroke="#fff" stroke-width="3" paint-order="stroke">${t}</text>`;}
+      if(mk){labels+=mkLab(p.x,y,mk,mk==='#1d4ed8'?'최고':'최저',true,bw/2);}
     });
   });
   ser.forEach((s,si)=>{
@@ -509,8 +535,7 @@ function chart(host,cfg){
     {const vs=pts.map((p,i)=>p?[p.v,i]:null).filter(Boolean);
      if(vs.length>1&&!cfg.noMark&&!s.noMark){let mx=vs[0],mn=vs[0];vs.forEach(a=>{if(a[0]>mx[0])mx=a;if(a[0]<mn[0])mn=a;});
        if(mx[0]!==mn[0])[[mx,'#1d4ed8','최고'],[mn,'#d11a2a','최저']].forEach(([a,c,t])=>{const p=pts[a[1]];dots+=`<circle class="pt" data-x="${p.x}" cx="${p.x}" cy="${p.y}" r="6" fill="${c}" stroke="#fff" stroke-width="2"/>`;
-         const ty=t==='최고'?p.y-11:p.y+20,w2=tw(t)+4;placed.push([p.x-w2/2,ty-11,w2,13]);
-         labels+=`<text class="lb" data-x="${p.x}" x="${p.x}" y="${ty}" text-anchor="middle" fill="${c}" font-weight="800" stroke="#fff" stroke-width="3" paint-order="stroke">${t}</text>`;});}}
+         labels+=mkLab(p.x,p.y,c,t,t==='최고',0);});}}
     const lastI=(()=>{for(let i=pts.length-1;i>=0;i--)if(pts[i])return i;return -1;})();
     pts.forEach((p,i)=>{
       if(!p)return;
