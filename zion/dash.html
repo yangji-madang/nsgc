@@ -830,7 +830,7 @@ function render(){
     let a0=cols.findIndex(inS);if(a0<0)a0=cols.length;
     let a1=-1;cols.forEach((c,j)=>{if(inS(c))a1=j;});
     let row=`<tr><td class="nmc">${esc(x.m.name)}</td><td class="rtc">${x.r==null?'-':(x.r*100).toFixed(1)+'%'}</td>`;
-    if(a0>0)row+=`<td class="mg" colspan="${a0}" title="${esc(x.m.name)} 등록일 ${fmtJoin(x.m.join)}">${x.m.join?fmtJoin(x.m.join)+' 등록':''}</td>`;
+    if(a0>0)row+=`<td class="mg" colspan="${a0}" title="${esc(x.m.name)} 등록일 ${md(x.m.join)}">${x.m.join?md(x.m.join)+' 등록':''}</td>`;
     for(let j=a0;j<=a1;j++){
       const c=cols[j];
       if(c.sp){row+='<td class="sp"></td>';continue;}

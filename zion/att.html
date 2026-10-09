@@ -433,7 +433,7 @@ function buildTable(){
     let preDone=false,postDone=false;
     const sc=vis.map(k=>{
       const d=sundays[k];
-      if(k<sp.s){if(preDone)return '';preDone=true;return `<td class="s pre mg" colspan="${nPre}" title="등록 전 (${m.join?fmtJoin(m.join)+' 등록':'등록일 없음'})">${m.join?fmtJoin(m.join)+' 등록':''}</td>`;}
+      if(k<sp.s){if(preDone)return '';preDone=true;return `<td class="s pre mg" colspan="${nPre}" title="등록 전 (${m.join?md(m.join)+' 등록':'등록일 없음'})">${m.join?md(m.join)+' 등록':''}</td>`;}
       if(k>sp.e){if(postDone)return '';postDone=true;return `<td class="s pre mg" colspan="${nPost}" title="탈퇴 후 (${fmtJoin(m.leave)} 탈퇴)">${m.leave?fmtJoin(m.leave)+' 탈퇴':''}</td>`;}
       const on=checked(m.id,d),dis=k>=pi?' disabled':'';
       return `<td class="s${on?' on':''}${k>=pi?' fut':''}${k===curIdx?' curc':''}" data-m="${m.id}" data-i="${k}"><label><input type="checkbox"${on?' checked':''}${dis} aria-label="${esc(m.name)} ${md(d)} 출석"></label></td>`;
