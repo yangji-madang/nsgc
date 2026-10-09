@@ -346,7 +346,7 @@ const curIdx=pi-1;
 /* ---------- 데이터 ---------- */
 function valid(x){return x&&Array.isArray(x.members)&&x.marks&&typeof x.marks==='object'&&x.orc&&typeof x.orc==='object';}
 function normalize(x){           // 체크(1)만 남기고 미체크는 결석으로 간주
-  x.members.forEach(m=>{m.leave=m.leave||'';m.retired=!!m.retired;m.join=m.join||'';m.gender=m.gender||defGender(m);});
+  x.members.forEach(m=>{m.name=String(m.name).replace(/\s+/g,'');m.leave=m.leave||'';m.retired=!!m.retired;m.join=m.join||'';m.gender=m.gender||defGender(m);});
   Object.keys(x.marks).forEach(id=>{const o={};Object.keys(x.marks[id]).forEach(d=>{if(x.marks[id][d]===1)o[d]=1;});x.marks[id]=o;});
   return x;
 }

@@ -260,7 +260,7 @@ const curIdx=pi-1;
 /* ---------- 데이터 ---------- */
 function valid(x){return x&&Array.isArray(x.members)&&x.marks&&typeof x.marks==='object'&&x.orc&&typeof x.orc==='object';}
 function normalize(x){           // 체크(1)만 남기고 미체크는 결석으로 간주
-  x.members.forEach(m=>{m.leave=m.leave||'';m.retired=!!m.retired;m.join=m.join||'';m.gender=m.gender||defGender(m);});
+  x.members.forEach(m=>{m.name=String(m.name).replace(/\s+/g,'');m.leave=m.leave||'';m.retired=!!m.retired;m.join=m.join||'';m.gender=m.gender||defGender(m);});
   Object.keys(x.marks).forEach(id=>{const o={};Object.keys(x.marks[id]).forEach(d=>{if(x.marks[id][d]===1)o[d]=1;});x.marks[id]=o;});
   return x;
 }
@@ -610,7 +610,7 @@ $('#sheet').addEventListener('change',e=>{
     return;
   }
   if(t.dataset.ne!==undefined){
-    const m=S.members.find(x=>x.id===t.dataset.ne),v=t.value.trim();
+    const m=S.members.find(x=>x.id===t.dataset.ne),v=t.value.replace(/\s+/g,'');
     if(!v){t.value=m.name;return;}m.name=v;save();buildTable();
   }
   if(t.dataset.ge!==undefined){const m=S.members.find(x=>x.id===t.dataset.ge);m.gender=t.value;save();toast(`${m.name} 대원의 성별을 저장했습니다 (${t.value==="M"?"남":"여"}).`);return;}
@@ -656,7 +656,7 @@ const closeBars=()=>{$('#addbar').hidden=true;$('#pubbar').hidden=true;$('#btnAd
 $('#btnAdd').onclick=()=>{const b=$('#addbar'),open=b.hidden;closeBars();if(open){b.hidden=false;$('#btnAdd').setAttribute('aria-pressed','true');$('#addJoin').value=fmtJoin(todayISO);$('#addName').focus();}};
 $('#addClose').onclick=closeBars;
 function addMember(){
-  const name=$('#addName').value.trim(),part=$('#addPart').value,p=parseJoin($('#addJoin').value);
+  const name=$('#addName').value.replace(/\s+/g,''),part=$('#addPart').value,p=parseJoin($('#addJoin').value);
   if(!name){toast('이름을 입력해 주세요.');$('#addName').focus();return;}
   if(!p.ok){toast('등록일은 YY.M.D 형식으로 입력해 주세요. 비워도 됩니다.');return;}
   const id='n'+Date.now().toString(36)+Math.floor(Math.random()*99);
