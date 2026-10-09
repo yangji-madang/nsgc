@@ -790,7 +790,7 @@ function render(){
     const sp=Mx.span.get(m.id),rows=R.filter(i=>i>=sp.s&&i<=sp.e);
     const seq=rows.map(i=>checked(m.id,sundays[i])?1:0);
     const num=seq.reduce((a,b)=>a+b,0);let tail=0;for(let k=seq.length-1;k>=0&&seq[k]===0;k--)tail++;
-    return {m,den:seq.length,num,r:seq.length?num/seq.length:null,tail,g:m.retired?'퇴단':pk(m),first:sp.s===0};});
+    return {m,den:seq.length,num,r:seq.length?num/seq.length:null,tail,g:m.retired?'탈퇴':pk(m),first:sp.s===0};});
   const live=dstat.filter(x=>!x.m.retired);
   const perfect=live.filter(x=>x.first&&x.den>0&&x.num===x.den);
   const buckets=[['90%↑',x=>x>=.9],['80~89',x=>x>=.8&&x<.9],['70~79',x=>x>=.7&&x<.8],['60~69',x=>x>=.6&&x<.7],['60% 미만',x=>x<.6]];
@@ -824,7 +824,7 @@ function render(){
   hm+='</tr><tr class="dh"><td class="nmc"></td><td class="rtc">출석률</td>'+cols.map(c=>c.sp?'<td class="sp"></td>':`<td>${+sundays[c.i].slice(8,10)}</td>`).join('')+'</tr>';
   let pg=null;
   dstat.forEach(x=>{
-    if(pg!==x.g){pg=x.g;hm+=`<tr class="gh"><td colspan="${cols.length+2}" style="color:${x.g==='퇴단'?'var(--ink-faint)':cv(x.g)}">${x.g==='퇴단'?'퇴단 대원':AB(x.g)}</td></tr>`;}
+    if(pg!==x.g){pg=x.g;hm+=`<tr class="gh"><td colspan="${cols.length+2}" style="color:${x.g==='탈퇴'?'var(--ink-faint)':cv(x.g)}">${x.g==='탈퇴'?'탈퇴 대원':AB(x.g)}</td></tr>`;}
     const sp=Mx.span.get(x.m.id);
     const inS=c=>!c.sp&&c.i>=sp.s&&c.i<=sp.e;
     let a0=cols.findIndex(inS);if(a0<0)a0=cols.length;
@@ -837,7 +837,7 @@ function render(){
       const v=checked(x.m.id,sundays[c.i]);
       row+=`<td class="c${v?1:0}" title="${esc(x.m.name)} ${md(sundays[c.i])} ${v?'출석':'결석'}"></td>`;
     }
-    if(a1>=0&&a1<cols.length-1)row+=`<td class="mg" colspan="${cols.length-1-a1}" title="${esc(x.m.name)} 퇴단일 ${fmtJoin(x.m.leave)}">${x.m.leave?fmtJoin(x.m.leave)+' 퇴단':''}</td>`;
+    if(a1>=0&&a1<cols.length-1)row+=`<td class="mg" colspan="${cols.length-1-a1}" title="${esc(x.m.name)} 탈퇴일 ${fmtJoin(x.m.leave)}">${x.m.leave?fmtJoin(x.m.leave)+' 탈퇴':''}</td>`;
     hm+=row+'</tr>';
   });
   hm+='</table>';
@@ -864,7 +864,7 @@ function render(){
     let fs=12;td.dataset.full=td.textContent;
     const fit=()=>td.scrollWidth<=td.clientWidth;
     while(!fit()&&fs>6){fs-=0.5;td.style.fontSize=fs+'px';td.style.paddingLeft=td.style.paddingRight=fs<10?'1px':'';}
-    if(!fit()){td.textContent=td.dataset.full.replace(/ (등록|퇴단)$/,'');fs=Math.min(fs,10);td.style.fontSize=fs+'px';
+    if(!fit()){td.textContent=td.dataset.full.replace(/ (등록|탈퇴)$/,'');fs=Math.min(fs,10);td.style.fontSize=fs+'px';
       while(!fit()&&fs>5){fs-=0.5;td.style.fontSize=fs+'px';}}
   });
   Object.keys(SPEC).forEach(k=>{modes[k]=modes[k]||'w';drawChart(k,true);});

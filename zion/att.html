@@ -418,23 +418,23 @@ function buildTable(){
       else if(c.k==='rate'){cls='rate';inner='<i></i><b></b>';}
       else if(c.k==='join'){
         cls='join';
-        inner=retired?`<input data-leave="${m.id}" class="lv" value="${fmtJoin(m.leave)}" placeholder="YY.M.D" inputmode="numeric" maxlength="10" title="퇴단일" aria-label="${esc(m.name)} 퇴단일">`
+        inner=retired?`<input data-leave="${m.id}" class="lv" value="${fmtJoin(m.leave)}" placeholder="YY.M.D" inputmode="numeric" maxlength="10" title="탈퇴일" aria-label="${esc(m.name)} 탈퇴일">`
           :`<input data-join="${m.id}" value="${fmtJoin(m.join)}" placeholder="YY.M.D" inputmode="numeric" maxlength="10" aria-label="${esc(m.name)} 등록일">`;
       }
       else if(c.k==='act'){
         cls='leave';
         inner=retired?`<button class="mini" data-back="${m.id}" title="현재 대원으로 복귀">복귀</button><button class="mini bad" data-purge="${m.id}" title="완전 삭제">삭제</button>`
-          :`<button class="rt" data-ret="${m.id}" title="퇴단 대원 영역으로 이동">퇴단</button>`;
+          :`<button class="rt" data-ret="${m.id}" title="탈퇴 대원 영역으로 이동">탈퇴</button>`;
       }
       return `<td ${c.s?`style="left:${c.left}px" `:''}data-c="${c.k}" data-r="${m.id}" class="${c.s?'fz '+(c===lastSt?'lastfz ':''):'ns '}${cls}">${inner}</td>`;
     }).join('');
-    /* 등록 전 / 퇴단 후 기간은 한 칸으로 병합하고 등록일·퇴단일을 표기 */
+    /* 등록 전 / 탈퇴 후 기간은 한 칸으로 병합하고 등록일·탈퇴일을 표기 */
     const nPre=vis.filter(k=>k<sp.s).length,nPost=vis.filter(k=>k>sp.e).length;
     let preDone=false,postDone=false;
     const sc=vis.map(k=>{
       const d=sundays[k];
       if(k<sp.s){if(preDone)return '';preDone=true;return `<td class="s pre mg" colspan="${nPre}" title="등록 전 (${m.join?fmtJoin(m.join)+' 등록':'등록일 없음'})">${m.join?fmtJoin(m.join)+' 등록':''}</td>`;}
-      if(k>sp.e){if(postDone)return '';postDone=true;return `<td class="s pre mg" colspan="${nPost}" title="퇴단 후 (${fmtJoin(m.leave)} 퇴단)">${m.leave?fmtJoin(m.leave)+' 퇴단':''}</td>`;}
+      if(k>sp.e){if(postDone)return '';postDone=true;return `<td class="s pre mg" colspan="${nPost}" title="탈퇴 후 (${fmtJoin(m.leave)} 탈퇴)">${m.leave?fmtJoin(m.leave)+' 탈퇴':''}</td>`;}
       const on=checked(m.id,d),dis=k>=pi?' disabled':'';
       return `<td class="s${on?' on':''}${k>=pi?' fut':''}${k===curIdx?' curc':''}" data-m="${m.id}" data-i="${k}"><label><input type="checkbox"${on?' checked':''}${dis} aria-label="${esc(m.name)} ${md(d)} 출석"></label></td>`;
     }).join('');
@@ -444,7 +444,7 @@ function buildTable(){
   let body='',gc={};
   M.act.forEach((m,idx)=>{const g=pk(m);gc[g]=(gc[g]||0)+1;body+=rowHtml(m,idx+1,gc[g],false);});
   if(M.ret.length){
-    body+=`<tr class="sec" id="retSec"><td class="fz lastfz" colspan="${nst}" style="left:0">퇴단 대원 ${M.ret.length}명 (등록일 칸 = 퇴단일)</td><td colspan="${extras.length+vis.length}"></td></tr>`;
+    body+=`<tr class="sec" id="retSec"><td class="fz lastfz" colspan="${nst}" style="left:0">탈퇴 대원 ${M.ret.length}명 (등록일 칸 = 탈퇴일)</td><td colspan="${extras.length+vis.length}"></td></tr>`;
     M.ret.forEach(m=>{body+=rowHtml(m,0,0,true);});
   }
 
@@ -606,7 +606,7 @@ $('#sheet').addEventListener('change',e=>{
     t.value=fmtJoin(p.iso);save();buildTable();
     const sp=M.span.get(m.id);
     if(isJ)toast(m.join?`${m.name}: ${isFinite(sp.s)?md(sundays[sp.s]):'올해 일요일 없음'} 일요일부터 출석률을 계산합니다.`:`${m.name}: 올해 첫 일요일부터 계산합니다.`);
-    else toast(m.leave?`${m.name}: ${sp.e>=0?md(sundays[sp.e]):'-'} 일요일까지 재적으로 계산합니다.`:`${m.name}: 퇴단일이 비어 있어 올해 끝까지 재적으로 계산합니다.`);
+    else toast(m.leave?`${m.name}: ${sp.e>=0?md(sundays[sp.e]):'-'} 일요일까지 재적으로 계산합니다.`:`${m.name}: 탈퇴일이 비어 있어 올해 끝까지 재적으로 계산합니다.`);
     return;
   }
   if(t.dataset.ne!==undefined){
@@ -629,13 +629,13 @@ $('#sheet').addEventListener('click',e=>{
   const ret=t.closest('[data-ret]');
   if(ret){arm(ret,'확인?',()=>{
     const m=S.members.find(x=>x.id===ret.dataset.ret);m.retired=true;m.leave=todayISO;save();buildTable();
-    toast(`${m.name} 대원을 퇴단 대원(맨 아래)으로 옮겼습니다. 퇴단일은 ${fmtJoin(todayISO)}로 입력되었고 수정할 수 있습니다.`);
+    toast(`${m.name} 대원을 탈퇴 대원(맨 아래)으로 옮겼습니다. 탈퇴일은 ${fmtJoin(todayISO)}로 입력되었고 수정할 수 있습니다.`);
     const tr=document.querySelector(`tr[data-row="${m.id}"]`);if(tr)tr.scrollIntoView({block:'center'});
   });return;}
   const back=t.closest('[data-back]');
   if(back){const m=S.members.find(x=>x.id===back.dataset.back);m.retired=false;m.leave='';save();buildTable();toast(`${m.name} 대원을 현재 대원으로 되돌렸습니다.`);return;}
   const purge=t.closest('[data-purge]');
-  if(purge){arm(purge,'삭제?',()=>{const id=purge.dataset.purge;S.members=S.members.filter(m=>m.id!==id);delete S.marks[id];save();buildTable();toast('퇴단 대원을 완전히 삭제했습니다.');});return;}
+  if(purge){arm(purge,'삭제?',()=>{const id=purge.dataset.purge;S.members=S.members.filter(m=>m.id!==id);delete S.marks[id];save();buildTable();toast('탈퇴 대원을 완전히 삭제했습니다.');});return;}
   if(t.closest('#dkToggle')){dockFull=!dockFull;buildTable();}
 });
 $('#sheet').addEventListener('input',e=>{
@@ -683,7 +683,7 @@ function download(name,text,type){
 $('#btnJson').onclick=()=>{S.updated=new Date().toISOString();download('data.json',JSON.stringify(S),'application/json');toast('data.json을 내려받았습니다. 저장소 zion 폴더에 올리면 대시보드에 반영됩니다.');};
 $('#btnCsv').onclick=()=>{
   M=compute();
-  const head=['구분','파트','이름','등록일','퇴단일','출석률'].concat(sundays.map(md));
+  const head=['구분','파트','이름','등록일','탈퇴일','출석률'].concat(sundays.map(md));
   const rows=M.mem.map(m=>{const sp=M.span.get(m.id);
     return [m.group,m.part,m.name,fmtJoin(m.join),fmtJoin(m.leave),pct(memberRate(m)).replace('-','')].concat(sundays.map((d,i)=>(i<sp.s||i>sp.e)?'':(checked(m.id,d)?1:0)));});
   const csv='﻿'+[head].concat(rows).map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(',')).join('\r\n');
