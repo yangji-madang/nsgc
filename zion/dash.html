@@ -494,6 +494,8 @@ function chart(host,cfg){
       const rect=[p.x-w/2,ly-11,w,12];
       placed.push(rect);
       labels+=`<text class="lb ${inside?'bl':''}" data-x="${p.x}" x="${p.x}" y="${ly}" text-anchor="middle" fill="${inside?'#fff':s.color}">${txt}</text>`;
+      if(mk){const t=mk==='#1d4ed8'?'최고':'최저',ty=inside?y-4:y-16,w2=tw(t)+4;placed.push([p.x-w2/2,ty-11,w2,13]);
+        labels+=`<text class="lb" data-x="${p.x}" x="${p.x}" y="${ty}" text-anchor="middle" fill="${mk}" font-weight="800" stroke="#fff" stroke-width="3" paint-order="stroke">${t}</text>`;}
     });
   });
   ser.forEach((s,si)=>{
@@ -504,7 +506,9 @@ function chart(host,cfg){
     pts.forEach((p,i)=>{if(p)dots+=`<circle class="pt" data-x="${p.x}" cx="${p.x}" cy="${p.y}" r="3" fill="#fff" stroke="${s.color}" stroke-width="2"/>`;});
     {const vs=pts.map((p,i)=>p?[p.v,i]:null).filter(Boolean);
      if(vs.length>1&&!cfg.noMark){let mx=vs[0],mn=vs[0];vs.forEach(a=>{if(a[0]>mx[0])mx=a;if(a[0]<mn[0])mn=a;});
-       if(mx[0]!==mn[0])[[mx,'#1d4ed8'],[mn,'#d11a2a']].forEach(([a,c])=>{const p=pts[a[1]];dots+=`<circle class="pt" data-x="${p.x}" cx="${p.x}" cy="${p.y}" r="6" fill="${c}" stroke="#fff" stroke-width="2"/>`;});}}
+       if(mx[0]!==mn[0])[[mx,'#1d4ed8','최고'],[mn,'#d11a2a','최저']].forEach(([a,c,t])=>{const p=pts[a[1]];dots+=`<circle class="pt" data-x="${p.x}" cx="${p.x}" cy="${p.y}" r="6" fill="${c}" stroke="#fff" stroke-width="2"/>`;
+         const ty=t==='최고'?p.y-11:p.y+20,w2=tw(t)+4;placed.push([p.x-w2/2,ty-11,w2,13]);
+         labels+=`<text class="lb" data-x="${p.x}" x="${p.x}" y="${ty}" text-anchor="middle" fill="${c}" font-weight="800" stroke="#fff" stroke-width="3" paint-order="stroke">${t}</text>`;});}}
     const lastI=(()=>{for(let i=pts.length-1;i>=0;i--)if(pts[i])return i;return -1;})();
     pts.forEach((p,i)=>{
       if(!p)return;
