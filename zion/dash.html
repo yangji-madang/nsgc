@@ -294,6 +294,18 @@ h2.sec .exc{margin-left:22px;padding:0 10px;border-radius:999px;background:#fff;
 .hm tr.mh td.rtc,.hm tr.dh td.rtc{z-index:3}
 .hm tr.dh td.rtc{color:var(--ink-faint);font-weight:400;font-size:10px}
 
+/* 히트맵: 이름·출석률 폭 축소 + 가로·세로 틀 고정 */
+.hm td.nmc{min-width:0;padding:0 4px;overflow:hidden;text-overflow:clip}
+.hm td.rtc{left:50px;padding:0 3px;font-size:10.5px}
+.hm tr.mh td,.hm tr.dh td{position:sticky;top:0;background:var(--surface);z-index:4}
+.hm tr.mh td.m{position:sticky;top:0;background:var(--hl-bg)}
+.hm tr.mh td.m.o{background:var(--gold-soft)}
+.hm tr.mh td.nmc,.hm tr.mh td.rtc,.hm tr.dh td.nmc,.hm tr.dh td.rtc{z-index:6}
+.hm tr.mh td.nmc,.hm tr.mh td.rtc{left:auto}
+.hm tr.mh td.nmc,.hm tr.dh td.nmc{left:0}
+.hm tr.mh td.rtc,.hm tr.dh td.rtc{left:50px}
+.hm tr.dh td.sp,.hm tr.mh td.sp{background:var(--surface)}
+
 </style>
 </head>
 <body>
@@ -802,7 +814,7 @@ function render(){
   /* 히트맵 : 월별 구분(월 머리글 · 간격 · 날짜 줄) */
   const cols=[];let pm=null;
   R.forEach(i=>{const mo=sundays[i].slice(5,7);if(pm&&mo!==pm)cols.push({sp:1});cols.push({i,mo});pm=mo;});
-  let hm=`<table class="hm" style="table-layout:fixed;width:${64+46+cols.reduce((t,c)=>t+(c.sp?11:19),0)}px"><colgroup><col style="width:64px"><col style="width:46px">${cols.map(c=>`<col style="width:${c.sp?11:19}px">`).join('')}</colgroup><tr class="mh">`;hm+='<td class="nmc"></td><td class="rtc"></td>';
+  let hm=`<table class="hm" style="table-layout:fixed;width:${50+44+cols.reduce((t,c)=>t+(c.sp?11:19),0)}px"><colgroup><col style="width:50px"><col style="width:44px">${cols.map(c=>`<col style="width:${c.sp?11:19}px">`).join('')}</colgroup><tr class="mh">`;hm+='<td class="nmc"></td><td class="rtc"></td>';
   let ci=0,oi=0;
   while(ci<cols.length){
     if(cols[ci].sp){hm+='<td class="sp"></td>';ci++;continue;}
@@ -835,6 +847,8 @@ function render(){
     ${panelHtml('trend')}${panelHtml('singer')}${PARTS.map(p=>panelHtml('p'+p)).join('')}
     ${monthPanel}${distP}<h2 class="sec">출석률 상위 대원<span class="exc">중간 입단 대원 제외</span></h2>${topRow}${watchP}${hmP}`;
 
+  /* 히트맵 틀 고정: 날짜 줄은 월 줄 높이만큼 아래에 붙인다 */
+  {const mh=document.querySelector('.hm tr.mh td.m');const th=mh?mh.getBoundingClientRect().height:18;document.querySelectorAll('.hm tr.dh td').forEach(td=>td.style.top=(th+1.5)+'px');}
   /* 히트맵 등록일 칸이 좁으면 그 칸만 글자를 줄여 날짜가 보이게 */
   document.querySelectorAll('.hm td.mg').forEach(td=>{
     let fs=12;td.dataset.full=td.textContent;
