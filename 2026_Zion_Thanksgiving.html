@@ -151,6 +151,30 @@
   .type-mp3{background:var(--t-mp3-bg);}
   .type-mp4{background:var(--t-mp4-bg);}
 
+
+  /* ---- 연습일정 (구분·일자·시간·장소 시작선 정렬) ---- */
+  .schedule-wrap{padding:6px 14px 0;}
+  .schedule{padding:8px 11px 9px;}
+  .schedule .sch-head{
+    font-size:16px; letter-spacing:.06em; font-weight:900;
+    color:#2f5a1e; margin:0 0 5px; line-height:1.3;
+  }
+  .sch-grid{
+    display:grid;
+    grid-template-columns:max-content max-content max-content 1fr;
+    column-gap:8px; row-gap:3px; align-items:baseline;
+    font-size:12.5px; line-height:1.45; color:var(--ink);
+  }
+  .sch-grid .k{font-weight:900; color:var(--accent-ink); white-space:nowrap;}
+  .sch-grid .d, .sch-grid .t{font-weight:700; white-space:nowrap;}
+  .sch-grid .p{font-weight:700; color:var(--ink-soft); white-space:nowrap;}
+  .sch-detail{
+    grid-column:2 / -1;            /* 일자 열의 시작선에 맞춤 */
+    display:flex; flex-wrap:wrap; column-gap:10px;
+    font-size:12.5px; font-weight:500; color:var(--ink-soft);
+  }
+  .sch-detail span{white-space:nowrap;}
+
   a:focus-visible, button:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
   @media (prefers-reduced-motion: reduce){ .chip{transition:none;} }
 </style>
@@ -165,6 +189,18 @@
       <h1>2026년 시온찬양대 추수감사주일 찬양</h1>
     </div>
   </header>
+
+  <section class="schedule-wrap" aria-label="연습일정">
+    <div class="schedule frost">
+      <p class="sch-head">연습일정</p>
+      <div class="sch-grid">
+        <span class="k">주일</span><span class="d">10/18~11/8(4회)</span><span class="t">14:30~17:00</span><span class="p">신관 303호</span>
+        <span class="k">토요일</span><span class="d">10/24, 11/7(2회)</span><span class="t">15:00~18:00</span><span class="p">신관 303호</span>
+        <span class="k">리허설</span><span class="d">11/14(토)</span><span class="t">16:00~19:00</span><span class="p">세라믹홀</span>
+        <div class="sch-detail"><span>16:00~17:30(Orc.)</span><span>17:00~17:30(간식)</span><span>17:30~19:00(전체)</span></div>
+      </div>
+    </div>
+  </section>
 
   <div class="filterbar">
     <div class="filter-panel frost">
