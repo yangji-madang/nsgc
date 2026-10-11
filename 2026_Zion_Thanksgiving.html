@@ -76,6 +76,7 @@
     font-size:18.4px; line-height:1.32; margin:0;
     text-wrap:balance; word-break:keep-all;
     font-weight:900; color:var(--ink);
+    text-align:center;
   }
 
   .filterbar{
@@ -168,6 +169,11 @@
   .sch-grid .k{font-weight:900; color:var(--accent-ink); white-space:nowrap;}
   .sch-grid .d, .sch-grid .t{font-weight:700; white-space:nowrap;}
   .sch-grid .p{font-weight:700; color:var(--ink-soft); white-space:nowrap;}
+  .sch-grid .p-reh{white-space:normal;}
+  .sch-grid .p-reh span{white-space:nowrap;}
+  @media (max-width:480px){
+    .sch-grid .p-reh{grid-column:2 / -1;}   /* 좁은 화면: 일자 시작선 아래 줄로 */
+  }
   .sch-detail{
     grid-column:2 / -1;            /* 일자 열의 시작선에 맞춤 */
     display:flex; flex-wrap:wrap; column-gap:10px;
@@ -195,7 +201,7 @@
       <div class="sch-grid">
         <span class="k">주일</span><span class="d">10/18~11/8(4회)</span><span class="t">2:30~5:00</span><span class="p">신관 303호</span>
         <span class="k">토요일</span><span class="d">10/24, 11/7(2회)</span><span class="t">3:00~6:00</span><span class="p">신관 303호</span>
-        <span class="k">리허설</span><span class="d">11/14(토)</span><span class="t">4:00~7:00</span><span class="p">세라믹홀</span>
+        <span class="k">리허설</span><span class="d">11/14(토)</span><span class="t">4:00~7:00</span><span class="p p-reh"><span>신관 303호(Singer),</span> <span>세라믹홀(Orc. 전체)</span></span>
         <div class="sch-detail"><span>4:00~5:00(Singer)</span><span>4:00~5:30(Orc.)</span><span>5:00~5:30(간식)</span><span>5:30~7:00(전체)</span></div>
       </div>
     </div>
