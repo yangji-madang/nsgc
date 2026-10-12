@@ -306,6 +306,11 @@ h2.sec .exc{margin-left:22px;padding:0 10px;border-radius:999px;background:#fff;
 .hm tr.mh td.rtc,.hm tr.dh td.rtc{left:50px}
 .hm tr.dh td.sp,.hm tr.mh td.sp{background:var(--surface)}
 
+/* 히트맵 파트 이름 줄: 주별 파트 출석인원 */
+.hm tr.gh td.ghn{text-align:left;font-weight:800;padding:2px 4px 0;background:var(--surface)}
+.hm tr.gh td.gn{height:auto;padding:2px 0 0;font-size:10px;font-weight:800;line-height:1.2;text-align:center;background:transparent;border-radius:0}
+.hm tr.gh td.sp{height:auto}
+
 </style>
 </head>
 <body>
@@ -824,7 +829,14 @@ function render(){
   hm+='</tr><tr class="dh"><td class="nmc"></td><td class="rtc">출석률</td>'+cols.map(c=>c.sp?'<td class="sp"></td>':`<td>${+sundays[c.i].slice(8,10)}</td>`).join('')+'</tr>';
   let pg=null;
   dstat.forEach(x=>{
-    if(pg!==x.g){pg=x.g;hm+=`<tr class="gh"><td colspan="${cols.length+2}" style="color:${x.g==='탈퇴'?'var(--ink-faint)':cv(x.g)}">${x.g==='탈퇴'?'탈퇴 대원':AB(x.g)}</td></tr>`;}
+    if(pg!==x.g){pg=x.g;const gc=x.g==='탈퇴'?'var(--ink-faint)':cv(x.g),ro=x.g==='탈퇴'?null:null;
+      /* 파트 이름 줄의 빈 칸에 주별 파트 출석인원 표시 */
+      hm+=`<tr class="gh"><td class="nmc ghn" colspan="2" style="color:${gc}">${x.g==='탈퇴'?'탈퇴 대원':AB(x.g)}</td>`+cols.map(c=>{
+        if(c.sp)return '<td class="sp"></td>';
+        if(x.g==='탈퇴')return '<td class="gn"></td>';
+        const q=Mx.W[c.i].row[x.g];
+        return q&&q.e>0?`<td class="gn" style="color:${gc}" title="${AB(x.g)} ${md(sundays[c.i])} 출석 ${q.a}명 / 재적 ${q.e}명">${q.a}</td>`:'<td class="gn"></td>';
+      }).join('')+'</tr>';}
     const sp=Mx.span.get(x.m.id);
     const inS=c=>!c.sp&&c.i>=sp.s&&c.i<=sp.e;
     let a0=cols.findIndex(inS);if(a0<0)a0=cols.length;
