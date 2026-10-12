@@ -196,6 +196,9 @@ table#tb{border-collapse:separate;border-spacing:0;table-layout:fixed;font-varia
   .wrap{padding-bottom:max(4px,env(safe-area-inset-bottom))}
 }
 
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+#tb tr.dk td.dkn,#tb tr.dk td.dkf{overflow:hidden}
+
 </style>
 </head>
 <body>
@@ -490,8 +493,23 @@ function buildTable(){
   });
   refs.DG=DG;
   paint();applyFilters();
+  fitDock();
   if(had){sh.scrollLeft=sl;sh.scrollTop=stp;}
 }
+
+/* 하단 요약 줄 높이를 실제 높이로 재서 위치를 잡음(글자 크기 설정이 커도 줄끼리 겹치지 않게) */
+function fitDock(){
+  const tb=$('#tb');if(!tb)return;
+  const rows=[...tb.querySelectorAll('tbody tr.dkh, tbody tr.dk')];
+  let acc=0;
+  for(let i=rows.length-1;i>=0;i--){
+    const tr=rows[i];
+    tr.querySelectorAll('td').forEach(td=>{td.style.bottom=acc+'px';});
+    acc+=tr.getBoundingClientRect().height;
+  }
+}
+addEventListener('resize',()=>{clearTimeout(fitDock.t);fitDock.t=setTimeout(fitDock,200);});
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>fitDock());
 
 /* ---------- 계산값 그리기 ---------- */
 function paint(){
