@@ -734,12 +734,17 @@ addEventListener('resize',()=>{clearTimeout(rzT);rzT=setTimeout(()=>{const c=mat
 
 /* ---------- 시작 ---------- */
 (async()=>{
-  let p=null;
-  try{const raw=localStorage.getItem(KEY);if(raw){const x=JSON.parse(raw);if(valid(x))p=x;}}catch(e){canStore=false;}
-  if(!p){try{const r=await fetch('data.json',{cache:'no-store'});if(r.ok){const x=await r.json();if(valid(x))p=x;}}catch(e){}}
+  let p=null,loc=null,rem=null,fromRemote=false;
+  try{const raw=localStorage.getItem(KEY);if(raw){const x=JSON.parse(raw);if(valid(x))loc=x;}}catch(e){canStore=false;}
+  try{const r=await fetch('data.json?t='+Date.now(),{cache:'no-store'});if(r.ok){const x=await r.json();if(valid(x))rem=x;}}catch(e){}
+  /* 이 기기 저장본과 발행된 data.json 중 더 최근(updated) 것을 사용 → 다른 기기에서 발행한 내용도 반영 */
+  if(loc&&rem){const tl=Date.parse(loc.updated||'')||0,tr=Date.parse(rem.updated||'')||0;if(tr>tl){p=rem;fromRemote=true;}else p=loc;}
+  else p=loc||rem;
   if(!p)p=JSON.parse(JSON.stringify(SEED));
   S=normalize(p);
+  if(fromRemote){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
   buildFilters();buildTable();
+  if(fromRemote)toast('발행된 최신 data.json을 불러왔습니다.');
 })();
 })();
 
