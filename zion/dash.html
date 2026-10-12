@@ -311,6 +311,10 @@ h2.sec .exc{margin-left:22px;padding:0 10px;border-radius:999px;background:#fff;
 .hm tr.gh td.gn{height:auto;padding:2px 0 0;font-size:10px;font-weight:800;line-height:1.2;text-align:center;background:transparent;border-radius:0}
 .hm tr.gh td.sp{height:auto}
 
+.hm tr.gh.tot td{color:var(--head-ink);font-size:11px;font-weight:800;padding-bottom:2px;border-bottom:2px solid var(--head-ink);border-radius:0}
+.hm tr.gh.tot td.sp{border-bottom:0}
+.hm tr.gh.tot td.ghn{font-size:12px}
+
 </style>
 </head>
 <body>
@@ -827,6 +831,12 @@ function render(){
     hm+=`<td class="m ${oi%2?'o':''}" colspan="${cj-ci}">${+mo}월</td>`;ci=cj;oi++;
   }
   hm+='</tr><tr class="dh"><td class="nmc"></td><td class="rtc">출석률</td>'+cols.map(c=>c.sp?'<td class="sp"></td>':`<td>${+sundays[c.i].slice(8,10)}</td>`).join('')+'</tr>';
+  /* 히트맵 맨 위: 주별 전체 출석인원(히트맵에 나오는 대원 = Singer + 기타) */
+  hm+=`<tr class="gh tot"><td class="nmc ghn" colspan="2">전체</td>`+cols.map(c=>{
+    if(c.sp)return '<td class="sp"></td>';
+    const a=Mx.W[c.i].row.Singer.a+Mx.W[c.i].row['기타'].a,e=Mx.W[c.i].row.Singer.e+Mx.W[c.i].row['기타'].e;
+    return `<td class="gn" title="전체 ${md(sundays[c.i])} 출석 ${a}명 / 재적 ${e}명">${a}</td>`;
+  }).join('')+'</tr>';
   let pg=null;
   dstat.forEach(x=>{
     if(pg!==x.g){pg=x.g;const gc=x.g==='탈퇴'?'var(--ink-faint)':cv(x.g),ro=x.g==='탈퇴'?null:null;
