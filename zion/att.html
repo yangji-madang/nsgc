@@ -187,6 +187,15 @@ table#tb{border-collapse:separate;border-spacing:0;table-layout:fixed;font-varia
 .fpanel{border:1px solid #8794c9}
 .sheet{border:1px solid var(--line-strong)}
 
+/* 모바일 주소창·하단바가 화면을 가려 하단 요약(O 입력줄)이 잘리는 문제: 실제 보이는 높이(dvh)에 맞춤 */
+@supports (height:100dvh){
+  html,body{height:100dvh}
+  .wrap{height:100dvh}
+}
+@media (max-width:720px){
+  .wrap{padding-bottom:max(4px,env(safe-area-inset-bottom))}
+}
+
 </style>
 </head>
 <body>
