@@ -246,30 +246,19 @@ tr.next td.date::after{content:" 이번 주일";font-size:11px;background:#ffff0
       <div class="fld"><label for="fBook">책명</label><input id="fBook" list="bookList"><datalist id="bookList"></datalist></div>
       <div class="fld"><label for="fPage">쪽</label><input id="fPage" inputmode="numeric"></div>
       <div class="fld c6"><label for="fTitle">제목</label><input id="fTitle"></div>
-      <div class="fld c6"><label for="fNote">설명 (제목 아래 붉은 글씨, 줄바꿈 가능)</label><textarea id="fNote" rows="2" placeholder="* 가사가 다릅니다."></textarea></div>
     </div>
 
     <div class="sec">
       <h3>파트별 링크 <small>주소를 붙여넣으세요. 빈 칸은 버튼이 나타나지 않습니다.</small></h3>
       <table class="lt" id="lt">
-        <thead><tr><th></th><th class="y">유튜브</th><th class="m">mp3다운로드</th><th class="v">동영상다운로드</th><th>안내문 (링크 대신 표시)</th></tr></thead>
+        <thead><tr><th></th><th class="y">유튜브</th><th class="m">mp3다운로드</th><th class="v">동영상다운로드</th></tr></thead>
         <tbody></tbody>
       </table>
     </div>
 
     <div class="sec">
-      <h3>추가 버튼 <small>예: 합창 줄의 「4부 반주 mp3다운로드」</small><button class="btn small" id="exAdd" type="button" style="margin-left:auto">+ 추가</button></h3>
-      <div id="exList"></div>
-    </div>
-
-    <div class="sec">
-      <h3>특수 항목</h3>
-      <div class="grid-form">
-        <div class="fld c3"><label for="fMsV">2025 메시아 공연 · 합창영상</label><input id="fMsV" placeholder="https://"></div>
-        <div class="fld c3"><label for="fMsA">2025 메시아 공연 · 합창 mp3</label><input id="fMsA" placeholder="https://"></div>
-        <div class="fld c2"><label for="fFullName">전체보기 버튼 이름</label><input id="fFullName" placeholder="추수감사찬양 연습 전체보기"></div>
-        <div class="fld c4"><label for="fFullUrl">전체보기 링크 (넣으면 큰 버튼 하나로 표시)</label><input id="fFullUrl" placeholder="https://"></div>
-      </div>
+      <div class="fld"><label for="fNote">설명 (제목 아래 붉은 글씨, 줄바꿈 가능)</label><textarea id="fNote" rows="2" placeholder="* 가사가 다릅니다."></textarea></div>
+      <p class="hint" id="keepInfo" hidden></p>
     </div>
 
     <p class="err" id="dlgErr" hidden></p>
@@ -431,18 +420,6 @@ function renderChecks(){
 
 /* ---------- 편집 창 ---------- */
 let editing=null, isNew=false;
-function exRow(e){
-  const d=document.createElement('div'); d.className='ex';
-  d.innerHTML=`<select class="p">${PARTS.map(([p,l])=>`<option value="${p}">${l}</option>`).join('')}</select>
-    <select class="t">${TYPES.map(([t,l])=>`<option value="${t}">${l} 색</option>`).join('')}</select>
-    <input class="n" placeholder="버튼 이름">
-    <input class="u" placeholder="https://">
-    <button class="btn small danger" type="button" title="삭제">×</button>`;
-  d.querySelector('.p').value=e.part||'All'; d.querySelector('.t').value=e.type||'mp3';
-  d.querySelector('.n').value=e.name||''; d.querySelector('.u').value=e.url||'';
-  d.querySelector('button').onclick=()=>d.remove();
-  $('#exList').appendChild(d);
-}
 function openDlg(song,asNew){
   editing=song; isNew=!!asNew||!DATA.songs.includes(song);
   $('#dlgTitle').textContent=isNew?'새 곡 추가':`${md(song.date)} 곡 편집`;
@@ -451,9 +428,15 @@ function openDlg(song,asNew){
   const books=[...new Set(DATA.songs.map(s=>s.book).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'ko',{numeric:true}));
   $('#bookList').innerHTML=books.map(b=>`<option value="${esc(b)}">`).join('');
   const sp=split(song), pn=song.partNotes||{};
-  $('#lt tbody').innerHTML=PARTS.map(([p,l])=>`<tr><td class="p">${l}</td>${TYPES.map(([t])=>`<td><input data-p="${p}" data-t="${t}" value="${esc(sp.grid[p][t]||'')}" placeholder="—"></td>`).join('')}<td><input data-note="${p}" value="${esc(pn[p]||'')}" placeholder=""></td></tr>`).join('');
-  $('#exList').innerHTML=''; sp.ex.forEach(exRow);
-  $('#fMsV').value=sp.msV; $('#fMsA').value=sp.msA; $('#fFullName').value=sp.fullName; $('#fFullUrl').value=sp.fullUrl;
+  $('#lt tbody').innerHTML=PARTS.map(([p,l])=>`<tr><td class="p">${l}</td>${TYPES.map(([t])=>`<td><input data-p="${p}" data-t="${t}" value="${esc(sp.grid[p][t]||'')}" placeholder="—"></td>`).join('')}</tr>`).join('');
+  // 특수 항목(메시아 공연·전체보기·추가 버튼·파트 안내문)은 편집하지 않고 그대로 유지 — 무엇이 유지되는지만 표시
+  const keep=[];
+  if(sp.fullUrl) keep.push(`전체보기 버튼 「${sp.fullName||'전체보기'}」`);
+  if(sp.msV||sp.msA) keep.push('2025 메시아 공연 '+[sp.msV?'합창영상':'',sp.msA?'합창 mp3':''].filter(Boolean).join('·'));
+  sp.ex.forEach(e=>keep.push(`${PN[e.part]} 「${e.name}」 버튼`));
+  Object.entries(pn).forEach(([p,v])=>keep.push(`${PN[p]} 안내문 「${v}」`));
+  $('#keepInfo').hidden=!keep.length;
+  $('#keepInfo').textContent=keep.length?'그대로 유지되는 특수 항목: '+keep.join(' / '):'';
   $('#dlgDel').hidden=isNew; $('#dlgErr').hidden=true;
   $('#dlg').hidden=false; markGrid(); setTimeout(()=>(isNew?$('#fDate'):$('#fTitle')).focus(),30);
 }
@@ -463,7 +446,6 @@ function markGrid(){
   ins.forEach(i=>{const v=i.value.trim(); i.classList.toggle('dup',!!v&&cnt[v]>1); i.classList.toggle('badurl',!!v&&!/^https?:\/\//.test(v));});
 }
 $('#lt').addEventListener('input',markGrid);
-$('#exAdd').onclick=()=>exRow({part:'All',type:'mp3',name:'',url:''});
 function closeDlg(){$('#dlg').hidden=true;editing=null;}
 $('#dlgCancel').onclick=closeDlg;
 $('#dlg').addEventListener('click',e=>{if(e.target.id==='dlg')closeDlg();});
@@ -481,12 +463,9 @@ $('#dlgOk').onclick=()=>{
   if(DATA.songs.some(s=>s!==editing&&s.date===date)) return err(`${md(date)} 곡이 이미 있습니다. 날짜를 확인하세요.`);
   const links=[];
   $$('#lt input[data-p]').forEach(i=>{const v=i.value.trim(); if(v) links.push({part:i.dataset.p,type:i.dataset.t,url:v});});
-  $$('#exList .ex').forEach(r=>{const u=r.querySelector('.u').value.trim(); if(u) links.push({part:r.querySelector('.p').value,type:r.querySelector('.t').value,url:u,name:r.querySelector('.n').value.trim()||TN[r.querySelector('.t').value]});});
-  const mv=$('#fMsV').value.trim(), ma=$('#fMsA').value.trim();
-  if(mv) links.push({part:'Messiah',type:'mp4',url:mv,name:'합창영상'});
-  if(ma) links.push({part:'Messiah',type:'mp3',url:ma,name:'합창 mp3'});
-  const fu=$('#fFullUrl').value.trim(); if(fu) links.push({part:'Full',type:'youtube',url:fu,name:$('#fFullName').value.trim()||'연습 전체보기'});
-  const pn={}; $$('#lt input[data-note]').forEach(i=>{const v=i.value.trim(); if(v) pn[i.dataset.note]=v;});
+  // 특수 항목은 기존 값을 그대로 이어붙임
+  (editing.links||[]).forEach(l=>{ if(l.part==='Full'||l.part==='Messiah'||(l.name&&PN[l.part])) links.push(clone(l)); });
+  const pn=clone(editing.partNotes||{});
   const s={date,season:$('#fSeason').value.trim(),book:$('#fBook').value.trim(),page:$('#fPage').value.trim(),title,links};
   const note=$('#fNote').value.replace(/\s+$/,''); if(note) s.note=note;
   if(Object.keys(pn).length) s.partNotes=pn;
