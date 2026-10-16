@@ -186,8 +186,8 @@
 <div class="topbar" id="topbar">
 <header>
   <p class="eyebrow">Zion Choir · 2026</p>
-  <h1>2026년 시온찬양대 찬양곡목</h1>
-  <p class="sub-wrap"><a class="sub" href="https://buly.kr/Gkv8sMl" target="_blank" rel="noopener noreferrer">2026년 주일 찬양보기 ↗</a></p>
+  <h1 id="pageTitle">2026년 시온찬양대 찬양곡목</h1>
+  <p class="sub-wrap"><a class="sub" id="subLink" href="https://buly.kr/Gkv8sMl" target="_blank" rel="noopener noreferrer">2026년 주일 찬양보기 ↗</a></p>
 </header>
 
 <div class="filterbar">
@@ -1896,8 +1896,14 @@
 </script>
 
 <script>
-(function(){
-  var raw = JSON.parse(document.getElementById('song-data').textContent)
+function startApp(){
+  var SET = window.__SETTINGS || {};
+  if(SET.title){ document.getElementById('pageTitle').textContent = SET.title; }
+  var subA = document.getElementById('subLink');
+  if(SET.subLabel){ subA.textContent = SET.subLabel + ' ↗'; }
+  if(SET.subUrl){ subA.href = SET.subUrl; }
+  if(SET.subLabel === '' ){ subA.parentNode.hidden = true; }
+  var raw = (window.__SONG_DATA || JSON.parse(document.getElementById('song-data').textContent))
               .sort(function(a,b){ return a.date < b.date ? -1 : a.date > b.date ? 1 : 0; });
 
   var PARTS = [{key:'ALL',label:'전체'},{key:'All',label:'합창'},{key:'Sop',label:'Sop.'},{key:'Alt',label:'Alt.'},{key:'Ten',label:'Ten.'},{key:'Bas',label:'Bas.'}];
@@ -2085,7 +2091,8 @@
 
   // 가로 폭: 11월 22일 곡의 제목 줄이 한 줄에 들어가는 폭에 맞춤 (기기 글꼴 기준으로 실측)
   function fitWidth(){
-    var ref = raw.filter(function(s){ return s.date === '2026-11-22'; })[0];
+    var ref = raw.filter(function(s){ return s.date === (SET.widthRef || '2026-11-22'); })[0];
+    if(!ref){ ref = raw.filter(function(s){ return !s.season; }).sort(function(a,b){ return (b.title + b.book).length - (a.title + a.book).length; })[0]; }
     if(!ref) return;
     var m = document.createElement('div');
     m.className = 'card-top';
@@ -2112,6 +2119,25 @@
   requestAnimationFrame(function(){ requestAnimationFrame(goNext); });
   window.addEventListener('load', goNext);
   setTimeout(goNext, 350);
+}
+
+/* 데이터 불러오기: songs.json(관리페이지에서 저장) → 실패 시 파일 안의 기본 데이터 사용
+   ?preview=1 이면 관리페이지의 미저장 초안을 보여줌 */
+(function(){
+  var started = false;
+  function go(d){
+    if(started) return; started = true;
+    if(d && Array.isArray(d.songs)){ window.__SONG_DATA = d.songs; window.__SETTINGS = d.settings || {}; }
+    startApp();
+  }
+  if(/[?&]preview=1/.test(location.search)){
+    try{ var x = JSON.parse(localStorage.getItem('zion-songs-draft-v1')); if(x && x.songs){ go(x); return; } }catch(e){}
+  }
+  var timer = setTimeout(function(){ go(null); }, 4000);
+  fetch('songs.json?t=' + Date.now(), {cache:'no-store'})
+    .then(function(r){ return r.ok ? r.json() : null; })
+    .then(function(d){ clearTimeout(timer); go(d); })
+    .catch(function(){ clearTimeout(timer); go(null); });
 })();
 </script>
 </body>

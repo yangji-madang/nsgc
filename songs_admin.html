@@ -1,0 +1,726 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>찬양곡목 관리</title>
+<style>
+:root{
+  color-scheme:light;
+  --bg:#eceef4; --surface:#fff; --panel:#a3afdc; --ink:#0f1226; --ink-soft:#383c58; --ink-faint:#5c6083;
+  --line:#c9cddb; --line-strong:#aeb3c8; --accent:#a9781f; --accent-ink:#7a5c1d; --navy:#1d3f9a;
+  --ok:#1c7a5c; --warn:#b36b00; --bad:#b3361b; --warn-bg:#fff4dc; --bad-bg:#fde8e3; --ok-bg:#e3f4ec; --info-bg:#e6ecfb;
+  --t-youtube:#c23a26; --t-mp3:#1c7a5c; --t-mp4:#2f4f9e;
+  --shadow:0 1px 2px rgba(30,35,64,.06),0 4px 14px rgba(30,35,64,.07);
+}
+*{box-sizing:border-box}
+html,body{background:var(--bg)}
+body{margin:0;color:var(--ink);font:14px/1.45 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","맑은 고딕","Noto Sans KR",system-ui,sans-serif;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:var(--navy)}
+.wrap{max-width:1080px;margin:0 auto;padding:0 12px 60px}
+
+/* 상단 */
+.top .wrap{padding-bottom:0}
+.top{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 0 0}
+.top-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.top h1{font-size:18px;margin:0;font-weight:800;flex:1 1 auto;min-width:160px}
+.top h1 small{display:block;font-size:11.5px;font-weight:700;color:var(--accent-ink);letter-spacing:.06em}
+.dirty{font-size:12.5px;font-weight:800;color:var(--warn);background:var(--warn-bg);border-radius:6px;padding:2px 8px}
+.clean{font-size:12.5px;font-weight:700;color:var(--ok);background:var(--ok-bg);border-radius:6px;padding:2px 8px}
+.btn{appearance:none;border:1px solid var(--line-strong);background:var(--surface);border-radius:8px;padding:5px 11px;font-weight:700;cursor:pointer;white-space:nowrap}
+.btn:hover{border-color:var(--navy)}
+.btn.primary{background:var(--navy);border-color:var(--navy);color:#fff}
+.btn.gold{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.danger{color:var(--bad);border-color:#e3b3a8}
+.btn.small{padding:2px 8px;font-size:12.5px;border-radius:6px}
+.btn:disabled{opacity:.5;cursor:default}
+.tabs{display:flex;gap:2px;margin-top:8px}
+.tab{appearance:none;border:1px solid var(--line);border-bottom:none;background:#dfe2ec;border-radius:9px 9px 0 0;padding:6px 14px;font-weight:800;color:var(--ink-soft);cursor:pointer}
+.tab[aria-selected="true"]{background:var(--surface);color:var(--ink);border-color:var(--line-strong)}
+.tab .cnt{font-size:11.5px;margin-left:4px;border-radius:9px;padding:0 6px;background:var(--bad);color:#fff}
+.view{background:var(--surface);border:1px solid var(--line-strong);border-radius:0 10px 10px 10px;padding:12px;box-shadow:var(--shadow)}
+
+.banner{margin:10px 0 0;padding:8px 12px;border-radius:9px;font-weight:600;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.banner.info{background:var(--info-bg)} .banner.warn{background:var(--warn-bg)} .banner.bad{background:var(--bad-bg)}
+
+/* 목록 */
+.toolbar{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+.toolbar input[type=search]{border:1px solid var(--line-strong);border-radius:8px;padding:5px 10px;min-width:180px;flex:1 1 180px;max-width:280px}
+.chip{appearance:none;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:1px 9px;font-size:13px;font-weight:700;cursor:pointer;color:var(--ink-soft)}
+.chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.tbl-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%}
+th,td{border-bottom:1px solid var(--line);padding:5px 6px;text-align:left;vertical-align:middle}
+th{font-size:12px;color:var(--ink-faint);font-weight:800;background:#f6f7fb;position:sticky;top:0}
+td.date{white-space:nowrap;font-weight:800;color:var(--accent-ink)}
+td.date .season{color:var(--bad);font-weight:700}
+td.title{font-weight:700;min-width:130px;word-break:keep-all}
+td.title .note{display:block;font-size:12px;color:var(--bad);font-weight:600}
+td.book{white-space:nowrap;color:var(--ink-soft)}
+td.act{white-space:nowrap;text-align:right}
+tr.next td{background:#fffbe0}
+tr.next td.date::after{content:" 이번 주일";font-size:11px;background:#ffff00;color:#000;border-radius:4px;padding:0 4px;margin-left:4px}
+.dots{display:inline-flex;gap:5px;white-space:nowrap}
+.dg{display:inline-flex;gap:1px}
+.dot{width:9px;height:9px;border-radius:2px;background:#dde0ea}
+.dot.y{background:var(--t-youtube)} .dot.m{background:var(--t-mp3)} .dot.v{background:var(--t-mp4)}
+.badge{display:inline-block;font-size:11.5px;font-weight:800;border-radius:5px;padding:0 6px;white-space:nowrap}
+.badge.ok{background:var(--ok-bg);color:var(--ok)} .badge.warn{background:var(--warn-bg);color:var(--warn)} .badge.bad{background:var(--bad-bg);color:var(--bad)} .badge.info{background:var(--info-bg);color:var(--navy)}
+.legend{font-size:12px;color:var(--ink-faint);margin-left:auto;display:flex;gap:8px;align-items:center}
+.legend .dot{display:inline-block;vertical-align:middle}
+
+/* 편집 창 */
+.overlay{position:fixed;inset:0;background:rgba(15,18,38,.45);z-index:50;display:flex;justify-content:center;align-items:flex-start;overflow:auto;padding:16px 8px}
+.dialog{background:var(--surface);border-radius:12px;box-shadow:0 10px 40px rgba(0,0,0,.25);width:100%;max-width:820px;padding:14px 16px}
+.dialog h2{margin:0 0 10px;font-size:17px}
+.grid-form{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
+.fld{display:flex;flex-direction:column;gap:2px;min-width:0}
+.fld label{font-size:12px;font-weight:800;color:var(--ink-faint)}
+.fld input,.fld select,.fld textarea,.lt input,.ex input,.ex select{border:1px solid var(--line-strong);border-radius:7px;padding:5px 8px;min-width:0;width:100%;background:#fff}
+.fld textarea{resize:vertical;min-height:44px}
+.c2{grid-column:span 2}.c3{grid-column:span 3}.c4{grid-column:span 4}.c6{grid-column:span 6}
+.sec{margin-top:12px;border-top:1px dashed var(--line-strong);padding-top:10px}
+.sec h3{margin:0 0 6px;font-size:13.5px;display:flex;gap:8px;align-items:center}
+.sec h3 small{font-weight:600;color:var(--ink-faint)}
+.lt{width:100%;border-collapse:collapse}
+.lt th{background:none;position:static;font-size:12px;padding:3px 4px}
+.lt td{border:none;padding:2px 3px}
+.lt td.p{font-weight:800;white-space:nowrap;width:44px}
+.lt th.y{color:var(--t-youtube)} .lt th.m{color:var(--t-mp3)} .lt th.v{color:var(--t-mp4)}
+.lt input{font-size:12.5px;padding:4px 6px}
+.lt input.dup{border-color:var(--bad);background:var(--bad-bg)}
+.lt input.badurl{border-color:var(--warn);background:var(--warn-bg)}
+.ex{display:grid;grid-template-columns:90px 120px 1fr 1.6fr 30px;gap:5px;margin-bottom:4px;align-items:center}
+.dlg-foot{display:flex;gap:8px;justify-content:flex-end;margin-top:14px;flex-wrap:wrap}
+.dlg-foot .left{margin-right:auto}
+.hint{font-size:12px;color:var(--ink-faint)}
+.err{color:var(--bad);font-weight:700;font-size:12.5px}
+
+/* 엑셀 */
+.drop{border:2px dashed var(--line-strong);border-radius:12px;padding:20px;text-align:center;background:#f8f9fc}
+.drop.over{border-color:var(--navy);background:var(--info-bg)}
+.diff-list{margin-top:10px}
+.drow{border:1px solid var(--line);border-radius:9px;padding:7px 10px;margin-bottom:6px}
+.drow.new{border-left:4px solid var(--ok)} .drow.chg{border-left:4px solid var(--warn)} .drow.del{border-left:4px solid var(--bad)} .drow.same{opacity:.6}
+.drow-h{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.drow-h b{min-width:84px}
+.drow ul{margin:5px 0 0 26px;padding:0;font-size:12.5px}
+.drow li{margin:1px 0;word-break:break-all}
+.old{color:var(--bad);text-decoration:line-through}
+.new-v{color:var(--ok);font-weight:700}
+
+/* 점검 */
+.issue{display:flex;gap:8px;align-items:flex-start;border-bottom:1px solid var(--line);padding:6px 2px}
+.issue .what{flex:1;min-width:0;word-break:break-all}
+
+/* 설정 */
+.set-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;max-width:760px}
+.card{border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.card h3{margin:0 0 8px;font-size:14px}
+
+.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#14183a;color:#fff;border-radius:9px;padding:8px 14px;font-weight:700;z-index:90;max-width:90vw;box-shadow:var(--shadow)}
+[hidden]{display:none!important}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+@media (max-width:700px){
+  .grid-form{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .c3,.c4,.c6{grid-column:span 2}
+  .ex{grid-template-columns:1fr 1fr;}
+  .ex .u{grid-column:span 2}
+  .set-grid{grid-template-columns:1fr}
+  td.book,th.book,td.dotscol,th.dotscol{display:none}
+  .legend{display:none}
+  .wrap{padding-left:6px;padding-right:6px}
+  .view{padding:8px}
+  th,td{padding:5px 3px}
+  td.act .btn{padding:1px 6px}
+  td.act .copy{display:none}
+  .tab{padding:5px 9px}
+}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+<div class="top"><div class="wrap">
+  <div class="top-row">
+    <h1><small>ZION CHOIR · ADMIN</small>찬양곡목 관리</h1>
+    <span id="dirtyBadge" class="clean">저장됨</span>
+    <a class="btn" href="index.html" target="_blank" rel="noopener">보기 페이지 ↗</a>
+    <button class="btn" id="btnPreview" type="button">초안 미리보기 ↗</button>
+    <button class="btn primary" id="btnSave" type="button">GitHub에 저장</button>
+  </div>
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" data-tab="list" aria-selected="true">곡 목록</button>
+    <button class="tab" role="tab" data-tab="excel" aria-selected="false">엑셀 올리기</button>
+    <button class="tab" role="tab" data-tab="check" aria-selected="false">자동 점검<span class="cnt" id="checkCnt" hidden></span></button>
+    <button class="tab" role="tab" data-tab="settings" aria-selected="false">설정</button>
+  </div>
+</div></div>
+
+<div class="wrap">
+  <div id="banners"></div>
+
+  <!-- 곡 목록 -->
+  <section class="view" id="v-list">
+    <div class="toolbar">
+      <button class="btn gold" id="btnAdd" type="button">+ 새 곡 추가</button>
+      <input type="search" id="q" placeholder="곡목 · 책명 검색">
+      <span id="monthChips"></span>
+      <span class="legend"><span class="dot y"></span>유튜브 <span class="dot m"></span>mp3 <span class="dot v"></span>동영상 (합창·S·A·T·B 순)</span>
+    </div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>날짜</th><th>제목</th><th class="book">책명 · 쪽</th><th class="dotscol">링크</th><th>상태</th><th></th></tr></thead>
+      <tbody id="tb"></tbody>
+    </table></div>
+    <p class="hint" id="listCount"></p>
+  </section>
+
+  <!-- 엑셀 -->
+  <section class="view" id="v-excel" hidden>
+    <div class="drop" id="drop">
+      <p style="margin:0 0 8px;font-weight:800">찬양곡목 엑셀(xlsx)을 끌어다 놓거나 선택하세요</p>
+      <input type="file" id="xfile" accept=".xlsx,.xls">
+      <p class="hint" style="margin:8px 0 0">기존 양식 그대로: B 날짜 · C 절기 · D 책명 · E 쪽 · F 제목(둘째 줄부터 * 설명) · G 유형 · H~L 합창/Sop/Alt/Ten/Bas 하이퍼링크<br>
+      <b id="importFromHint"></b> 이후 날짜만 비교합니다(설정에서 변경).</p>
+    </div>
+    <div id="xresult" hidden>
+      <div class="toolbar" style="margin-top:10px">
+        <b id="xsummary"></b>
+        <span style="margin-left:auto"></span>
+        <button class="btn small" id="xAll" type="button">변경 모두 선택</button>
+        <button class="btn small" id="xNone" type="button">모두 해제</button>
+        <button class="btn primary" id="xApply" type="button">선택 항목 반영</button>
+      </div>
+      <p class="hint">반영해도 바로 게시되지 않습니다. 확인 후 상단의 <b>GitHub에 저장</b>을 눌러야 보기 페이지에 나타납니다.</p>
+      <div class="diff-list" id="xlist"></div>
+    </div>
+  </section>
+
+  <!-- 점검 -->
+  <section class="view" id="v-check" hidden>
+    <div class="toolbar"><b id="checkSummary"></b></div>
+    <div id="issues"></div>
+  </section>
+
+  <!-- 설정 -->
+  <section class="view" id="v-settings" hidden>
+    <div class="set-grid">
+      <div class="card">
+        <h3>보기 페이지 상단</h3>
+        <div class="fld"><label for="sTitle">제목</label><input id="sTitle"></div>
+        <div class="fld" style="margin-top:6px"><label for="sSubLabel">강조 링크 문구</label><input id="sSubLabel"></div>
+        <div class="fld" style="margin-top:6px"><label for="sSubUrl">강조 링크 주소</label><input id="sSubUrl" placeholder="https://"></div>
+      </div>
+      <div class="card">
+        <h3>엑셀 · 화면 기준</h3>
+        <div class="fld"><label for="sFrom">엑셀 비교 시작 날짜</label><input type="date" id="sFrom"></div>
+        <div class="fld" style="margin-top:6px"><label for="sWidth">페이지 폭 기준 곡 날짜</label><input type="date" id="sWidth"><span class="hint">이 곡의 제목 줄이 한 줄에 들어가는 폭으로 맞춥니다.</span></div>
+      </div>
+      <div class="card">
+        <h3>GitHub 연결</h3>
+        <div class="fld"><label for="tok">토큰 (Contents 읽기·쓰기 권한)</label><input type="password" id="tok" autocomplete="off" placeholder="github_pat_…"></div>
+        <label class="hint" style="display:flex;gap:6px;align-items:center;margin-top:6px"><input type="checkbox" id="tokSave"> 이 기기에 기억 (출석관리 페이지와 같은 토큰을 함께 사용)</label>
+        <div style="display:flex;gap:6px;margin-top:8px"><button class="btn small" id="tokTest" type="button">연결 확인</button><span id="tokMsg" class="hint"></span></div>
+      </div>
+      <div class="card">
+        <h3>백업 · 되돌리기</h3>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <button class="btn small" id="expJson" type="button">JSON 내려받기</button>
+          <button class="btn small" id="expXlsx" type="button">엑셀 내려받기</button>
+          <button class="btn small danger" id="btnRevert" type="button">저장 안 한 변경 버리기</button>
+        </div>
+        <p class="hint" style="margin:8px 0 0">저장할 때마다 GitHub에 이력이 남습니다. 예전 상태로 되돌려야 하면 <a href="https://github.com/yangji-madang/nsgc/commits/main/songs.json" target="_blank" rel="noopener">songs.json 변경 이력</a>에서 확인할 수 있습니다.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- 곡 편집 -->
+<div class="overlay" id="dlg" hidden>
+  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="dlgTitle">
+    <h2 id="dlgTitle">곡 편집</h2>
+    <div class="grid-form">
+      <div class="fld c2"><label for="fDate">날짜</label><input type="date" id="fDate"></div>
+      <div class="fld c2"><label for="fSeason">절기 (예: 추수감사)</label><input id="fSeason"></div>
+      <div class="fld"><label for="fBook">책명</label><input id="fBook" list="bookList"><datalist id="bookList"></datalist></div>
+      <div class="fld"><label for="fPage">쪽</label><input id="fPage" inputmode="numeric"></div>
+      <div class="fld c6"><label for="fTitle">제목</label><input id="fTitle"></div>
+      <div class="fld c6"><label for="fNote">설명 (제목 아래 붉은 글씨, 줄바꿈 가능)</label><textarea id="fNote" rows="2" placeholder="* 가사가 다릅니다."></textarea></div>
+    </div>
+
+    <div class="sec">
+      <h3>파트별 링크 <small>주소를 붙여넣으세요. 빈 칸은 버튼이 나타나지 않습니다.</small></h3>
+      <table class="lt" id="lt">
+        <thead><tr><th></th><th class="y">유튜브</th><th class="m">mp3다운로드</th><th class="v">동영상다운로드</th><th>안내문 (링크 대신 표시)</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div class="sec">
+      <h3>추가 버튼 <small>예: 합창 줄의 「4부 반주 mp3다운로드」</small><button class="btn small" id="exAdd" type="button" style="margin-left:auto">+ 추가</button></h3>
+      <div id="exList"></div>
+    </div>
+
+    <div class="sec">
+      <h3>특수 항목</h3>
+      <div class="grid-form">
+        <div class="fld c3"><label for="fMsV">2025 메시아 공연 · 합창영상</label><input id="fMsV" placeholder="https://"></div>
+        <div class="fld c3"><label for="fMsA">2025 메시아 공연 · 합창 mp3</label><input id="fMsA" placeholder="https://"></div>
+        <div class="fld c2"><label for="fFullName">전체보기 버튼 이름</label><input id="fFullName" placeholder="추수감사찬양 연습 전체보기"></div>
+        <div class="fld c4"><label for="fFullUrl">전체보기 링크 (넣으면 큰 버튼 하나로 표시)</label><input id="fFullUrl" placeholder="https://"></div>
+      </div>
+    </div>
+
+    <p class="err" id="dlgErr" hidden></p>
+    <div class="dlg-foot">
+      <button class="btn danger left" id="dlgDel" type="button">이 곡 삭제</button>
+      <button class="btn" id="dlgCancel" type="button">취소</button>
+      <button class="btn primary" id="dlgOk" type="button">적용</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" hidden></div>
+
+<script>
+(function(){
+'use strict';
+const REPO='yangji-madang/nsgc', FPATH='songs.json', BRANCH='main';
+const TK='choir-gh-token-v1', DRAFT='zion-songs-draft-v1';
+const PARTS=[['All','합창'],['Sop','Sop.'],['Alt','Alt.'],['Ten','Ten.'],['Bas','Bas.']];
+const TYPES=[['youtube','유튜브'],['mp3','mp3'],['mp4','동영상']];
+const PN=Object.fromEntries(PARTS), TN=Object.fromEntries(TYPES);
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const clone=o=>JSON.parse(JSON.stringify(o));
+
+let DATA=null, BASE=null;          // 현재 작업본 / 마지막으로 저장·불러온 본
+let monthSel=null, qText='';
+
+/* ---------- 공통 ---------- */
+function toast(m,ms){const t=$('#toast');t.textContent=m;t.hidden=false;clearTimeout(t._t);t._t=setTimeout(()=>t.hidden=true,ms||3200);}
+function todayKST(){try{const p=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());const o={};p.forEach(x=>o[x.type]=x.value);return `${o.year}-${o.month}-${o.day}`;}catch(e){return new Date(Date.now()+9*36e5).toISOString().slice(0,10);}}
+const TODAY=todayKST();
+const md=d=>`${+d.slice(5,7)}월 ${+d.slice(8,10)}일`;
+const md2=d=>`${+d.slice(5,7)}.${+d.slice(8,10)}`;
+const isSunday=d=>new Date(d+'T00:00:00Z').getUTCDay()===0;
+const normTitle=t=>String(t||'').replace(/^\s*\d+\.\s*/,'').replace(/\s+/g,'');
+const sortSongs=a=>a.sort((x,y)=>x.date<y.date?-1:x.date>y.date?1:0);
+const b64=s=>btoa(unescape(encodeURIComponent(s)));
+const unb64=s=>decodeURIComponent(escape(atob(s.replace(/\n/g,''))));
+function getTok(){try{return $('#tok').value.trim()||localStorage.getItem(TK)||'';}catch(e){return $('#tok').value.trim();}}
+function canon(d){ // 비교용 정규화
+  const o=clone(d); o.songs=sortSongs(o.songs.map(s=>{const c=clone(s);delete c.manual;return c;})); delete o.updated; return JSON.stringify(o);
+}
+function isDirty(){return DATA&&BASE&&canon(DATA)!==canon(BASE);}
+function saveDraft(){try{if(isDirty())localStorage.setItem(DRAFT,JSON.stringify(DATA));else localStorage.removeItem(DRAFT);}catch(e){}}
+function changed(){saveDraft();renderAll();}
+
+/* ---------- 링크 모델 ---------- */
+function split(song){
+  const grid={}, ex=[], r={grid, ex, msV:'', msA:'', fullName:'', fullUrl:''};
+  PARTS.forEach(([p])=>{grid[p]={};});
+  (song.links||[]).forEach(l=>{
+    if(l.part==='Full'){r.fullName=l.name||'';r.fullUrl=l.url;}
+    else if(l.part==='Messiah'){ if(l.type==='mp4')r.msV=l.url; else r.msA=l.url; }
+    else if(grid[l.part]){ if(l.name||grid[l.part][l.type]) ex.push({part:l.part,type:l.type,name:l.name||TN[l.type],url:l.url}); else grid[l.part][l.type]=l.url; }
+  });
+  return r;
+}
+function linkStats(song){
+  const sp=split(song); let n=0;
+  PARTS.forEach(([p])=>TYPES.forEach(([t])=>{if(sp.grid[p][t])n++;}));
+  return n+sp.ex.length+(sp.msV?1:0)+(sp.msA?1:0)+(sp.fullUrl?1:0);
+}
+
+/* ---------- 점검 ---------- */
+function runChecks(songs){
+  const issues=[]; const byUrl={};
+  songs.forEach(s=>{
+    const seen={};
+    (s.links||[]).forEach(l=>{
+      const lab=l.part==='Full'?(l.name||'전체보기'):l.part==='Messiah'?('메시아 '+(l.name||TN[l.type])):(PN[l.part]+' '+(l.name||TN[l.type]));
+      if(!/^https?:\/\/\S+\.\S+/.test(l.url||'')) issues.push({date:s.date,level:'bad',msg:`주소 형식 오류 · ${lab}: ${l.url||'(빈 값)'}`});
+      if(seen[l.url]) issues.push({date:s.date,level:'bad',msg:`같은 곡 안에서 같은 링크 · ${seen[l.url]} = ${lab}`,url:l.url});
+      else seen[l.url]=lab;
+      (byUrl[l.url]=byUrl[l.url]||[]).push({s,lab});
+    });
+    const sp=split(s);
+    if(!sp.fullUrl){
+      PARTS.forEach(([p])=>{
+        const has=TYPES.some(([t])=>sp.grid[p][t])||sp.ex.some(e=>e.part===p)||(s.partNotes&&s.partNotes[p]);
+        if(!has) issues.push({date:s.date,level:'warn',msg:`${PN[p]} 링크가 하나도 없습니다`});
+      });
+    }
+    if(!s.title) issues.push({date:s.date,level:'bad',msg:'제목이 비어 있습니다'});
+    if(!isSunday(s.date)&&!s.season) issues.push({date:s.date,level:'info',msg:'주일이 아닌 날짜입니다 (절기가 아니면 날짜를 확인하세요)'});
+  });
+  Object.entries(byUrl).forEach(([u,arr])=>{
+    const dates=[...new Set(arr.map(x=>x.s.date))]; if(dates.length<2) return;
+    const titles=new Set(arr.map(x=>normTitle(x.s.title)));
+    if(titles.size<2) return; // 같은 곡을 다시 부른 경우
+    const desc=arr.map(x=>`${md2(x.s.date)} ${x.s.title} [${x.lab}]`).join('  =  ');
+    dates.forEach(d=>issues.push({date:d,level:'bad',msg:`다른 곡과 같은 링크 · ${desc}`,url:u}));
+  });
+  return issues;
+}
+function issuesByDate(iss){const m={};iss.forEach(i=>{(m[i.date]=m[i.date]||[]).push(i);});return m;}
+
+/* ---------- 렌더링 ---------- */
+function renderAll(){renderTop();renderList();renderChecks();}
+function renderTop(){
+  const d=isDirty(), b=$('#dirtyBadge');
+  b.className=d?'dirty':'clean'; b.textContent=d?'저장 안 된 변경 있음':'저장됨';
+  $('#btnSave').disabled=!d;
+}
+function nextDate(){const f=DATA.songs.filter(s=>s.date>=TODAY);return f.length?f[0].date:null;}
+function renderList(){
+  sortSongs(DATA.songs);
+  const months=[...new Set(DATA.songs.map(s=>+s.date.slice(5,7)))];
+  const mc=$('#monthChips'); mc.innerHTML='';
+  const mk=(lab,on,fn)=>{const b=document.createElement('button');b.type='button';b.className='chip'+(on?' on':'');b.textContent=lab;b.onclick=fn;mc.appendChild(b);};
+  mk('전체',monthSel===null,()=>{monthSel=null;renderList();});
+  months.forEach(m=>mk(m+'월',monthSel===m,()=>{monthSel=m;renderList();}));
+  const ib=issuesByDate(runChecks(DATA.songs)), nd=nextDate();
+  const q=qText.toLowerCase(); let n=0;
+  const tb=$('#tb'); tb.innerHTML='';
+  DATA.songs.forEach((s,i)=>{
+    if(monthSel!==null&&+s.date.slice(5,7)!==monthSel) return;
+    if(q&&(s.title+' '+s.book+' '+(s.season||'')+' '+(s.note||'')).toLowerCase().indexOf(q)<0) return;
+    n++;
+    const iss=ib[s.date]||[], bad=iss.filter(x=>x.level==='bad').length, warn=iss.filter(x=>x.level==='warn').length;
+    const st=bad?`<span class="badge bad">오류 ${bad}</span>`:warn?`<span class="badge warn">확인 ${warn}</span>`:'<span class="badge ok">정상</span>';
+    const sp=split(s);
+    let dots='';
+    if(sp.fullUrl) dots='<span class="badge info">전체보기</span>';
+    else PARTS.forEach(([p])=>{dots+='<span class="dg">'; TYPES.forEach(([t],k)=>{dots+=`<span class="dot ${sp.grid[p][t]?['y','m','v'][k]:''}" title="${PN[p]} ${TN[t]}"></span>`;}); dots+='</span>';});
+    const tr=document.createElement('tr'); if(s.date===nd) tr.className='next';
+    tr.innerHTML=`<td class="date">${md2(s.date)}${s.season?` <span class="season">(${esc(s.season)})</span>`:''}</td>
+      <td class="title">${esc(s.title)}${s.note?`<span class="note">${esc(s.note).replace(/\n/g,'<br>')}</span>`:''}</td>
+      <td class="book">${esc(s.book)}${s.page?' · p.'+esc(s.page):''}</td>
+      <td class="dotscol"><span class="dots">${dots}</span>${sp.ex.length?` <span class="badge info">+${sp.ex.length}</span>`:''}${sp.msV||sp.msA?' <span class="badge info">메시아</span>':''}</td>
+      <td>${st}${s.manual?' <span class="badge info" title="관리페이지에서 직접 수정한 곡 — 엑셀 올리기 때 기본 제외">직접수정</span>':''}</td>
+      <td class="act"><button class="btn small" data-a="edit" data-i="${i}">편집</button> <button class="btn small copy" data-a="copy" data-i="${i}">복사</button></td>`;
+    tb.appendChild(tr);
+  });
+  $('#listCount').textContent=`${n}곡 표시 (전체 ${DATA.songs.length}곡) · 링크 ${DATA.songs.reduce((a,s)=>a+linkStats(s),0)}개`;
+}
+$('#tb').addEventListener('click',e=>{
+  const b=e.target.closest('button[data-a]'); if(!b) return;
+  const s=DATA.songs[+b.dataset.i];
+  if(b.dataset.a==='edit') openDlg(s);
+  else { const c=clone(s); c.date=''; c.manual=true; openDlg(c,true); }
+});
+$('#q').addEventListener('input',e=>{qText=e.target.value.trim();renderList();});
+
+function renderChecks(){
+  const iss=runChecks(DATA.songs).sort((a,b)=>a.date<b.date?-1:a.date>b.date?1:0);
+  const bad=iss.filter(i=>i.level==='bad').length, warn=iss.filter(i=>i.level==='warn').length, info=iss.filter(i=>i.level==='info').length;
+  const c=$('#checkCnt'); c.hidden=!bad; c.textContent=bad;
+  $('#checkSummary').textContent=iss.length?`오류 ${bad}건 · 확인 ${warn}건 · 참고 ${info}건`:'문제가 없습니다. ✅';
+  const box=$('#issues'); box.innerHTML='';
+  const LV={bad:'오류',warn:'확인',info:'참고'};
+  iss.forEach(i=>{
+    const d=document.createElement('div'); d.className='issue';
+    d.innerHTML=`<span class="badge ${i.level}">${LV[i.level]}</span><b style="white-space:nowrap">${md2(i.date)}</b><span class="what">${esc(i.msg)}</span><button class="btn small" type="button">편집</button>`;
+    d.querySelector('button').onclick=()=>{const s=DATA.songs.find(x=>x.date===i.date); if(s) openDlg(s);};
+    box.appendChild(d);
+  });
+}
+
+/* ---------- 편집 창 ---------- */
+let editing=null, isNew=false;
+function exRow(e){
+  const d=document.createElement('div'); d.className='ex';
+  d.innerHTML=`<select class="p">${PARTS.map(([p,l])=>`<option value="${p}">${l}</option>`).join('')}</select>
+    <select class="t">${TYPES.map(([t,l])=>`<option value="${t}">${l} 색</option>`).join('')}</select>
+    <input class="n" placeholder="버튼 이름">
+    <input class="u" placeholder="https://">
+    <button class="btn small danger" type="button" title="삭제">×</button>`;
+  d.querySelector('.p').value=e.part||'All'; d.querySelector('.t').value=e.type||'mp3';
+  d.querySelector('.n').value=e.name||''; d.querySelector('.u').value=e.url||'';
+  d.querySelector('button').onclick=()=>d.remove();
+  $('#exList').appendChild(d);
+}
+function openDlg(song,asNew){
+  editing=song; isNew=!!asNew||!DATA.songs.includes(song);
+  $('#dlgTitle').textContent=isNew?'새 곡 추가':`${md(song.date)} 곡 편집`;
+  $('#fDate').value=song.date||''; $('#fSeason').value=song.season||''; $('#fBook').value=song.book||'';
+  $('#fPage').value=song.page||''; $('#fTitle').value=song.title||''; $('#fNote').value=song.note||'';
+  const books=[...new Set(DATA.songs.map(s=>s.book).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'ko',{numeric:true}));
+  $('#bookList').innerHTML=books.map(b=>`<option value="${esc(b)}">`).join('');
+  const sp=split(song), pn=song.partNotes||{};
+  $('#lt tbody').innerHTML=PARTS.map(([p,l])=>`<tr><td class="p">${l}</td>${TYPES.map(([t])=>`<td><input data-p="${p}" data-t="${t}" value="${esc(sp.grid[p][t]||'')}" placeholder="—"></td>`).join('')}<td><input data-note="${p}" value="${esc(pn[p]||'')}" placeholder=""></td></tr>`).join('');
+  $('#exList').innerHTML=''; sp.ex.forEach(exRow);
+  $('#fMsV').value=sp.msV; $('#fMsA').value=sp.msA; $('#fFullName').value=sp.fullName; $('#fFullUrl').value=sp.fullUrl;
+  $('#dlgDel').hidden=isNew; $('#dlgErr').hidden=true;
+  $('#dlg').hidden=false; markGrid(); setTimeout(()=>(isNew?$('#fDate'):$('#fTitle')).focus(),30);
+}
+function markGrid(){
+  const ins=$$('#lt input[data-p]'); const cnt={};
+  ins.forEach(i=>{const v=i.value.trim(); if(v) cnt[v]=(cnt[v]||0)+1;});
+  ins.forEach(i=>{const v=i.value.trim(); i.classList.toggle('dup',!!v&&cnt[v]>1); i.classList.toggle('badurl',!!v&&!/^https?:\/\//.test(v));});
+}
+$('#lt').addEventListener('input',markGrid);
+$('#exAdd').onclick=()=>exRow({part:'All',type:'mp3',name:'',url:''});
+function closeDlg(){$('#dlg').hidden=true;editing=null;}
+$('#dlgCancel').onclick=closeDlg;
+$('#dlg').addEventListener('click',e=>{if(e.target.id==='dlg')closeDlg();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#dlg').hidden)closeDlg();});
+let delArm=0;
+$('#dlgDel').onclick=function(){
+  if(Date.now()-delArm>3000){delArm=Date.now();this.textContent='한 번 더 누르면 삭제';setTimeout(()=>this.textContent='이 곡 삭제',3000);return;}
+  DATA.songs=DATA.songs.filter(s=>s!==editing); closeDlg(); changed(); toast('삭제했습니다. GitHub에 저장해야 반영됩니다.');
+};
+$('#dlgOk').onclick=()=>{
+  const err=m=>{const e=$('#dlgErr');e.textContent=m;e.hidden=false;};
+  const date=$('#fDate').value, title=$('#fTitle').value.trim();
+  if(!date) return err('날짜를 입력하세요.');
+  if(!title) return err('제목을 입력하세요.');
+  if(DATA.songs.some(s=>s!==editing&&s.date===date)) return err(`${md(date)} 곡이 이미 있습니다. 날짜를 확인하세요.`);
+  const links=[];
+  $$('#lt input[data-p]').forEach(i=>{const v=i.value.trim(); if(v) links.push({part:i.dataset.p,type:i.dataset.t,url:v});});
+  $$('#exList .ex').forEach(r=>{const u=r.querySelector('.u').value.trim(); if(u) links.push({part:r.querySelector('.p').value,type:r.querySelector('.t').value,url:u,name:r.querySelector('.n').value.trim()||TN[r.querySelector('.t').value]});});
+  const mv=$('#fMsV').value.trim(), ma=$('#fMsA').value.trim();
+  if(mv) links.push({part:'Messiah',type:'mp4',url:mv,name:'합창영상'});
+  if(ma) links.push({part:'Messiah',type:'mp3',url:ma,name:'합창 mp3'});
+  const fu=$('#fFullUrl').value.trim(); if(fu) links.push({part:'Full',type:'youtube',url:fu,name:$('#fFullName').value.trim()||'연습 전체보기'});
+  const pn={}; $$('#lt input[data-note]').forEach(i=>{const v=i.value.trim(); if(v) pn[i.dataset.note]=v;});
+  const s={date,season:$('#fSeason').value.trim(),book:$('#fBook').value.trim(),page:$('#fPage').value.trim(),title,links};
+  const note=$('#fNote').value.replace(/\s+$/,''); if(note) s.note=note;
+  if(Object.keys(pn).length) s.partNotes=pn;
+  s.manual=true;
+  if(isNew) DATA.songs.push(s); else Object.keys(editing).forEach(k=>delete editing[k]), Object.assign(editing,s);
+  closeDlg(); changed(); toast(isNew?'추가했습니다. GitHub에 저장해야 반영됩니다.':'적용했습니다. GitHub에 저장해야 반영됩니다.');
+};
+$('#btnAdd').onclick=()=>openDlg({date:'',season:'',book:'',page:'',title:'',links:[]},true);
+
+/* ---------- 엑셀 ---------- */
+function cellText(c){ if(!c) return ''; if(c.t==='n') return String(c.v); return String(c.v==null?'':c.v); }
+function parseDateCell(c,year){
+  if(!c||c.v===''||c.v==null) return null;
+  if(c.t==='n'&&c.v>20000){ const p=XLSX.SSF.parse_date_code(c.v); return iso(p.y,p.m,p.d); }
+  if(c.t==='d'&&c.v instanceof Date){ return iso(c.v.getFullYear(),c.v.getMonth()+1,c.v.getDate()); }
+  const s=cellText(c).trim(), m=s.match(/^(\d{1,2})[.\/-](\d{1,2})$/);
+  if(!m){ const m2=s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/); return m2?iso(+m2[1],+m2[2],+m2[3]):null; }
+  const mo=+m[1], ds=m[2], cands=[+ds]; if(ds.length===1) cands.push(+ds*10);  // 12.2 → 12.20 (엑셀 숫자 변환 보정)
+  const ok=cands.map(d=>iso(year,mo,d)).filter(Boolean);
+  return ok.find(isSunday)||ok[0]||null;
+}
+function iso(y,m,d){ const t=new Date(Date.UTC(y,m-1,d)); if(t.getUTCMonth()!==m-1||t.getUTCDate()!==d) return null; return `${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`; }
+function parseWorkbook(buf){
+  const wb=XLSX.read(buf,{type:'array'});
+  const name=wb.SheetNames.find(n=>/주일/.test(n))||wb.SheetNames[0], ws=wb.Sheets[name];
+  const rng=XLSX.utils.decode_range(ws['!ref']); const year=+(DATA.settings.year||TODAY.slice(0,4));
+  // 하이퍼링크가 여러 칸에 걸쳐 있으면 빈 옆 칸에도 같은 링크가 붙으므로, 글자가 있는 칸만 사용
+  const C=(col,r)=>ws[col+r], link=c=>c&&c.l&&c.l.Target&&cellText(c).trim()?String(c.l.Target).trim():'';
+  const PC={H:'All',I:'Sop',J:'Alt',K:'Ten',L:'Bas'};
+  const out=[]; let cur=null;
+  for(let r=6;r<=rng.e.r+1;r++){
+    const bC=C('B',r), g=cellText(C('G',r)).replace(/\s+/g,' ').trim();
+    const dt=parseDateCell(bC,year);
+    let type=null;
+    if(dt){
+      const raw=cellText(C('F',r)).split(/\r?\n/);
+      cur={date:dt,season:cellText(C('C',r)).replace(/\s+/g,' ').trim(),book:cellText(C('D',r)).replace(/\s+/g,' ').trim(),
+           page:cellText(C('E',r)).replace(/\s+/g,' ').trim(),title:(raw[0]||'').replace(/\s+/g,' ').trim(),links:[]};
+      const note=raw.slice(1).map(x=>x.replace(/\s+/g,' ').trim()).filter(Boolean).join('\n'); if(note) cur.note=note;
+      out.push(cur);
+      if(link(C('G',r))){ cur.links.push({part:'Full',type:'youtube',url:link(C('G',r)),name:g}); continue; }
+      type='youtube';
+    } else if(cur){
+      if(/메시아/.test(g)){
+        Object.keys(PC).forEach(col=>{const c=C(col,r),u=link(c); if(u){const nm=cellText(c).trim(); cur.links.push({part:'Messiah',type:/영상/.test(nm)?'mp4':'mp3',url:u,name:nm});}});
+        continue;
+      }
+      if(/mp3/i.test(g)) type='mp3'; else if(/동영상/.test(g)) type='mp4'; else continue;
+    } else continue;
+    Object.entries(PC).forEach(([col,p])=>{const u=link(C(col,r)); if(u) cur.links.push({part:p,type,url:u});});
+  }
+  return out;
+}
+function mergeExcel(oldS,xs){ // 관리페이지에서만 넣은 항목(추가 버튼·안내문)은 유지
+  const s=clone(xs); if(!oldS) return s;
+  const pn=oldS.partNotes||{};
+  if(Object.keys(pn).length){ s.partNotes=clone(pn); s.links=s.links.filter(l=>!pn[l.part]); }
+  (oldS.links||[]).forEach(l=>{ if(l.name&&PN[l.part]&&!s.links.some(x=>x.url===l.url)) s.links.push(clone(l)); });
+  return s;
+}
+function diffSong(a,b){
+  const ch=[], F={season:'절기',book:'책명',page:'쪽',title:'제목',note:'설명'};
+  Object.entries(F).forEach(([k,l])=>{const x=a[k]||'', y=b[k]||''; if(x!==y) ch.push(`${l}: <span class="old">${esc(x)||'(없음)'}</span> → <span class="new-v">${esc(y)||'(없음)'}</span>`);});
+  const key=l=>l.part==='Full'?'전체보기':l.part==='Messiah'?('메시아 '+(l.name||TN[l.type])):(PN[l.part]+' '+(l.name||TN[l.type]));
+  const ma={}, mb={}; (a.links||[]).forEach(l=>ma[key(l)]=l.url); (b.links||[]).forEach(l=>mb[key(l)]=l.url);
+  [...new Set([...Object.keys(ma),...Object.keys(mb)])].forEach(k=>{ if(ma[k]!==mb[k]) ch.push(`${esc(k)}: <span class="old">${esc(ma[k]||'(없음)')}</span> → <span class="new-v">${esc(mb[k]||'(삭제)')}</span>`); });
+  const pa=JSON.stringify(a.partNotes||{}), pb=JSON.stringify(b.partNotes||{}); if(pa!==pb) ch.push('파트 안내문 변경');
+  return ch;
+}
+let XROWS=[];
+function handleFile(f){
+  if(!f) return;
+  if(typeof XLSX==='undefined'){ toast('엑셀 읽기 도구를 불러오지 못했습니다. 인터넷 연결을 확인하고 새로고침하세요.'); return; }
+  const rd=new FileReader();
+  rd.onload=()=>{
+    let xs; try{ xs=parseWorkbook(new Uint8Array(rd.result)); }catch(e){ toast('엑셀을 읽지 못했습니다: '+e.message); return; }
+    const from=DATA.settings.importFrom||'0000';
+    xs=xs.filter(s=>s.date>=from);
+    const cur={}; DATA.songs.forEach(s=>cur[s.date]=s);
+    XROWS=[];
+    xs.forEach(x=>{
+      const o=cur[x.date], m=mergeExcel(o,x);
+      if(!o) XROWS.push({kind:'new',date:x.date,song:m,ch:diffSong({},m),on:true});
+      else{ const ch=diffSong(o,m); XROWS.push({kind:ch.length?'chg':'same',date:x.date,song:m,ch,on:ch.length>0&&!o.manual,manual:!!o.manual}); }
+    });
+    const xd=new Set(xs.map(s=>s.date));
+    DATA.songs.filter(s=>s.date>=from&&!xd.has(s.date)).forEach(s=>XROWS.push({kind:'del',date:s.date,song:s,ch:[],on:false}));
+    XROWS.sort((a,b)=>a.date<b.date?-1:1);
+    renderX(f.name);
+  };
+  rd.readAsArrayBuffer(f);
+}
+function renderX(fname){
+  const c={new:0,chg:0,same:0,del:0}; XROWS.forEach(r=>c[r.kind]++);
+  $('#xsummary').textContent=`${fname} · 신규 ${c.new} · 변경 ${c.chg} · 동일 ${c.same} · 엑셀에 없음 ${c.del}`;
+  const box=$('#xlist'); box.innerHTML='';
+  const KL={new:'<span class="badge ok">신규</span>',chg:'<span class="badge warn">변경</span>',same:'<span class="badge">동일</span>',del:'<span class="badge bad">엑셀에 없음</span>'};
+  XROWS.forEach((r,i)=>{
+    const d=document.createElement('div'); d.className='drow '+r.kind;
+    const s=r.song;
+    d.innerHTML=`<div class="drow-h">${r.kind==='same'?'<span style="width:16px"></span>':`<input type="checkbox" data-i="${i}" ${r.on?'checked':''}>`}
+      <b>${md2(r.date)}${s.season?' ('+esc(s.season)+')':''}</b><span>${esc(s.title)}</span>${KL[r.kind]}
+      ${r.manual?'<span class="badge info">직접수정한 곡 — 확인 후 선택</span>':''}
+      ${r.kind==='del'?'<span class="hint">체크하면 삭제, 그대로 두면 유지</span>':''}</div>
+      ${r.ch.length&&r.kind!=='new'?`<ul>${r.ch.map(x=>`<li>${x}</li>`).join('')}</ul>`:''}
+      ${r.kind==='new'?`<ul><li>${esc(s.book)}${s.page?' p.'+esc(s.page):''} · 링크 ${linkStats(s)}개</li></ul>`:''}`;
+    box.appendChild(d);
+  });
+  $('#xresult').hidden=false;
+}
+$('#xlist').addEventListener('change',e=>{const i=e.target.dataset.i; if(i!=null) XROWS[+i].on=e.target.checked;});
+$('#xAll').onclick=()=>{XROWS.forEach(r=>{if(r.kind==='chg'||r.kind==='new')r.on=true;}); $$('#xlist input[type=checkbox]').forEach(c=>{const r=XROWS[+c.dataset.i]; c.checked=r.on;});};
+$('#xNone').onclick=()=>{XROWS.forEach(r=>r.on=false); $$('#xlist input[type=checkbox]').forEach(c=>c.checked=false);};
+$('#xApply').onclick=()=>{
+  let n=0;
+  XROWS.forEach(r=>{
+    if(!r.on) return;
+    if(r.kind==='del'){ DATA.songs=DATA.songs.filter(s=>s.date!==r.date); n++; return; }
+    const i=DATA.songs.findIndex(s=>s.date===r.date);
+    if(i>=0) DATA.songs[i]=r.song; else DATA.songs.push(r.song); n++;
+  });
+  if(!n){toast('선택한 항목이 없습니다.');return;}
+  $('#xresult').hidden=true; $('#xfile').value=''; changed(); switchTab('list');
+  toast(`${n}곡을 반영했습니다. 확인 후 GitHub에 저장하세요.`,4500);
+};
+$('#xfile').addEventListener('change',e=>handleFile(e.target.files[0]));
+const drop=$('#drop');
+['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add('over');}));
+['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('over');}));
+drop.addEventListener('drop',e=>handleFile(e.dataTransfer.files[0]));
+
+/* ---------- 설정 ---------- */
+function fillSettings(){
+  const S=DATA.settings;
+  $('#sTitle').value=S.title||''; $('#sSubLabel').value=S.subLabel||''; $('#sSubUrl').value=S.subUrl||'';
+  $('#sFrom').value=S.importFrom||''; $('#sWidth').value=S.widthRef||'';
+  $('#importFromHint').textContent=S.importFrom?md(S.importFrom):'처음';
+}
+[['#sTitle','title'],['#sSubLabel','subLabel'],['#sSubUrl','subUrl'],['#sFrom','importFrom'],['#sWidth','widthRef']].forEach(([id,k])=>{
+  $(id).addEventListener('change',e=>{DATA.settings[k]=e.target.value.trim(); fillSettings(); changed();});
+});
+try{$('#tok').value=localStorage.getItem(TK)||''; $('#tokSave').checked=!!localStorage.getItem(TK);}catch(e){}
+$('#tokSave').onchange=()=>{try{if($('#tokSave').checked&&$('#tok').value.trim())localStorage.setItem(TK,$('#tok').value.trim());else localStorage.removeItem(TK);}catch(e){}};
+$('#tok').onchange=()=>{ if($('#tokSave').checked){ try{localStorage.setItem(TK,$('#tok').value.trim());}catch(e){} } };
+$('#tokTest').onclick=async()=>{
+  const t=getTok(), m=$('#tokMsg'); if(!t){m.textContent='토큰을 입력하세요.';return;}
+  m.textContent='확인 중…';
+  try{const r=await fetch(`https://api.github.com/repos/${REPO}`,{headers:{Authorization:'Bearer '+t,Accept:'application/vnd.github+json'}});
+    if(!r.ok) throw new Error(r.status); const j=await r.json();
+    m.textContent=j.permissions&&j.permissions.push?'✅ 연결됨 (쓰기 가능)':'⚠️ 연결됐지만 쓰기 권한이 없습니다';
+  }catch(e){m.textContent='❌ 연결 실패 ('+e.message+') — 토큰을 확인하세요';}
+};
+function download(name,blob){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},500);}
+$('#expJson').onclick=()=>download(`songs_${TODAY}.json`,new Blob([JSON.stringify(DATA,null,1)],{type:'application/json'}));
+$('#expXlsx').onclick=()=>{
+  if(typeof XLSX==='undefined'){toast('엑셀 도구를 불러오지 못했습니다.');return;}
+  const rows=[['■ '+(DATA.settings.title||'찬양곡목')],[],[],[],['','Date','절기','책명','Page','제목','유형','합창','Sop.','Alt.','Ten.','Bas.']];
+  const links=[];
+  sortSongs(DATA.songs).forEach(s=>{
+    const sp=split(s), title=s.title+(s.note?'\n'+s.note:'');
+    const base=['',md2(s.date),s.season||'',s.book||'',s.page||'',title];
+    if(sp.fullUrl){ rows.push([...base,sp.fullName]); links.push([rows.length,'G',sp.fullUrl]); return; }
+    TYPES.forEach(([t,l],k)=>{
+      const row=k===0?[...base]:['','','','','',''];
+      row.push(k===0?'유튜브':l==='mp3'?'mp3다운로드':'동영상다운로드');
+      PARTS.forEach(([p,pl],j)=>{const u=sp.grid[p][t]; row.push(u?pl:''); if(u) links.push([rows.length+1,'HIJKL'[j],u]);});
+      rows.push(row);
+    });
+    if(sp.msV||sp.msA){ rows.push(['','','','','','','2025 메시아 공연',sp.msV?'합창영상':'','',sp.msA?'합창 mp3':'']); if(sp.msV)links.push([rows.length,'H',sp.msV]); if(sp.msA)links.push([rows.length,'J',sp.msA]); }
+  });
+  const ws=XLSX.utils.aoa_to_sheet(rows);
+  links.forEach(([r,c,u])=>{const a=c+r; if(ws[a]) ws[a].l={Target:u};});
+  const wb=XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb,ws,'주일별');
+  XLSX.writeFile(wb,`찬양곡목_${TODAY}.xlsx`);
+};
+let revArm=0;
+$('#btnRevert').onclick=function(){
+  if(!isDirty()){toast('버릴 변경이 없습니다.');return;}
+  if(Date.now()-revArm>3000){revArm=Date.now();this.textContent='한 번 더 누르면 버립니다';setTimeout(()=>this.textContent='저장 안 한 변경 버리기',3000);return;}
+  DATA=clone(BASE); fillSettings(); changed(); this.textContent='저장 안 한 변경 버리기'; toast('마지막 저장 상태로 되돌렸습니다.');
+};
+
+/* ---------- 탭 ---------- */
+function switchTab(t){ $$('.tab').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.tab===t))); ['list','excel','check','settings'].forEach(v=>$('#v-'+v).hidden=v!==t); }
+$$('.tab').forEach(b=>b.onclick=()=>switchTab(b.dataset.tab));
+
+/* ---------- 미리보기 · 저장 ---------- */
+$('#btnPreview').onclick=()=>{ try{localStorage.setItem(DRAFT,JSON.stringify(DATA));}catch(e){} const w=window.open('index.html?preview=1','_blank'); if(!w) location.href='index.html?preview=1'; };
+async function ghGet(tok){
+  const r=await fetch(`https://api.github.com/repos/${REPO}/contents/${FPATH}?ref=${BRANCH}&t=${Date.now()}`,{headers:{Authorization:'Bearer '+tok,Accept:'application/vnd.github+json'},cache:'no-store'});
+  if(r.status===404) return null; if(!r.ok) throw new Error('조회 실패 '+r.status);
+  return r.json();
+}
+$('#btnSave').onclick=async()=>{
+  const tok=getTok();
+  if(!tok){ switchTab('settings'); $('#tok').focus(); toast('설정 탭에서 GitHub 토큰을 먼저 입력해 주세요.'); return; }
+  const bad=runChecks(DATA.songs).filter(i=>i.level==='bad').length;
+  const btn=$('#btnSave'); btn.disabled=true; btn.textContent='저장 중…';
+  try{
+    const cur=await ghGet(tok);
+    if(cur&&BASE&&BASE.updated){ try{const rem=JSON.parse(unb64(cur.content)); if(rem.updated&&rem.updated>BASE.updated&&canon(rem)!==canon(BASE)){ if(!confirmOverwrite()) throw new Error('다른 곳에서 먼저 저장된 내용이 있습니다. 새로고침 후 다시 해 주세요'); }}catch(e){ if(/다른 곳/.test(e.message)) throw e; } }
+    DATA.updated=new Date().toISOString();
+    const body={message:`찬양곡목 갱신 ${TODAY}`,content:b64(JSON.stringify(DATA,null,1)),branch:BRANCH}; if(cur) body.sha=cur.sha;
+    const p=await fetch(`https://api.github.com/repos/${REPO}/contents/${FPATH}`,{method:'PUT',headers:{Authorization:'Bearer '+tok,Accept:'application/vnd.github+json','Content-Type':'application/json'},body:JSON.stringify(body)});
+    if(!p.ok) throw new Error('저장 실패 '+p.status);
+    try{ if($('#tokSave').checked) localStorage.setItem(TK,tok); }catch(e){}
+    BASE=clone(DATA); saveDraft(); renderAll();
+    toast(`GitHub에 저장했습니다${bad?` (오류 ${bad}건 포함)`:''}. 보기 페이지에는 1~2분 뒤 나타납니다.`,5000);
+  }catch(e){ toast(`저장하지 못했습니다 (${e.message}). 토큰 권한(Contents 읽기·쓰기)을 확인해 주세요.`,6000); }
+  finally{ btn.textContent='GitHub에 저장'; renderTop(); }
+};
+let owArm=0;
+function confirmOverwrite(){ if(Date.now()-owArm<6000) return true; owArm=Date.now(); toast('다른 기기에서 더 최근에 저장했습니다. 덮어쓰려면 6초 안에 저장을 한 번 더 누르세요.',6000); return false; }
+window.addEventListener('beforeunload',e=>{ if(isDirty()){ e.preventDefault(); e.returnValue=''; } });
+
+/* ---------- 시작 ---------- */
+function banner(cls,html,btns){const d=document.createElement('div');d.className='banner '+cls;d.innerHTML='<span>'+html+'</span>';(btns||[]).forEach(([l,fn,c])=>{const b=document.createElement('button');b.type='button';b.className='btn small '+(c||'');b.textContent=l;b.onclick=()=>{fn();d.remove();};d.appendChild(b);});$('#banners').appendChild(d);return d;}
+function normalize(d){ d=d||{}; d.settings=d.settings||{}; d.songs=Array.isArray(d.songs)?d.songs:[]; d.songs.forEach(s=>{s.links=s.links||[];}); sortSongs(d.songs); return d; }
+(async()=>{
+  let remote=null; const tok=getTok();
+  try{ if(tok){ const g=await ghGet(tok); if(g) remote=JSON.parse(unb64(g.content)); } }catch(e){}
+  if(!remote){ try{ const r=await fetch('songs.json?t='+Date.now(),{cache:'no-store'}); if(r.ok) remote=await r.json(); }catch(e){} }
+  if(!remote){ banner('bad','songs.json을 불러오지 못했습니다. 인터넷 연결을 확인하고 새로고침하세요.'); remote={settings:{},songs:[]}; }
+  BASE=normalize(remote); DATA=clone(BASE);
+  let draft=null; try{ draft=JSON.parse(localStorage.getItem(DRAFT)); }catch(e){}
+  if(draft&&draft.songs&&canon(normalize(draft))!==canon(BASE)){
+    banner('warn',`<b>저장 안 한 초안이 있습니다.</b> 이어서 작업할까요?`,[
+      ['초안 이어서',()=>{DATA=normalize(draft); fillSettings(); changed();},'primary'],
+      ['버리기',()=>{try{localStorage.removeItem(DRAFT);}catch(e){}}]]);
+  }
+  if(!tok) banner('info','저장하려면 <b>설정</b> 탭에서 GitHub 토큰을 입력하세요. 출석관리 페이지에서 토큰을 기억해 두셨다면 자동으로 사용합니다.');
+  fillSettings(); renderAll();
+})();
+})();
+</script>
+</body>
+</html>
