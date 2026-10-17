@@ -1,0 +1,949 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>시온찬양대 인원 및 출석 현황</title>
+<style>
+/* 시온찬양대 · 밝은 톤(연보라 필터바 + 골드 포인트) · 모든 글자 12px 동일 */
+:root{
+  color-scheme:light;
+  --bg:#eef0f7; --surface:#ffffff; --ink:#0f1226; --ink-soft:#383c58; --ink-faint:#5c6083; --line:#cfd3e2; --line-strong:#a9afc8;
+  --panel:#a3afdc; --panel-ink:#0f1226; --gold:#a9781f; --gold-ink:#7a5c1d; --label-ink:#6e4a00; --gold-soft:#fbf1d6;
+  --hl-ink:#1d3f9a; --hl-bg:#dfe6fb; --head:#dfe6fb; --head-ink:#1b2a66;
+  --present:#2f4f9e; --on-bg:#e8eefc; --off-bg:#fdeceb; --pre-bg:#fbf1c7; --pre-line:#e6d58a;
+  --good:#15803d; --bad:#c23a26; --bad-soft:#fbe4e1; --warn-ink:#8a4b00;
+  --bar-a:rgba(47,79,158,.70); --bar-b:rgba(47,79,158,.05);
+  --c-all:#6a3fb0; --c-singer:#1b2a66; --c-orc:#c07a12; --c-sop:#c2410c; --c-alt:#1d6fb8; --c-ten:#0e8a5e; --c-bas:#a63d8f; --c-etc:#7a6a1e;
+  --hm-on:#2f4f9e; --hm-off:#f3c3c0; --hm-none:#e9ebf3;
+  --shadow:0 1px 2px rgba(30,35,64,.06),0 4px 14px rgba(30,35,64,.07);
+  --font:'Malgun Gothic','맑은 고딕','Apple SD Gothic Neo','Noto Sans KR',system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:12px;line-height:1.4;
+  padding-inline:16px;padding-block:8px 4px;overflow:hidden;position:relative;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+/* 상단 은은한 빛 그라데이션 (교회 분위기) */
+body::before{content:"";position:absolute;left:0;right:0;top:0;height:210px;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 46% 130px at 50% -10px,rgba(255,232,160,.85),rgba(255,232,160,0) 72%),
+    radial-gradient(ellipse 40% 170px at 8% 0,rgba(163,175,220,.75),rgba(163,175,220,0) 74%),
+    radial-gradient(ellipse 40% 170px at 92% 0,rgba(214,196,240,.65),rgba(214,196,240,0) 74%),
+    repeating-conic-gradient(from 76deg at 50% -50px,rgba(255,255,255,.34) 0 3deg,rgba(255,255,255,0) 3deg 9deg),
+    linear-gradient(180deg,#dfe5f6 0,rgba(238,240,247,0) 100%);
+  -webkit-mask-image:linear-gradient(180deg,#000 40%,transparent 100%);mask-image:linear-gradient(180deg,#000 40%,transparent 100%)}
+.wrap{position:relative;z-index:1;height:100%;display:flex;flex-direction:column;gap:6px;min-width:0}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
+header.top{display:flex;align-items:center;gap:6px 12px;flex-wrap:wrap}
+h1{font-size:inherit;margin:0;font-weight:800;color:var(--head-ink);white-space:nowrap}
+h1 em{font-style:normal;color:var(--gold-ink)}
+.nav{display:flex;gap:2px;background:rgba(255,255,255,.7);padding:2px;border-radius:8px;border:1px solid var(--line)}
+.nav a,.nav span{padding:2px 12px;border-radius:6px;text-decoration:none;font-weight:700;color:var(--ink-faint)}
+.nav .on{background:var(--gold);color:#fff}
+.nav a:hover{color:var(--gold-ink)}
+.btn{border:1px solid var(--line-strong);background:var(--surface);padding:2px 10px;border-radius:7px;cursor:pointer;white-space:nowrap;line-height:1.5}
+.btn:hover{border-color:var(--gold);color:var(--gold-ink)}
+.btn.primary{background:var(--present);border-color:var(--present);color:#fff}
+.btn.primary:hover{filter:brightness(1.12);color:#fff}
+.btn[aria-pressed="true"]{background:var(--gold-soft);border-color:var(--gold);color:var(--gold-ink)}
+.btn.danger{border-color:var(--bad);color:var(--bad)}
+.btn.arm,.mini.arm,.rt.arm{background:var(--bad);color:#fff;border-color:var(--bad)}
+.cp{align-self:flex-end;color:var(--ink-faint);line-height:1.2;white-space:nowrap;padding-top:2px}
+.toast{position:fixed;left:50%;bottom:calc(26px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--head-ink);color:#fff;border:1px solid var(--gold);padding:6px 14px;border-radius:9px;z-index:80;opacity:0;pointer-events:none;transition:opacity .2s;max-width:92vw}
+.toast.show{opacity:.97}
+.pill-on{background:var(--gold);color:#fff}
+/* 칩 */
+.chip,.fc{border:1px solid var(--line-strong);background:var(--surface);color:var(--ink-soft);border-radius:999px;padding:1px 9px;cursor:pointer;white-space:nowrap;line-height:1.5;font-weight:700}
+.fc:hover{border-color:var(--gold)}
+.fc.on{background:var(--gold);border-color:var(--gold);color:#fff}
+/* 차트 공통 */
+.chart{position:relative;width:100%;overflow-x:auto;overflow-y:hidden}
+.chart svg{display:block;overflow:visible}
+.chart svg text{font-size:12px;font-family:var(--font)}
+.chart .tip{position:absolute;pointer-events:none;background:var(--surface);border:1px solid var(--line-strong);border-radius:7px;padding:4px 8px;box-shadow:var(--shadow);white-space:nowrap;z-index:5;display:none}
+.pt,.lb{opacity:0;transition:opacity .28s}
+.pt.on,.lb.on{opacity:1}
+.lb{font-weight:700;paint-order:stroke;stroke:#fff;stroke-width:3px;stroke-linejoin:round}
+@media (prefers-reduced-motion: reduce){.pt,.lb{transition:none}}
+small,sup,sub{font-size:inherit}
+
+/* 대시보드 전용: 페이지 전체 세로 스크롤, 모든 글자 12px 동일(굵기·색으로만 구분) */
+html,body{height:auto;min-height:100%}
+body{overflow-x:hidden;overflow-y:auto}
+header.top h1{font-size:22px;line-height:1.2}
+.asof{font-weight:700}
+.wrap{height:auto;min-height:100vh;gap:8px;padding-bottom:4px}
+.backlnk{margin-left:auto;color:var(--hl-ink);text-decoration:underline}
+.asof{margin-left:auto;color:var(--ink-faint)}
+#dashBody{display:flex;flex-direction:column;gap:8px;min-width:0}
+.kgrid{display:grid;gap:8px;grid-template-columns:repeat(3,minmax(0,1fr))}
+.kgrid.k5{grid-template-columns:repeat(5,minmax(0,1fr))}
+.kt{background:var(--surface);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);padding:6px 10px;min-width:0;border-top:3px solid var(--kc,var(--gold))}
+.kt .k{font-weight:800;color:var(--kc,var(--gold-ink))}
+.kt .v{font-weight:800;color:var(--head-ink)}
+.kt .n{color:var(--ink-faint)}
+.kt .n b{color:var(--ink)}
+.up{color:var(--good);font-weight:800}.dn{color:var(--bad);font-weight:800}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:6px 10px;box-shadow:var(--shadow);min-width:0}
+.kt .k,.panel h2,h2.sec{font-size:inherit;margin:0 0 6px;display:flex;flex-wrap:wrap;align-items:center;gap:1px 10px;color:var(--head-ink);font-weight:800;background:var(--hl-bg);border-left:4px solid var(--gold);border-radius:6px;padding:3px 8px}
+h2.sec{margin:4px 0 0}
+.panel h2 .sp{margin-left:auto;display:flex;gap:6px;align-items:center}
+.panel h2 small{font-weight:400;color:var(--ink-soft)}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+@media (max-width:900px){.grid2,.grid4{grid-template-columns:minmax(0,1fr)}.grid3{grid-template-columns:minmax(0,1fr)}.kgrid.k5{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:620px){.kgrid{grid-template-columns:minmax(0,1fr)}}
+.legend{display:flex;flex-wrap:wrap;gap:0 14px;color:var(--ink-soft);margin:0 0 2px}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.legend i{width:16px;height:3px;border-radius:2px;display:inline-block}
+.legend i.bx{height:10px;width:10px;border-radius:2px;opacity:.85}
+.legend i.ds{height:0;border-top:2px dashed currentColor;background:none}
+.bl{font-weight:700;fill:#fff;stroke:none!important;paint-order:normal}
+.scroll{overflow-x:auto}
+table.mt{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums;min-width:560px}
+.mt th,.mt td{padding:2px 5px;text-align:center;border-bottom:1px solid var(--line)}
+.mt th{color:var(--ink-faint);font-weight:700;background:var(--head)}
+.mt td:first-child,.mt th:first-child{text-align:left;font-weight:800}
+.mt td small{display:block;color:var(--ink-faint);line-height:1.2}
+.chips{display:flex;flex-wrap:wrap;gap:4px 5px;margin-top:3px}
+.chip{display:inline-flex;gap:4px;align-items:center;padding:0 9px;border-radius:99px;background:var(--hl-bg);line-height:1.6;cursor:default;font-weight:400}
+.chip b{font-weight:800}
+.chip.warn{background:var(--bad-soft)}
+.chip em{font-style:normal;color:var(--ink-faint)}
+
+.note{color:var(--ink-faint)}
+.dist{display:flex;align-items:flex-end;gap:8px;height:96px;margin-top:4px}
+.dist div{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:2px;height:100%;color:var(--ink-faint);text-align:center}
+.dist div i{display:block;width:100%;border-radius:4px 4px 0 0;background:var(--present);min-height:2px}
+.dist div b{color:var(--ink)}
+/* 히트맵: 월 구분 */
+.hmw{overflow:auto;max-height:540px;position:relative}
+table.hm{border-collapse:separate;border-spacing:1px 1.5px}
+.hm td{width:17px;min-width:17px;height:14px;padding:0;border-radius:2px;text-align:center}
+.hm td.nmc{width:auto;min-width:54px;height:auto;text-align:left;padding:0 6px;color:var(--ink);white-space:nowrap;position:sticky;left:0;background:var(--surface);z-index:2;border-radius:0}
+.hm td.sp{width:9px;min-width:9px;background:transparent;border-left:1px dashed var(--line-strong);border-radius:0}
+.hm tr.mh td.m{height:auto;font-weight:800;color:var(--head-ink);background:var(--hl-bg);border-radius:4px;position:static}
+.hm tr.mh td.m.o{background:var(--gold-soft);color:var(--gold-ink)}
+.hm tr.dh td{height:auto;color:var(--ink-faint);font-weight:400}
+.hm tr.mh td.nmc,.hm tr.dh td.nmc{z-index:3}
+.hm tr.gh td{height:auto;text-align:left;font-weight:800;padding:2px 6px 0;background:transparent;border-radius:0}
+.hm tr.gh td.nmc{text-align:left}
+.hm td.c1{background:var(--hm-on)}.hm td.c0{background:var(--hm-off)}
+.hm td.mg{background:#7d8399;color:#fff;font-weight:700;text-align:left;padding:0 5px;overflow:hidden;white-space:nowrap;border-radius:3px}
+
+.ent{margin-top:5px}.ent:first-of-type{margin-top:0}
+.ent.sb{padding-left:12px;border-left:2px solid var(--line)}
+.ent .e2{padding-left:12px;color:var(--ink-faint)}
+.mt .hi{color:#1d4ed8;font-weight:800}.mt .lo{color:#d11a2a;font-weight:800}
+h2 small .hi{color:#1d4ed8;font-weight:800}h2 small .lo{color:#d11a2a;font-weight:800}
+.toprow{display:grid;grid-template-columns:2fr repeat(4,1fr);gap:8px;align-items:start}
+@media (max-width:900px){.toprow{grid-template-columns:repeat(2,minmax(0,1fr))}.toprow>.panel:first-child{grid-column:1/-1}}
+.chips.col{flex-direction:column;flex-wrap:nowrap;gap:3px}
+.chips.col .chip{display:flex;justify-content:space-between;border-radius:8px}
+.chips.col .chip i{font-style:normal;font-weight:800;color:var(--head-ink)}
+.chips.col2{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(5,auto);grid-auto-flow:column;gap:3px 8px}
+.lg{display:inline-block;padding:0 8px;border-radius:4px;font-weight:700;margin:0 1px}
+.lg.c1{background:var(--hm-on);color:#fff}.lg.c0{background:var(--hm-off);color:#7a2a24}.lg.cn{background:#7d8399;color:#fff}
+
+.avg{display:inline-block;background:var(--gold-soft);color:var(--gold-ink);border:1px solid var(--gold);border-radius:5px;padding:0 6px;font-weight:800;line-height:1.5}
+.mt th .avg{background:#fff}
+.legend i.mk{width:11px;height:11px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px currentColor}
+.kt .k{color:var(--kc,var(--head-ink));border-left-color:var(--kc,var(--gold))}
+
+.dr{display:grid;grid-template-columns:44px minmax(0,1fr) 110px;gap:8px;align-items:center;margin-top:5px}
+.dr .dl{font-weight:800}
+.dr .dt{height:14px;background:var(--hm-none);border-radius:4px;overflow:hidden}
+.dr .dt i{display:block;height:100%;border-radius:4px}
+.dr .dc{text-align:right}
+.dsub{margin-top:8px;font-weight:800;color:var(--ink-soft);border-bottom:1px dashed var(--line-strong)}
+.ent .e3{padding-left:12px;margin-top:2px}
+.tg{display:inline-block;background:var(--hl-bg);color:var(--head-ink);border-radius:5px;padding:0 6px;font-weight:700}
+.tg.hi2{background:#dbe7ff;color:#1d4ed8}.tg.lo2{background:#fde1e1;color:#c01c2c;margin-left:4px}
+
+.pie3d{display:block;width:100%;max-width:420px;height:auto;margin:0 auto}
+.pie3d text{font-size:13.5px;font-weight:800}
+.pie3d .pl{fill:#fff;stroke:rgba(0,0,0,.45);stroke-width:2.5px;paint-order:stroke;stroke-linejoin:round}
+.pie3d .po{paint-order:stroke;stroke:#fff;stroke-width:3px}
+.pies{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media (max-width:620px){.pies{grid-template-columns:1fr}}
+
+.dgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:8px}
+@media (max-width:900px){.dgrid{grid-template-columns:minmax(0,1fr)}}
+.dgrid .pie3d{width:100%}
+
+.dist div[data-b]{cursor:pointer;border-radius:6px}
+.dist div[data-b]:hover{background:var(--hl-bg)}
+.distpop{position:fixed;z-index:90;background:#fff;border:1px solid var(--line-strong);border-radius:10px;box-shadow:0 6px 24px rgba(30,35,64,.25);padding:6px 10px;max-width:min(560px,94vw);max-height:70vh;overflow:auto}
+.distpop .pph{font-weight:800;color:var(--head-ink);background:var(--hl-bg);border-left:4px solid var(--gold);border-radius:5px;padding:1px 8px;margin-bottom:4px}
+.distpop .ppg{margin-top:3px}
+.distpop .ppl{display:flex;flex-wrap:wrap;gap:2px 10px;padding-left:8px}
+.distpop .ppl span{white-space:nowrap}
+.distpop .ppl i{font-style:normal;font-weight:800;color:var(--head-ink)}
+
+.dgrid>.panel:first-child{display:flex;flex-direction:column}
+.pnote{margin-top:auto;padding:6px 4px 2px;color:var(--ink-soft);font-weight:700}
+h2.sec .exc{margin-left:22px;padding:0 10px;border-radius:999px;background:#fff;border:1px solid var(--gold);color:var(--gold-ink);font-weight:700}
+.toprow .chips.col .chip{background:#fff;border:1px solid var(--line-strong);box-shadow:0 1px 0 rgba(15,18,38,.06)}
+.mt td.mc{padding:2px 3px}
+.mt .mr{display:block;border-radius:4px 4px 0 0;padding:1px 4px}
+.mt .ma{display:block;border-radius:0 0 4px 4px;padding:1px 4px;background:#fde7c4;color:#6b4a0a}
+.mt .ma.hi{color:#1d4ed8}.mt .ma.lo{color:#d11a2a}
+/* 지표 제목: 배경과 확실히 구분되는 짙은 남색 띠 + 흰 글씨, ' : ' 뒤쪽은 금색 */
+.panel h2,h2.sec{background:#1f2f6b;color:#fff;border-left-color:var(--gold)}
+.panel h2 small,h2.sec small{color:#d5dcf5}
+.panel h2 .t2{color:#ffd37a}
+.panel h2 .hi,.panel h2 small .hi{color:#9cc2ff}
+.panel h2 .lo,.panel h2 small .lo{color:#ff9aa4}
+.kt .k{background:#1f2f6b;color:#fff;border-left-color:var(--kc,var(--gold))}
+/* 요약 카드: 4+3 배치 */
+.kgrid{grid-template-columns:repeat(12,minmax(0,1fr))}
+.kt.k4{grid-column:span 4}.kt.k3{grid-column:span 3}
+@media (max-width:900px){.kt.k4{grid-column:span 6}.kt.k3{grid-column:span 6}}
+@media (max-width:620px){.kt.k4,.kt.k3{grid-column:span 12}}
+.kt .e3{padding-left:0;margin-top:3px}
+/* 집계 버튼 · 다시 재생: 남색 띠 위에서 보이게 */
+.panel h2 .seg{display:inline-flex;border:1px solid #fff;border-radius:7px;overflow:hidden}
+.panel h2 .seg button{background:#fff;color:#1f2f6b;border:0;padding:1px 10px;font:inherit;font-weight:700;cursor:pointer}
+.panel h2 .seg button.on{background:var(--gold);color:#fff}
+.panel h2 #replay{background:#fff;color:#1f2f6b;font-weight:700}
+.dist div[data-b]{font-weight:800;color:var(--head-ink)}
+.cp{font-weight:800;text-transform:uppercase}
+/* 인원분포 옆 출석 요약 */
+.dgrid{grid-template-columns:minmax(0,1.05fr) minmax(0,1.95fr)}
+.dwrap{display:flex;align-items:center;gap:6px}
+.dwrap .pie3d{flex:1 1 55%;min-width:0;max-width:none}
+.dst{flex:1 1 45%;min-width:0;display:flex;flex-direction:column;gap:5px}
+.dst.g2{display:grid;grid-template-columns:1fr 1fr;gap:5px 6px}
+.sbk{border:1px solid var(--line);border-left:4px solid var(--kc,var(--gold));border-radius:6px;padding:2px 6px;background:#fff;min-width:0}
+.sbk .sh{font-weight:800;color:var(--kc,var(--head-ink))}
+.sbk .sl{white-space:nowrap;margin-top:1px}
+.sbk .tg,.sbk .avg{padding:0 4px;line-height:1.4}
+.pies{grid-template-columns:1.75fr 1fr}
+@media (max-width:620px){.dwrap{flex-direction:column}.dgrid .pie3d{max-width:320px}.pies{grid-template-columns:1fr}}
+.dgrid{grid-template-columns:minmax(0,1.3fr) minmax(0,1.7fr)}
+.dwrap .pie3d{flex:1 1 0}
+.dst{flex:0 0 172px}
+.dst.g2{flex:0 0 262px}
+.pies{grid-template-columns:2fr 1fr}
+.sbk .tg,.sbk .avg{display:inline-block;min-width:34px;text-align:center}
+@media (max-width:900px){.dst,.dst.g2{flex:1 1 auto}}
+.dgrid{grid-template-columns:minmax(0,1.1fr) minmax(0,1.9fr)}
+.dst{flex:0 0 166px}
+.dst.g2{flex:0 0 240px}
+.pies{grid-template-columns:2.5fr 1fr}
+@media (min-width:901px){
+.dgrid{grid-template-columns:auto minmax(0,1fr)}
+.dgrid .pie3d{flex:0 0 220px;width:220px}
+.pies{grid-template-columns:auto 1fr}
+.pies>div:last-child .pie3d{margin:0 auto}
+}
+@media (min-width:1200px){.dgrid .pie3d{flex:0 0 262px;width:262px}}
+@media (max-width:1199px){.dgrid{grid-template-columns:minmax(0,1fr)}.dgrid .pie3d{flex:0 0 250px;width:250px}.pies{grid-template-columns:auto 1fr}.dst{flex:0 0 172px}}
+@media (max-width:620px){.dwrap{flex-direction:column;align-items:stretch}.dgrid .pie3d{flex:none;width:100%;max-width:300px;margin:0 auto}.dst,.dst.g2{flex:none}.pies>div .dwrap .dst.g2{grid-template-columns:1fr 1fr}}
+/* 남·여 차트는 파트별 차트 아래로 */
+.pies,.pies{grid-template-columns:1fr !important}
+.pies>div:last-child .pie3d{margin:0 0 0 0}
+.pies>div:last-child .dwrap{justify-content:flex-start}
+/* 평균/최다/최소 라벨 폭을 같게 해서 값의 시작점을 맞춤 */
+.sbk .tg,.sbk .avg{display:inline-block;box-sizing:border-box;width:42px;min-width:0;text-align:center;margin:0}
+.sbk .tg.lo2{margin-left:0}
+@media (min-width:621px){.dgrid .dwrap{justify-content:flex-start;gap:10px}.dgrid .dwrap .pie3d{margin:0}}
+@media (min-width:621px){.dst.g2{flex:0 0 275px}}
+@media (max-width:620px){.dwrap{gap:2px}.dgrid .pie3d{max-width:260px}.dgrid .panel{padding-bottom:6px}.pnote{padding-top:2px}.dsub{margin-top:2px}}
+@media (min-width:1200px){.dgrid .pie3d{flex:0 0 202px;width:202px}}
+@media (min-width:621px) and (max-width:1199px){.dgrid .pie3d{flex:0 0 192px;width:192px}}
+@media (min-width:1200px){.dgrid .pie3d{flex:0 0 232px;width:232px}}
+/* 모바일: 평균·최다·최소를 한 줄에 */
+@media (max-width:620px){
+.dst.g2{grid-template-columns:1fr}
+.sbk{display:flex;flex-wrap:wrap;align-items:center;gap:0 8px;padding:2px 6px}
+.sbk .sh{flex:0 0 100%}
+.sbk .sl{margin:0;white-space:nowrap}
+.sbk .tg,.sbk .avg{width:auto;min-width:0;padding:0 4px;margin-right:2px}
+.dst,.dst.g2{gap:4px}
+}
+@media (max-width:620px){
+.pies>div .dwrap .dst.g2,.dst.g2{grid-template-columns:1fr}
+.sbk{gap:0 5px;padding:2px 5px}
+.sbk .tg,.sbk .avg{padding:0 3px;margin-right:1px;border-radius:4px}
+}
+/* 모바일: 이름과 평균·최다·최소를 같은 줄에 */
+@media (max-width:620px){
+.sbk{flex-wrap:nowrap;gap:0 5px;padding:3px 5px}
+.sbk .sh{flex:0 0 auto;margin-right:7px;min-width:38px}
+.sbk .sl{flex:0 0 auto}
+}
+@media (max-width:620px){
+.sbk{font-size:11px;gap:0 4px;padding:3px 4px}
+.sbk .sh{margin-right:4px;min-width:34px}
+.sbk .tg,.sbk .avg{padding:0 2px;margin-right:0;font-size:11px}
+}
+@media (max-width:380px){.sbk{flex-wrap:wrap}}
+@media (max-width:620px){.sbk .sh{min-width:34px;margin-right:5px}}
+/* 현황 제목 1.5배 (12px → 18px) */
+.panel h2,h2.sec{font-size:14.4px;line-height:1.3;padding:4px 10px}
+.panel h2 small,h2.sec small,.panel h2 .seg button,.panel h2 #replay,h2.sec .exc,.panel h2 .avg{font-size:12px}
+.dgrid .panel h2{font-size:14.4px}
+.mt td.rt:first-child{text-align:right}
+
+.hm td.rtc{height:auto;min-width:0;text-align:right;padding:0 5px;color:var(--ink);font-weight:700;font-size:11px;white-space:nowrap;position:sticky;left:64px;background:var(--surface);z-index:2;border-radius:0;box-shadow:2px 0 0 var(--line-strong)}
+.hm tr.mh td.rtc,.hm tr.dh td.rtc{z-index:3}
+.hm tr.dh td.rtc{color:var(--ink-faint);font-weight:400;font-size:10px}
+
+/* 히트맵: 이름·출석률 폭 축소 + 가로·세로 틀 고정 */
+.hm td.nmc{min-width:0;padding:0 4px;overflow:hidden;text-overflow:clip}
+.hm td.rtc{left:50px;padding:0 3px;font-size:10.5px}
+.hm tr.mh td,.hm tr.dh td{position:sticky;top:0;background:var(--surface);z-index:4}
+.hm tr.mh td.m{position:sticky;top:0;background:var(--hl-bg)}
+.hm tr.mh td.m.o{background:var(--gold-soft)}
+.hm tr.mh td.nmc,.hm tr.mh td.rtc,.hm tr.dh td.nmc,.hm tr.dh td.rtc{z-index:6}
+.hm tr.mh td.nmc,.hm tr.mh td.rtc{left:auto}
+.hm tr.mh td.nmc,.hm tr.dh td.nmc{left:0}
+.hm tr.mh td.rtc,.hm tr.dh td.rtc{left:50px}
+.hm tr.dh td.sp,.hm tr.mh td.sp{background:var(--surface)}
+
+/* 히트맵 파트 이름 줄: 주별 파트 출석인원 */
+.hm tr.gh td.ghn{text-align:left;font-weight:800;padding:2px 4px 0;background:var(--surface)}
+.hm tr.gh td.gn{height:auto;padding:2px 0 0;font-size:10px;font-weight:800;line-height:1.2;text-align:center;background:transparent;border-radius:0}
+.hm tr.gh td.sp{height:auto}
+
+.hm tr.gh.tot td{color:var(--head-ink);font-size:11px;font-weight:800;padding-bottom:2px;border-bottom:2px solid var(--head-ink);border-radius:0}
+.hm tr.gh.tot td.sp{border-bottom:0}
+.hm tr.gh.tot td.ghn{font-size:12px}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1>시온찬양대 <em>인원 및 출석 현황</em></h1>
+    <span class="asof" id="asof"></span>
+  </header>
+  <main id="dashBody"></main>
+  <div class="cp">(C)2026. YOON, HYUNCHUL ALL RIGHTS RESERVED.</div>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<script>
+const SEED={"members":[{"id":"m01","name":"강경원","group":"Singer","part":"Sop","join":"","leave":"","retired":false},{"id":"m02","name":"강지인","group":"Singer","part":"Sop","join":"","leave":"","retired":false},{"id":"m03","name":"권 미","group":"Singer","part":"Sop","join":"","leave":"","retired":false},{"id":"m04","name":"김 숙","group":"Singer","part":"Sop","join":"","leave":"","retired":false},{"id":"m05","name":"김기경","group":"Singer","part":"Sop","join":"","leave":"","retired":false},{"id":"m06","name":"김순영","group":"Singer","part":"Sop","join":"","leave":"","retired":false},{"id":"m07","name":"김영미","group":"Singer","part":"Sop","join":"","leave":"","retired":false},{"id":"m08","name":"김정숙","group":"Singer","part":"Sop","join":"2026-03-08","leave":"","retired":false},{"id":"m09","name":"김정현","group":"Singer","part":"Sop","join":"","leave":"","retired":false},{"id":"m10","name":"송정은","group":"Singer","part":"Sop","join":"","leave":"","retired":false},{"id":"m11","name":"이명자","group":"Singer","part":"Sop","join":"","leave":"","retired":false},{"id":"m12","name":"임은경","group":"Singer","part":"Sop","join":"","leave":"","retired":false},{"id":"m13","name":"전인숙","group":"Singer","part":"Sop","join":"","leave":"","retired":false},{"id":"m14","name":"정현주","group":"Singer","part":"Sop","join":"","leave":"","retired":false},{"id":"m15","name":"조연주","group":"Singer","part":"Sop","join":"","leave":"","retired":false},{"id":"m16","name":"최금옥","group":"Singer","part":"Sop","join":"","leave":"","retired":false},{"id":"m17","name":"최지선","group":"Singer","part":"Sop","join":"","leave":"","retired":false},{"id":"m18","name":"함영자","group":"Singer","part":"Sop","join":"","leave":"","retired":false},{"id":"m19","name":"강민주","group":"Singer","part":"Alt","join":"2026-10-04","leave":"","retired":false},{"id":"m20","name":"강정원","group":"Singer","part":"Alt","join":"","leave":"","retired":false},{"id":"m21","name":"김경희","group":"Singer","part":"Alt","join":"","leave":"","retired":false},{"id":"m22","name":"김용주","group":"Singer","part":"Alt","join":"","leave":"","retired":false},{"id":"m23","name":"박현자","group":"Singer","part":"Alt","join":"","leave":"","retired":false},{"id":"m24","name":"서희정","group":"Singer","part":"Alt","join":"","leave":"","retired":false},{"id":"m25","name":"안 옥","group":"Singer","part":"Alt","join":"","leave":"","retired":false},{"id":"m26","name":"염선영","group":"Singer","part":"Alt","join":"","leave":"","retired":false},{"id":"m27","name":"윤수진","group":"Singer","part":"Alt","join":"2026-01-18","leave":"","retired":false},{"id":"m28","name":"이미현","group":"Singer","part":"Alt","join":"2026-04-26","leave":"","retired":false},{"id":"m29","name":"이순란","group":"Singer","part":"Alt","join":"","leave":"","retired":false},{"id":"m30","name":"이영주","group":"Singer","part":"Alt","join":"","leave":"","retired":false},{"id":"m31","name":"임순남","group":"Singer","part":"Alt","join":"","leave":"","retired":false},{"id":"m32","name":"전미숙","group":"Singer","part":"Alt","join":"","leave":"","retired":false},{"id":"m33","name":"정진규","group":"Singer","part":"Alt","join":"","leave":"","retired":false},{"id":"m34","name":"최복순","group":"Singer","part":"Alt","join":"","leave":"","retired":false},{"id":"m35","name":"홍찬의","group":"Singer","part":"Alt","join":"2026-09-20","leave":"","retired":false},{"id":"m36","name":"김세준","group":"Singer","part":"Ten","join":"","leave":"","retired":false},{"id":"m37","name":"김현철","group":"Singer","part":"Ten","join":"","leave":"","retired":false},{"id":"m38","name":"서영철","group":"Singer","part":"Ten","join":"","leave":"","retired":false},{"id":"m39","name":"신용관","group":"Singer","part":"Ten","join":"","leave":"","retired":false},{"id":"m40","name":"엄기호","group":"Singer","part":"Ten","join":"","leave":"","retired":false},{"id":"m41","name":"이수행","group":"Singer","part":"Ten","join":"","leave":"","retired":false},{"id":"m42","name":"정은석","group":"Singer","part":"Ten","join":"2026-01-18","leave":"","retired":false},{"id":"m43","name":"정지우","group":"Singer","part":"Ten","join":"2026-01-18","leave":"","retired":false},{"id":"m44","name":"권남회","group":"Singer","part":"Bas","join":"","leave":"","retired":false},{"id":"m45","name":"김규철","group":"Singer","part":"Bas","join":"2026-01-18","leave":"","retired":false},{"id":"m46","name":"류방열","group":"Singer","part":"Bas","join":"","leave":"","retired":false},{"id":"m47","name":"성요길","group":"Singer","part":"Bas","join":"","leave":"","retired":false},{"id":"m48","name":"윤여훈","group":"Singer","part":"Bas","join":"","leave":"","retired":false},{"id":"m49","name":"윤현철","group":"Singer","part":"Bas","join":"","leave":"","retired":false},{"id":"m50","name":"이명헌","group":"Singer","part":"Bas","join":"","leave":"","retired":false},{"id":"m51","name":"이병재","group":"Singer","part":"Bas","join":"","leave":"","retired":false},{"id":"m52","name":"정운채","group":"Singer","part":"Bas","join":"","leave":"","retired":false},{"id":"m53","name":"정윤택","group":"Singer","part":"Bas","join":"","leave":"","retired":false},{"id":"m54","name":"조경식","group":"Singer","part":"Bas","join":"","leave":"","retired":false},{"id":"m55","name":"조성수","group":"Singer","part":"Bas","join":"2026-09-20","leave":"","retired":false},{"id":"m56","name":"한명민","group":"Singer","part":"Bas","join":"","leave":"","retired":false},{"id":"m57","name":"서승연","group":"기타","part":"지휘","join":"","leave":"","retired":false},{"id":"m58","name":"진윤정","group":"기타","part":"반주","join":"","leave":"","retired":false},{"id":"m59","name":"원정옥","group":"기타","part":"수화","join":"","leave":"","retired":false},{"id":"m60","name":"이해옥","group":"기타","part":"수화","join":"","leave":"","retired":false}],"marks":{"m01":{"2026-01-04":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-24":1,"2026-05-31":1,"2026-06-14":1,"2026-06-21":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-20":1,"2026-09-27":1},"m02":{"2026-01-04":1,"2026-01-11":1,"2026-01-25":1,"2026-02-08":1,"2026-03-01":1,"2026-03-08":1,"2026-03-29":1,"2026-04-26":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-27":1},"m03":{"2026-01-04":1,"2026-01-11":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-04-12":1,"2026-05-10":1,"2026-05-17":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m04":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-20":1},"m05":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m06":{"2026-01-18":1,"2026-01-25":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m07":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1},"m08":{"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m09":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-10":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m10":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-04-19":1,"2026-04-26":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-14":1,"2026-06-21":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-09":1,"2026-08-30":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m11":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1},"m12":{"2026-01-04":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m13":{"2026-01-11":1,"2026-01-18":1,"2026-02-01":1,"2026-02-08":1,"2026-02-22":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-05-31":1,"2026-06-07":1,"2026-06-28":1,"2026-07-05":1,"2026-08-16":1,"2026-08-30":1,"2026-09-06":1,"2026-09-20":1},"m14":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-15":1,"2026-02-22":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-24":1,"2026-06-07":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m15":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-04-05":1,"2026-04-12":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-21":1,"2026-06-28":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m16":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m17":{"2026-03-29":1,"2026-04-05":1,"2026-04-19":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m18":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m19":{},"m20":{"2026-01-11":1,"2026-01-18":1,"2026-02-01":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-05-17":1,"2026-05-24":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1},"m21":{"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m22":{"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-20":1,"2026-09-27":1},"m23":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-23":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m24":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1},"m25":{"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1},"m26":{"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m27":{"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1},"m28":{"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-09-06":1,"2026-09-27":1},"m29":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m30":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-02-01":1,"2026-02-08":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1},"m31":{"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-27":1},"m32":{"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m33":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m34":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m35":{"2026-09-20":1,"2026-09-27":1},"m36":{"2026-01-04":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m37":{"2026-01-18":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m38":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m39":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-26":1,"2026-05-10":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-28":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m40":{"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m41":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m42":{"2026-01-18":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-23":1,"2026-09-13":1,"2026-09-20":1},"m43":{"2026-01-18":1,"2026-01-25":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-10":1,"2026-05-17":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1},"m44":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m45":{"2026-01-18":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m46":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-15":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-06-07":1,"2026-06-14":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1},"m47":{"2026-01-11":1,"2026-01-18":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-08":1,"2026-03-15":1,"2026-03-29":1,"2026-04-12":1,"2026-04-19":1,"2026-05-10":1,"2026-05-17":1,"2026-06-21":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-08-09":1,"2026-08-16":1,"2026-08-30":1,"2026-09-13":1,"2026-09-20":1},"m48":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-08":1,"2026-02-15":1,"2026-03-08":1,"2026-03-15":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m49":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m50":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m51":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-27":1},"m52":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-16":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m53":{"2026-01-04":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m54":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-09":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m55":{"2026-09-20":1,"2026-09-27":1},"m56":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-16":1,"2026-08-23":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-27":1},"m57":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-16":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m58":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-05-31":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-05":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-16":1,"2026-08-30":1,"2026-09-06":1,"2026-09-13":1,"2026-09-20":1,"2026-09-27":1},"m59":{"2026-01-04":1,"2026-01-11":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-02-15":1,"2026-02-22":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-03-29":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-09-06":1,"2026-09-20":1,"2026-09-27":1},"m60":{"2026-01-04":1,"2026-01-11":1,"2026-01-18":1,"2026-01-25":1,"2026-02-01":1,"2026-02-08":1,"2026-03-01":1,"2026-03-08":1,"2026-03-15":1,"2026-03-22":1,"2026-04-05":1,"2026-04-12":1,"2026-04-19":1,"2026-04-26":1,"2026-05-03":1,"2026-05-10":1,"2026-05-17":1,"2026-05-24":1,"2026-06-07":1,"2026-06-14":1,"2026-06-21":1,"2026-06-28":1,"2026-07-12":1,"2026-07-19":1,"2026-07-26":1,"2026-08-02":1,"2026-08-16":1,"2026-09-06":1,"2026-09-20":1,"2026-09-27":1}},"orc":{"2026-01-04":{"a":19,"e":21},"2026-01-11":{"a":15,"e":21},"2026-01-18":{"a":19,"e":21},"2026-01-25":{"a":14,"e":21},"2026-02-01":{"a":12,"e":21},"2026-02-08":{"a":15,"e":21},"2026-02-15":{"a":14,"e":21},"2026-02-22":{"a":15,"e":21},"2026-03-01":{"a":18,"e":21},"2026-03-08":{"a":20,"e":21},"2026-03-15":{"a":20,"e":21},"2026-03-22":{"a":19,"e":21},"2026-03-29":{"a":20,"e":22},"2026-04-05":{"a":19,"e":22},"2026-04-12":{"a":18,"e":22},"2026-04-19":{"a":17,"e":22},"2026-04-26":{"a":19,"e":22},"2026-05-03":{"a":18,"e":22},"2026-05-10":{"a":18,"e":23},"2026-05-17":{"a":20,"e":23},"2026-05-24":{"a":14,"e":23},"2026-05-31":{"a":18,"e":23},"2026-06-07":{"a":18,"e":23},"2026-06-14":{"a":18,"e":23},"2026-06-21":{"a":18,"e":23},"2026-06-28":{"a":19,"e":23},"2026-07-05":{"a":19,"e":23},"2026-07-12":{"a":19,"e":23},"2026-07-19":{"a":19,"e":23},"2026-07-26":{"a":19,"e":23},"2026-08-02":{"a":19,"e":23},"2026-08-09":{"a":19,"e":23},"2026-08-16":{"a":19,"e":23},"2026-08-23":{"a":19,"e":23},"2026-08-30":{"a":19,"e":23},"2026-09-06":{"a":19,"e":23},"2026-09-13":{"a":19,"e":23},"2026-09-20":{"a":19,"e":23},"2026-09-27":{"a":19,"e":23}},"updated":"2026-10-08T00:00:00+09:00"};
+const YEAR=2026;
+const PARTS=['Sop','Alt','Ten','Bas'], GROUPS=['Sop','Alt','Ten','Bas','기타','Orc'], ETC_PARTS=['지휘','반주','수화'];
+const ORC_PARTS=['바순','바이올린','비올라','오보에','첼로','클라리넷','트럼펫','플룻'];
+const ORC_FROM='2026-10-18';   // 이 날 이후 주는 Orc 명단 출석을 합산(그 전 주는 수기 입력값 유지)
+const ORC_ROSTER=[['바순', '신정윤', ''], ['바순', '한송희', ''], ['바이올린', '김수현', ''], ['바이올린', '김애린', ''], ['바이올린', '김준희', ''], ['바이올린', '박은혜', ''], ['바이올린', '심윤종', ''], ['바이올린', '양유정', ''], ['바이올린', '오하정', '2026-03-08'], ['바이올린', '최지선O', ''], ['바이올린', '홍원준', '2026-05-10'], ['비올라', '곽선애', ''], ['비올라', '김성민', ''], ['오보에', '이은애', ''], ['첼로', '박태환', ''], ['첼로', '김보미', '2026-09-13'], ['첼로', '김준환', ''], ['첼로', '김현재', ''], ['클라리넷', '김봉준', ''], ['트럼펫', '김남균', ''], ['트럼펫', '김재영', ''], ['트럼펫', '유재우', ''], ['플룻', '김나형', ''], ['플룻', '김대규', '']];
+const COLOR={all:'--c-all',allx:'--c-all',Singer:'--c-singer',Orc:'--c-orc',Sop:'--c-sop',Alt:'--c-alt',Ten:'--c-ten',Bas:'--c-bas','기타':'--c-etc'};
+const AB=k=>({Sop:'S',Alt:'A',Ten:'T',Bas:'B',Orc:'O',all:'ALL'}[k]||k);
+const defGender=m=>m.group!=='Singer'?'':(m.part==='Sop'||m.part==='Alt')?'F':'M';   // 파트 기준 기본값(수정 가능)
+const pad=n=>String(n).padStart(2,'0');
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const md=iso=>`${+iso.slice(5,7)}/${+iso.slice(8,10)}`;          // 앞자리 0 생략: 1/4, 10/4
+const fmtJoin=iso=>iso?`${iso.slice(2,4)}.${+iso.slice(5,7)}.${+iso.slice(8,10)}`:'';   // 26.3.8
+const pct=v=>v==null?'-':(v*100).toFixed(1)+'%';
+const f1=v=>v==null?'-':v.toFixed(1);
+const $=s=>document.querySelector(s);
+const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const collator=new Intl.Collator('ko');
+
+/* ---------- 날짜 ---------- */
+const sundays=[];
+for(let k=0;k<53;k++){const d=new Date(Date.UTC(YEAR,0,4+7*k));if(d.getUTCFullYear()!==YEAR)break;sundays.push(d.toISOString().slice(0,10));}
+const now=new Date();
+const todayISO=`${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}`;
+const pi=sundays.filter(d=>d<=todayISO).length;      // 지나간(오늘 포함) 일요일 수
+const curIdx=pi-1;
+
+/* ---------- 데이터 ---------- */
+function valid(x){return x&&Array.isArray(x.members)&&x.marks&&typeof x.marks==='object'&&x.orc&&typeof x.orc==='object';}
+function normalize(x){           // 체크(1)만 남기고 미체크는 결석으로 간주
+  if(!x.orcRoster||x.orcRoster<2){   // Orc 명단(한 번만 추가) — 작년부터 있던 대원은 등록일 없음, 중간 등록 3명만 등록일 지정
+    ORC_ROSTER.forEach(([part,name,jn],i)=>{
+      const ex=x.members.find(m=>m.group==='Orc'&&m.name===name);
+      if(!ex)x.members.push({id:'o'+pad(i+1),name,group:'Orc',part,join:jn,leave:'',retired:false,gender:''});
+      else if(x.orcRoster===1&&ex.join===ORC_FROM)ex.join=jn;
+    });
+    x.orcRoster=2;
+  }
+  x.members.forEach(m=>{m.name=String(m.name).replace(/\s+/g,'');m.leave=m.leave||'';m.retired=!!m.retired;m.join=m.join||'';m.gender=m.gender||defGender(m);});
+  Object.keys(x.marks).forEach(id=>{const o={};Object.keys(x.marks[id]).forEach(d=>{if(x.marks[id][d]===1)o[d]=1;});x.marks[id]=o;});
+  return x;
+}
+let S=null;
+let monthSel=new Set();
+const pk=m=>m.group==='Singer'?m.part:m.group==='Orc'?'Orc':'기타';
+const nkey=m=>m.name.replace(/\s+/g,'');
+function sortMembers(arr){
+  return arr.slice().sort((a,b)=>GROUPS.indexOf(pk(a))-GROUPS.indexOf(pk(b))
+    ||(pk(a)==='기타'?ETC_PARTS.indexOf(a.part)-ETC_PARTS.indexOf(b.part):0)
+    ||(pk(a)==='Orc'?ORC_PARTS.indexOf(a.part)-ORC_PARTS.indexOf(b.part):0)
+    ||collator.compare(nkey(a),nkey(b)));
+}
+function startIdx(m){if(!m.join)return 0;const i=sundays.findIndex(d=>d>=m.join);return i<0?Infinity:i;}
+function endIdx(m){if(!m.leave)return sundays.length-1;let e=-1;for(let i=0;i<sundays.length;i++)if(sundays[i]<=m.leave)e=i;return e;}
+const checked=(id,d)=>!!(S.marks[id]&&S.marks[id][d]===1);
+function visIdx(){const a=[];sundays.forEach((d,i)=>{if(!monthSel.size||monthSel.has(d.slice(5,7)))a.push(i);});return a;}
+
+/* ---------- 집계 : 전체 = Singer + Orc (기타 제외) ---------- */
+const KEYS=['all','allx','Singer','Sop','Alt','Ten','Bas','기타','Orc'];
+function rateOf(x){return (x&&x.a!=null&&x.e>0)?x.a/x.e:null;}
+function compute(){
+  const act=sortMembers(S.members.filter(m=>!m.retired)), ret=sortMembers(S.members.filter(m=>m.retired));
+  const mem=act.concat(ret),N=sundays.length,span=new Map();
+  mem.forEach(m=>span.set(m.id,{s:startIdx(m),e:endIdx(m)}));
+  const W=[];let lastE=null;
+  for(let i=0;i<N;i++){
+    const d=sundays[i],att={},enr={};let rec=false;
+    GROUPS.forEach(g=>{att[g]=0;enr[g]=0;});
+    for(const m of mem){
+      const sp=span.get(m.id);if(i<sp.s||i>sp.e)continue;
+      const g=pk(m);enr[g]++;
+      if(checked(m.id,d)){att[g]++;rec=true;}
+    }
+    const o=S.orc[d]||{};
+    let oa=(o.a===''||o.a==null)?null:+o.a, oe=(o.e===''||o.e==null)?null:+o.e;
+    const orcM=d>=ORC_FROM&&enr.Orc>0;           // 10/18 이후: 명단 합산
+    if(orcM){oa=att.Orc;oe=enr.Orc;}
+    if(oe!=null)lastE=oe;
+    const orcE=oe!=null?oe:lastE;
+    const orcIn=oa!=null&&orcE!=null;
+    if(oa!=null&&!orcM)rec=true;
+    const sa=PARTS.reduce((s,g)=>s+att[g],0), se=PARTS.reduce((s,g)=>s+enr[g],0);
+    const row={};
+    PARTS.forEach(g=>row[g]={a:att[g],e:enr[g]});
+    row['기타']={a:att['기타'],e:enr['기타']};
+    row.Singer={a:sa,e:se};
+    row.Orc={a:oa,e:orcE};
+    row.all={a:sa+(orcIn?oa:0),e:se+(orcIn?orcE:0)};
+    row.allx={a:sa+att['기타']+(orcIn?oa:0),e:se+enr['기타']+(orcIn?orcE:0)};   // 관리 페이지 ALL = Singer + 기타 + O
+    W.push({d,rec,show:i<pi&&rec,row});
+  }
+  const R=[];W.forEach((w,i)=>{if(w.show)R.push(i);});
+  const visSet=new Set(visIdx()),RV=R.filter(i=>visSet.has(i));
+  const mean=a=>a.length?a.reduce((s,v)=>s+v,0)/a.length:null;
+  const avgOf=list=>{const o={};KEYS.forEach(k=>{const A=[],E=[],Rt=[];
+    list.forEach(i=>{const x=W[i].row[k];if(x.a==null)return;A.push(x.a);E.push(x.e);if(x.e>0)Rt.push(x.a/x.e);});
+    o[k]={a:mean(A),e:mean(E),r:mean(Rt)};});return o;};
+  return {mem,act,ret,span,W,R,RV,avg:avgOf(R),avgV:avgOf(RV)};
+}
+
+const ttlH=t=>{const i=t.indexOf(' : ');return i<0?t:`${t.slice(0,i)} : <span class="t2">${t.slice(i+3)}</span>`;};
+/* ===================== 출석 현황 대시보드 (dash.html) ===================== */
+(()=>{
+'use strict';
+const KEY='choir-attendance-2026-v1';
+const NAME={all:'ALL',allx:'ALL',Singer:'Singer',Orc:'Orc',Sop:'Sop',Alt:'Alt',Ten:'Ten',Bas:'Bas','기타':'기타'};
+const AB=k=>k;   // 대시보드는 파트명을 줄이지 않음 (S·A·T·B·O 약자는 관리페이지 전용)
+const cv=k=>`var(${COLOR[k]})`;
+const tw=s=>[...String(s)].reduce((a,c)=>a+(c.charCodeAt(0)>255?12:6.7),0);
+const mean=a=>a.length?a.reduce((s,v)=>s+v,0)/a.length:null;
+let distData=[], charts=[], R=[], W=[], Mx=null, modes={}, seq=0, ro=null;
+
+/* ---------- 자료 읽기: data.json → 이 기기 저장본 → 내장 원본 ---------- */
+async function load(){
+  const wantLocal=/[?&]local=1/.test(location.search);
+  const fromLocal=()=>{try{const raw=localStorage.getItem(KEY);if(raw){const x=JSON.parse(raw);if(valid(x))return x;}}catch(e){}return null;};
+  let p=null;
+  if(wantLocal)p=fromLocal();
+  if(!p){try{const r=await fetch('data.json?t='+Date.now(),{cache:'no-store'});if(r.ok){const x=await r.json();if(valid(x))p=x;}}catch(e){}}
+  if(!p)p=fromLocal();
+  if(!p)p=JSON.parse(JSON.stringify(SEED));
+  return normalize(p);
+}
+
+/* ---------- 차트 엔진 : 선 · 막대 · 이중 축 · 평균선 ---------- */
+function niceScale(min,max,ticks){
+  const range=(max-min)||1,raw=range/ticks,mag=Math.pow(10,Math.floor(Math.log10(raw))),n=raw/mag;
+  const step=(n<=1?1:n<=2?2:n<=5?5:n<=10?10:10)*mag;
+  return {lo:Math.floor(min/step+1e-9)*step,hi:Math.ceil(max/step-1e-9)*step,step};
+}
+function chart(host,cfg){
+  const id='c'+(++seq);
+  const HW=host.clientWidth||600,n=cfg.xl.length;
+  const hasR=cfg.series.some(s=>s.axis==='R');
+  const ml=36,mr=hasR?46:16,mt=26,H=cfg.h||260;
+  const W=Math.max(280,HW,n*(cfg.step||27)+ml+mr),pw=W-ml-mr,band=pw/n,rot=band<38,mb=rot?40:24,ph=H-mt-mb;
+  const X=i=>ml+band*(i+.5);
+  const ser=cfg.series,avs=cfg.avgs||[];
+  const nums=(ss,as)=>[].concat(...ss.map(s=>s.vals.filter(v=>v!=null)),as.map(a=>a.v)).filter(v=>v!=null&&isFinite(v));
+  const L=nums(ser.filter(s=>s.axis!=='R'),avs.filter(a=>a.axis!=='R'));
+  const hasBar=ser.some(s=>s.type==='bar');
+  let lmn=Math.min(...L),lmx=Math.max(...L);if(!isFinite(lmn)){lmn=0;lmx=1;}
+  let lo,hi;
+  if(hasBar){lo=0;hi=lmx/(cfg.barFrac||.58);}
+  else{const sp=(lmx-lmn)||1;lo=Math.max(0,lmn-sp*.14);hi=lmx+sp*.10;}
+  const sc=niceScale(lo,hi,4);lo=sc.lo;hi=sc.hi;
+  const YL=v=>mt+ph*(1-(v-lo)/(hi-lo));
+  let rlo=0,rhi=1,YR=()=>0,rticks=[];
+  if(hasR){
+    const Rv=nums(ser.filter(s=>s.axis==='R'),avs.filter(a=>a.axis==='R'));
+    const rmn=Math.min(...Rv),rmx=Math.max(...Rv),rr=Math.max(rmx-rmn,.06),span=rr/.40;
+    rlo=rmn-.52*span;rhi=rlo+span;
+    if(rhi>1.06){rhi=1.06;rlo=rhi-span;}
+    YR=v=>mt+ph*(1-(v-rlo)/(rhi-rlo));
+    const rs=niceScale(rlo,rhi,4);
+    for(let v=rs.lo;v<=rs.hi+1e-9;v+=rs.step)if(v>=-1e-9&&v<=1+1e-9&&v>=rlo-1e-9&&v<=rhi+1e-9)rticks.push(v);
+  }
+  const Yof=s=>s.axis==='R'?YR:YL;
+  let g='',ticks='';
+  for(let v=lo;v<=hi+1e-9;v+=sc.step){
+    const y=YL(v);g+=`<line x1="${ml}" x2="${W-mr}" y1="${y}" y2="${y}" stroke="var(--line)"/>`;
+    ticks+=`<text x="${ml-6}" y="${y+4}" text-anchor="end" fill="var(--ink-faint)">${Math.round(v*100)/100}</text>`;
+  }
+  rticks.forEach(v=>{ticks+=`<text x="${W-mr+6}" y="${YR(v)+4}" fill="var(--ink-faint)">${Math.round(v*100)}%</text>`;});
+  ticks+=`<text x="2" y="${mt-10}" fill="var(--ink-faint)" font-weight="700">${cfg.lt||'인원'}</text>`;
+  if(hasR)ticks+=`<text x="${W-mr+6}" y="${mt-10}" fill="var(--ink-faint)" font-weight="700">출석률</text>`;
+  let xt='';
+  for(let i=0;i<n;i++){const x=X(i),y=mt+ph+(rot?10:17);xt+=rot?`<text x="${x+3}" y="${y}" text-anchor="end" transform="rotate(-45 ${x+3} ${y})" fill="var(--ink-faint)">${cfg.xl[i]}</text>`:`<text x="${x}" y="${y}" text-anchor="middle" fill="var(--ink-faint)">${cfg.xl[i]}</text>`;}
+  if(cfg.mgrid){cfg.mgrid.forEach(i=>{const x=ml+band*i;g+=`<line x1="${x}" x2="${x}" y1="${mt}" y2="${mt+ph}" stroke="var(--line)" stroke-dasharray="2 3"/>`;});}
+
+  const P=ser.map(s=>s.vals.map((v,i)=>v==null?null:{x:X(i),y:Yof(s)(v),v}));
+  const samples=[];
+  ser.forEach((s,si)=>{if(s.type==='bar')return;const pts=P[si];
+    for(let i=0;i<pts.length-1;i++){const a=pts[i],b=pts[i+1];if(!a||!b)continue;
+      const Ln=Math.max(1,Math.ceil(Math.hypot(b.x-a.x,b.y-a.y)/1.5));for(let k=0;k<=Ln;k++)samples.push([a.x+(b.x-a.x)*k/Ln,a.y+(b.y-a.y)*k/Ln]);}
+    pts.forEach(p=>p&&samples.push([p.x,p.y]));});
+  const placed=[];
+  /* 평균선 + 설명(pill) */
+  let avLines='',avPills='';
+  const avo=avs.map(a=>({...a,y:(a.axis==='R'?YR:YL)(a.v)})).sort((a,b)=>a.y-b.y);
+  const pillRects=[];
+  const barBoxes=[];{const bw0=Math.min(22,band*.62);ser.forEach((s,si)=>{if(s.type!=='bar')return;P[si].forEach(p=>{if(p)barBoxes.push([p.x-bw0/2-2,p.y-16,bw0+4,mt+ph-p.y+16]);});});}
+  /* 평균 라벨(pill): 값·점·막대를 가리지 않는 자리를 찾아 놓고, 선에서 떨어지면 지시선으로 연결 */
+  avo.forEach(a=>{
+    avLines+=`<line x1="${ml}" x2="${W-mr}" y1="${a.y}" y2="${a.y}" stroke="${a.color}" stroke-width="1.5" stroke-dasharray="6 4"/>`;
+    const w=tw(a.text)+12,h=15;
+    const ys=[a.y-h-2,a.y+3,a.y-h-16,a.y+17,a.y-h-30,a.y+31];
+    let best=null,bs=1e9;
+    for(let k=0;k<ys.length;k++){
+      const y=ys[k];if(y<2||y+h>mt+ph+2)continue;
+      for(let x=ml+4;x<=W-mr-w-4;x+=6){
+        let sc=0;
+        for(const q of samples)if(q[0]>x-5&&q[0]<x+w+5&&q[1]>y-14&&q[1]<y+h+14)sc++;
+        for(const bb of barBoxes)if(x<bb[0]+bb[2]&&x+w>bb[0]&&y<bb[1]+bb[3]&&y+h>bb[1])sc+=8;
+        for(const r of pillRects)if(x<r[0]+r[2]+4&&x+w+4>r[0]&&y<r[1]+r[3]+4&&y+h+4>r[1])sc+=500;
+        sc+=k*0.5+(x-ml)*0.035;
+        if(sc<bs){bs=sc;best=[x,y,k];}
+      }
+      if(bs<0.6)break;
+    }
+    if(!best)best=[ml+4,ys[0],0];
+    const [x,y,k]=best;
+    pillRects.push([x,y,w,h]);placed.push([x,y,w,h]);
+    if(k>=2){const up=y<a.y,ay=up?y+h:y,cx=x+Math.min(14,w/2);
+      avLines+=`<line x1="${cx}" x2="${cx}" y1="${ay}" y2="${a.y}" style="stroke:${a.color};stroke-width:1.3px"/>`;}
+    avPills+=`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="7.5" fill="${a.color}" stroke="#fff" stroke-width="1"/><text x="${x+6}" y="${y+11}" fill="#fff" font-weight="800">${a.text}</text>`;
+  });
+
+  /* 최고·최저 글자: 평균 라벨·값·선과 겹치지 않는 자리를 찾아 놓고, 떨어져 있으면 지시선으로 연결 */
+  const mkLab=(px,py,c,t,up,hw)=>{
+    const w=tw(t)+4,h=13,cand=[[0,13],[0,24],[24,18],[-24,18],[38,10],[-38,10],[0,36],[34,30],[-34,30],[54,22],[-54,22],[0,50],[70,14],[-70,14]];
+    let best=null,bs=1e9;
+    const cand2=[];cand.forEach(c=>{cand2.push([c[0],c[1],up]);});cand.forEach(c=>{cand2.push([c[0],c[1]+2,!up]);});
+    for(const [dx,d0,upp] of cand2){
+      const cx=px+dx,cy=upp?py-d0:py+d0+7,bx=cx-w/2,by=cy-11;
+      if(bx<ml-2||bx+w>W-mr+4||by<mt-8||by+h>mt+ph+6)continue;
+      let sc=0;
+      for(const q of samples)if(q[0]>bx-2&&q[0]<bx+w+2&&q[1]>by-2&&q[1]<by+h+2)sc++;
+      for(const b of placed)if(bx<b[0]+b[2]+3&&bx+w+3>b[0]&&by<b[1]+b[3]+3&&by+h+3>b[1])sc+=60;
+      sc+=d0*.02+Math.abs(dx)*.01+(upp===up?0:2);
+      if(sc<bs){bs=sc;best=[cx,cy,dx,d0,bx,by,upp];}
+      if(sc<.9)break;
+    }
+    if(!best)best=[px,up?py-13:py+20,0,13,px-w/2,(up?py-13:py+20)-11];
+    const [cx,cy,dx,d0,bx,by,upB]=best.length>6?best:best.concat([up]);
+    placed.push([bx,by,w,h]);
+    let out='';
+    if(dx!==0||d0>13){
+      const sx=hw?px+(dx>=0?hw:-hw):px,sy=py,ex=cx,ey=upB?by+h-1:by+1;
+      const L=Math.hypot(ex-sx,ey-sy)||1,r0=hw?0:6;
+      out+=`<line class="lb" data-x="${px}" x1="${sx+(ex-sx)/L*r0}" y1="${sy+(ey-sy)/L*r0}" x2="${ex}" y2="${ey}" style="stroke:${c};stroke-width:1.3px"/>`;
+    }
+    return out+`<text class="lb" data-x="${px}" x="${cx}" y="${cy}" text-anchor="middle" fill="${c}" font-weight="800" stroke="#fff" stroke-width="3" paint-order="stroke">${t}</text>`;
+  };
+
+  let bars='',lines='',dots='',labels='';
+  const bw=Math.min(22,band*.62);
+  /* 막대 먼저 (라벨 자리 확보) */
+  ser.forEach((s,si)=>{
+    if(s.type!=='bar')return;
+    const bv=P[si].map((p,i)=>p?[p.v,i]:null).filter(Boolean);
+    let bmx=null,bmn=null;if(bv.length>1){bmx=bv[0];bmn=bv[0];bv.forEach(a=>{if(a[0]>bmx[0])bmx=a;if(a[0]<bmn[0])bmn=a;});if(bmx[0]===bmn[0])bmx=bmn=null;}
+    P[si].forEach((p,i)=>{
+      if(!p)return;
+      const y=p.y,h=mt+ph-y;
+      const mk=cfg.noMark?null:(bmx&&i===bmx[1]?'#1d4ed8':bmn&&i===bmn[1]?'#d11a2a':null);
+      bars+=`<rect x="${p.x-bw/2}" y="${y}" width="${bw}" height="${Math.max(0,h)}" rx="2" fill="${s.color}" fill-opacity=".85"${mk?` stroke="${mk}" stroke-width="3"`:''}/>`;
+      const txt=s.lfmt(p.v),w=tw(txt)+1;
+      const inside=h>=16&&w<=bw+4;
+      const ly=inside?y+13:y-4;
+      const rect=[p.x-w/2,ly-11,w,12];
+      placed.push(rect);
+      labels+=`<text class="lb ${inside?'bl':''}" data-x="${p.x}" x="${p.x}" y="${ly}" text-anchor="middle" fill="${inside?'#fff':s.color}">${txt}</text>`;
+      if(mk){labels+=mkLab(p.x,y,mk,mk==='#1d4ed8'?'최고':'최저',true,bw/2);}
+    });
+  });
+  ser.forEach((s,si)=>{
+    if(s.type==='bar')return;
+    const pts=P[si];let d='',pen=false;
+    pts.forEach(p=>{if(!p){pen=false;return;}d+=(pen?'L':'M')+p.x.toFixed(1)+' '+p.y.toFixed(1);pen=true;});
+    lines+=`<path d="${d}" fill="none" stroke="${s.color}" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>`;
+    pts.forEach((p,i)=>{if(p)dots+=`<circle class="pt" data-x="${p.x}" cx="${p.x}" cy="${p.y}" r="3" fill="#fff" stroke="${s.color}" stroke-width="2"/>`;});
+    {const vs=pts.map((p,i)=>p?[p.v,i]:null).filter(Boolean);
+     if(vs.length>1&&!cfg.noMark&&!s.noMark){let mx=vs[0],mn=vs[0];vs.forEach(a=>{if(a[0]>mx[0])mx=a;if(a[0]<mn[0])mn=a;});
+       if(mx[0]!==mn[0])[[mx,'#1d4ed8','최고'],[mn,'#d11a2a','최저']].forEach(([a,c,t])=>{const p=pts[a[1]];dots+=`<circle class="pt" data-x="${p.x}" cx="${p.x}" cy="${p.y}" r="6" fill="${c}" stroke="#fff" stroke-width="2"/>`;
+         labels+=mkLab(p.x,p.y,c,t,t==='최고',0);});}}
+    const lastI=(()=>{for(let i=pts.length-1;i>=0;i--)if(pts[i])return i;return -1;})();
+    pts.forEach((p,i)=>{
+      if(!p)return;
+      const txt=s.lfmt(p.v),w=tw(txt)+3,h=12,r=6;
+      const pv=pts[i-1],nx=pts[i+1];
+      const C={A:[p.x-w/2,p.y-r-h],B:[p.x-w/2,p.y+r],AL:[p.x-w-3,p.y-r-h+2],AR:[p.x+3,p.y-r-h+2],BL:[p.x-w-3,p.y+r-2],BR:[p.x+3,p.y+r-2],R:[p.x+r,p.y-h/2],L:[p.x-r-w,p.y-h/2]};
+      let order;
+      if(pv&&nx){
+        if(pv.v<=p.v&&nx.v<=p.v)order=['A','AL','AR','BL','BR','B'];
+        else if(pv.v>=p.v&&nx.v>=p.v)order=['B','BR','BL','AL','AR','A'];
+        else if(pv.v<nx.v)order=['AL','BR','A','B','AR','BL'];
+        else order=['AR','BL','A','B','AL','BR'];
+      }else if(nx)order=nx.v>=p.v?['AL','A','B','BR']:['AR','A','B','BL'];
+      else order=pv&&pv.v<=p.v?['AL','A','B','BR']:['BL','B','A','AL'];
+      let best=null,bs=1e9,bl=0;
+      for(const key of order){
+        const [bx,by]=C[key];
+        if(bx<ml-4||bx+w>W-1||by<2||by+h>mt+ph+4)continue;
+        let s2=0,ov=0;
+        for(const q of samples)if(q[0]>bx-2&&q[0]<bx+w+2&&q[1]>by-2&&q[1]<by+h+2)s2++;
+        for(const b of placed)if(bx<b[0]+b[2]+1&&bx+w+1>b[0]&&by<b[1]+b[3]+1&&by+h+1>b[1]){s2+=40;ov++;}
+        if(s2<bs){bs=s2;best=[bx,by];bl=ov;}
+        if(s2===0)break;
+      }
+      if(!best||(bl>0&&i!==lastI&&!cfg.forceLabels))return;   // 겹치면 생략(마우스를 올리면 툴팁으로 확인)
+      placed.push([best[0],best[1],w,h]);
+      labels+=`<text class="lb" data-x="${p.x}" x="${best[0]+w/2}" y="${best[1]+h-2}" text-anchor="middle" fill="${s.color}">${txt}</text>`;
+    });
+  });
+  const defs=`<defs><clipPath id="cp${id}"><rect id="cr${id}" x="0" y="0" width="${W}" height="${H}"/></clipPath></defs>`;
+  host.innerHTML=`<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" style="width:${W>HW+1?W+'px':'100%'}" role="img" aria-label="${esc(cfg.aria||'출석 추이')}">${defs}${g}${ticks}${xt}${avLines}
+    <g clip-path="url(#cp${id})">${bars}${lines}</g>${dots}${avPills}${labels}
+    <line id="hv${id}" y1="${mt}" y2="${mt+ph}" stroke="var(--line-strong)" stroke-dasharray="3 3" style="display:none"/>
+    <rect id="hr${id}" x="${ml}" y="0" width="${pw}" height="${H}" fill="transparent"/></svg><div class="tip"></div>`;
+  const svg=host.firstChild,cr=svg.querySelector('#cr'+id),tip=host.querySelector('.tip'),hv=svg.querySelector('#hv'+id);
+  const els=[...svg.querySelectorAll('.pt,.lb')].map(e=>({e,x:+e.dataset.x}));
+  let raf=0;
+  function setP(p){
+    const cx=ml+pw*p;
+    cr.setAttribute('width',p>=1?W:Math.max(0,cx));
+    for(const o of els)o.e.classList.toggle('on',o.x<=cx+band/2);
+  }
+  function play(final){
+    cancelAnimationFrame(raf);
+    if(final||reduced){setP(1);return;}
+    const t0=performance.now(),D=cfg.dur||2600;
+    setP(0);
+    const tick=t=>{const p=Math.min(1,(t-t0)/D),e=1-Math.pow(1-p,2.2);setP(e);if(p<1)raf=requestAnimationFrame(tick);};
+    raf=requestAnimationFrame(tick);
+  }
+  const hr=svg.querySelector('#hr'+id);
+  hr.addEventListener('pointermove',ev=>{
+    const rc=svg.getBoundingClientRect(),mx=(ev.clientX-rc.left)*(W/rc.width);
+    const bi=Math.max(0,Math.min(n-1,Math.floor((mx-ml)/band)));
+    hv.setAttribute('x1',X(bi));hv.setAttribute('x2',X(bi));hv.style.display='';
+    tip.innerHTML=cfg.tip(bi);tip.style.display='block';
+    const tx=X(bi)*(rc.width/W),tww=tip.offsetWidth;
+    tip.style.left=Math.max(0,Math.min(rc.width-tww,tx+12))+'px';tip.style.top='6px';
+  });
+  hr.addEventListener('pointerleave',()=>{tip.style.display='none';hv.style.display='none';});
+  return {play,stop:()=>cancelAnimationFrame(raf)};
+}
+
+/* ---------- 집계 도우미 ---------- */
+function groupsOf(mode){
+  if(mode==='w')return {gs:R.map(i=>[i]),xl:R.map(i=>md(sundays[i])),lab:R.map(i=>md(sundays[i]))};
+  const mos=[...new Set(R.map(i=>sundays[i].slice(5,7)))];
+  const gs=mos.map(mo=>R.filter(i=>sundays[i].slice(5,7)===mo));
+  return {gs,xl:mos.map(m=>+m+'월'),lab:mos.map((m,j)=>`${+m}월 (${gs[j].length}주 평균)`)};
+}
+const aOf=(k,gs)=>gs.map(g=>mean(g.map(i=>W[i].row[k].a).filter(v=>v!=null)));
+const rOf=(k,gs)=>gs.map(g=>mean(g.map(i=>rateOf(W[i].row[k])).filter(v=>v!=null)));
+const fi=v=>v==null?'-':String(Math.round(v));
+const fA=mode=>mode==='w'?(v=>String(Math.round(v))):(v=>fi(v));
+const fR=mode=>mode==='w'?(v=>(v*100).toFixed(0)+'%'):(v=>(v*100).toFixed(1)+'%');
+
+/* 차트 정의 */
+const SPEC={
+  trend:{title:m=>`${m==='w'?'주별':'월별'} 출석인원 : ALL`,sub:'',h:360,keys:['allx','Singer','Orc','기타'],
+    legend:()=>['allx','Singer','Orc','기타'].map(k=>[NAME[k],cv(k)])},
+  singer:{title:m=>`${m==='w'?'주별':'월별'} 출석인원 : Singer`,sub:'',h:360,keys:['Singer','Sop','Alt','Ten','Bas'],
+    legend:()=>['Singer','Sop','Alt','Ten','Bas'].map(k=>[NAME[k],cv(k)])}
+};
+PARTS.forEach(p=>{SPEC['p'+p]={title:m=>`${m==='w'?'주별':'월별'} 출석인원 : ${p}`,sub:'',h:270,part:p};});
+
+function cfgFor(key,mode){
+  const sp=SPEC[key],{gs,xl,lab}=groupsOf(mode),A=Mx.avg;
+  const base={xl,h:sp.h,step:mode==="w"?30:40,mgrid:null};
+  if(sp.part){
+    const p=sp.part,c=cv(p),av=aOf(p,gs),rv=rOf(p,gs);
+    return {...base,aria:`${p} 인원과 출석률`,barFrac:.58,
+      series:[{vals:av,color:c,type:'bar',axis:'L',lfmt:fA(mode)},{vals:rv,color:'#1b2a66',axis:'R',lfmt:fR(mode)}],
+      avgs:[{v:A[p].a,axis:'L',color:c,text:`평균 인원 ${fi(A[p].a)}명`},{v:A[p].r,axis:'R',color:'#1b2a66',text:`평균 출석률 ${pct(A[p].r)}`}],
+      tip:i=>`<b>${lab[i]}</b><br>${mode==='w'?`출석 <b>${W[R[i]].row[p].a}</b> / 재적 ${W[R[i]].row[p].e}`:`평균 출석 <b>${fi(av[i])}</b>명`} · 출석률 <b>${pct(rv[i])}</b>`};
+  }
+  const ks=sp.keys;
+  const plain=true;
+  return {...base,aria:sp.title(mode),
+    series:ks.map(k=>({vals:aOf(k,gs),color:cv(k),axis:'L',lfmt:fA(mode),noMark:k==='기타'})),
+    avgs:ks.map(k=>({v:A[k].a,axis:'L',color:cv(k),text:`${NAME[k]} 평균 ${fi(A[k].a)}명`})).filter(a=>a.v!=null),
+    tip:i=>`<b>${lab[i]}</b><br>`+ks.map(k=>{
+      const v=aOf(k,[gs[i]])[0],r=rOf(k,[gs[i]])[0];
+      return `<span style="color:${cv(k)};font-weight:700">${NAME[k]}</span> ${mode==='w'?`${W[R[i]].row[k].a}/${W[R[i]].row[k].e}명`:`${fi(v)}명`} · ${pct(r)}`;}).join('<br>')};
+}
+function panelHtml(key){
+  const sp=SPEC[key];
+  const leg=sp.part
+    ?''
+    :sp.legend().map(([n,c])=>`<span style="color:${c}"><i style="background:${c}"></i>${n}</span>`).join('');
+  return `<div class="panel" data-ch="${key}"><h2><span class="ttl">${ttlH(sp.title('w'))}</span>${sp.sub?`<small>${sp.sub}</small>`:''}
+    <span class="sp">${key==='trend'?'<button class="btn" id="replay">▶ 다시 재생</button>':''}<span class="seg" role="group" aria-label="집계 단위"><button data-md="w" class="on">주별</button><button data-md="m">월별</button></span></span></h2>
+    ${(leg||!sp.part)?`<div class="legend">${leg}${true?'':`<span style="color:#1d4ed8"><i class="mk" style="background:#1d4ed8"></i>최고</span><span style="color:#d11a2a"><i class="mk" style="background:#d11a2a"></i>최저</span><span style="color:var(--ink-soft)"><i class="ds"></i>점선 = 해당 항목의 <span class="avg">평균</span> (입력된 ${R.length}주 기준)</span>`}</div>`:''}
+    <div class="chart" id="ch-${key}"></div></div>`;
+}
+function drawChart(key,animate){
+  const host=$('#ch-'+key);if(!host)return;
+  const old=charts.find(c=>c.key===key);if(old){old.stop();charts=charts.filter(c=>c!==old);}
+  const mode=modes[key]||'w';
+  const c=chart(host,cfgFor(key,mode));c.key=key;charts.push(c);
+  const t=document.querySelector(`[data-ch="${key}"] .ttl`);if(t)t.innerHTML=ttlH(SPEC[key].title(mode));
+  c.play(!animate);
+}
+
+/* ---------- 화면 구성 ---------- */
+function render(){
+  Mx=compute();R=Mx.R;W=Mx.W;
+  charts.forEach(c=>c.stop());charts=[];
+  const root=$('#dashBody'),A=Mx.avg;
+  const ld=R.length?sundays[R[R.length-1]]:null;
+  $('#asof').textContent=ld?`기준일 : ${ld.slice(0,4)}.${+ld.slice(5,7)}.${+ld.slice(8,10)}.`:'';
+  if(!R.length){root.innerHTML='<div class="panel"><b>아직 입력된 출석이 없습니다.</b></div>';return;}
+  const last=R[R.length-1],prev=R.length>1?R[R.length-2]:null;
+  const arrow=(v)=>v==null||v===0?'':`<span class="${v>0?'up':'dn'}">${v>0?'▲':'▼'} ${Math.abs(v)}명</span>`;
+
+  /* 대원 인원 분포 (현재 재적 기준) : 인원수(구성비율 숫자) */
+  const act=S.members.filter(m=>!m.retired);
+  const cS=act.filter(m=>m.group==='Singer').length,cE=act.filter(m=>m.group!=='Singer'&&m.group!=='Orc').length,cO=W[last].row.Orc.e||0;
+  /* 3D 원형 차트: 윗면 부채꼴 + 아랫면 옆벽, 각 조각 위에 이름·인원수(구성비율) 표기 */
+  const pie3d=(items,aria)=>{
+    const tot=items.reduce((t,x)=>t+x.n,0),W0=340,H0=230,cx=170,cy=98,rx=108,ry=62,d=24;
+    if(!tot)return '<div class="note">자료가 없습니다.</div>';
+    const px=(a,k=1)=>cx+rx*k*Math.cos(a),py=(a,k=1)=>cy+ry*k*Math.sin(a);
+    let a0=-Math.PI/2,walls='',tops='',labs='';
+    const TAU=Math.PI*2;
+    items.filter(x=>x.n>0).forEach(x=>{
+      let a1=a0+TAU*x.n/tot;if(a1-a0>=TAU-1e-6)a1=a0+TAU-1e-3;
+      const large=a1-a0>Math.PI?1:0;
+      tops+=`<path d="M${cx} ${cy}L${px(a0)} ${py(a0)}A${rx} ${ry} 0 ${large} 1 ${px(a1)} ${py(a1)}Z" fill="${x.color}" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>`;
+      /* 옆벽: 화면 아래쪽(각도 0~π)에 걸치는 부분만 */
+      [[0,Math.PI],[TAU,TAU+Math.PI],[-TAU,-TAU+Math.PI]].forEach(([lo,hi])=>{
+        const s0=Math.max(a0,lo),e0=Math.min(a1,hi);
+        if(e0-s0>1e-4)walls+=`<path d="M${px(s0)} ${py(s0)}A${rx} ${ry} 0 0 1 ${px(e0)} ${py(e0)}L${px(e0)} ${py(e0)+d}A${rx} ${ry} 0 0 0 ${px(s0)} ${py(s0)+d}Z" fill="${x.color}"/><path d="M${px(s0)} ${py(s0)}A${rx} ${ry} 0 0 1 ${px(e0)} ${py(e0)}L${px(e0)} ${py(e0)+d}A${rx} ${ry} 0 0 0 ${px(s0)} ${py(s0)+d}Z" fill="#000" fill-opacity=".30"/>`;
+      });
+      const m=(a0+a1)/2,share=x.n/tot*100,txt=`${x.n}명(${share.toFixed(1)}%)`;
+      if(share>=11){
+        const lx=px(m,.62),ly=py(m,.62);
+        labs+=`<text class="pl" x="${lx}" y="${ly-1}" text-anchor="middle">${x.label}</text><text class="pl" x="${lx}" y="${ly+12}" text-anchor="middle">${txt}</text>`;
+      }else{
+        const lx=px(m,1.14),ly=py(m,1.14)+(Math.sin(m)>0?d:0),right=Math.cos(m)>=0;
+        labs+=`<text class="po" x="${lx}" y="${ly-1}" text-anchor="${right?'start':'end'}" fill="${x.color}">${x.label}</text><text class="po" x="${lx}" y="${ly+12}" text-anchor="${right?'start':'end'}" fill="${x.color}">${txt}</text>`;
+      }
+      a0=a1;
+    });
+    return `<svg class="pie3d" viewBox="40 8 260 190" role="img" aria-label="${aria}"><ellipse cx="${cx}" cy="${cy+d+6}" rx="${rx+6}" ry="${ry+4}" fill="#000" fill-opacity=".08"/>${walls}${tops}${labs}</svg>`;
+  };
+  const sing=act.filter(m=>m.group==='Singer');
+  const gM=sing.filter(m=>m.gender==='M').length,gF=sing.filter(m=>m.gender==='F').length;
+  const tot0=cS+cO+cE;
+  const mkDist=()=>`<div class="dgrid">
+    <div class="panel"><h2>${ttlH(`전체 현황 : 총 ${tot0}명`)}</h2>
+      <div class="dwrap">${pie3d([{label:'Singer',n:cS,color:cv('Singer')},{label:'Orc',n:cO,color:cv('Orc')},{label:'기타',n:cE,color:cv('기타')}],'전체 대원 구성')}<div class="dst">${blk('allx','ALL','all')}${blk('Singer','Singer','Singer')}${blk('Orc','Orc','Orc')}</div></div><div class="pnote">기타 : 지휘/반주/수어</div></div>
+    <div class="panel"><h2>${ttlH(`Singer 현황 : 총 ${cS}명`)}</h2>
+      <div class="pies"><div><div class="dsub">파트별</div><div class="dwrap">${pie3d(PARTS.map(p=>({label:p,n:sing.filter(m=>m.part===p).length,color:cv(p)})),'Singer 파트별 구성')}<div class="dst g2">${PARTS.map(p=>blk(p,p,p)).join('')}</div></div></div>
+      <div><div class="dsub">남·여</div><div class="dwrap">${pie3d([{label:'남',n:gM,color:'#2f4f9e'},{label:'여',n:gF,color:'#c0407a'}],'Singer 남여 구성')}<div class="dst g2">${blkG('M','남','#2f4f9e')}${blkG('F','여','#c0407a')}</div></div></div></div></div></div>`;
+
+  /* 지표: Singer · Orc · ALL (ALL은 기타 포함) */
+  const rowOf=(k,i)=>{const x=W[i].row;return k==='allx'?{a:x.all.a+x['기타'].a,e:x.all.e+x['기타'].e}:x[k];};
+  const avgOf=k=>{if(k!=='allx')return A[k];const v=R.map(i=>rowOf(k,i));return {a:mean(v.map(x=>x.a)),r:mean(v.map(x=>rateOf(x)).filter(z=>z!=null))};};
+  const blkG=(g,label,color)=>{
+    const ws=R.map(i=>{let a=0,e=0;Mx.mem.forEach(m=>{if(m.group!=='Singer'||m.gender!==g)return;const sp=Mx.span.get(m.id);if(i<sp.s||i>sp.e)return;e++;if(checked(m.id,sundays[i]))a++;});return {a,e,i};}).filter(x=>x.e>0);
+    if(!ws.length)return '';
+    const av=mean(ws.map(x=>x.a)),rt=mean(ws.map(x=>x.a/x.e));
+    let mx=ws[0],mn=ws[0];ws.forEach(x=>{if(x.a>mx.a)mx=x;if(x.a<mn.a)mn=x;});
+    return `<div class="sbk" style="--kc:${color}"><div class="sh">${label}</div>
+      <div class="sl"><span class="avg">평균</span> <b>${fi(av)}명(${pct(rt)})</b></div>
+      <div class="sl"><span class="tg hi2">최다</span> <b>${mx.a}명</b>(${md(sundays[mx.i])})</div>
+      <div class="sl"><span class="tg lo2">최소</span> <b>${mn.a}명</b>(${md(sundays[mn.i])})</div></div>`;
+  };
+  const blk=(k,label,ck)=>{
+    const av=avgOf(k);
+    const vs=R.map(i=>[rowOf(k,i).a,i]).filter(x=>x[0]!=null);
+    let mx=vs[0],mn=vs[0];vs.forEach(x=>{if(x[0]>mx[0])mx=x;if(x[0]<mn[0])mn=x;});
+    return `<div class="sbk" style="--kc:${cv(ck)}"><div class="sh">${label}</div>
+      <div class="sl"><span class="avg">평균</span> <b>${fi(av.a)}명(${pct(av.r)})</b></div>
+      <div class="sl"><span class="tg hi2">최다</span> <b>${mx[0]}명</b>(${md(sundays[mx[1]])})</div>
+      <div class="sl"><span class="tg lo2">최소</span> <b>${mn[0]}명</b>(${md(sundays[mn[1]])})</div></div>`;
+  };
+
+  /* 월별 평균 표 */
+  const months=[...new Set(R.map(i=>sundays[i].slice(5,7)))];
+  const mkeys=['allx','Singer','Sop','Alt','Ten','Bas','Orc','기타'];
+  const mrows=mkeys.map(k=>{
+    const vals=months.map(mo=>{
+      const idx=R.filter(i=>sundays[i].slice(5,7)===mo);
+      return {r:mean(idx.map(i=>rateOf(W[i].row[k])).filter(v=>v!=null)),a:mean(idx.map(i=>W[i].row[k].a).filter(v=>v!=null))};});
+    const ext=f=>{const x=vals.map(f).filter(v=>v!=null);return [Math.max(...x),Math.min(...x)];};
+    const [rM,rm]=ext(v=>v.r),[aM,am]=ext(v=>v.a);
+    const cl=(v,M,m)=>v==null||M===m?'':v===M?'hi':v===m?'lo':'';
+    const tds=vals.map(v=>{
+      const bg=v.r==null?'transparent':`color-mix(in srgb, #5b7fd6 ${18+Math.max(0,(v.r-0.5))*70}%, #fff)`;
+      return `<td class="mc"><span class="mr ${cl(v.r,rM,rm)}" style="background:${bg}">${pct(v.r)}</span><small class="ma ${cl(v.a,aM,am)}">${fi(v.a)}명</small></td>`;}).join('');
+    return `<tr><td${PARTS.includes(k)?' class="rt"':''} style="color:${cv(k)}">${NAME[k]}</td>${tds}<td style="font-weight:800">${pct(A[k].r)}<small>${fi(A[k].a)}명</small></td></tr>`;}).join('');
+  const monthPanel=`<div class="panel"><h2>월별 평균 출석 현황</h2><div class="scroll"><table class="mt"><thead><tr><th>구분</th>${months.map(m=>`<th>${+m}월</th>`).join('')}<th>연간 <span class="avg">평균</span></th></tr></thead><tbody>${mrows}</tbody></table></div></div>`;
+
+  /* 개인별 */
+  const dstat=Mx.mem.filter(m=>m.group!=='Orc').map(m=>{
+    const sp=Mx.span.get(m.id),rows=R.filter(i=>i>=sp.s&&i<=sp.e);
+    const seq=rows.map(i=>checked(m.id,sundays[i])?1:0);
+    const num=seq.reduce((a,b)=>a+b,0);let tail=0;for(let k=seq.length-1;k>=0&&seq[k]===0;k--)tail++;
+    return {m,den:seq.length,num,r:seq.length?num/seq.length:null,tail,g:m.retired?'탈퇴':pk(m),first:sp.s===0};});
+  const live=dstat.filter(x=>!x.m.retired);
+  const perfect=live.filter(x=>x.first&&x.den>0&&x.num===x.den);
+  const buckets=[['90%↑',x=>x>=.9],['80~89',x=>x>=.8&&x<.9],['70~79',x=>x>=.7&&x<.8],['60~69',x=>x>=.6&&x<.7],['60% 미만',x=>x<.6]];
+  const bmem=buckets.map(([,f])=>live.filter(x=>x.r!=null&&f(x.r)));
+  distData=bmem.map((l,i)=>({label:buckets[i][0],list:l}));
+  const cnt=bmem.map(l=>l.length),cm=Math.max(...cnt,1);
+  const distP=`<div class="panel"><h2>출석률 구간별 현황 <small>인원(명) · 막대 위에 마우스를 올리면 대상자(파트별 출석률 높은 순)가 표시됩니다</small></h2><div class="dist">${buckets.map(([l],i)=>`<div data-b="${i}"><b>${cnt[i]}</b><i style="height:${cnt[i]/cm*66}px"></i>${l}</div>`).join('')}</div></div>`;
+  /* Top : 전체 10명, 파트별 5명 (동률은 이름 가나다순) */
+  const rank=arr=>arr.filter(x=>x.first&&x.r!=null).sort((a,b)=>b.r-a.r||collator.compare(nkey(a.m),nkey(b.m)));
+  const chipT=x=>`<span class="chip"><b>${esc(x.m.name)}</b> <em>${AB(x.g)}</em> <i>${(x.r*100).toFixed(1)}%</i></span>`;
+  const none='<span class="note">대상 대원이 없습니다.</span>';
+  const topAll=rank(live).slice(0,10);
+  const topRow=`<div class="toprow">
+    <div class="panel"><h2>전체 Top 10 <small>${perfect.length?`개근 ${perfect.length}명`:'개근 대원 없음'} · 동률은 이름 가나다순</small></h2><div class="chips col col2">${topAll.map(chipT).join('')||none}</div></div>
+    ${PARTS.map(p=>`<div class="panel"><h2 style="border-left-color:${cv(p)}">${AB(p)} Top 5</h2><div class="chips col">${rank(live.filter(x=>x.g===p)).slice(0,5).map(chipT).join('')||none}</div></div>`).join('')}</div>`;
+  /* 연속 결석: 2~4주 / 5~8주 / 9주 이상 */
+  const watch=live.filter(x=>x.tail>=2).sort((a,b)=>b.tail-a.tail||collator.compare(nkey(a.m),nkey(b.m)));
+  const bk=[['2~4주 연속 결석',x=>x.tail>=2&&x.tail<=4],['5~8주 연속 결석',x=>x.tail>=5&&x.tail<=8],['9주 이상 연속 결석',x=>x.tail>=9]];
+  const watchP=`<div class="grid3">${bk.map(([t,f])=>{const l=watch.filter(f);return `<div class="panel"><h2>${t} <small>${l.length}명</small></h2><div class="chips">${l.length?l.map(x=>`<span class="chip warn"><b>${esc(x.m.name)}</b> <em>${AB(x.g)}</em> ${x.tail}주</span>`).join(''):'<span class="note">해당 대원이 없습니다.</span>'}</div></div>`;}).join('')}</div>`;
+
+  /* 히트맵 : 월별 구분(월 머리글 · 간격 · 날짜 줄) */
+  const cols=[];let pm=null;
+  R.forEach(i=>{const mo=sundays[i].slice(5,7);if(pm&&mo!==pm)cols.push({sp:1});cols.push({i,mo});pm=mo;});
+  let hm=`<table class="hm" style="table-layout:fixed;width:${50+44+cols.reduce((t,c)=>t+(c.sp?11:19),0)}px"><colgroup><col style="width:50px"><col style="width:44px">${cols.map(c=>`<col style="width:${c.sp?11:19}px">`).join('')}</colgroup><tr class="mh">`;hm+='<td class="nmc"></td><td class="rtc"></td>';
+  let ci=0,oi=0;
+  while(ci<cols.length){
+    if(cols[ci].sp){hm+='<td class="sp"></td>';ci++;continue;}
+    const mo=cols[ci].mo;let cj=ci;while(cj<cols.length&&!cols[cj].sp&&cols[cj].mo===mo)cj++;
+    hm+=`<td class="m ${oi%2?'o':''}" colspan="${cj-ci}">${+mo}월</td>`;ci=cj;oi++;
+  }
+  hm+='</tr><tr class="dh"><td class="nmc"></td><td class="rtc">출석률</td>'+cols.map(c=>c.sp?'<td class="sp"></td>':`<td>${+sundays[c.i].slice(8,10)}</td>`).join('')+'</tr>';
+  /* 히트맵 맨 위: 주별 전체 출석인원(히트맵에 나오는 대원 = Singer + 기타) */
+  hm+=`<tr class="gh tot"><td class="nmc ghn" colspan="2">전체</td>`+cols.map(c=>{
+    if(c.sp)return '<td class="sp"></td>';
+    const a=Mx.W[c.i].row.Singer.a+Mx.W[c.i].row['기타'].a,e=Mx.W[c.i].row.Singer.e+Mx.W[c.i].row['기타'].e;
+    return `<td class="gn" title="전체 ${md(sundays[c.i])} 출석 ${a}명 / 재적 ${e}명">${a}</td>`;
+  }).join('')+'</tr>';
+  let pg=null;
+  dstat.forEach(x=>{
+    if(pg!==x.g){pg=x.g;const gc=x.g==='탈퇴'?'var(--ink-faint)':cv(x.g),ro=x.g==='탈퇴'?null:null;
+      /* 파트 이름 줄의 빈 칸에 주별 파트 출석인원 표시 */
+      hm+=`<tr class="gh"><td class="nmc ghn" colspan="2" style="color:${gc}">${x.g==='탈퇴'?'탈퇴 대원':AB(x.g)}</td>`+cols.map(c=>{
+        if(c.sp)return '<td class="sp"></td>';
+        if(x.g==='탈퇴')return '<td class="gn"></td>';
+        const q=Mx.W[c.i].row[x.g];
+        return q&&q.e>0?`<td class="gn" style="color:${gc}" title="${AB(x.g)} ${md(sundays[c.i])} 출석 ${q.a}명 / 재적 ${q.e}명">${q.a}</td>`:'<td class="gn"></td>';
+      }).join('')+'</tr>';}
+    const sp=Mx.span.get(x.m.id);
+    const inS=c=>!c.sp&&c.i>=sp.s&&c.i<=sp.e;
+    let a0=cols.findIndex(inS);if(a0<0)a0=cols.length;
+    let a1=-1;cols.forEach((c,j)=>{if(inS(c))a1=j;});
+    let row=`<tr><td class="nmc">${esc(x.m.name)}</td><td class="rtc">${x.r==null?'-':(x.r*100).toFixed(1)+'%'}</td>`;
+    if(a0>0)row+=`<td class="mg" colspan="${a0}" title="${esc(x.m.name)} 등록일 ${md(x.m.join)}">${x.m.join?md(x.m.join)+' 등록':''}</td>`;
+    for(let j=a0;j<=a1;j++){
+      const c=cols[j];
+      if(c.sp){row+='<td class="sp"></td>';continue;}
+      const v=checked(x.m.id,sundays[c.i]);
+      row+=`<td class="c${v?1:0}" title="${esc(x.m.name)} ${md(sundays[c.i])} ${v?'출석':'결석'}"></td>`;
+    }
+    if(a1>=0&&a1<cols.length-1)row+=`<td class="mg" colspan="${cols.length-1-a1}" title="${esc(x.m.name)} 탈퇴일 ${fmtJoin(x.m.leave)}">${x.m.leave?fmtJoin(x.m.leave)+' 탈퇴':''}</td>`;
+    hm+=row+'</tr>';
+  });
+  hm+='</table>';
+  const hmP=`<div class="panel"><h2>대원별 출석 히트맵 <small><span class="lg c1">출석</span> <span class="lg c0">결석</span> <span class="lg cn">등록일</span></small></h2><div class="hmw">${hm}</div></div>`;
+
+  root.innerHTML=`${mkDist()}
+    ${panelHtml('trend')}${panelHtml('singer')}${PARTS.map(p=>panelHtml('p'+p)).join('')}
+    ${monthPanel}${distP}<h2 class="sec">출석률 상위 대원<span class="exc">중간 등록 대원 제외</span></h2>${topRow}${watchP}${hmP}`;
+
+  /* 히트맵 이름·출석률 칸을 글자 폭에 딱 맞춤 */
+  {const tb=document.querySelector('table.hm');if(tb){
+    const fitW=sel=>{let m=0;tb.querySelectorAll(sel).forEach(td=>{if(!td.textContent.trim()||td.colSpan>1)return;const sp=document.createElement('span');sp.style.cssText='position:absolute;visibility:hidden;white-space:nowrap';sp.textContent=td.textContent;td.appendChild(sp);m=Math.max(m,sp.getBoundingClientRect().width);sp.remove();});return Math.ceil(m);};
+    const nw=fitW('tr:not(.gh) td.nmc')+6,rw=fitW('tr:not(.gh) td.rtc')+6;
+    const cg=tb.querySelectorAll('col');cg[0].style.width=nw+'px';cg[1].style.width=rw+'px';
+    tb.style.width=(parseFloat(tb.style.width)-94+nw+rw)+'px';
+    tb.querySelectorAll('td.rtc').forEach(td=>td.style.left=nw+'px');
+    tb.querySelectorAll('td.nmc').forEach(td=>{td.style.padding='0 3px'});
+    tb.querySelectorAll('td.rtc').forEach(td=>{td.style.padding='0 3px'});
+  }}
+  /* 히트맵 틀 고정: 날짜 줄은 월 줄 높이만큼 아래에 붙인다 */
+  {const mh=document.querySelector('.hm tr.mh td.m');const th=mh?mh.getBoundingClientRect().height:18;document.querySelectorAll('.hm tr.dh td').forEach(td=>td.style.top=(th+1.5)+'px');}
+  /* 히트맵 등록일 칸이 좁으면 그 칸만 글자를 줄여 날짜가 보이게 */
+  document.querySelectorAll('.hm td.mg').forEach(td=>{
+    let fs=12;td.dataset.full=td.textContent;
+    const fit=()=>td.scrollWidth<=td.clientWidth;
+    while(!fit()&&fs>6){fs-=0.5;td.style.fontSize=fs+'px';td.style.paddingLeft=td.style.paddingRight=fs<10?'1px':'';}
+    if(!fit()){td.textContent=td.dataset.full.replace(/ (등록|탈퇴)$/,'');fs=Math.min(fs,10);td.style.fontSize=fs+'px';
+      while(!fit()&&fs>5){fs-=0.5;td.style.fontSize=fs+'px';}}
+  });
+  Object.keys(SPEC).forEach(k=>{modes[k]=modes[k]||'w';drawChart(k,true);});
+  const rp=$('#replay');if(rp)rp.onclick=()=>charts.forEach(c=>c.play());
+}
+document.addEventListener('click',e=>{
+  const b=e.target.closest('.seg button');if(!b)return;
+  const key=b.closest('.panel').dataset.ch;
+  modes[key]=b.dataset.md;
+  b.parentNode.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));
+  drawChart(key,true);
+});
+
+/* 출석률 분포 막대: 마우스를 올리면 대상자 팝업 (파트별, 출석률 높은 순) */
+const pop=document.createElement('div');pop.className='distpop';pop.hidden=true;document.body.appendChild(pop);
+function showPop(bar){
+  const d=distData[+bar.dataset.b];if(!d)return;
+  const order=['Sop','Alt','Ten','Bas','기타'];
+  const by={};d.list.forEach(x=>{(by[x.g]=by[x.g]||[]).push(x);});
+  let h=`<div class="pph">${d.label} · ${d.list.length}명</div>`;
+  if(!d.list.length)h+='<div class="note">해당 대원이 없습니다.</div>';
+  order.forEach(g=>{const l=(by[g]||[]).sort((a,b)=>b.r-a.r||collator.compare(nkey(a.m),nkey(b.m)));if(!l.length)return;
+    h+=`<div class="ppg"><b style="color:${cv(g)}">${g} ${l.length}명</b><div class="ppl">${l.map(x=>`<span>${esc(x.m.name)} <i>${(x.r*100).toFixed(1)}%</i></span>`).join('')}</div></div>`;});
+  pop.innerHTML=h;pop.hidden=false;
+  const rc=bar.parentNode.getBoundingClientRect(),w=pop.offsetWidth,hh=pop.offsetHeight;
+  let left=Math.max(8,Math.min(innerWidth-w-8,bar.getBoundingClientRect().left+bar.offsetWidth/2-w/2));
+  let top=rc.top-hh-6;if(top<8)top=Math.min(innerHeight-hh-8,rc.bottom+6);
+  pop.style.left=left+'px';pop.style.top=Math.max(8,top)+'px';
+}
+document.addEventListener('mouseover',e=>{const b=e.target.closest('.dist [data-b]');if(b)showPop(b);else if(!e.target.closest('.distpop'))pop.hidden=true;});
+document.addEventListener('click',e=>{const b=e.target.closest('.dist [data-b]');if(b)showPop(b);else if(!e.target.closest('.distpop'))pop.hidden=true;});
+document.addEventListener('scroll',()=>{pop.hidden=true;},{passive:true});
+
+/* 폭이 바뀌면 차트만 다시 그림 */
+let lastW=0,rt=0;
+function watch(){
+  const root=$('#dashBody');lastW=root.clientWidth;
+  ro=new ResizeObserver(()=>{const w=root.clientWidth;if(Math.abs(w-lastW)<4)return;lastW=w;clearTimeout(rt);rt=setTimeout(()=>Object.keys(SPEC).forEach(k=>drawChart(k,false)),120);});
+  ro.observe(root);
+}
+(async()=>{S=await load();render();watch();})();
+})();
+
+</script>
+</body>
+</html>
