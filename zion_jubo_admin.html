@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>시온찬양대 주보 관리</title>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Do+Hyeon&family=Jua&family=Nanum+Gothic:wght@400;700;800&family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f3f5f8;font-family:'Noto Sans KR','Malgun Gothic',sans-serif;color:#222;font-size:14px}
+.top{position:sticky;top:0;z-index:20;background:#1f3a5f;color:#fff;padding:8px 12px;display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center}
+.top b{font-size:16px;margin-right:auto}
+.top a,.top button{background:#fff;color:#1f3a5f;border:0;border-radius:6px;padding:6px 10px;font-size:13px;font-weight:700;cursor:pointer;text-decoration:none;font-family:inherit}
+.top a.pri{background:#ffd54a}
+.hint{background:#fff8e1;border-bottom:1px solid #f0e2a8;padding:6px 12px;font-size:12px;line-height:1.5;color:#5b4a00}
+.wrap{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;padding:10px;max-width:1200px;margin:0 auto}
+@media(min-width:900px){.wrap{grid-template-columns:minmax(0,1fr) 410px}.pv{position:sticky;top:60px;align-self:start}}
+@media(max-width:899px){.pv{display:none}}
+.pv iframe{width:390px;height:780px;border:1px solid #bbb;border-radius:12px;background:#fff;max-width:100%}
+.pv .cap{font-size:12px;color:#666;margin-bottom:4px}
+details{background:#fff;border:1px solid #d9dee6;border-radius:8px;margin-bottom:8px}
+summary{padding:9px 12px;font-weight:700;cursor:pointer;font-size:14px}
+.bd{padding:6px 12px 12px;border-top:1px solid #eef0f4}
+.row{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;margin:6px 0}
+.row>label{font-size:12px;color:#555;min-width:64px}
+input[type=text],input[type=number],input[type=date],select,textarea{border:1px solid #c7cdd8;border-radius:5px;padding:5px 7px;font-size:13px;font-family:inherit;background:#fff;max-width:100%}
+input[type=text]{width:100%}
+textarea{width:100%;resize:vertical;min-height:34px;line-height:1.45}
+input[type=number]{width:70px}
+input[type=color]{width:38px;height:28px;padding:0;border:1px solid #c7cdd8;border-radius:5px;background:#fff}
+input[type=range]{flex:1;min-width:120px}
+button.s{border:1px solid #b9c2d0;background:#f4f6fa;border-radius:5px;padding:4px 9px;font-size:12px;cursor:pointer;font-family:inherit}
+button.s.d{color:#b3261e;border-color:#e3b3b0}
+.tw{overflow-x:auto}
+table.et{border-collapse:collapse;width:100%}
+table.et th,table.et td{border:1px solid #e1e5ec;padding:3px;vertical-align:top}
+table.et th{background:#eef2f8;font-size:12px}
+table.et input{min-width:70px}
+.sub{font-size:12px;color:#666;margin:8px 0 2px;font-weight:700}
+.calc{font-size:12px;color:#1f3a5f;background:#eef4ff;border-radius:5px;padding:5px 8px;margin-top:6px;line-height:1.6}
+.thumb{width:90px;height:60px;object-fit:cover;border:1px solid #ccc;border-radius:5px}
+.imgs{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0}
+.imgs .im{border:1px solid #e1e5ec;border-radius:6px;padding:5px;text-align:center;background:#fafbfd}
+.imgs .im .thumb{display:block;margin:0 auto 4px}
+.toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:#222;color:#fff;padding:8px 14px;border-radius:20px;font-size:13px;opacity:0;transition:.25s;pointer-events:none;z-index:50}
+.toast.on{opacity:.92}
+.sec-head{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+@media(max-width:520px){.sec-head{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="top">
+  <b>시온찬양대 주보 관리</b>
+  <a class="pri" href="zion_jubo.html" target="_blank">보기 페이지(발행본)</a>
+  <a href="zion_jubo.html?preview=1" target="_blank">작성중 미리보기</a>
+  <button data-act="export">발행파일 저장</button>
+  <button data-act="import">파일 불러오기</button>
+  <button data-act="loadpub">발행본 불러오기</button>
+  <button data-act="reset">초기화</button>
+  <input type="file" id="fimport" accept="application/json,.json" hidden>
+  <input type="file" id="fimg" accept="image/*" hidden>
+  <input type="file" id="fnimg" accept="image/*" multiple hidden>
+</div>
+<div class="hint">① 내용을 수정하면 이 브라우저에 자동 저장됩니다. ② <b>발행파일 저장</b>으로 받은 <b>zion_jubo_data.json</b>을 zion_jubo.html과 같은 폴더(nsgc)에 올리면 보기 페이지에 반영됩니다.</div>
+<div class="wrap">
+  <div id="ed"></div>
+  <div class="pv"><div class="cap">미리보기 (휴대폰 폭)</div><iframe id="frame" src="zion_jubo.html?preview=1"></iframe></div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+(function(){
+var KEY='zion_jubo_draft';
+var FONTS=[['Noto Sans KR','Noto Sans KR (고딕)'],['Nanum Gothic','나눔고딕'],['Nanum Myeongjo','나눔명조'],['Jua','주아체'],['Do Hyeon','도현체'],['Black Han Sans','블랙한산스'],['Malgun Gothic','맑은 고딕']];
+var PARTS=[['sop','Sop.'],['alt','Alt.'],['ten','Ten.'],['bas','Bas.'],['orc','Orc.'],['cond','지휘·반주'],['sign','수어']];
+var SECNAME={order:'찬양·기도 순서',notice:'공지사항',pray:'중보기도',time:'찬양연습 시간·장소',event:'주요 행사',att:'출석 현황',staff:'담당자'};
+
+function def(){return {
+ v:2,
+ bg:{img:'',grad:true,mid:0.85,edge:0,zone:200},
+ box:0.5,
+ hd:{special:'',title:'시온찬양대',date:'2026-10-18',verse:'새 노래로 여호와께 노래하라 온 땅이여 여호와께 노래할지어다 (시 96:1)',verseBg:'#ece8c8'},
+ st:{
+  ti:{f:'Do Hyeon',s:28,c:'#1a4fa3',b:true},
+  ds:{f:'Do Hyeon',s:15,c:'#444444',b:true},
+  lb:{f:'Do Hyeon',s:17,c:'#111111',b:false},
+  tx:{f:'Noto Sans KR',s:13,c:'#222222',b:false},
+  thBg:'#dde7f3',line:'#e8e8e8'
+ },
+ sec:[
+  {id:'order',label:'찬양·기도 순서',side:'',url:'',show:true},
+  {id:'notice',label:'공지사항',side:'',url:'',show:true},
+  {id:'pray',label:'중보기도',side:'※ 기도제목, 응답내용 전하기 : 파트장님, 윤현철 집사, 구글설문',url:'',show:true},
+  {id:'time',label:'찬양연습 시간·장소',side:'',url:'',show:true},
+  {id:'event',label:'주요 행사',side:'',url:'',show:true},
+  {id:'att',label:'출석 현황',side:'',url:'',show:true},
+  {id:'staff',label:'담당자',side:'',url:'',show:true}
+ ],
+ tb:{
+  order:{hdr:true,per:3,link:1,cols:['주일','찬양','기도'],rows:[
+   ['10/18','주 임하소서(중앙38 p.119)','윤수진 집사',''],
+   ['10/25','꽃들도(시온7 p.94)','이미현 권사',''],
+   ['11/1','감사(시온8 p.11)','이순란 집사',''],
+   ['11/8','시편139편(시온7 p.13)','임순남 집사',''],
+   ['11/15','추수감사주일(시온8 전체)','전미숙 집사',''],
+   ['11/22','주 은혜가 나에게 족하네(시온7 p.130)','정진규 집사','']]},
+  time:{hdr:false,per:3,cols:['시간','내용'],rows:[
+   ['9:30~10:30','파트연습 : 창윤홀(S/A), 세라믹홀(T/B)'],
+   ['10:30~10:45','광고 : 창윤홀'],
+   ['10:45~11:30','전체연습 : 창윤홀(Singer)'],
+   ['11:30~12:00','식사 : 밀알학교 식당'],
+   ['12:00~12:30','전체연습 : 창윤홀(Singer + Orc.)'],
+   ['12:40~12:50','리허설 : 그레이스홀']]},
+  event:{hdr:false,per:1,cols:['기간','행사'],rows:[
+   ['8~9월','파트별 회식'],['10~11월','추수감사찬양'],['12.20(주일)','송년 행사, 저녁식사']]},
+  staff:{hdr:false,per:99,cols:['직책','이름','연락처'],rows:[
+   ['대장','김현철','010-9669-3027'],['총무','윤여훈','010-9967-9978'],['','송정은','010-2405-8033']]}
+ },
+ ls:{
+  notice:{
+   t1:'이번 주 악보는 시온7, 시온8, 중앙38 준비해 주세요.\n오늘 오후부터 추수감사주일 찬양연습이 시작됩니다. 연습 일정 잘 확인해 주세요.\n12/20일(주일) 오후 3시~5시, 송년행사/저녁식사가 있습니다. 일정에 참고해 주세요.\n오늘 간식은 김기정 집사님이 제공해 주셨습니다. 잘 먹겠습니다.\n생일을 축하합니다 조경식 집사님(18, 주일)',
+   t2:'「추수감사주일(11/15)」 연습 일정\n· 연습 : 주일 10/18~11/8 2:30~5:00 신관 303(전체)\n  토 10/24 3:00~4:30 신관 301(남)/신관 303(여), 4:30~6:00 신관 303(전체)\n  11/7 3:00~6:00 신관 303(전체)\n· 리허설 : 11/14(토) 4:00~5:30 Singer(일가홀)/Orc.(그레이스홀), 5:30~7:00 전체(그레이스홀)\n\n♥ 게릴라 캠페인 : 지휘자 쳐다보기 3 ♥\n3~4마디쯤, 아니 그 이상도 악보 안 볼 수 있는데 지휘자님 안 보는 건, “습관 또는 무관심”',
+   c2:'#1a56c4',imgs:[]},
+  pray:{
+   t1:'추수감사주일 찬양 연습을 잘 하여, 신앙적으로나 음악적으로 완성도 있는 찬양하게 해 주세요.(전체)\n가족 건강, 주님 계획대로 축복하고 인도해 주세요.(A.강정원)\n찬양을 통해 주님께 영광, 찬양의 기쁨을 누리게 해 주세요.(B.이병재)\n연습~예배시간까지 어려움 없이 찬양으로 잘 섬길 수 있는 건강을 주세요.(A.윤수진)\n말씀과 기도로 성령충만한 한 해가 되게 해 주세요.(A.염선영)\n가족들이 기쁨으로 예배드리고 하나님과 동행하여 친밀함이 깊어지고 겸손히 행하게 해 주세요.(S.김숙)\n자녀들(예서 고1, 예린 중2, 준식 초5)이 주 안에서 건강하게 자라고 가정이 평안하게 해 주세요.(B.윤여훈)',
+   t2:'후원 아동들이 하나님 품 안에서 믿음의 자녀로 자라게 해 주세요.\n알렉산더(엘살바도르, 14세), 데스타(에티오피아, 13세)',
+   c2:'#1a56c4',imgs:[]}
+ },
+ att:{sop:[13,18],alt:[12,17],ten:[8,8],bas:[11,13],orc:[18,24],cond:[2,2],sign:[2,2]}
+};}
+
+/* 이전 형식의 저장본을 현재 형식으로 변환 */
+function migrate(d){
+  var f=def();
+  d.tb=d.tb||{};
+  ['order','time','event','staff'].forEach(function(k){
+    var t=d.tb[k]=d.tb[k]||f.tb[k];
+    if(t.per==null)t.per=f.tb[k].per;
+    if(k!=='order')t.hdr=false;
+    if(k==='order')t.link=1;
+    var c=t.cols.length+(t.link!=null?1:0);
+    t.rows.forEach(function(r){while(r.length<c)r.push('');});
+  });
+  d.ls=d.ls||{};
+  ['notice','pray'].forEach(function(k){
+    var x=d.ls[k];
+    if(Array.isArray(x)){
+      d.ls[k]={
+        t1:x.map(function(i){return i.t1||'';}).filter(Boolean).join('\n'),
+        t2:x.map(function(i){return i.t2||'';}).filter(Boolean).join('\n\n'),
+        c2:(x[0]&&x[0].c2)||'#1a56c4',imgs:[]};
+    }else if(!x){d.ls[k]=f.ls[k];}
+    if(!d.ls[k].imgs)d.ls[k].imgs=[];
+  });
+  if(!d.att)d.att=f.att;
+  return d;
+}
+function merged(j){var d=def();for(var k in j)d[k]=j[k];return migrate(d);}
+
+var D=null;
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function G(p){return p.split('.').reduce(function(o,k){return o==null?o:o[k];},D);}
+function S(p,v){var k=p.split('.');var l=k.pop();var o=k.reduce(function(o,x){return o[x];},D);o[l]=v;}
+function n(x){return Number(x)||0;}
+function rate(a,b){return b>0?Math.round(a/b*100)+'%':'-';}
+function calc(a){
+  var sg=[0,0];['sop','alt','ten','bas'].forEach(function(k){sg[0]+=n(a[k][0]);sg[1]+=n(a[k][1]);});
+  var tt=[sg[0]+n(a.orc[0])+n(a.cond[0])+n(a.sign[0]),sg[1]+n(a.orc[1])+n(a.cond[1])+n(a.sign[1])];
+  return {sg:sg,tt:tt};
+}
+
+/* ---------- 입력 요소 ---------- */
+function T(p,ph){return '<input type="text" data-p="'+p+'" data-t="text" value="'+esc(G(p))+'" placeholder="'+esc(ph||'')+'">';}
+function TA(p,ph,rows){return '<textarea data-p="'+p+'" data-t="text" rows="'+(rows||2)+'" placeholder="'+esc(ph||'')+'">'+esc(G(p))+'</textarea>';}
+function N(p,mn,mx,st){return '<input type="number" data-p="'+p+'" data-t="num" min="'+mn+'" max="'+mx+'" step="'+(st||1)+'" value="'+esc(G(p))+'">';}
+function C(p){return '<input type="color" data-p="'+p+'" data-t="text" value="'+esc(G(p)||'#000000')+'">';}
+function CK(p,l){return '<label><input type="checkbox" data-p="'+p+'" data-t="chk"'+(G(p)?' checked':'')+'> '+l+'</label>';}
+function R(p,mn,mx,st){return '<input type="range" data-p="'+p+'" data-t="num" min="'+mn+'" max="'+mx+'" step="'+st+'" value="'+G(p)+'"><span class="ro">'+G(p)+'</span>';}
+function SEL(p,opts){return '<select data-p="'+p+'" data-t="text">'+opts.map(function(o){return '<option value="'+esc(o[0])+'"'+(G(p)===o[0]?' selected':'')+'>'+esc(o[1])+'</option>';}).join('')+'</select>';}
+function sty(k,name){
+  return '<div class="row"><label>'+name+'</label>'+SEL('st.'+k+'.f',FONTS)+' 크기 '+N('st.'+k+'.s',9,60)+' '+C('st.'+k+'.c')+' '+CK('st.'+k+'.b','굵게')+'</div>';
+}
+
+/* ---------- 영역별 편집기 ---------- */
+function tblEd(k){
+  var t=D.tb[k],c=t.cols.length,lk=t.link!=null,showHdr=(k==='order'),usePer=(k!=='staff');
+  var h='';
+  if(showHdr)h+='<div class="row">'+CK('tb.'+k+'.hdr','제목행 표시')+'</div>';
+  if(usePer)h+='<div class="row"><label>한쪽 행 수</label>'+N('tb.'+k+'.per',1,30)+'<span style="font-size:12px;color:#666">예) 3 → 3개씩 좌·우로 짝지어 표시</span></div>';
+  if(lk)h+='<div class="sub">찬양 링크(URL)를 넣으면 보기 페이지에서 곡명이 링크로 표시됩니다.</div>';
+  h+='<div class="tw"><table class="et">';
+  if(showHdr){
+    h+='<tr>';
+    t.cols.forEach(function(x,j){h+='<th>'+T('tb.'+k+'.cols.'+j,'열 이름')+'</th>';});
+    if(lk)h+='<th>링크(URL)</th>';
+    h+='<th></th></tr>';
+  }
+  t.rows.forEach(function(r,i){
+    h+='<tr>';
+    t.cols.forEach(function(x,j){h+='<td>'+T('tb.'+k+'.rows.'+i+'.'+j,x)+'</td>';});
+    if(lk)h+='<td>'+T('tb.'+k+'.rows.'+i+'.'+c,'https://...')+'</td>';
+    h+='<td style="white-space:nowrap"><button class="s" data-act="rowup" data-k="'+k+'" data-i="'+i+'">↑</button> <button class="s" data-act="rowdn" data-k="'+k+'" data-i="'+i+'">↓</button> <button class="s d" data-act="delrow" data-k="'+k+'" data-i="'+i+'">삭제</button></td></tr>';
+  });
+  h+='</table></div><div class="row"><button class="s" data-act="addrow" data-k="'+k+'">+ 행 추가</button></div>';
+  return h;
+}
+function listEd(k){
+  var h='<div class="sub">일반 내용 (줄바꿈으로 여러 개 입력 · 한 줄이 한 항목)</div>'+TA('ls.'+k+'.t1','일반 공지를 줄바꿈으로 입력',6)
+   +'<div class="sub">구별 내용 (줄바꿈 가능 · 비우면 표시 안 됨)</div>'+TA('ls.'+k+'.t2','일반 내용과 구별되는 내용',6)
+   +'<div class="row"><label>구별 색상</label>'+C('ls.'+k+'.c2')+'</div>';
+  if(k==='notice'){
+    h+='<div class="sub">이미지 삽입 (공지사항 맨 아래에 순서대로 표시)</div><div class="imgs">';
+    D.ls.notice.imgs.forEach(function(m,i){
+      h+='<div class="im"><img class="thumb" src="'+m.src+'"><button class="s" data-act="imgup" data-i="'+i+'">↑</button> <button class="s" data-act="imgdn" data-i="'+i+'">↓</button> <button class="s d" data-act="imgdel" data-i="'+i+'">삭제</button></div>';
+    });
+    h+='</div><div class="row"><button class="s" data-act="addnimg">+ 이미지 추가</button></div>';
+  }
+  return h;
+}
+function attEd(){
+  var h='<div class="sub">출석 / 재적 (분자 / 분모) 입력</div><div class="tw"><table class="et"><tr><th>파트</th><th>출석</th><th>재적</th></tr>';
+  PARTS.forEach(function(p){
+    h+='<tr><td>'+p[1]+'</td><td>'+N('att.'+p[0]+'.0',0,999)+'</td><td>'+N('att.'+p[0]+'.1',0,999)+'</td></tr>';
+  });
+  h+='</table></div><div class="calc" id="calc"></div>';
+  return h;
+}
+function updCalc(){
+  var el=document.getElementById('calc');if(!el)return;
+  var c=calc(D.att);
+  el.innerHTML='Singer 합 : <b>'+c.sg[0]+'/'+c.sg[1]+'</b> ('+rate(c.sg[0],c.sg[1])+')<br>총계 (Singer합+Orc.+지휘·반주+수어) : <b>'+c.tt[0]+'/'+c.tt[1]+'</b> ('+rate(c.tt[0],c.tt[1])+')';
+}
+
+function secEd(sec,i){
+  var b='sec.'+i;
+  var h='<details id="d-'+sec.id+'"><summary>'+esc(SECNAME[sec.id])+(sec.show===false?' (숨김)':'')+'</summary><div class="bd">'
+   +'<div class="row"><button class="s" data-act="secup" data-i="'+i+'">영역 ↑</button><button class="s" data-act="secdn" data-i="'+i+'">영역 ↓</button> '+CK(b+'.show','보기 페이지에 표시')+'</div>'
+   +'<div class="sec-head"><div><div class="sub">항목명</div>'+T(b+'.label')+'</div>'
+   +'<div><div class="sub">항목명 옆 글 (비우면 공란)</div>'+T(b+'.side','예: ※ 안내 문구')+'</div></div>'
+   +'<div class="sub">항목명 옆 글 링크 URL (선택)</div>'+T(b+'.url','https://...');
+  if(sec.id==='notice'||sec.id==='pray')h+=listEd(sec.id);
+  else if(sec.id==='att')h+=attEd();
+  else h+=tblEd(sec.id);
+  return h+'</div></details>';
+}
+
+function render(){
+  var open=[].slice.call(document.querySelectorAll('#ed details[open]')).map(function(d){return d.id;});
+  var h='';
+  h+='<details id="d-hd"><summary>상단 제목줄 · 말씀</summary><div class="bd">'
+   +'<div class="row"><label>특별한 주일</label></div>'+T('hd.special','예: 추수감사주일 (비우면 공란, 좌측 표시)')
+   +'<div class="row"><label>제목</label></div>'+T('hd.title')
+   +'<div class="row"><label>날짜</label><input type="date" data-p="hd.date" data-t="text" value="'+esc(D.hd.date)+'"></div>'
+   +'<div class="row"><label>말씀 띠</label></div>'+TA('hd.verse','제목 아래 말씀 (비우면 표시 안 됨)',2)
+   +'<div class="row"><label>말씀 배경색</label>'+C('hd.verseBg')+'</div></div></details>';
+  h+='<details id="d-bg"><summary>배경 사진</summary><div class="bd">'
+   +'<div class="row">'+(D.bg.img?'<img class="thumb" src="'+D.bg.img+'">':'<span style="color:#888">등록된 배경 없음</span>')
+   +'<button class="s" data-act="pickimg">사진 선택</button>'+(D.bg.img?'<button class="s d" data-act="clearimg">배경 제거</button>':'')+'</div>'
+   +'<div class="row">'+CK('bg.grad','그라데이션 적용 (해제하면 사진 원본)')+'</div>'
+   +'<div class="row"><label>가운데 연하게</label>'+R('bg.mid',0,0.95,0.05)+'</div>'
+   +'<div class="row"><label>상·하끝 연하기</label>'+R('bg.edge',0,0.6,0.05)+'</div>'
+   +'<div class="row"><label>끝단 범위(px)</label>'+R('bg.zone',60,600,10)+'</div>'
+   +'<div class="row"><label>내용 박스 불투명도</label>'+R('box',0,1,0.05)+'</div>'
+   +'<div class="sub">가운데는 흰색으로 덮어 연하게, 위·아래 끝은 사진이 진하게 보입니다. 사진은 자동으로 축소·압축되어 저장됩니다.</div></div></details>';
+  h+='<details id="d-st"><summary>글꼴 · 색 서식</summary><div class="bd">'
+   +sty('ti','제목(가운데)')+sty('ds','날짜·특별주일')+sty('lb','항목명')+sty('tx','내용')
+   +'<div class="row"><label>표 제목행 배경</label>'+C('st.thBg')+' <label>표 테두리</label>'+C('st.line')+'</div>'
+   +'<div class="sub">항목명 서식은 모든 항목명에, 내용 서식은 모든 내용에 동일하게 적용됩니다.</div></div></details>';
+  D.sec.forEach(function(s,i){h+=secEd(s,i);});
+  document.getElementById('ed').innerHTML=h;
+  if(!open.length)open=['d-hd'];
+  open.forEach(function(id){var d=document.getElementById(id);if(d)d.open=true;});
+  updCalc();
+}
+
+/* ---------- 저장 / 미리보기 ---------- */
+var tm=null;
+function save(){
+  try{localStorage.setItem(KEY,JSON.stringify(D));}catch(e){toast('저장 공간이 부족합니다. 이미지를 줄여 주세요.');}
+  clearTimeout(tm);tm=setTimeout(push,150);
+}
+function push(){
+  var f=document.getElementById('frame');
+  try{f.contentWindow.postMessage({jubo:D},'*');}catch(e){}
+}
+document.getElementById('frame').addEventListener('load',push);
+window.addEventListener('message',function(e){if(e.data&&e.data.juboReady)push();});
+function toast(t){var el=document.getElementById('toast');el.textContent=t;el.classList.add('on');setTimeout(function(){el.classList.remove('on');},1800);}
+
+/* ---------- 입력 이벤트 ---------- */
+function onInput(e){
+  var el=e.target;if(!el.dataset||!el.dataset.p)return;
+  var v;
+  if(el.dataset.t==='chk')v=el.checked;
+  else if(el.dataset.t==='num')v=el.value===''?0:Number(el.value);
+  else v=el.value;
+  S(el.dataset.p,v);
+  if(el.type==='range'&&el.nextElementSibling)el.nextElementSibling.textContent=v;
+  if(el.dataset.p.indexOf('att.')===0)updCalc();
+  save();
+}
+document.addEventListener('input',onInput);
+document.addEventListener('change',function(e){
+  var el=e.target;
+  if(el.type==='checkbox'&&el.dataset.p&&/\.show$/.test(el.dataset.p)){render();}
+});
+
+function mv(arr,i,d){var j=i+d;if(j<0||j>=arr.length)return;var t=arr[i];arr[i]=arr[j];arr[j]=t;}
+document.addEventListener('click',function(e){
+  var b=e.target.closest('[data-act]');if(!b)return;
+  var a=b.dataset.act,k=b.dataset.k,i=Number(b.dataset.i);
+  var chg=true;
+  if(a==='addrow'){var t=D.tb[k];var cnt=t.cols.length+(t.link!=null?1:0);var r=[];for(var x=0;x<cnt;x++)r.push('');t.rows.push(r);}
+  else if(a==='delrow'){D.tb[k].rows.splice(i,1);}
+  else if(a==='rowup'){mv(D.tb[k].rows,i,-1);}
+  else if(a==='rowdn'){mv(D.tb[k].rows,i,1);}
+  else if(a==='secup'){mv(D.sec,i,-1);}
+  else if(a==='secdn'){mv(D.sec,i,1);}
+  else if(a==='imgup'){mv(D.ls.notice.imgs,i,-1);}
+  else if(a==='imgdn'){mv(D.ls.notice.imgs,i,1);}
+  else if(a==='imgdel'){D.ls.notice.imgs.splice(i,1);}
+  else if(a==='addnimg'){document.getElementById('fnimg').click();chg=false;}
+  else if(a==='pickimg'){document.getElementById('fimg').click();chg=false;}
+  else if(a==='clearimg'){D.bg.img='';}
+  else if(a==='export'){exportJson();chg=false;}
+  else if(a==='import'){document.getElementById('fimport').click();chg=false;}
+  else if(a==='loadpub'){loadPub();chg=false;}
+  else if(a==='reset'){if(confirm('모든 내용을 초기 샘플로 되돌립니다. 계속할까요?')){D=def();}else chg=false;}
+  else chg=false;
+  if(chg){render();save();}
+});
+
+/* ---------- 이미지 (배경 / 공지 삽입) ---------- */
+function readImg(f,max){
+  return new Promise(function(res,rej){
+    var fr=new FileReader();
+    fr.onload=function(){
+      var im=new Image();
+      im.onload=function(){
+        var sc=Math.min(1,max/Math.max(im.width,im.height));
+        var c=document.createElement('canvas');c.width=Math.round(im.width*sc);c.height=Math.round(im.height*sc);
+        c.getContext('2d').drawImage(im,0,0,c.width,c.height);
+        res(c.toDataURL('image/jpeg',0.82));
+      };
+      im.onerror=function(){rej(new Error('img'));};
+      im.src=fr.result;
+    };
+    fr.onerror=function(){rej(new Error('read'));};
+    fr.readAsDataURL(f);
+  });
+}
+document.getElementById('fimg').addEventListener('change',function(e){
+  var f=e.target.files[0];e.target.value='';if(!f)return;
+  readImg(f,1100).then(function(src){D.bg.img=src;render();save();toast('배경 사진이 적용되었습니다.');}).catch(function(){toast('이미지를 읽을 수 없습니다.');});
+});
+document.getElementById('fnimg').addEventListener('change',function(e){
+  var fs=[].slice.call(e.target.files);e.target.value='';
+  var p=Promise.resolve();
+  fs.forEach(function(f){p=p.then(function(){return readImg(f,900).then(function(src){D.ls.notice.imgs.push({src:src});});});});
+  p.then(function(){render();save();toast('이미지를 추가했습니다.');}).catch(function(){toast('이미지를 읽을 수 없습니다.');});
+});
+
+/* ---------- 파일 입출력 ---------- */
+function exportJson(){
+  var blob=new Blob([JSON.stringify(D)],{type:'application/json'});
+  var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='zion_jubo_data.json';
+  document.body.appendChild(a);a.click();a.remove();
+  setTimeout(function(){URL.revokeObjectURL(a.href);},2000);
+  toast('zion_jubo_data.json 을 저장했습니다.');
+}
+function adopt(j){D=merged(j);render();save();}
+document.getElementById('fimport').addEventListener('change',function(e){
+  var f=e.target.files[0];if(!f)return;
+  var fr=new FileReader();
+  fr.onload=function(){try{adopt(JSON.parse(fr.result));toast('불러왔습니다.');}catch(x){toast('올바른 JSON 파일이 아닙니다.');}};
+  fr.readAsText(f);e.target.value='';
+});
+function loadPub(){
+  fetch('zion_jubo_data.json?'+Date.now()).then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(j){adopt(j);toast('발행본을 불러왔습니다.');}).catch(function(){toast('발행본(zion_jubo_data.json)을 찾을 수 없습니다.');});
+}
+
+/* ---------- 시작 ---------- */
+(function(){
+  var raw=null;try{raw=localStorage.getItem(KEY);}catch(e){}
+  if(raw){try{D=merged(JSON.parse(raw));}catch(e){D=def();}}
+  else D=def();
+  render();
+  save();
+  if(!raw){fetch('zion_jubo_data.json?'+Date.now()).then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(j){D=merged(j);render();save();}).catch(function(){});}
+})();
+})();
+</script>
+</body>
+</html>
