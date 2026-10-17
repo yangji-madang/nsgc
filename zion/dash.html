@@ -333,7 +333,7 @@ const YEAR=2026;
 const PARTS=['Sop','Alt','Ten','Bas'], GROUPS=['Sop','Alt','Ten','Bas','기타','Orc'], ETC_PARTS=['지휘','반주','수화'];
 const ORC_PARTS=['바순','바이올린','비올라','오보에','첼로','클라리넷','트럼펫','플룻'];
 const ORC_FROM='2026-10-18';   // 이 날 이후 주는 Orc 명단 출석을 합산(그 전 주는 수기 입력값 유지)
-const ORC_ROSTER=[['바순','신정윤'],['바순','한송희'],['바이올린','김수현'],['바이올린','김애린'],['바이올린','김준희'],['바이올린','박은혜'],['바이올린','심윤종'],['바이올린','양유정'],['바이올린','오하정'],['바이올린','최지선O'],['바이올린','홍원준'],['비올라','곽선애'],['비올라','김성민'],['오보에','이은애'],['첼로','박태환'],['첼로','김보미'],['첼로','김준환'],['첼로','김현재'],['클라리넷','김봉준'],['트럼펫','김남균'],['트럼펫','김재영'],['트럼펫','유재우'],['플룻','김나형'],['플룻','김대규']];
+const ORC_ROSTER=[['바순', '신정윤', ''], ['바순', '한송희', ''], ['바이올린', '김수현', ''], ['바이올린', '김애린', ''], ['바이올린', '김준희', ''], ['바이올린', '박은혜', ''], ['바이올린', '심윤종', ''], ['바이올린', '양유정', ''], ['바이올린', '오하정', '2026-03-08'], ['바이올린', '최지선O', ''], ['바이올린', '홍원준', '2026-05-10'], ['비올라', '곽선애', ''], ['비올라', '김성민', ''], ['오보에', '이은애', ''], ['첼로', '박태환', ''], ['첼로', '김보미', '2026-09-13'], ['첼로', '김준환', ''], ['첼로', '김현재', ''], ['클라리넷', '김봉준', ''], ['트럼펫', '김남균', ''], ['트럼펫', '김재영', ''], ['트럼펫', '유재우', ''], ['플룻', '김나형', ''], ['플룻', '김대규', '']];
 const COLOR={all:'--c-all',allx:'--c-all',Singer:'--c-singer',Orc:'--c-orc',Sop:'--c-sop',Alt:'--c-alt',Ten:'--c-ten',Bas:'--c-bas','기타':'--c-etc'};
 const AB=k=>({Sop:'S',Alt:'A',Ten:'T',Bas:'B',Orc:'O',all:'ALL'}[k]||k);
 const defGender=m=>m.group!=='Singer'?'':(m.part==='Sop'||m.part==='Alt')?'F':'M';   // 파트 기준 기본값(수정 가능)
@@ -358,9 +358,13 @@ const curIdx=pi-1;
 /* ---------- 데이터 ---------- */
 function valid(x){return x&&Array.isArray(x.members)&&x.marks&&typeof x.marks==='object'&&x.orc&&typeof x.orc==='object';}
 function normalize(x){           // 체크(1)만 남기고 미체크는 결석으로 간주
-  if(!x.orcRoster){      // Orc 명단(한 번만 추가) — 등록일 10/18, 주별 요약의 O에 합산
-    x.orcRoster=1;
-    ORC_ROSTER.forEach(([part,name],i)=>{if(!x.members.some(m=>m.group==='Orc'&&m.name===name))x.members.push({id:'o'+pad(i+1),name,group:'Orc',part,join:ORC_FROM,leave:'',retired:false,gender:''});});
+  if(!x.orcRoster||x.orcRoster<2){   // Orc 명단(한 번만 추가) — 작년부터 있던 대원은 등록일 없음, 중간 등록 3명만 등록일 지정
+    ORC_ROSTER.forEach(([part,name,jn],i)=>{
+      const ex=x.members.find(m=>m.group==='Orc'&&m.name===name);
+      if(!ex)x.members.push({id:'o'+pad(i+1),name,group:'Orc',part,join:jn,leave:'',retired:false,gender:''});
+      else if(x.orcRoster===1&&ex.join===ORC_FROM)ex.join=jn;
+    });
+    x.orcRoster=2;
   }
   x.members.forEach(m=>{m.name=String(m.name).replace(/\s+/g,'');m.leave=m.leave||'';m.retired=!!m.retired;m.join=m.join||'';m.gender=m.gender||defGender(m);});
   Object.keys(x.marks).forEach(id=>{const o={};Object.keys(x.marks[id]).forEach(d=>{if(x.marks[id][d]===1)o[d]=1;});x.marks[id]=o;});
