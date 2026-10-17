@@ -29,6 +29,10 @@ table.tb{border-collapse:collapse;width:100%;white-space:nowrap}
 table.tb th,table.tb td{border:1px solid var(--ln,#e8e8e8);padding:.28em .45em;text-align:center}
 table.tb th{background:var(--th,#dde7f3);font-weight:700}
 table.tb td.sp,table.tb th.sp{border-left:2px solid #cfd6e2}
+table.tb.ns td.sp,table.tb.ns th.sp{border-left:1px solid var(--ln,#e8e8e8)}
+table.tb td.lf{text-align:left}
+table.tb.eq{table-layout:fixed;white-space:normal}
+table.tb.eq td{word-break:keep-all}
 table.tb.w{white-space:normal}
 table.tb.w td,table.tb.w th{word-break:keep-all}
 table.tb.w td.nw,table.tb.w th.nw{white-space:nowrap}
@@ -98,7 +102,7 @@ function pairSec(id){
   var two=groups.length>1;
   var side=function(r,sp){
     return cols.map(function(_,j){
-      var cls=(j===0&&sp)?'sp':'';
+      var cls=((j===0&&sp)?'sp':'')+((j===1&&id!=='staff')?' lf':'');
       return cell(r?r[j]:'',(r&&t.link===j)?r[c]:'',cls);
     }).join('');
   };
@@ -115,7 +119,7 @@ function pairSec(id){
       body+='<tr>'+side(L[k],false)+(two?side(Rg[k],true):'')+'</tr>';
     }
   }
-  return '<div class="fit"><table class="tb">'+head+body+'</table></div>';
+  return '<div class="fit"><table class="tb'+(id==='event'?' ns':'')+(id==='staff'?' eq':'')+'">'+head+body+'</table></div>';
 }
 function norm(x){
   if(Array.isArray(x)){
