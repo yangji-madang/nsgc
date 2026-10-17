@@ -32,8 +32,7 @@ table.tb td.sp,table.tb th.sp{border-left:2px solid #cfd6e2}
 table.tb.w{white-space:normal}
 table.tb.w td,table.tb.w th{word-break:keep-all}
 table.tb.w td.nw,table.tb.w th.nw{white-space:nowrap}
-table.tb a.lk{color:#1a56c4;text-decoration:underline}
-table.tb a.tel{color:inherit;text-decoration:underline}
+a.lk{color:#1a56c4;text-decoration:underline}
 table.att{font-size:.93em}
 table.att th,table.att td{padding:.3em .2em;border:0;border-top:1px solid #dcdcdc;border-left:1px dotted #9fb5d6}
 table.att tr:first-child th{background:#e6e6e6;border-top:1px solid #bbb}
@@ -73,11 +72,21 @@ function calc(a){
   var tt=[sg[0]+n(g('orc')[0])+n(g('cond')[0])+n(g('sign')[0]),sg[1]+n(g('orc')[1])+n(g('cond')[1])+n(g('sign')[1])];
   return {sg:sg,tt:tt};
 }
+function rich(t){
+  var h=esc(t),prev,k=0;
+  do{
+    prev=h;
+    h=h.replace(/\[b\]([\s\S]*?)\[\/b\]/g,'<b>$1</b>')
+       .replace(/\[u\]([\s\S]*?)\[\/u\]/g,'<u>$1</u>')
+       .replace(/\[c=(#[0-9a-fA-F]{3,8})\]([\s\S]*?)\[\/c\]/g,'<span style="color:$1">$2</span>')
+       .replace(/\[a=([^\]\s]+)\]([\s\S]*?)\[\/a\]/g,function(m,u,x){return '<a class="lk" href="'+url(u)+'" target="_blank" rel="noopener">'+x+'</a>';});
+  }while(h!==prev&&++k<6);
+  return h;
+}
 function cell(v,u,cls){
-  var s=String(v==null?'':v).trim();var uu=url(u);var c=cls||'';
+  var raw=String(v==null?'':v),s=raw.trim(),uu=url(u),c=cls||'';
   if(s&&uu)return '<td class="'+c+'"><a class="lk" href="'+esc(uu)+'" target="_blank" rel="noopener">'+esc(s)+'</a></td>';
-  if(/^0\d{1,2}[-\s]?\d{3,4}[-\s]?\d{4}$/.test(s))return '<td class="'+c+' nw"><a class="tel" href="tel:'+s.replace(/\D/g,'')+'">'+esc(s)+'</a></td>';
-  return '<td class="'+c+(s.length<=9?' nw':'')+'">'+esc(s)+'</td>';
+  return '<td class="'+c+(s.length<=9?' nw':'')+'">'+rich(s)+'</td>';
 }
 function pairSec(id){
   var t=D.tb&&D.tb[id];if(!t)return '';
@@ -118,9 +127,9 @@ function listSec(id){
   var L=norm(D.ls&&D.ls[id]);
   var lines=(L.t1||'').split('\n').map(function(s){return s.trim();}).filter(Boolean);
   var h='';
-  if(lines.length)h+='<ul class="ls">'+lines.map(function(s){return '<li>'+esc(s)+'</li>';}).join('')+'</ul>';
+  if(lines.length)h+='<ul class="ls">'+lines.map(function(s){return '<li>'+rich(s)+'</li>';}).join('')+'</ul>';
   var t2=(L.t2||'').replace(/^\s*\n+/,'').replace(/\s+$/,'');
-  if(t2.trim()){var c=L.c2||'#1a56c4';h+='<div class="l2" style="color:'+esc(c)+';border-color:'+esc(c)+';background:'+esc(c)+'14">'+esc(t2)+'</div>';}
+  if(t2.trim()){var c=L.c2||'#1a56c4';h+='<div class="l2" style="color:'+esc(c)+';border-color:'+esc(c)+';background:'+esc(c)+'14">'+rich(t2)+'</div>';}
   var ims=(L.imgs||[]).filter(function(m){return m&&m.src;});
   if(ims.length)h+='<div class="ims">'+ims.map(function(m){return '<img src="'+esc(m.src)+'" alt="">';}).join('')+'</div>';
   return h;
@@ -155,7 +164,7 @@ function draw(){
   }else{bgEl.style.backgroundImage='none';ov.style.background='none';}
 
   var html='<div class="box"><div class="fit"><div class="hd"><span class="l" style="'+sx(s.ds)+'">'+esc(hd.special)+'</span><span class="c" style="'+sx(s.ti)+'">'+esc(hd.title)+'</span><span class="r" style="'+sx(s.ds)+'">'+esc(fmtDate(hd.date))+'</span></div></div>';
-  if((hd.verse||'').trim()){html+='<div class="verse" style="background:'+esc(hd.verseBg||'#ece8c8')+';'+sx(s.tx)+';font-weight:700">'+esc(hd.verse.trim())+'</div>';}
+  if((hd.verse||'').trim()){html+='<div class="verse" style="background:'+esc(hd.verseBg||'#ece8c8')+';'+sx(s.tx)+';font-weight:700">'+rich(hd.verse.trim())+'</div>';}
   html+='</div>';
 
   var sideStyle=sx(s.tx).replace(/font-size:[\d.]+px/,'font-size:'+Math.max(10,(s.tx&&s.tx.s||13)-1)+'px');
