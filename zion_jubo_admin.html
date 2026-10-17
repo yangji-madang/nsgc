@@ -32,6 +32,11 @@ input[type=range]{flex:1;min-width:120px}
 button.s{border:1px solid #b9c2d0;background:#f4f6fa;border-radius:5px;padding:4px 9px;font-size:12px;cursor:pointer;font-family:inherit}
 button.s.d{color:#b3261e;border-color:#e3b3b0}
 .tw{overflow-x:auto}
+.rt{display:flex;flex-wrap:wrap;gap:5px;align-items:center;margin:4px 0}
+.rt input[type=color]{width:34px;height:26px}
+.rth{font-size:11px;color:#777;margin:2px 0 0;line-height:1.5}
+table.eq{table-layout:fixed}
+table.eq td.act{width:150px}
 table.et{border-collapse:collapse;width:100%}
 table.et th,table.et td{border:1px solid #e1e5ec;padding:3px;vertical-align:top}
 table.et th{background:#eef2f8;font-size:12px}
@@ -96,7 +101,7 @@ function def(){return {
   {id:'staff',label:'담당자',side:'',url:'',show:true}
  ],
  tb:{
-  order:{hdr:true,per:3,link:1,cols:['주일','찬양','기도'],rows:[
+  order:{hdr:true,per:3,link:1,cols:['주일','찬양곡명','기도'],rows:[
    ['10/18','주 임하소서(중앙38 p.119)','윤수진 집사',''],
    ['10/25','꽃들도(시온7 p.94)','이미현 권사',''],
    ['11/1','감사(시온8 p.11)','이순란 집사',''],
@@ -136,7 +141,7 @@ function migrate(d){
     var t=d.tb[k]=d.tb[k]||f.tb[k];
     if(t.per==null)t.per=f.tb[k].per;
     if(k!=='order')t.hdr=false;
-    if(k==='order')t.link=1;
+    if(k==='order'){t.link=1;if(t.cols[1]==='찬양')t.cols[1]='찬양곡명';}
     var c=t.cols.length+(t.link!=null?1:0);
     t.rows.forEach(function(r){while(r.length<c)r.push('');});
   });
@@ -171,6 +176,15 @@ function calc(a){
 /* ---------- 입력 요소 ---------- */
 function T(p,ph){return '<input type="text" data-p="'+p+'" data-t="text" value="'+esc(G(p))+'" placeholder="'+esc(ph||'')+'">';}
 function TA(p,ph,rows){return '<textarea data-p="'+p+'" data-t="text" rows="'+(rows||2)+'" placeholder="'+esc(ph||'')+'">'+esc(G(p))+'</textarea>';}
+function RT(p,ph,rows){
+  return '<div class="rt"><button type="button" class="s" data-act="rtb" data-tp="'+p+'"><b>B</b> 굵게</button>'
+   +'<button type="button" class="s" data-act="rtu" data-tp="'+p+'"><u>U</u> 밑줄</button>'
+   +'<input type="color" value="#d11a1a" title="글자색"><button type="button" class="s" data-act="rtc" data-tp="'+p+'">글자색 적용</button>'
+   +'<button type="button" class="s" data-act="rta" data-tp="'+p+'">링크</button>'
+   +'<button type="button" class="s" data-act="rtx" data-tp="'+p+'">서식 제거</button></div>'
+   +TA(p,ph,rows)
+   +'<div class="rth">글자를 드래그로 선택한 뒤 버튼을 누르세요. 직접 입력도 가능: [b]굵게[/b] [u]밑줄[/u] [c=#d11a1a]색[/c] [a=https://주소]링크[/a]</div>';
+}
 function N(p,mn,mx,st){return '<input type="number" data-p="'+p+'" data-t="num" min="'+mn+'" max="'+mx+'" step="'+(st||1)+'" value="'+esc(G(p))+'">';}
 function C(p){return '<input type="color" data-p="'+p+'" data-t="text" value="'+esc(G(p)||'#000000')+'">';}
 function CK(p,l){return '<label><input type="checkbox" data-p="'+p+'" data-t="chk"'+(G(p)?' checked':'')+'> '+l+'</label>';}
@@ -186,26 +200,26 @@ function tblEd(k){
   var h='';
   if(showHdr)h+='<div class="row">'+CK('tb.'+k+'.hdr','제목행 표시')+'</div>';
   if(usePer)h+='<div class="row"><label>한쪽 행 수</label>'+N('tb.'+k+'.per',1,30)+'<span style="font-size:12px;color:#666">예) 3 → 3개씩 좌·우로 짝지어 표시</span></div>';
-  if(lk)h+='<div class="sub">찬양 링크(URL)를 넣으면 보기 페이지에서 곡명이 링크로 표시됩니다.</div>';
-  h+='<div class="tw"><table class="et">';
+  if(lk)h+='<div class="sub">찬양곡명 링크(URL)를 넣으면 보기 페이지에서 곡명이 링크로 표시됩니다.</div>';
+  h+='<div class="tw"><table class="et'+(k==='staff'?' eq':'')+'">';
   if(showHdr){
     h+='<tr>';
     t.cols.forEach(function(x,j){h+='<th>'+T('tb.'+k+'.cols.'+j,'열 이름')+'</th>';});
-    if(lk)h+='<th>링크(URL)</th>';
+    if(lk)h+='<th>찬양곡명 링크(URL)</th>';
     h+='<th></th></tr>';
   }
   t.rows.forEach(function(r,i){
     h+='<tr>';
     t.cols.forEach(function(x,j){h+='<td>'+T('tb.'+k+'.rows.'+i+'.'+j,x)+'</td>';});
     if(lk)h+='<td>'+T('tb.'+k+'.rows.'+i+'.'+c,'https://...')+'</td>';
-    h+='<td style="white-space:nowrap"><button class="s" data-act="rowup" data-k="'+k+'" data-i="'+i+'">↑</button> <button class="s" data-act="rowdn" data-k="'+k+'" data-i="'+i+'">↓</button> <button class="s d" data-act="delrow" data-k="'+k+'" data-i="'+i+'">삭제</button></td></tr>';
+    h+='<td class="act" style="white-space:nowrap"><button class="s" data-act="rowup" data-k="'+k+'" data-i="'+i+'">↑</button> <button class="s" data-act="rowdn" data-k="'+k+'" data-i="'+i+'">↓</button> <button class="s d" data-act="delrow" data-k="'+k+'" data-i="'+i+'">삭제</button></td></tr>';
   });
   h+='</table></div><div class="row"><button class="s" data-act="addrow" data-k="'+k+'">+ 행 추가</button></div>';
   return h;
 }
 function listEd(k){
-  var h='<div class="sub">일반 내용 (줄바꿈으로 여러 개 입력 · 한 줄이 한 항목)</div>'+TA('ls.'+k+'.t1','일반 공지를 줄바꿈으로 입력',6)
-   +'<div class="sub">구별 내용 (줄바꿈 가능 · 비우면 표시 안 됨)</div>'+TA('ls.'+k+'.t2','일반 내용과 구별되는 내용',6)
+  var h='<div class="sub">일반 내용 (줄바꿈으로 여러 개 입력 · 한 줄이 한 항목)</div>'+RT('ls.'+k+'.t1','일반 공지를 줄바꿈으로 입력',6)
+   +'<div class="sub">구별 내용 (줄바꿈 가능 · 비우면 표시 안 됨)</div>'+RT('ls.'+k+'.t2','일반 내용과 구별되는 내용',6)
    +'<div class="row"><label>구별 색상</label>'+C('ls.'+k+'.c2')+'</div>';
   if(k==='notice'){
     h+='<div class="sub">이미지 삽입 (공지사항 맨 아래에 순서대로 표시)</div><div class="imgs">';
@@ -250,7 +264,7 @@ function render(){
    +'<div class="row"><label>특별한 주일</label></div>'+T('hd.special','예: 추수감사주일 (비우면 공란, 좌측 표시)')
    +'<div class="row"><label>제목</label></div>'+T('hd.title')
    +'<div class="row"><label>날짜</label><input type="date" data-p="hd.date" data-t="text" value="'+esc(D.hd.date)+'"></div>'
-   +'<div class="row"><label>말씀 띠</label></div>'+TA('hd.verse','제목 아래 말씀 (비우면 표시 안 됨)',2)
+   +'<div class="row"><label>말씀 띠</label></div>'+RT('hd.verse','제목 아래 말씀 (비우면 표시 안 됨)',2)
    +'<div class="row"><label>말씀 배경색</label>'+C('hd.verseBg')+'</div></div></details>';
   h+='<details id="d-bg"><summary>배경 사진</summary><div class="bd">'
    +'<div class="row">'+(D.bg.img?'<img class="thumb" src="'+D.bg.img+'">':'<span style="color:#888">등록된 배경 없음</span>')
@@ -304,6 +318,24 @@ document.addEventListener('change',function(e){
   if(el.type==='checkbox'&&el.dataset.p&&/\.show$/.test(el.dataset.p)){render();}
 });
 
+function rtApply(a,b){
+  var ta=document.querySelector('textarea[data-p="'+b.dataset.tp+'"]');if(!ta)return;
+  var s=ta.selectionStart,e=ta.selectionEnd;
+  if(s===e){toast('서식을 적용할 글자를 먼저 드래그로 선택하세요.');return;}
+  var v=ta.value,sel=v.slice(s,e),o='',c='';
+  if(a==='rtb'){o='[b]';c='[/b]';}
+  else if(a==='rtu'){o='[u]';c='[/u]';}
+  else if(a==='rtc'){o='[c='+b.parentNode.querySelector('input[type=color]').value+']';c='[/c]';}
+  else if(a==='rta'){
+    var u=prompt('링크 URL을 입력하세요 (예: https://youtu.be/...)','https://');
+    if(!u||u.trim()==='https://')return;
+    u=u.trim().replace(/\s/g,'%20').replace(/\]/g,'%5D');o='[a='+u+']';c='[/a]';
+  }
+  else if(a==='rtx'){sel=sel.replace(/\[\/?(?:b|u)\]|\[\/(?:c|a)\]|\[c=#[0-9a-fA-F]+\]|\[a=[^\]]*\]/g,'');}
+  ta.value=v.slice(0,s)+o+sel+c+v.slice(e);
+  ta.focus();ta.setSelectionRange(s,s+o.length+sel.length+c.length);
+  ta.dispatchEvent(new Event('input',{bubbles:true}));
+}
 function mv(arr,i,d){var j=i+d;if(j<0||j>=arr.length)return;var t=arr[i];arr[i]=arr[j];arr[j]=t;}
 document.addEventListener('click',function(e){
   var b=e.target.closest('[data-act]');if(!b)return;
@@ -313,6 +345,7 @@ document.addEventListener('click',function(e){
   else if(a==='delrow'){D.tb[k].rows.splice(i,1);}
   else if(a==='rowup'){mv(D.tb[k].rows,i,-1);}
   else if(a==='rowdn'){mv(D.tb[k].rows,i,1);}
+  else if(a==='rtb'||a==='rtu'||a==='rtc'||a==='rta'||a==='rtx'){rtApply(a,b);chg=false;}
   else if(a==='secup'){mv(D.sec,i,-1);}
   else if(a==='secdn'){mv(D.sec,i,1);}
   else if(a==='imgup'){mv(D.ls.notice.imgs,i,-1);}
