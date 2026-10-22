@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>추수감사찬양 관리</title>
+<style>
+:root{
+  color-scheme:light;
+  --bg:#eceef4; --surface:#fff; --ink:#0f1226; --ink-soft:#383c58; --ink-faint:#5c6083;
+  --line:#c9cddb; --line-strong:#aeb3c8; --accent:#a9781f; --accent-ink:#7a5c1d; --navy:#1d3f9a;
+  --ok:#1c7a5c; --warn:#b36b00; --bad:#b3361b; --warn-bg:#fff4dc; --bad-bg:#fde8e3; --ok-bg:#e3f4ec; --info-bg:#e6ecfb;
+  --t-youtube:#c23a26; --t-mp3:#1c7a5c; --t-mp4:#2f4f9e;
+  --shadow:0 1px 2px rgba(30,35,64,.06),0 4px 14px rgba(30,35,64,.07);
+}
+*{box-sizing:border-box}
+html,body{background:var(--bg)}
+body{margin:0;color:var(--ink);font:14px/1.45 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","맑은 고딕","Noto Sans KR",system-ui,sans-serif;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:var(--navy)}
+.wrap{max-width:1000px;margin:0 auto;padding:0 12px 60px}
+
+/* 상단 */
+.top .wrap{padding-bottom:0}
+.top{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 0 0}
+.top-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.top h1{font-size:18px;margin:0;font-weight:800;flex:1 1 auto;min-width:160px}
+.top h1 small{display:block;font-size:11.5px;font-weight:700;color:var(--accent-ink);letter-spacing:.06em}
+.dirty{font-size:12.5px;font-weight:800;color:var(--warn);background:var(--warn-bg);border-radius:6px;padding:2px 8px}
+.clean{font-size:12.5px;font-weight:700;color:var(--ok);background:var(--ok-bg);border-radius:6px;padding:2px 8px}
+.btn{appearance:none;border:1px solid var(--line-strong);background:var(--surface);border-radius:8px;padding:5px 11px;font-weight:700;cursor:pointer;white-space:nowrap;text-decoration:none;color:var(--ink);display:inline-block}
+.btn:hover{border-color:var(--navy)}
+.btn.primary{background:var(--navy);border-color:var(--navy);color:#fff}
+.btn.gold{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.danger{color:var(--bad);border-color:#e3b3a8}
+.btn.small{padding:2px 8px;font-size:12.5px;border-radius:6px}
+.btn:disabled{opacity:.5;cursor:default}
+.tabs{display:flex;gap:2px;margin-top:8px}
+.tab{appearance:none;border:1px solid var(--line);border-bottom:none;background:#dfe2ec;border-radius:9px 9px 0 0;padding:6px 14px;font-weight:800;color:var(--ink-soft);cursor:pointer}
+.tab[aria-selected="true"]{background:var(--surface);color:var(--ink);border-color:var(--line-strong)}
+.view{background:var(--surface);border:1px solid var(--line-strong);border-radius:0 10px 10px 10px;padding:12px;box-shadow:var(--shadow)}
+.banner{margin:10px 0 0;padding:8px 12px;border-radius:9px;font-weight:600;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.banner.info{background:var(--info-bg)} .banner.warn{background:var(--warn-bg)} .banner.bad{background:var(--bad-bg)}
+
+/* 목록 */
+.toolbar{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+.tbl-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%}
+th,td{border-bottom:1px solid var(--line);padding:6px 6px;text-align:left;vertical-align:middle}
+th{font-size:12px;color:var(--ink-faint);font-weight:800;background:#f6f7fb}
+td.no{white-space:nowrap;font-weight:800;color:var(--accent-ink);width:56px}
+td.title{font-weight:700;min-width:130px;word-break:keep-all}
+td.pg{white-space:nowrap;color:var(--ink-soft)}
+td.act{white-space:nowrap;text-align:right}
+.dots{display:inline-flex;gap:5px;white-space:nowrap}
+.dg{display:inline-flex;gap:1px}
+.dot{width:9px;height:9px;border-radius:2px;background:#dde0ea}
+.dot.y{background:var(--t-youtube)} .dot.m{background:var(--t-mp3)} .dot.v{background:var(--t-mp4)}
+.dot.lg{display:inline-block;vertical-align:middle}
+.badge{display:inline-block;font-size:11.5px;font-weight:800;border-radius:5px;padding:0 6px;white-space:nowrap}
+.badge.ok{background:var(--ok-bg);color:var(--ok)} .badge.warn{background:var(--warn-bg);color:var(--warn)} .badge.bad{background:var(--bad-bg);color:var(--bad)}
+.legend{font-size:12px;color:var(--ink-faint);margin-left:auto;display:flex;gap:8px;align-items:center}
+
+/* 편집 창 */
+.overlay{position:fixed;inset:0;background:rgba(15,18,38,.45);z-index:50;display:flex;justify-content:center;align-items:flex-start;overflow:auto;padding:16px 8px}
+.dialog{background:var(--surface);border-radius:12px;box-shadow:0 10px 40px rgba(0,0,0,.25);width:100%;max-width:760px;padding:14px 16px}
+.dialog h2{margin:0 0 10px;font-size:17px}
+.grid-form{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
+.fld{display:flex;flex-direction:column;gap:2px;min-width:0}
+.fld label{font-size:12px;font-weight:800;color:var(--ink-faint)}
+.fld input,.fld select,.fld textarea,.lt input,.sg input{border:1px solid var(--line-strong);border-radius:7px;padding:5px 8px;min-width:0;width:100%;background:#fff}
+.fld textarea{resize:vertical;min-height:54px}
+.c1{grid-column:span 1}.c2{grid-column:span 2}.c4{grid-column:span 4}.c6{grid-column:span 6}
+.sec{margin-top:12px;border-top:1px dashed var(--line-strong);padding-top:10px}
+.sec h3{margin:0 0 6px;font-size:13.5px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.sec h3 small{font-weight:600;color:var(--ink-faint)}
+.lt{width:100%;border-collapse:collapse}
+.lt th{background:none;font-size:12px;padding:3px 4px}
+.lt td{border:none;padding:2px 3px}
+.lt td.p{font-weight:800;white-space:nowrap;width:44px}
+.lt th.y{color:var(--t-youtube)} .lt th.m{color:var(--t-mp3)} .lt th.v{color:var(--t-mp4)}
+.lt input{font-size:12.5px;padding:4px 6px}
+.lt input.badurl{border-color:var(--warn);background:var(--warn-bg)}
+.dlg-foot{display:flex;gap:8px;justify-content:flex-end;margin-top:14px;flex-wrap:wrap}
+.dlg-foot .left{margin-right:auto}
+.hint{font-size:12px;color:var(--ink-faint)}
+.err{color:var(--bad);font-weight:700;font-size:12.5px}
+
+/* 연습일정 편집 */
+.sg{width:100%}
+.sg th{white-space:nowrap}
+.sg td{padding:3px 3px}
+.sg td.kind{width:1%;white-space:nowrap}
+.sg input{font-size:13px;padding:4px 6px}
+.sg tr.main input{font-weight:700}
+.sg tr.main td.kind .badge{background:#f3e7c9;color:var(--accent-ink)}
+.sg tr.sub td.kind .badge{background:#e6ecfb;color:var(--navy)}
+.sg td.mv{white-space:nowrap;text-align:right;width:1%}
+.sg col.c-k{width:92px}.sg col.c-d{width:20%}.sg col.c-t{width:19%}
+.pv{margin-top:12px;border:1px solid var(--line);border-radius:10px;padding:8px 12px 10px;background:#fffbf3;max-width:560px}
+.pv .pv-h{font-size:12px;font-weight:800;color:var(--ink-faint);margin-bottom:4px}
+.pv .pv-t{font-size:16px;font-weight:900;color:#2f5a1e;margin:0 0 5px;letter-spacing:.06em}
+.sch-grid{display:grid;grid-template-columns:max-content max-content max-content 1fr;column-gap:8px;row-gap:3px;align-items:baseline;font-size:12.5px;line-height:1.45;color:#24160a}
+.sch-grid .k{font-weight:900;color:#8a3f0c;white-space:nowrap}
+.sch-grid .d,.sch-grid .t{font-weight:700;white-space:nowrap}
+.sch-grid .p{font-weight:700;color:#3f2c18;white-space:nowrap}
+.sch-grid .sd{grid-column:2;font-weight:600;white-space:nowrap}
+.sch-grid .st{grid-column:3;font-weight:600;white-space:nowrap}
+.sch-grid .sp{grid-column:4;font-weight:500;color:#3f2c18;white-space:normal}
+.sch-grid .sp span{white-space:nowrap}
+@media (max-width:520px){ .sch-grid .sp{grid-column:3 / -1;margin-top:-3px;line-height:1.35} }
+
+/* 설정 */
+.set-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;max-width:860px}
+.card{border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.card h3{margin:0 0 8px;font-size:14px}
+.card.wide{grid-column:span 2}
+
+.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#14183a;color:#fff;border-radius:9px;padding:8px 14px;font-weight:700;z-index:90;max-width:90vw;box-shadow:var(--shadow)}
+[hidden]{display:none!important}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+@media (max-width:700px){
+  .grid-form{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .c4,.c6{grid-column:span 2}
+  .set-grid{grid-template-columns:1fr}
+  .card.wide{grid-column:span 1}
+  td.dotscol,th.dotscol{display:none}
+  .legend{display:none}
+  .wrap{padding-left:6px;padding-right:6px}
+  .view{padding:8px}
+  .tab{padding:5px 9px}
+  .sg,.sg tbody,.sg tr{display:block}
+  .sg thead{display:none}
+  .sg tr{display:grid;grid-template-columns:70px 1fr 1fr;gap:4px;padding:6px 0;border-bottom:1px solid var(--line)}
+  .sg td{display:block;padding:0;border:none}
+  .sg td.kind{grid-column:1}
+  .sg td.f-k{grid-column:1}
+  .sg td.f-d{grid-column:2}
+  .sg td.f-t{grid-column:3}
+  .sg td.f-p{grid-column:1 / -1}
+  .sg td.mv{grid-column:1 / -1;text-align:right}
+}
+</style>
+</head>
+<body>
+<div class="top"><div class="wrap">
+  <div class="top-row">
+    <h1><small>ZION CHOIR · ADMIN</small>추수감사찬양 관리</h1>
+    <span id="dirtyBadge" class="clean">저장됨</span>
+    <a class="btn" href="2026_Zion_Thanksgiving.html" target="_blank" rel="noopener">보기 페이지 ↗</a>
+    <button class="btn" id="btnPreview" type="button">초안 미리보기 ↗</button>
+    <button class="btn primary" id="btnSave" type="button">GitHub에 저장</button>
+  </div>
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" data-tab="songs" aria-selected="true">곡 목록</button>
+    <button class="tab" role="tab" data-tab="sched" aria-selected="false">연습일정</button>
+    <button class="tab" role="tab" data-tab="settings" aria-selected="false">설정</button>
+  </div>
+</div></div>
+
+<div class="wrap">
+  <div id="banners"></div>
+
+  <!-- 곡 목록 -->
+  <section class="view" id="v-songs">
+    <div class="toolbar">
+      <button class="btn gold" id="btnAdd" type="button">+ 새 곡 추가</button>
+      <span class="legend"><span class="dot lg y"></span>유튜브 <span class="dot lg m"></span>mp3다운로드 <span class="dot lg v"></span>동영상다운로드 (합창·S·A·T·B 순)</span>
+    </div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>No.</th><th>제목</th><th>쪽</th><th class="dotscol">링크</th><th>상태</th><th></th></tr></thead>
+      <tbody id="tb"></tbody>
+    </table></div>
+    <p class="hint" id="listCount"></p>
+  </section>
+
+  <!-- 연습일정 -->
+  <section class="view" id="v-sched" hidden>
+    <div class="toolbar">
+      <button class="btn gold" id="btnAddMain" type="button">+ 구분 줄 추가</button>
+      <button class="btn" id="btnAddSub" type="button">+ 세부 줄 추가</button>
+      <span class="hint">구분 줄 = 주일·토요일·리허설처럼 맨 앞 이름이 있는 줄 / 세부 줄 = 구분이 비어 있는 아래 줄</span>
+    </div>
+    <div class="tbl-wrap"><table class="sg">
+      <colgroup><col class="c-k"><col class="c-d"><col class="c-t"><col><col style="width:1%"></colgroup>
+      <thead><tr><th>구분</th><th>날짜</th><th>시간</th><th>장소 · 내용</th><th></th></tr></thead>
+      <tbody id="sgBody"></tbody>
+    </table></div>
+    <p class="hint" style="margin:8px 0 0">날짜·시간의 시작 위치는 모든 줄에서 자동으로 같게 맞춰집니다. 장소·내용에 <b>쉼표(, )</b>가 있으면 좁은 화면에서 쉼표 뒤에서만 줄이 바뀝니다. 세부 줄의 날짜는 비워도 됩니다.</p>
+    <div class="pv"><div class="pv-h">미리보기 (보기 페이지와 같은 배열)</div><p class="pv-t" id="pvTitle"></p><div class="sch-grid" id="pvGrid"></div></div>
+  </section>
+
+  <!-- 설정 -->
+  <section class="view" id="v-settings" hidden>
+    <div class="set-grid">
+      <div class="card wide">
+        <h3>보기 페이지 상단</h3>
+        <div class="fld"><label for="sTitle">제목</label><input id="sTitle"></div>
+        <div class="fld" style="margin-top:6px"><label for="sSchTitle">연습일정 제목</label><input id="sSchTitle"></div>
+        <div class="fld" style="margin-top:6px"><label for="sNotice">안내 문구 (곡 목록 위, 비우면 표시 안 함)</label><textarea id="sNotice" rows="2"></textarea><span class="hint">굵게 표시하려면 <code>**이렇게**</code> 감싸세요.</span></div>
+      </div>
+      <div class="card">
+        <h3>GitHub 연결</h3>
+        <div class="fld"><label for="tok">토큰 (Contents 읽기·쓰기 권한)</label><input type="password" id="tok" autocomplete="off" placeholder="github_pat_…"></div>
+        <label class="hint" style="display:flex;gap:6px;align-items:center;margin-top:6px"><input type="checkbox" id="tokSave"> 이 기기에 기억 (다른 관리 페이지와 같은 토큰을 함께 사용)</label>
+        <div style="display:flex;gap:6px;margin-top:8px"><button class="btn small" id="tokTest" type="button">연결 확인</button><span id="tokMsg" class="hint"></span></div>
+      </div>
+      <div class="card">
+        <h3>백업 · 되돌리기</h3>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <button class="btn small" id="expJson" type="button">JSON 내려받기</button>
+          <button class="btn small danger" id="btnRevert" type="button">저장 안 한 변경 버리기</button>
+        </div>
+        <p class="hint" style="margin:8px 0 0">저장할 때마다 GitHub에 이력이 남습니다. 예전 상태로 되돌려야 하면 <a href="https://github.com/yangji-madang/nsgc/commits/main/thanksgiving.json" target="_blank" rel="noopener">thanksgiving.json 변경 이력</a>에서 확인할 수 있습니다.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- 곡 편집 -->
+<div class="overlay" id="dlg" hidden>
+  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="dlgTitle">
+    <h2 id="dlgTitle">곡 편집</h2>
+    <div class="grid-form">
+      <div class="fld c1"><label for="fNo">No.</label><input id="fNo" inputmode="numeric"></div>
+      <div class="fld c1"><label for="fPage">쪽</label><input id="fPage" inputmode="numeric"></div>
+      <div class="fld c4"><label for="fTitle">제목</label><input id="fTitle"></div>
+    </div>
+    <div class="sec">
+      <h3>파트별 링크 <small>주소를 붙여넣으세요. 빈 칸은 버튼이 나타나지 않습니다.</small></h3>
+      <table class="lt" id="lt">
+        <thead><tr><th></th><th class="y">유튜브</th><th class="m">mp3다운로드</th><th class="v">동영상다운로드</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p class="err" id="dlgErr" hidden></p>
+    <div class="dlg-foot">
+      <button class="btn danger left" id="dlgDel" type="button">이 곡 삭제</button>
+      <button class="btn" id="dlgCancel" type="button">취소</button>
+      <button class="btn primary" id="dlgOk" type="button">적용</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" hidden></div>
+
+<script>
+(function(){
+'use strict';
+const REPO='yangji-madang/nsgc', FPATH='thanksgiving.json', BRANCH='main';
+const TK='choir-gh-token-v1', DRAFT='zion-tg-draft-v1';
+const PARTS=[['All','합창'],['Sop','Sop.'],['Alt','Alt.'],['Ten','Ten.'],['Bas','Bas.']];
+const TYPES=[['youtube','유튜브'],['mp3','mp3다운로드'],['mp4','동영상다운로드']];
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const clone=o=>JSON.parse(JSON.stringify(o));
+const b64=s=>btoa(unescape(encodeURIComponent(s)));
+const unb64=s=>decodeURIComponent(escape(atob(s.replace(/\n/g,''))));
+const isUrl=u=>/^https?:\/\/\S+$/i.test(u);
+
+let DATA=null, BASE=null, editIdx=-1;
+
+/* ---------- 공통 ---------- */
+function toast(m,ms){const t=$('#toast');t.textContent=m;t.hidden=false;clearTimeout(t._t);t._t=setTimeout(()=>t.hidden=true,ms||3200);}
+function todayKST(){try{const p=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());const o={};p.forEach(x=>o[x.type]=x.value);return `${o.year}-${o.month}-${o.day}`;}catch(e){return new Date(Date.now()+9*36e5).toISOString().slice(0,10);}}
+const TODAY=todayKST();
+function getTok(){try{return $('#tok').value.trim()||localStorage.getItem(TK)||'';}catch(e){return $('#tok').value.trim();}}
+function canon(d){const o=clone(d);delete o.updated;o.songs=(o.songs||[]).slice().sort((a,b)=>a.no-b.no);return JSON.stringify(o);}
+function isDirty(){return DATA&&BASE&&canon(DATA)!==canon(BASE);}
+function saveDraft(){try{if(isDirty())localStorage.setItem(DRAFT,JSON.stringify(DATA));else localStorage.removeItem(DRAFT);}catch(e){}}
+function renderTop(){const b=$('#dirtyBadge');const d=isDirty();b.className=d?'dirty':'clean';b.textContent=d?'저장 안 한 변경 있음':'저장됨';}
+function changed(){saveDraft();renderAll();}
+function renderAll(){renderTop();renderSongs();renderSched(false);}
+function sortSongs(){DATA.songs.sort((a,b)=>a.no-b.no);}
+
+/* ---------- 링크 모델 ---------- */
+function grid(song){
+  const g={},extra=[]; PARTS.forEach(([p])=>{g[p]={};});
+  (song.links||[]).forEach(l=>{ if(g[l.part]&&TYPES.some(t=>t[0]===l.type)&&!g[l.part][l.type]) g[l.part][l.type]=l.url; else extra.push(l); });
+  return {g,extra};
+}
+function linkCount(song){return (song.links||[]).filter(l=>l.url).length;}
+
+/* ---------- 곡 목록 ---------- */
+function renderSongs(){
+  const nos={}; DATA.songs.forEach(s=>{nos[s.no]=(nos[s.no]||0)+1;});
+  $('#tb').innerHTML=DATA.songs.map((s,i)=>{
+    const {g}=grid(s);
+    const dots=TYPES.map(([t],k)=>`<span class="dg">${PARTS.map(([p])=>`<span class="dot ${'ymv'[k]}" style="${g[p][t]?'':'background:#dde0ea'}"></span>`).join('')}</span>`).join('');
+    const n=linkCount(s), bad=(s.links||[]).filter(l=>!isUrl(l.url||'')).length;
+    const st=[];
+    if(nos[s.no]>1) st.push('<span class="badge bad">No. 중복</span>');
+    if(!s.title) st.push('<span class="badge bad">제목 없음</span>');
+    if(bad) st.push(`<span class="badge warn">주소 확인 ${bad}</span>`);
+    if(!n) st.push('<span class="badge warn">링크 없음</span>');
+    if(!st.length) st.push(`<span class="badge ok">링크 ${n}개</span>`);
+    return `<tr><td class="no">No.${esc(s.no)}</td><td class="title">${esc(s.title)}</td><td class="pg">p.${esc(s.page)}</td>
+      <td class="dotscol"><span class="dots">${dots}</span></td><td>${st.join(' ')}</td>
+      <td class="act"><button class="btn small" data-up="${i}" title="위로" ${i===0?'disabled':''}>↑</button>
+      <button class="btn small" data-down="${i}" title="아래로" ${i===DATA.songs.length-1?'disabled':''}>↓</button>
+      <button class="btn small" data-edit="${i}">수정</button></td></tr>`;
+  }).join('')||'<tr><td colspan="6" class="hint">곡이 없습니다. “+ 새 곡 추가”를 눌러 주세요.</td></tr>';
+  $('#listCount').textContent=`전체 ${DATA.songs.length}곡`;
+}
+$('#tb').addEventListener('click',e=>{
+  const b=e.target.closest('button'); if(!b||b.disabled) return;
+  if(b.dataset.edit!==undefined) openDlg(+b.dataset.edit);
+  else if(b.dataset.up!==undefined||b.dataset.down!==undefined){
+    const i=+(b.dataset.up??b.dataset.down), j=b.dataset.up!==undefined?i-1:i+1;
+    const a=DATA.songs[i], c=DATA.songs[j]; if(!a||!c) return;
+    const t=a.no; a.no=c.no; c.no=t; sortSongs(); changed();
+  }
+});
+$('#btnAdd').onclick=()=>openDlg(-1);
+
+/* ---------- 곡 편집 창 ---------- */
+function openDlg(i){
+  editIdx=i;
+  const s=i>=0?DATA.songs[i]:{no:(DATA.songs.reduce((m,x)=>Math.max(m,x.no),0)+1),page:'',title:'',links:[]};
+  $('#dlgTitle').textContent=i>=0?`No.${s.no} 수정`:'새 곡 추가';
+  $('#fNo').value=s.no; $('#fPage').value=s.page||''; $('#fTitle').value=s.title||'';
+  const {g,extra}=grid(s); $('#dlg')._extra=extra;
+  $('#lt tbody').innerHTML=PARTS.map(([p,pl])=>`<tr><td class="p">${pl}</td>${TYPES.map(([t])=>`<td><input data-p="${p}" data-t="${t}" value="${esc(g[p][t]||'')}" placeholder="https://"></td>`).join('')}</tr>`).join('');
+  $('#dlgDel').hidden=i<0; $('#dlgErr').hidden=true; $('#dlg').hidden=false;
+  setTimeout(()=>$('#fTitle').focus(),30);
+}
+function closeDlg(){$('#dlg').hidden=true;editIdx=-1;}
+$('#dlgCancel').onclick=closeDlg;
+$('#dlg').addEventListener('mousedown',e=>{if(e.target===$('#dlg'))closeDlg();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#dlg').hidden)closeDlg();});
+$('#lt').addEventListener('input',e=>{if(e.target.tagName==='INPUT'){const v=e.target.value.trim();e.target.classList.toggle('badurl',!!v&&!isUrl(v));}});
+$('#dlgOk').onclick=()=>{
+  const no=parseInt($('#fNo').value,10), title=$('#fTitle').value.trim(), err=$('#dlgErr');
+  const fail=m=>{err.textContent=m;err.hidden=false;};
+  if(!(no>0)) return fail('No.를 숫자로 입력해 주세요.');
+  if(!title) return fail('제목을 입력해 주세요.');
+  if(DATA.songs.some((x,k)=>x.no===no&&k!==editIdx)) return fail(`No.${no}이(가) 이미 있습니다. 다른 번호를 쓰거나 목록에서 순서를 바꿔 주세요.`);
+  const links=[]; let badUrl='';
+  PARTS.forEach(([p])=>TYPES.forEach(([t])=>{
+    const v=($(`#lt input[data-p="${p}"][data-t="${t}"]`).value||'').trim(); if(!v) return;
+    if(!isUrl(v)) badUrl=badUrl||v; links.push({part:p,type:t,url:v});
+  }));
+  if(badUrl) return fail('주소는 http:// 또는 https:// 로 시작해야 합니다: '+badUrl.slice(0,40));
+  ($('#dlg')._extra||[]).forEach(l=>links.push(l));
+  const song={no,page:$('#fPage').value.trim(),title,links};
+  if(editIdx>=0) DATA.songs[editIdx]=song; else DATA.songs.push(song);
+  sortSongs(); closeDlg(); changed(); toast('적용했습니다. 확인 후 상단의 “GitHub에 저장”을 눌러 주세요.');
+};
+let delArm=0;
+$('#dlgDel').onclick=function(){
+  if(Date.now()-delArm>3000){delArm=Date.now();this.textContent='한 번 더 누르면 삭제';setTimeout(()=>this.textContent='이 곡 삭제',3000);return;}
+  DATA.songs.splice(editIdx,1); this.textContent='이 곡 삭제'; closeDlg(); changed(); toast('삭제했습니다.');
+};
+
+/* ---------- 연습일정 ---------- */
+function splitComma(s){return String(s).split(/,\s*/).map((x,i,a)=>'<span>'+esc(x)+(i<a.length-1?',':'')+'</span>').join(' ');}
+function schedHtml(rows){
+  let h='';
+  rows.forEach(r=>{
+    const k=r.k||'',d=r.d||'',t=r.t||'',p=r.p||''; if(!k&&!d&&!t&&!p) return;
+    if(k){ h+=`<span class="k">${esc(k)}</span><span class="d">${esc(d)}</span><span class="t">${esc(t)}</span>`+(p?`<span class="p">${esc(p)}</span>`:''); }
+    else { h+=`<span class="sd">${esc(d)}</span><span class="st">${esc(t)}</span>`+(p?`<span class="sp">${splitComma(p)}</span>`:''); }
+  });
+  return h;
+}
+function renderPreview(){ $('#pvTitle').textContent=DATA.settings.scheduleTitle||''; $('#pvGrid').innerHTML=schedHtml(DATA.schedule); }
+function renderSched(full){
+  renderPreview();
+  if(full===false && $('#sgBody').children.length===DATA.schedule.length && !renderSched._force) return;
+  renderSched._force=false;
+  $('#sgBody').innerHTML=DATA.schedule.map((r,i)=>{
+    const main=!!(r.k&&r.k.trim());
+    return `<tr class="${main?'main':'sub'}" data-i="${i}">
+      <td class="f-k"><input data-f="k" value="${esc(r.k||'')}" placeholder="${main?'':'(세부 줄)'}" aria-label="구분"></td>
+      <td class="f-d"><input data-f="d" value="${esc(r.d||'')}" aria-label="날짜"></td>
+      <td class="f-t"><input data-f="t" value="${esc(r.t||'')}" aria-label="시간"></td>
+      <td class="f-p"><input data-f="p" value="${esc(r.p||'')}" aria-label="장소·내용"></td>
+      <td class="mv"><button class="btn small" data-mv="-1" ${i===0?'disabled':''}>↑</button> <button class="btn small" data-mv="1" ${i===DATA.schedule.length-1?'disabled':''}>↓</button> <button class="btn small danger" data-del="1">삭제</button></td></tr>`;
+  }).join('')||'<tr><td colspan="5" class="hint">일정 줄이 없습니다. 위의 추가 버튼을 눌러 주세요. (줄이 없으면 보기 페이지에서 연습일정이 사라집니다)</td></tr>';
+}
+function forceSched(){renderSched._force=true;changed();}
+$('#sgBody').addEventListener('input',e=>{
+  const inp=e.target.closest('input'); if(!inp) return;
+  const tr=inp.closest('tr'), i=+tr.dataset.i, f=inp.dataset.f;
+  DATA.schedule[i][f]=inp.value;
+  if(f==='k'){ const main=!!inp.value.trim(); tr.className=main?'main':'sub'; }
+  saveDraft(); renderTop(); renderPreview();
+});
+$('#sgBody').addEventListener('click',e=>{
+  const b=e.target.closest('button'); if(!b||b.disabled) return;
+  const i=+b.closest('tr').dataset.i;
+  if(b.dataset.mv){ const j=i+(+b.dataset.mv); [DATA.schedule[i],DATA.schedule[j]]=[DATA.schedule[j],DATA.schedule[i]]; forceSched(); }
+  else if(b.dataset.del){ DATA.schedule.splice(i,1); forceSched(); }
+});
+$('#btnAddMain').onclick=()=>{DATA.schedule.push({k:'',d:'',t:'',p:''});forceSched();const r=$$('#sgBody tr');const l=r[r.length-1];if(l){l.querySelector('input').focus();}};
+$('#btnAddSub').onclick=()=>{DATA.schedule.push({k:'',d:'',t:'',p:''});forceSched();const r=$$('#sgBody tr');const l=r[r.length-1];if(l){l.querySelector('[data-f="d"]').focus();}};
+
+/* ---------- 설정 ---------- */
+function fillSettings(){
+  const S=DATA.settings; $('#sTitle').value=S.title||''; $('#sSchTitle').value=S.scheduleTitle||''; $('#sNotice').value=S.notice||'';
+}
+[['#sTitle','title'],['#sSchTitle','scheduleTitle'],['#sNotice','notice']].forEach(([id,k])=>{
+  $(id).addEventListener('input',e=>{DATA.settings[k]=e.target.value; saveDraft(); renderTop(); if(k==='scheduleTitle')renderPreview();});
+});
+try{$('#tok').value=localStorage.getItem(TK)||''; $('#tokSave').checked=!!localStorage.getItem(TK);}catch(e){}
+$('#tokSave').onchange=()=>{try{if($('#tokSave').checked&&$('#tok').value.trim())localStorage.setItem(TK,$('#tok').value.trim());else localStorage.removeItem(TK);}catch(e){}};
+$('#tok').onchange=()=>{ if($('#tokSave').checked){ try{localStorage.setItem(TK,$('#tok').value.trim());}catch(e){} } };
+$('#tokTest').onclick=async()=>{
+  const t=getTok(), m=$('#tokMsg'); if(!t){m.textContent='토큰을 입력하세요.';return;}
+  m.textContent='확인 중…';
+  try{const r=await fetch(`https://api.github.com/repos/${REPO}`,{headers:{Authorization:'Bearer '+t,Accept:'application/vnd.github+json'}});
+    if(!r.ok) throw new Error(r.status); const j=await r.json();
+    m.textContent=j.permissions&&j.permissions.push?'✅ 연결됨 (쓰기 가능)':'⚠️ 연결됐지만 쓰기 권한이 없습니다';
+  }catch(e){m.textContent='❌ 연결 실패 ('+e.message+') — 토큰을 확인하세요';}
+};
+function download(name,blob){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},500);}
+$('#expJson').onclick=()=>download(`thanksgiving_${TODAY}.json`,new Blob([JSON.stringify(DATA,null,1)],{type:'application/json'}));
+let revArm=0;
+$('#btnRevert').onclick=function(){
+  if(!isDirty()){toast('버릴 변경이 없습니다.');return;}
+  if(Date.now()-revArm>3000){revArm=Date.now();this.textContent='한 번 더 누르면 버립니다';setTimeout(()=>this.textContent='저장 안 한 변경 버리기',3000);return;}
+  DATA=clone(BASE); fillSettings(); renderSched._force=true; changed(); this.textContent='저장 안 한 변경 버리기'; toast('마지막 저장 상태로 되돌렸습니다.');
+};
+
+/* ---------- 탭 ---------- */
+function switchTab(t){ $$('.tab').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.tab===t))); ['songs','sched','settings'].forEach(v=>$('#v-'+v).hidden=v!==t); }
+$$('.tab').forEach(b=>b.onclick=()=>switchTab(b.dataset.tab));
+
+/* ---------- 미리보기 · 저장 ---------- */
+$('#btnPreview').onclick=()=>{ try{localStorage.setItem(DRAFT,JSON.stringify(DATA));}catch(e){} const u='2026_Zion_Thanksgiving.html?preview=1'; const w=window.open(u,'_blank'); if(!w) location.href=u; };
+async function ghGet(tok){
+  const r=await fetch(`https://api.github.com/repos/${REPO}/contents/${FPATH}?ref=${BRANCH}&t=${Date.now()}`,{headers:{Authorization:'Bearer '+tok,Accept:'application/vnd.github+json'},cache:'no-store'});
+  if(r.status===404) return null; if(!r.ok) throw new Error('조회 실패 '+r.status);
+  return r.json();
+}
+let owArm=0;
+function confirmOverwrite(){ if(Date.now()-owArm<6000) return true; owArm=Date.now(); toast('다른 기기에서 더 최근에 저장했습니다. 덮어쓰려면 6초 안에 저장을 한 번 더 누르세요.',6000); return false; }
+$('#btnSave').onclick=async()=>{
+  const tok=getTok();
+  if(!tok){ switchTab('settings'); $('#tok').focus(); toast('설정 탭에서 GitHub 토큰을 먼저 입력해 주세요.'); return; }
+  const nos={}; DATA.songs.forEach(s=>{nos[s.no]=(nos[s.no]||0)+1;});
+  if(Object.values(nos).some(n=>n>1)){ switchTab('songs'); toast('No.가 중복된 곡이 있습니다. 먼저 고쳐 주세요.',5000); return; }
+  if(DATA.songs.some(s=>!s.title)){ switchTab('songs'); toast('제목이 비어 있는 곡이 있습니다.',5000); return; }
+  const btn=$('#btnSave'); btn.disabled=true; btn.textContent='저장 중…';
+  try{
+    const cur=await ghGet(tok);
+    if(cur&&BASE&&BASE.updated){ try{const rem=JSON.parse(unb64(cur.content)); if(rem.updated&&rem.updated>BASE.updated&&canon(rem)!==canon(BASE)){ if(!confirmOverwrite()) throw new Error('다른 곳에서 먼저 저장된 내용이 있습니다'); }}catch(e){ if(/다른 곳/.test(e.message)) throw e; } }
+    DATA.updated=new Date().toISOString();
+    const clean=clone(DATA); clean.schedule=clean.schedule.filter(r=>(r.k||r.d||r.t||r.p)).map(r=>({k:(r.k||'').trim(),d:(r.d||'').trim(),t:(r.t||'').trim(),p:(r.p||'').trim()}));
+    const body={message:`추수감사찬양 갱신 ${TODAY}`,content:b64(JSON.stringify(clean,null,1)),branch:BRANCH}; if(cur) body.sha=cur.sha;
+    const p=await fetch(`https://api.github.com/repos/${REPO}/contents/${FPATH}`,{method:'PUT',headers:{Authorization:'Bearer '+tok,Accept:'application/vnd.github+json','Content-Type':'application/json'},body:JSON.stringify(body)});
+    if(!p.ok) throw new Error('저장 실패 '+p.status);
+    try{ if($('#tokSave').checked) localStorage.setItem(TK,tok); }catch(e){}
+    DATA=clone(clean); BASE=clone(clean); saveDraft(); renderSched._force=true; renderAll();
+    toast('GitHub에 저장했습니다. 보기 페이지에는 1~2분 뒤 나타납니다.',5000);
+  }catch(e){ toast(`저장하지 못했습니다 (${e.message}). 토큰 권한(Contents 읽기·쓰기)을 확인해 주세요.`,6000); }
+  finally{ btn.disabled=false; btn.textContent='GitHub에 저장'; renderTop(); }
+};
+window.addEventListener('beforeunload',e=>{ if(isDirty()){ e.preventDefault(); e.returnValue=''; } });
+
+/* ---------- 시작 ---------- */
+function banner(cls,html,btns){const d=document.createElement('div');d.className='banner '+cls;d.innerHTML='<span>'+html+'</span>';(btns||[]).forEach(([l,fn,c])=>{const b=document.createElement('button');b.type='button';b.className='btn small '+(c||'');b.textContent=l;b.onclick=()=>{fn();d.remove();};d.appendChild(b);});$('#banners').appendChild(d);return d;}
+function normalize(d){
+  d=d||{}; d.settings=d.settings||{}; d.schedule=Array.isArray(d.schedule)?d.schedule:[]; d.songs=Array.isArray(d.songs)?d.songs:[];
+  d.schedule.forEach(r=>{r.k=r.k||'';r.d=r.d||'';r.t=r.t||'';r.p=r.p||'';});
+  d.songs.forEach(s=>{s.no=+s.no;s.page=s.page==null?'':String(s.page);s.links=s.links||[];});
+  d.songs.sort((a,b)=>a.no-b.no); return d;
+}
+(async()=>{
+  let remote=null; const tok=getTok();
+  try{ if(tok){ const g=await ghGet(tok); if(g) remote=JSON.parse(unb64(g.content)); } }catch(e){}
+  if(!remote){ try{ const r=await fetch(FPATH+'?t='+Date.now(),{cache:'no-store'}); if(r.ok) remote=await r.json(); }catch(e){} }
+  if(!remote){ banner('bad',FPATH+'을 불러오지 못했습니다. 인터넷 연결을 확인하고 새로고침하세요.'); remote={settings:{},schedule:[],songs:[]}; }
+  BASE=normalize(remote); DATA=clone(BASE);
+  let draft=null; try{ draft=JSON.parse(localStorage.getItem(DRAFT)); }catch(e){}
+  if(draft&&draft.songs&&canon(normalize(draft))!==canon(BASE)){
+    banner('warn','<b>저장 안 한 초안이 있습니다.</b> 이어서 작업할까요?',[
+      ['초안 이어서',()=>{DATA=normalize(draft); fillSettings(); renderSched._force=true; changed();},'primary'],
+      ['버리기',()=>{try{localStorage.removeItem(DRAFT);}catch(e){}}]]);
+  }
+  if(!tok) banner('info','저장하려면 <b>설정</b> 탭에서 GitHub 토큰을 입력하세요. 다른 관리 페이지(찬양곡목·출석관리)에서 토큰을 기억해 두셨다면 자동으로 사용합니다.');
+  fillSettings(); renderSched._force=true; renderAll();
+})();
+})();
+</script>
+</body>
+</html>

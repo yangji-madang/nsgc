@@ -1,0 +1,492 @@
+{
+ "updated": "2026-10-22T00:00:00.000Z",
+ "settings": {
+  "title": "2026년 시온찬양대 추수감사주일 찬양",
+  "scheduleTitle": "연습일정",
+  "notice": "※ **3. 주의 은혜라**, **6. 그 은혜가 족하네**의 파트별 연습파일은 음성이 없는 MIDI 파일입니다."
+ },
+ "schedule": [
+  {
+   "k": "주일",
+   "d": "10/18~11/8(4회)",
+   "t": "2:30~5:00",
+   "p": "신관 303호"
+  },
+  {
+   "k": "토요일",
+   "d": "10/24, 11/7",
+   "t": "3:00~6:00",
+   "p": ""
+  },
+  {
+   "k": "",
+   "d": "10/24",
+   "t": "3:00~4:30",
+   "p": "남성(신관 301호), 여성(신관 303호)"
+  },
+  {
+   "k": "",
+   "d": "",
+   "t": "4:30~6:00",
+   "p": "전체(신관 303호)"
+  },
+  {
+   "k": "",
+   "d": "11/7",
+   "t": "3:00~6:00",
+   "p": "전체(신관 303호)"
+  },
+  {
+   "k": "리허설",
+   "d": "11/14(토)",
+   "t": "4:00~7:00",
+   "p": ""
+  },
+  {
+   "k": "",
+   "d": "",
+   "t": "4:00~5:30",
+   "p": "Singer(일가홀), Orc.(그레이스홀)"
+  },
+  {
+   "k": "",
+   "d": "",
+   "t": "5:30~7:00",
+   "p": "전체(그레이스홀)"
+  }
+ ],
+ "songs": [
+  {
+   "no": 1,
+   "page": "3",
+   "title": "은혜 아니면",
+   "links": [
+    {
+     "part": "All",
+     "type": "youtube",
+     "url": "https://buly.kr/GP5bVgC"
+    },
+    {
+     "part": "Sop",
+     "type": "youtube",
+     "url": "https://buly.kr/HHfOQ1r"
+    },
+    {
+     "part": "Alt",
+     "type": "youtube",
+     "url": "https://buly.kr/Gkv7TY5"
+    },
+    {
+     "part": "Ten",
+     "type": "youtube",
+     "url": "https://buly.kr/883zPdN"
+    },
+    {
+     "part": "Bas",
+     "type": "youtube",
+     "url": "https://buly.kr/1RHC8WI"
+    },
+    {
+     "part": "Sop",
+     "type": "mp3",
+     "url": "https://naver.me/FiPXhsd3"
+    },
+    {
+     "part": "Alt",
+     "type": "mp3",
+     "url": "https://naver.me/5RAxZqSf"
+    },
+    {
+     "part": "Ten",
+     "type": "mp3",
+     "url": "https://naver.me/5fduDyIJ"
+    },
+    {
+     "part": "Bas",
+     "type": "mp3",
+     "url": "https://naver.me/56XkwFxv"
+    },
+    {
+     "part": "Sop",
+     "type": "mp4",
+     "url": "https://naver.me/GcAy3hfc"
+    },
+    {
+     "part": "Alt",
+     "type": "mp4",
+     "url": "https://naver.me/FjmRpHxN"
+    },
+    {
+     "part": "Ten",
+     "type": "mp4",
+     "url": "https://naver.me/GXFbdlzC"
+    },
+    {
+     "part": "Bas",
+     "type": "mp4",
+     "url": "https://naver.me/FiPXhZdn"
+    }
+   ]
+  },
+  {
+   "no": 2,
+   "page": "11",
+   "title": "감사",
+   "links": [
+    {
+     "part": "All",
+     "type": "youtube",
+     "url": "https://buly.kr/H6kevGU"
+    },
+    {
+     "part": "Sop",
+     "type": "youtube",
+     "url": "https://buly.kr/Gkv8xSJ"
+    },
+    {
+     "part": "Alt",
+     "type": "youtube",
+     "url": "https://buly.kr/BIXeYB8"
+    },
+    {
+     "part": "Ten",
+     "type": "youtube",
+     "url": "https://buly.kr/FhQb4a7"
+    },
+    {
+     "part": "Bas",
+     "type": "youtube",
+     "url": "https://buly.kr/uWwgAW"
+    },
+    {
+     "part": "Sop",
+     "type": "mp3",
+     "url": "https://1drv.ms/u/c/619d880fa7b6f451/IQB0S_jT8SxlRKTDReoEjKdFAUv0C-EN_KIU5MuanrSvsmM?e=tuOiaS"
+    },
+    {
+     "part": "Alt",
+     "type": "mp3",
+     "url": "https://1drv.ms/u/c/619d880fa7b6f451/IQCGH9-o6eotTa6PQSf9cGjXAQ0OadFn1B6k8Aczv2cbxdU?e=IqGiot"
+    },
+    {
+     "part": "Ten",
+     "type": "mp3",
+     "url": "https://1drv.ms/u/c/619d880fa7b6f451/IQBUFQCFSyrzSrM9svc4-myRAcDeqV3FbPai5HlAIYILqfo?e=03uwZB"
+    },
+    {
+     "part": "Bas",
+     "type": "mp3",
+     "url": "https://1drv.ms/u/c/619d880fa7b6f451/IQA7SM0XOQuAToHj6tNlVWS3AVUmWy-QS5uXMURfjtE4b0g?e=ucGYl7"
+    },
+    {
+     "part": "Sop",
+     "type": "mp4",
+     "url": "https://naver.me/x7eZn1Y1"
+    },
+    {
+     "part": "Alt",
+     "type": "mp4",
+     "url": "https://naver.me/xYNopnE3"
+    },
+    {
+     "part": "Ten",
+     "type": "mp4",
+     "url": "https://naver.me/xZK7Vr2E"
+    },
+    {
+     "part": "Bas",
+     "type": "mp4",
+     "url": "https://naver.me/IFE5gHFe"
+    }
+   ]
+  },
+  {
+   "no": 3,
+   "page": "20",
+   "title": "주의 은혜라(마리아의 노래)",
+   "links": [
+    {
+     "part": "All",
+     "type": "youtube",
+     "url": "https://buly.kr/EzlZgWo"
+    },
+    {
+     "part": "Sop",
+     "type": "youtube",
+     "url": "https://buly.kr/7mEVTpy"
+    },
+    {
+     "part": "Alt",
+     "type": "youtube",
+     "url": "https://buly.kr/9MTKJ9H"
+    },
+    {
+     "part": "Ten",
+     "type": "youtube",
+     "url": "https://buly.kr/5UKejFN"
+    },
+    {
+     "part": "Bas",
+     "type": "youtube",
+     "url": "https://buly.kr/4bkrp8k"
+    },
+    {
+     "part": "Sop",
+     "type": "mp3",
+     "url": "https://naver.me/FSvjS3zb"
+    },
+    {
+     "part": "Alt",
+     "type": "mp3",
+     "url": "https://naver.me/F6Qhnwi5"
+    },
+    {
+     "part": "Ten",
+     "type": "mp3",
+     "url": "https://naver.me/xll7bZdE"
+    },
+    {
+     "part": "Bas",
+     "type": "mp3",
+     "url": "https://naver.me/GKIebdAb"
+    },
+    {
+     "part": "Sop",
+     "type": "mp4",
+     "url": "https://naver.me/5fdWI18r"
+    },
+    {
+     "part": "Alt",
+     "type": "mp4",
+     "url": "https://naver.me/Friy0DMc"
+    },
+    {
+     "part": "Ten",
+     "type": "mp4",
+     "url": "https://naver.me/Gy3OpvHC"
+    },
+    {
+     "part": "Bas",
+     "type": "mp4",
+     "url": "https://naver.me/5Vxd8npK"
+    }
+   ]
+  },
+  {
+   "no": 4,
+   "page": "27",
+   "title": "기름 부으심",
+   "links": [
+    {
+     "part": "All",
+     "type": "youtube",
+     "url": "https://buly.kr/FhP7S33"
+    },
+    {
+     "part": "Sop",
+     "type": "youtube",
+     "url": "https://buly.kr/C0BCqvp"
+    },
+    {
+     "part": "Alt",
+     "type": "youtube",
+     "url": "https://buly.kr/BIWAvgT"
+    },
+    {
+     "part": "Ten",
+     "type": "youtube",
+     "url": "https://buly.kr/15QE2NG"
+    },
+    {
+     "part": "Bas",
+     "type": "youtube",
+     "url": "https://buly.kr/FhP7S5r"
+    },
+    {
+     "part": "Sop",
+     "type": "mp3",
+     "url": "https://naver.me/I5wC51dW"
+    },
+    {
+     "part": "Alt",
+     "type": "mp3",
+     "url": "https://naver.me/xbKrAy8X"
+    },
+    {
+     "part": "Ten",
+     "type": "mp3",
+     "url": "https://naver.me/xPYK8sCJ"
+    },
+    {
+     "part": "Bas",
+     "type": "mp3",
+     "url": "https://naver.me/5Ol6QURm"
+    },
+    {
+     "part": "Sop",
+     "type": "mp4",
+     "url": "https://naver.me/xeF7AGzS"
+    },
+    {
+     "part": "Alt",
+     "type": "mp4",
+     "url": "https://naver.me/539SlN6D"
+    },
+    {
+     "part": "Ten",
+     "type": "mp4",
+     "url": "https://naver.me/FLEpygiE"
+    },
+    {
+     "part": "Bas",
+     "type": "mp4",
+     "url": "https://naver.me/5eDxUdjf"
+    }
+   ]
+  },
+  {
+   "no": 5,
+   "page": "40",
+   "title": "동행",
+   "links": [
+    {
+     "part": "All",
+     "type": "youtube",
+     "url": "https://buly.kr/DaRNsDY"
+    },
+    {
+     "part": "Sop",
+     "type": "youtube",
+     "url": "https://buly.kr/1x2LRl"
+    },
+    {
+     "part": "Alt",
+     "type": "youtube",
+     "url": "https://buly.kr/B7cm8pr"
+    },
+    {
+     "part": "Ten",
+     "type": "youtube",
+     "url": "https://buly.kr/NmYJ69"
+    },
+    {
+     "part": "Bas",
+     "type": "youtube",
+     "url": "https://buly.kr/1y1N8Sz"
+    },
+    {
+     "part": "Sop",
+     "type": "mp3",
+     "url": "https://buly.kr/CB7K2ur"
+    },
+    {
+     "part": "Alt",
+     "type": "mp3",
+     "url": "https://buly.kr/D3h6wwc"
+    },
+    {
+     "part": "Ten",
+     "type": "mp3",
+     "url": "https://naver.me/GIIdW8xq"
+    },
+    {
+     "part": "Bas",
+     "type": "mp3",
+     "url": "https://buly.kr/6Xp4en8"
+    },
+    {
+     "part": "Sop",
+     "type": "mp4",
+     "url": "https://naver.me/xVRZC4Ar"
+    },
+    {
+     "part": "Alt",
+     "type": "mp4",
+     "url": "https://naver.me/5kPMntBE"
+    },
+    {
+     "part": "Ten",
+     "type": "mp4",
+     "url": "https://naver.me/GfruJgtL"
+    },
+    {
+     "part": "Bas",
+     "type": "mp4",
+     "url": "https://naver.me/F93yXkHd"
+    }
+   ]
+  },
+  {
+   "no": 6,
+   "page": "47",
+   "title": "그 은혜가 족하네",
+   "links": [
+    {
+     "part": "All",
+     "type": "youtube",
+     "url": "https://buly.kr/FLb5eIP"
+    },
+    {
+     "part": "Sop",
+     "type": "youtube",
+     "url": "https://buly.kr/8eoINWV"
+    },
+    {
+     "part": "Alt",
+     "type": "youtube",
+     "url": "https://buly.kr/BpHw2CY"
+    },
+    {
+     "part": "Ten",
+     "type": "youtube",
+     "url": "https://buly.kr/6teiZNX"
+    },
+    {
+     "part": "Bas",
+     "type": "youtube",
+     "url": "https://buly.kr/4xaNmOl"
+    },
+    {
+     "part": "Sop",
+     "type": "mp3",
+     "url": "https://naver.me/FM9zcKA1"
+    },
+    {
+     "part": "Alt",
+     "type": "mp3",
+     "url": "https://naver.me/FP87n9dZ"
+    },
+    {
+     "part": "Ten",
+     "type": "mp3",
+     "url": "https://naver.me/Friy7UTY"
+    },
+    {
+     "part": "Bas",
+     "type": "mp3",
+     "url": "https://naver.me/FWT46tkN"
+    },
+    {
+     "part": "Sop",
+     "type": "mp4",
+     "url": "https://naver.me/xD8PJ4EA"
+    },
+    {
+     "part": "Alt",
+     "type": "mp4",
+     "url": "https://naver.me/GbyoDLJL"
+    },
+    {
+     "part": "Ten",
+     "type": "mp4",
+     "url": "https://naver.me/x2YMjGuM"
+    },
+    {
+     "part": "Bas",
+     "type": "mp4",
+     "url": "https://naver.me/GSQuDPpI"
+    }
+   ]
+  }
+ ]
+}
