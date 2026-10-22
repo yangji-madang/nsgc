@@ -776,6 +776,72 @@
   }
   renderList();
   sizeHero();
+
+  /* ================= 관리화면 데이터(thanksgiving.json) 적용 =================
+     저장된 JSON이 있으면 제목·안내문·연습일정·곡 목록을 교체하고,
+     불러오지 못하면 위의 기본 내용(이 파일에 들어 있는 값)을 그대로 보여 줍니다. */
+  function esc(s){ return String(s == null ? '' : s).replace(/[&<>"]/g, function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  function boldify(s){ return esc(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>'); }
+  function splitComma(s){   /* "A(…), B(…)" → 쉼표 뒤에서만 줄이 바뀌도록 덩어리로 나눔 */
+    return String(s).split(/,\s*/).map(function(x, i, arr){
+      return '<span>' + esc(x) + (i < arr.length - 1 ? ',' : '') + '</span>';
+    }).join(' ');
+  }
+  function renderSchedule(S, rows){
+    var box = document.querySelector('.schedule-wrap');
+    if(!box) return;
+    var head = box.querySelector('.sch-head'), grid = box.querySelector('.sch-grid');
+    if(S && S.scheduleTitle != null) head.textContent = S.scheduleTitle;
+    var h = '';
+    (rows || []).forEach(function(r){
+      var k = r.k || '', d = r.d || '', t = r.t || '', p = r.p || '';
+      if(!k && !d && !t && !p) return;
+      if(k){
+        h += '<span class="k">' + esc(k) + '</span><span class="d">' + esc(d) + '</span><span class="t">' + esc(t) + '</span>';
+        if(p) h += '<span class="p">' + esc(p) + '</span>';
+      } else {
+        h += '<span class="sd">' + esc(d) + '</span><span class="st">' + esc(t) + '</span>';
+        if(p) h += '<span class="sp">' + splitComma(p) + '</span>';
+      }
+    });
+    grid.innerHTML = h;
+    box.hidden = !h;
+  }
+  function applyData(d){
+    if(!d || typeof d !== 'object') return;
+    var S = d.settings || {};
+    if(S.title) document.querySelector('.title-card h1').textContent = S.title;
+    var nt = document.querySelector('.notice');
+    if(nt && Object.prototype.hasOwnProperty.call(S, 'notice')){
+      nt.innerHTML = boldify(S.notice || ''); nt.hidden = !S.notice;
+    }
+    if(Array.isArray(d.schedule)) renderSchedule(S, d.schedule);
+    if(Array.isArray(d.songs)){
+      raw = d.songs.map(function(x){ return {no:+x.no, page:x.page, title:x.title, links:x.links || []}; })
+                   .sort(function(a,b){ return a.no - b.no; });
+      renderList();
+    }
+    sizeHero();
+  }
+  var isPreview = /[?&]preview=1/.test(location.search);
+  if(isPreview){
+    try{
+      var draft = JSON.parse(localStorage.getItem('zion-tg-draft-v1'));
+      if(draft){
+        applyData(draft);
+        var tag = document.createElement('div');
+        tag.textContent = '초안 미리보기 (아직 저장되지 않은 내용)';
+        tag.style.cssText = 'position:fixed;left:50%;bottom:12px;transform:translateX(-50%);z-index:30;background:#24160a;color:#fff;font:700 12.5px/1 sans-serif;white-space:nowrap;padding:8px 14px;border-radius:999px;box-shadow:0 4px 14px rgba(0,0,0,.3)';
+        document.body.appendChild(tag);
+      }
+    }catch(e){}
+  } else if(window.fetch){
+    fetch('thanksgiving.json?t=' + Date.now(), {cache:'no-store'})
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(applyData)
+      .catch(function(){});
+  }
 })();
 </script>
 </body>
