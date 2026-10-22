@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-16T00:00:00.000Z",
+ "updated": "2026-10-22T11:29:14.853Z",
  "settings": {
   "title": "2026년 시온찬양대 찬양곡목",
   "subLabel": "2026년 주일 찬양보기",
@@ -903,7 +903,6 @@
    "book": "시온7",
    "page": "94",
    "title": "꽃들도",
-   "note": "* 3부합창 반주입니다. 4부는 반주파일만 제공됩니다.\n* Bas.파트 반주파일은 없습니다.",
    "links": [
     {
      "part": "All",
@@ -916,29 +915,9 @@
      "url": "https://buly.kr/4bkjxV8"
     },
     {
-     "part": "Alt",
-     "type": "youtube",
-     "url": "https://buly.kr/CB7S8gO"
-    },
-    {
-     "part": "Ten",
-     "type": "youtube",
-     "url": "https://buly.kr/6teai7r"
-    },
-    {
      "part": "Sop",
      "type": "mp3",
      "url": "https://naver.me/5nhaHAag"
-    },
-    {
-     "part": "Alt",
-     "type": "mp3",
-     "url": "https://naver.me/xIFkOywh"
-    },
-    {
-     "part": "Ten",
-     "type": "mp3",
-     "url": "https://naver.me/GXFOH6Tq"
     },
     {
      "part": "Sop",
@@ -947,8 +926,28 @@
     },
     {
      "part": "Alt",
+     "type": "youtube",
+     "url": "https://buly.kr/CB7S8gO"
+    },
+    {
+     "part": "Alt",
+     "type": "mp3",
+     "url": "https://naver.me/xIFkOywh"
+    },
+    {
+     "part": "Alt",
      "type": "mp4",
      "url": "https://naver.me/xjYEOaNQ"
+    },
+    {
+     "part": "Ten",
+     "type": "youtube",
+     "url": "https://buly.kr/6teai7r"
+    },
+    {
+     "part": "Ten",
+     "type": "mp3",
+     "url": "https://naver.me/GXFOH6Tq"
     },
     {
      "part": "Ten",
@@ -962,6 +961,7 @@
      "name": "4부 반주 mp3다운로드"
     }
    ],
+   "note": "* 3부합창 반주입니다. 4부는 반주파일만 제공됩니다.\n* '합창' 유튜브는 Sop.파트와 동일합니다.\n* Bas.파트 반주파일은 없습니다.",
    "partNotes": {
     "Bas": "Ten. 및 4부 반주 mp3 파일 참고"
    },
