@@ -12,7 +12,8 @@ html,body{margin:0;padding:0;max-width:100%;overflow-x:hidden}
 img{max-width:100%}
 .verse,.lb .side,ul.ls li,.l2,.bday .bx,.memo,table.tb td,table.tb.w td{overflow-wrap:anywhere}
 body{background:#e9ecef;font-family:'Noto Sans KR','Malgun Gothic',sans-serif;-webkit-text-size-adjust:100%}
-.page{position:relative;width:100%;max-width:560px;margin:0 auto;min-height:100vh;background:#fff;overflow:hidden}
+.page{position:relative;width:100%;max-width:none;margin:0 auto;min-height:100vh;background:#fff;overflow:hidden}
+@media(min-width:1100px){.page{max-width:900px}}
 .bg,.ov{position:absolute;left:0;top:0;right:0;bottom:0;pointer-events:none}
 .bg{background-size:cover;background-position:center;background-repeat:no-repeat}
 .in{position:relative;padding:5px 5px 12px}
@@ -91,6 +92,31 @@ var DEFAL={order:['c','l','c'],time:['c','l'],event:['c','l'],staff:['c','c','c'
 function alOf(t,id,j){return (t.al&&t.al[j])||(DEFAL[id]&&DEFAL[id][j])||'c';}
 var D=null;
 
+/* ---------- 출석관리(zion/data.json) 집계 : att.html의 계산 규칙과 동일 ---------- */
+function calcAtt(S,date){
+  var y=+String(date).slice(0,4);if(!S||!S.members||!S.marks||!y)return null;
+  var t=new Date(Date.UTC(y,0,1));while(t.getUTCDay()!==0)t.setUTCDate(t.getUTCDate()+1);
+  var sun=[];while(t.getUTCFullYear()===y){sun.push(t.toISOString().slice(0,10));t.setUTCDate(t.getUTCDate()+7);}
+  var ORC_FROM='2026-10-18',lastE=null,out=null;
+  for(var i=0;i<sun.length&&sun[i]<=date;i++){
+    var d=sun[i],att={sop:0,alt:0,ten:0,bas:0,orc:0,cb:0,sg:0},enr={sop:0,alt:0,ten:0,bas:0,orc:0,cb:0,sg:0},rec=false;
+    S.members.forEach(function(m){
+      if(m.join&&d<m.join)return;if(m.leave&&d>m.leave)return;
+      var g=m.group==='Singer'?({Sop:'sop',Alt:'alt',Ten:'ten',Bas:'bas'})[m.part]:m.group==='Orc'?'orc':(m.part==='지휘'||m.part==='반주')?'cb':m.part==='수화'?'sg':null;
+      if(!g)return;enr[g]++;
+      if(S.marks[m.id]&&S.marks[m.id][d]===1){att[g]++;rec=true;}
+    });
+    var o=(S.orc&&S.orc[d])||{};
+    var oa=(o.a===''||o.a==null)?null:+o.a,oe=(o.e===''||o.e==null)?null:+o.e;
+    var orcM=d>=ORC_FROM&&enr.orc>0;
+    if(orcM){oa=att.orc;oe=enr.orc;}
+    if(oe!=null)lastE=oe;
+    var orcE=oe!=null?oe:lastE;
+    if(oa!=null&&!orcM)rec=true;
+    if(d===date)out={sop:[att.sop,enr.sop],alt:[att.alt,enr.alt],ten:[att.ten,enr.ten],bas:[att.bas,enr.bas],orc:[oa==null?0:oa,orcE==null?0:orcE],cond:[att.cb,enr.cb],sign:[att.sg,enr.sg],rec:rec};
+  }
+  return out;
+}
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
 function url(u){u=(u||'').trim();if(!u)return '';if(/^(https?:|tel:|mailto:)/i.test(u))return u;return 'https://'+u;}
 function sx(o){o=o||{};return "font-family:'"+(o.f||'Noto Sans KR')+"','Malgun Gothic',sans-serif;font-size:"+(o.s||13)+"px;color:"+(o.c||'#222')+";font-weight:"+(o.b?700:400);}
@@ -212,7 +238,21 @@ function attSec(){
    +'<tr><th class="nw">출석/재적</th>'+vals.map(function(v,i){return '<td class="r1 nw'+sh(i)+'">'+v+'</td>';}).join('')+'</tr>'
    +'<tr><th class="nw">출 석 률</th>'+rts.map(function(v,i){return '<td class="nw'+sh(i)+'">'+v+'</td>';}).join('')+'</tr></table></div>';
 }
-function draw(){
+function draw(){draw0();applyAuto();}
+var ATT=null;
+function attSrc(){return ATT||(ATT=fetch('zion/data.json?'+Date.now(),{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return r.json();}));}
+function applyAuto(){
+  if(!D||D.attAuto===false||!D.hd||!D.hd.date)return;
+  var dt=D.hd.date;
+  attSrc().then(function(S){
+    if(!D||!D.hd||D.hd.date!==dt)return;
+    var r=calcAtt(S,dt);if(!r||!r.rec)return;
+    var a=D.att||(D.att={}),ch=false;
+    ['sop','alt','ten','bas','orc','cond','sign'].forEach(function(k){var v=r[k];if(!a[k]||n(a[k][0])!==v[0]||n(a[k][1])!==v[1]){a[k]=v;ch=true;}});
+    if(ch)draw0();
+  }).catch(function(){ATT=null;});
+}
+function draw0(){
   var s=D.st||{},hd=D.hd||{},bg=D.bg||{};
   var page=document.querySelector('.page');
   page.style.setProperty('--bx',D.box==null?0.5:D.box);
