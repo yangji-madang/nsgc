@@ -32,6 +32,19 @@ input[type=range]{flex:1;min-width:120px}
 button.s{border:1px solid #b9c2d0;background:#f4f6fa;border-radius:5px;padding:4px 9px;font-size:12px;cursor:pointer;font-family:inherit}
 button.s.d{color:#b3261e;border-color:#e3b3b0}
 .tw{overflow-x:auto}
+.al{display:inline-flex;border:1px solid #b9c2d0;border-radius:5px;overflow:hidden;vertical-align:middle}
+.al button{border:0;border-right:1px solid #d5dbe5;background:#f4f6fa;padding:4px 10px;font-size:12px;cursor:pointer;font-family:inherit;color:#333}
+.al button:last-child{border-right:0}
+.al button.on{background:#1f3a5f;color:#fff;font-weight:700}
+.alr{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center;margin:5px 0}
+.alr>label{font-size:12px;color:#555}
+.top button.pub{background:#2e7d32;color:#fff}
+.top button.pub:disabled{opacity:.6}
+.dirty{font-size:12px;padding:3px 9px;border-radius:12px;background:#fff3cd;color:#7a5b00;font-weight:700}
+.dirty.ok{background:#e1f3e3;color:#1b5e20}
+.gh{max-width:1200px;margin:8px auto 0;padding:0 10px}
+.ghb{padding:8px 12px 12px;font-size:13px;line-height:1.6}
+.ghb .row input[type=password]{flex:1;min-width:200px;border:1px solid #c7cdd8;border-radius:5px;padding:5px 7px;font-size:13px}
 .rt{display:flex;flex-wrap:wrap;gap:5px;align-items:center;margin:4px 0}
 .rt input[type=color]{width:34px;height:26px}
 .rth{font-size:11px;color:#777;margin:2px 0 0;line-height:1.5}
@@ -58,6 +71,8 @@ table.et input{min-width:70px}
   <b>시온찬양대 주보 관리</b>
   <a class="pri" href="zion_jubo.html" target="_blank">보기 페이지(발행본)</a>
   <a href="zion_jubo.html?preview=1" target="_blank">작성중 미리보기</a>
+  <span class="dirty" id="dirty">확인 중…</span>
+  <button class="pub" data-act="publish">반영하기</button>
   <button data-act="export">발행파일 저장</button>
   <button data-act="import">파일 불러오기</button>
   <button data-act="loadpub">발행본 불러오기</button>
@@ -65,11 +80,16 @@ table.et input{min-width:70px}
   <input type="file" id="fimport" accept="application/json,.json" hidden>
   <input type="file" id="fimg" accept="image/*" hidden>
   <input type="file" id="fnimg" accept="image/*" multiple hidden>
+  <input type="file" id="fkid" accept="image/*" hidden>
 </div>
-<div class="hint">① 내용을 수정하면 이 브라우저에 자동 저장됩니다. ② <b>발행파일 저장</b>으로 받은 <b>zion_jubo_data.json</b>을 zion_jubo.html과 같은 폴더(nsgc)에 올리면 보기 페이지에 반영됩니다.</div>
+<div class="hint">① 수정한 내용은 이 브라우저에 자동 저장되며, <b>보기 페이지에는 아직 반영되지 않습니다.</b> ② 완성되면 상단 <b>반영하기</b>를 누르면 바로 GitHub에 저장됩니다. 보기 페이지는 1~2분 뒤 바뀝니다. (오른쪽 미리보기는 작성 중인 내용입니다.)</div>
+<div class="gh"><details id="d-gh"><summary>GitHub 연결 (반영하기에 필요)</summary><div class="ghb">
+  <div class="row"><label for="tok">토큰</label><input type="password" id="tok" autocomplete="off" placeholder="github_pat_… (Contents 읽기·쓰기 권한)"> <button class="s" id="tokTest" type="button">연결 확인</button></div>
+  <label style="display:flex;gap:6px;align-items:center"><input type="checkbox" id="tokSave"> 이 기기에 기억 (곡목·출석 관리페이지와 같은 토큰을 함께 사용)</label>
+  <div id="tokMsg" class="rth"></div></div></details></div>
 <div class="wrap">
   <div id="ed"></div>
-  <div class="pv"><div class="cap">미리보기 (휴대폰 폭)</div><iframe id="frame" src="zion_jubo.html?preview=1"></iframe></div>
+  <div class="pv"><div class="cap">미리보기 (휴대폰 폭 · 작성 중, 아직 반영 전)</div><iframe id="frame" src="zion_jubo.html?preview=1"></iframe></div>
 </div>
 <div class="toast" id="toast"></div>
 <script>
@@ -77,9 +97,10 @@ table.et input{min-width:70px}
 var KEY='zion_jubo_draft';
 var FONTS=[['Noto Sans KR','Noto Sans KR (고딕)'],['Nanum Gothic','나눔고딕'],['Nanum Myeongjo','나눔명조'],['Jua','주아체'],['Do Hyeon','도현체'],['Black Han Sans','블랙한산스'],['Malgun Gothic','맑은 고딕']];
 var PARTS=[['sop','Sop.'],['alt','Alt.'],['ten','Ten.'],['bas','Bas.'],['orc','Orc.'],['cond','지휘·반주'],['sign','수어']];
-var SECNAME={order:'찬양·기도 순서',notice:'공지사항',pray:'중보기도',time:'찬양연습 시간·장소',event:'주요 행사',att:'출석 현황',staff:'담당자'};
+var SECNAME={order:'찬양·기도 순서',notice:'공지사항',pray:'중보기도',child:'후원아동',time:'찬양연습 시간·장소',event:'주요 행사',att:'출석 현황',staff:'담당자'};
 
-function def(){return {
+var DEFAL={order:['c','l','c'],time:['c','l'],event:['c','l'],staff:['c','c','c']};
+function def0(){return {
  v:2,
  bg:{img:'',grad:true,mid:0.85,edge:0,zone:200},
  box:0.5,
@@ -95,6 +116,7 @@ function def(){return {
   {id:'order',label:'찬양·기도 순서',side:'',url:'',show:true},
   {id:'notice',label:'공지사항',side:'',url:'',show:true},
   {id:'pray',label:'중보기도',side:'※ 기도제목, 응답내용 전하기 : 파트장님, 윤현철 집사, 구글설문',url:'',show:true},
+  {id:'child',label:'후원아동',side:'',url:'',show:true},
   {id:'time',label:'찬양연습 시간·장소',side:'',url:'',show:true},
   {id:'event',label:'주요 행사',side:'',url:'',show:true},
   {id:'att',label:'출석 현황',side:'',url:'',show:true},
@@ -127,15 +149,17 @@ function def(){return {
    c2:'#1a56c4',imgs:[]},
   pray:{
    t1:'추수감사주일 찬양 연습을 잘 하여, 신앙적으로나 음악적으로 완성도 있는 찬양하게 해 주세요.(전체)\n가족 건강, 주님 계획대로 축복하고 인도해 주세요.(A.강정원)\n찬양을 통해 주님께 영광, 찬양의 기쁨을 누리게 해 주세요.(B.이병재)\n연습~예배시간까지 어려움 없이 찬양으로 잘 섬길 수 있는 건강을 주세요.(A.윤수진)\n말씀과 기도로 성령충만한 한 해가 되게 해 주세요.(A.염선영)\n가족들이 기쁨으로 예배드리고 하나님과 동행하여 친밀함이 깊어지고 겸손히 행하게 해 주세요.(S.김숙)\n자녀들(예서 고1, 예린 중2, 준식 초5)이 주 안에서 건강하게 자라고 가정이 평안하게 해 주세요.(B.윤여훈)',
-   t2:'후원 아동들이 하나님 품 안에서 믿음의 자녀로 자라게 해 주세요.\n알렉산더(엘살바도르, 14세), 데스타(에티오피아, 13세)',
+   t2:'후원 아동들이 하나님 품 안에서 믿음의 자녀로 자라게 해 주세요.',
    c2:'#1a56c4',imgs:[]}
  },
- att:{sop:[13,18],alt:[12,17],ten:[8,8],bas:[11,13],orc:[18,24],cond:[2,2],sign:[2,2]}
+ att:{sop:[13,18],alt:[12,17],ten:[8,8],bas:[11,13],orc:[18,24],cond:[2,2],sign:[2,2]},
+ kids:{per:2,items:[{name:'알렉산더\n엘살바도르, 14세',img:''},{name:'데스타\n에티오피아, 13세',img:''}]}
 };}
 
 /* 이전 형식의 저장본을 현재 형식으로 변환 */
+function def(){return migrate(def0());}
 function migrate(d){
-  var f=def();
+  var f=def0();
   d.tb=d.tb||{};
   ['order','time','event','staff'].forEach(function(k){
     var t=d.tb[k]=d.tb[k]||f.tb[k];
@@ -157,9 +181,23 @@ function migrate(d){
     if(!d.ls[k].imgs)d.ls[k].imgs=[];
   });
   if(!d.att)d.att=f.att;
+  if(!d.kids||!Array.isArray(d.kids.items))d.kids=f.kids;
+  if(d.kids.per==null)d.kids.per=2;
+  if(!d.kids.al)d.kids.al='l';
+  ['order','time','event','staff'].forEach(function(k){
+    var t=d.tb[k];if(!Array.isArray(t.al))t.al=[];
+    t.cols.forEach(function(_,j){if(!t.al[j])t.al[j]=DEFAL[k][j]||'c';});
+  });
+  ['notice','pray'].forEach(function(k){var L=d.ls[k];if(!L.a1)L.a1='l';if(!L.a2)L.a2='l';});
+  d.hd=d.hd||f.hd;if(!d.hd.vAl)d.hd.vAl='c';
+  d.sec.forEach(function(x){if(!x.sal)x.sal='r';});
+  if(!d.sec.some(function(x){return x.id==='child';})){
+    var pi=-1;d.sec.forEach(function(x,i){if(x.id==='pray')pi=i;});
+    d.sec.splice(pi+1,0,{id:'child',label:'후원아동',side:'',url:'',show:true});
+  }
   return d;
 }
-function merged(j){var d=def();for(var k in j)d[k]=j[k];return migrate(d);}
+function merged(j){var d=def0();for(var k in j)d[k]=j[k];return migrate(d);}
 
 var D=null;
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
@@ -185,6 +223,12 @@ function RT(p,ph,rows){
    +TA(p,ph,rows)
    +'<div class="rth">글자를 드래그로 선택한 뒤 버튼을 누르세요. 직접 입력도 가능: [b]굵게[/b] [u]밑줄[/u] [c=#d11a1a]색[/c] [a=https://주소]링크[/a]</div>';
 }
+function AL(p,dv){
+  var v=G(p)||dv||'l';
+  return '<span class="al">'+[['l','좌측'],['c','중앙'],['r','우측']].map(function(o){
+    return '<button type="button" data-act="al" data-p="'+p+'" data-v="'+o[0]+'"'+(v===o[0]?' class="on"':'')+'>'+o[1]+'</button>';
+  }).join('')+'</span>';
+}
 function N(p,mn,mx,st){return '<input type="number" data-p="'+p+'" data-t="num" min="'+mn+'" max="'+mx+'" step="'+(st||1)+'" value="'+esc(G(p))+'">';}
 function C(p){return '<input type="color" data-p="'+p+'" data-t="text" value="'+esc(G(p)||'#000000')+'">';}
 function CK(p,l){return '<label><input type="checkbox" data-p="'+p+'" data-t="chk"'+(G(p)?' checked':'')+'> '+l+'</label>';}
@@ -201,6 +245,7 @@ function tblEd(k){
   if(showHdr)h+='<div class="row">'+CK('tb.'+k+'.hdr','제목행 표시')+'</div>';
   if(usePer)h+='<div class="row"><label>한쪽 행 수</label>'+N('tb.'+k+'.per',1,30)+'<span style="font-size:12px;color:#666">예) 3 → 3개씩 좌·우로 짝지어 표시</span></div>';
   if(lk)h+='<div class="sub">찬양곡명 링크(URL)를 넣으면 보기 페이지에서 곡명이 링크로 표시됩니다.</div>';
+  h+='<div class="alr"><label>열 정렬</label>'+t.cols.map(function(x,j){return '<span>'+esc(x)+' '+AL('tb.'+k+'.al.'+j,DEFAL[k][j])+'</span>';}).join('')+'</div>';
   h+='<div class="tw"><table class="et'+(k==='staff'?' eq':'')+'">';
   if(showHdr){
     h+='<tr>';
@@ -218,8 +263,8 @@ function tblEd(k){
   return h;
 }
 function listEd(k){
-  var h='<div class="sub">일반 내용 (줄바꿈으로 여러 개 입력 · 한 줄이 한 항목)</div>'+RT('ls.'+k+'.t1','일반 공지를 줄바꿈으로 입력',6)
-   +'<div class="sub">구별 내용 (줄바꿈 가능 · 비우면 표시 안 됨)</div>'+RT('ls.'+k+'.t2','일반 내용과 구별되는 내용',6)
+  var h='<div class="sub">일반 내용 (줄바꿈으로 여러 개 입력 · 한 줄이 한 항목)</div>'+RT('ls.'+k+'.t1','일반 공지를 줄바꿈으로 입력',6)+'<div class="alr"><label>일반 내용 정렬</label>'+AL('ls.'+k+'.a1','l')+'</div>'
+   +'<div class="sub">구별 내용 (줄바꿈 가능 · 비우면 표시 안 됨)</div>'+RT('ls.'+k+'.t2','일반 내용과 구별되는 내용',6)+'<div class="alr"><label>구별 내용 정렬</label>'+AL('ls.'+k+'.a2','l')+'</div>'
    +'<div class="row"><label>구별 색상</label>'+C('ls.'+k+'.c2')+'</div>';
   if(k==='notice'){
     h+='<div class="sub">이미지 삽입 (공지사항 맨 아래에 순서대로 표시)</div><div class="imgs">';
@@ -244,15 +289,28 @@ function updCalc(){
   el.innerHTML='Singer 합 : <b>'+c.sg[0]+'/'+c.sg[1]+'</b> ('+rate(c.sg[0],c.sg[1])+')<br>총계 (Singer합+Orc.+지휘·반주+수어) : <b>'+c.tt[0]+'/'+c.tt[1]+'</b> ('+rate(c.tt[0],c.tt[1])+')';
 }
 
+function kidsEd(){
+  var K=D.kids;
+  var h='<div class="row"><label>한 줄 아동 수</label>'+N('kids.per',1,6)+'<span class="rth">사진과 이름이 한 쌍으로 표시되며, 한 줄에 이 수만큼 놓입니다.</span></div><div class="alr"><label>이름 정렬</label>'+AL('kids.al','l')+'</div><div class="imgs">';
+  K.items.forEach(function(k,i){
+    h+='<div class="im" style="width:200px">'+(k.img?'<img class="thumb" src="'+k.img+'">':'<div class="thumb" style="display:flex;align-items:center;justify-content:center;color:#999;font-size:11px">사진 없음</div>')
+     +'<div style="margin:4px 0"><button class="s" data-act="kidimg" data-i="'+i+'">사진 선택</button>'+(k.img?' <button class="s d" data-act="kidimgdel" data-i="'+i+'">사진 삭제</button>':'')+'</div>'
+     +TA('kids.items.'+i+'.name','이름 (줄바꿈 가능)',2)
+     +'<div style="margin-top:4px"><button class="s" data-act="kidup" data-i="'+i+'">↑</button> <button class="s" data-act="kiddn" data-i="'+i+'">↓</button> <button class="s d" data-act="kiddel" data-i="'+i+'">삭제</button></div></div>';
+  });
+  h+='</div><div class="row"><button class="s" data-act="kidadd">+ 아동 추가</button></div>';
+  return h;
+}
 function secEd(sec,i){
   var b='sec.'+i;
   var h='<details id="d-'+sec.id+'"><summary>'+esc(SECNAME[sec.id])+(sec.show===false?' (숨김)':'')+'</summary><div class="bd">'
    +'<div class="row"><button class="s" data-act="secup" data-i="'+i+'">영역 ↑</button><button class="s" data-act="secdn" data-i="'+i+'">영역 ↓</button> '+CK(b+'.show','보기 페이지에 표시')+'</div>'
    +'<div class="sec-head"><div><div class="sub">항목명</div>'+T(b+'.label')+'</div>'
    +'<div><div class="sub">항목명 옆 글 (비우면 공란)</div>'+T(b+'.side','예: ※ 안내 문구')+'</div></div>'
-   +'<div class="sub">항목명 옆 글 링크 URL (선택)</div>'+T(b+'.url','https://...');
+   +'<div class="alr"><label>옆 글 정렬</label>'+AL(b+'.sal','r')+'</div><div class="sub">항목명 옆 글 링크 URL (선택)</div>'+T(b+'.url','https://...');
   if(sec.id==='notice'||sec.id==='pray')h+=listEd(sec.id);
   else if(sec.id==='att')h+=attEd();
+  else if(sec.id==='child')h+=kidsEd();
   else h+=tblEd(sec.id);
   return h+'</div></details>';
 }
@@ -264,7 +322,7 @@ function render(){
    +'<div class="row"><label>특별한 주일</label></div>'+T('hd.special','예: 추수감사주일 (비우면 공란, 좌측 표시)')
    +'<div class="row"><label>제목</label></div>'+T('hd.title')
    +'<div class="row"><label>날짜</label><input type="date" data-p="hd.date" data-t="text" value="'+esc(D.hd.date)+'"></div>'
-   +'<div class="row"><label>말씀 띠</label></div>'+RT('hd.verse','제목 아래 말씀 (비우면 표시 안 됨)',2)
+   +'<div class="row"><label>말씀 띠</label></div>'+RT('hd.verse','제목 아래 말씀 (비우면 표시 안 됨)',2)+'<div class="alr"><label>말씀 정렬</label>'+AL('hd.vAl','c')+'</div>'
    +'<div class="row"><label>말씀 배경색</label>'+C('hd.verseBg')+'</div></div></details>';
   h+='<details id="d-bg"><summary>배경 사진</summary><div class="bd">'
    +'<div class="row">'+(D.bg.img?'<img class="thumb" src="'+D.bg.img+'">':'<span style="color:#888">등록된 배경 없음</span>')
@@ -290,7 +348,7 @@ function render(){
 var tm=null;
 function save(){
   try{localStorage.setItem(KEY,JSON.stringify(D));}catch(e){toast('저장 공간이 부족합니다. 이미지를 줄여 주세요.');}
-  clearTimeout(tm);tm=setTimeout(push,150);
+  clearTimeout(tm);tm=setTimeout(push,150);updDirty();
 }
 function push(){
   var f=document.getElementById('frame');
@@ -351,6 +409,14 @@ document.addEventListener('click',function(e){
   else if(a==='imgup'){mv(D.ls.notice.imgs,i,-1);}
   else if(a==='imgdn'){mv(D.ls.notice.imgs,i,1);}
   else if(a==='imgdel'){D.ls.notice.imgs.splice(i,1);}
+  else if(a==='al'){S(b.dataset.p,b.dataset.v);}
+  else if(a==='kidadd'){D.kids.items.push({name:'',img:''});}
+  else if(a==='kiddel'){D.kids.items.splice(i,1);}
+  else if(a==='kidup'){mv(D.kids.items,i,-1);}
+  else if(a==='kiddn'){mv(D.kids.items,i,1);}
+  else if(a==='kidimgdel'){D.kids.items[i].img='';}
+  else if(a==='kidimg'){window._kid=i;document.getElementById('fkid').click();chg=false;}
+  else if(a==='publish'){publish();chg=false;}
   else if(a==='addnimg'){document.getElementById('fnimg').click();chg=false;}
   else if(a==='pickimg'){document.getElementById('fimg').click();chg=false;}
   else if(a==='clearimg'){D.bg.img='';}
@@ -392,6 +458,67 @@ document.getElementById('fnimg').addEventListener('change',function(e){
   p.then(function(){render();save();toast('이미지를 추가했습니다.');}).catch(function(){toast('이미지를 읽을 수 없습니다.');});
 });
 
+document.getElementById('fkid').addEventListener('change',function(e){
+  var f=e.target.files[0];e.target.value='';if(!f)return;
+  readImg(f,320).then(function(src){D.kids.items[window._kid].img=src;render();save();toast('사진을 적용했습니다.');}).catch(function(){toast('이미지를 읽을 수 없습니다.');});
+});
+
+/* ---------- 반영(GitHub 저장) ---------- */
+var REPO='yangji-madang/nsgc',FPATH='zion_jubo_data.json',BRANCH='main',TK='choir-gh-token-v1';
+var BASE=null;
+function canon(o){return JSON.stringify(o,function(k,v){if(v&&typeof v==='object'&&!Array.isArray(v)){var r={};Object.keys(v).sort().forEach(function(x){r[x]=v[x];});return r;}return v;});}
+function updDirty(){
+  var el=document.getElementById('dirty');if(!el)return;
+  var ok=BASE!==null&&BASE===canon(D);
+  el.textContent=ok?'반영됨':'● 아직 반영 안 됨';
+  el.className='dirty'+(ok?' ok':'');
+}
+function getTok(){var t=document.getElementById('tok').value.trim();if(t)return t;try{return localStorage.getItem(TK)||'';}catch(e){return '';}}
+function b64(x){return btoa(unescape(encodeURIComponent(x)));}
+function unb64(x){return decodeURIComponent(escape(atob(x.replace(/\n/g,''))));}
+function ghGet(tok){
+  return fetch('https://api.github.com/repos/'+REPO+'/contents/'+FPATH+'?ref='+BRANCH+'&t='+Date.now(),{headers:{Authorization:'Bearer '+tok,Accept:'application/vnd.github+json'},cache:'no-store'})
+   .then(function(r){if(r.status===404)return null;if(!r.ok)throw new Error('조회 실패 '+r.status);return r.json();});
+}
+function loadPublished(){
+  var tok=getTok();
+  var viaApi=tok?ghGet(tok).then(function(g){return g&&g.content?JSON.parse(unb64(g.content)):null;}).catch(function(){return null;}):Promise.resolve(null);
+  return viaApi.then(function(j){
+    if(j)return j;
+    return fetch('zion_jubo_data.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).catch(function(){return null;});
+  });
+}
+function remember(tok){try{if(document.getElementById('tokSave').checked)localStorage.setItem(TK,tok);}catch(e){}}
+async function publish(){
+  var tok=getTok();
+  if(!tok){document.getElementById('d-gh').open=true;toast('GitHub 토큰을 먼저 입력해 주세요.');return;}
+  var btn=document.querySelector('[data-act=publish]'),old=btn.textContent;
+  btn.disabled=true;btn.textContent='반영 중…';
+  try{
+    var cur=await ghGet(tok);
+    var day=new Date().toLocaleDateString('sv-SE',{timeZone:'Asia/Seoul'});
+    var body={message:'주보 갱신 '+day,content:b64(JSON.stringify(D)),branch:BRANCH};
+    if(cur)body.sha=cur.sha;
+    var p=await fetch('https://api.github.com/repos/'+REPO+'/contents/'+FPATH,{method:'PUT',headers:{Authorization:'Bearer '+tok,Accept:'application/vnd.github+json','Content-Type':'application/json'},body:JSON.stringify(body)});
+    if(!p.ok)throw new Error('저장 실패 '+p.status);
+    remember(tok);BASE=canon(D);updDirty();
+    toast('반영했습니다. 보기 페이지에는 1~2분 뒤 나타납니다.',5000);
+  }catch(e){toast('반영하지 못했습니다 ('+e.message+'). 토큰 권한(Contents 읽기·쓰기)을 확인해 주세요.',6000);}
+  finally{btn.disabled=false;btn.textContent=old;}
+}
+try{document.getElementById('tok').value=localStorage.getItem(TK)||'';document.getElementById('tokSave').checked=!!localStorage.getItem(TK);}catch(e){}
+document.getElementById('tokSave').onchange=function(){try{var t=document.getElementById('tok').value.trim();if(this.checked&&t)localStorage.setItem(TK,t);else localStorage.removeItem(TK);}catch(e){}};
+document.getElementById('tok').onchange=function(){if(document.getElementById('tokSave').checked){try{localStorage.setItem(TK,this.value.trim());}catch(e){}}};
+document.getElementById('tokTest').onclick=function(){
+  var t=getTok(),m=document.getElementById('tokMsg');if(!t){m.textContent='토큰을 입력하세요.';return;}
+  m.textContent='확인 중…';
+  fetch('https://api.github.com/repos/'+REPO,{headers:{Authorization:'Bearer '+t,Accept:'application/vnd.github+json'}})
+   .then(function(r){if(!r.ok)throw new Error(r.status);return r.json();})
+   .then(function(j){m.textContent=(j.permissions&&j.permissions.push)?'✅ 연결됨 (쓰기 가능)':'⚠️ 연결됐지만 쓰기 권한이 없습니다';})
+   .catch(function(e){m.textContent='❌ 연결 실패 ('+e.message+') — 토큰을 확인하세요';});
+};
+window.addEventListener('beforeunload',function(e){if(BASE===null||BASE!==canon(D)){e.preventDefault();e.returnValue='';}});
+
 /* ---------- 파일 입출력 ---------- */
 function exportJson(){
   var blob=new Blob([JSON.stringify(D)],{type:'application/json'});
@@ -418,7 +545,10 @@ function loadPub(){
   else D=def();
   render();
   save();
-  if(!raw){fetch('zion_jubo_data.json?'+Date.now()).then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(j){D=merged(j);render();save();}).catch(function(){});}
+  loadPublished().then(function(j){
+    if(j){BASE=canon(merged(j));if(!raw){D=merged(j);render();save();}}
+    updDirty();
+  });
 })();
 })();
 </script>
