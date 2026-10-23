@@ -185,6 +185,8 @@ function migrate(d){
   if(d.kids.per==null)d.kids.per=2;
   if(!d.kids.al)d.kids.al='l';
   if(d.tb.event&&(d.tb.event.bw==null||d.tb.event.bw===''))d.tb.event.bw=1;
+  if(d.tb.order.memo==null)d.tb.order.memo='';
+  if(!d.tb.order.mal)d.tb.order.mal='l';
   ['order','time','event','staff'].forEach(function(k){
     var t=d.tb[k];if(!Array.isArray(t.al))t.al=[];
     t.cols.forEach(function(_,j){if(!t.al[j])t.al[j]=DEFAL[k][j]||'c';});
@@ -262,6 +264,7 @@ function tblEd(k){
     h+='<td class="act" style="white-space:nowrap"><button class="s" data-act="rowup" data-k="'+k+'" data-i="'+i+'">↑</button> <button class="s" data-act="rowdn" data-k="'+k+'" data-i="'+i+'">↓</button> <button class="s d" data-act="delrow" data-k="'+k+'" data-i="'+i+'">삭제</button></td></tr>';
   });
   h+='</table></div><div class="row"><button class="s" data-act="addrow" data-k="'+k+'">+ 행 추가</button></div>';
+  if(k==='order')h+='<div class="sub">표 아래 글 (비우면 표시되지 않음)</div>'+RT('tb.order.memo','찬양·기도 순서 표 아래에 표시할 글',2)+'<div class="alr"><label>표 아래 글 정렬</label>'+AL('tb.order.mal','l')+'</div>';
   return h;
 }
 function listEd(k){

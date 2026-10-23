@@ -34,6 +34,7 @@ table.tb td.lf,table.tb td.al-l{text-align:left}
 table.tb td.al-c{text-align:center}
 table.tb td.al-r{text-align:right}
 ul.ls.nm li{padding-left:0}
+.memo{margin:4px 0 1px;line-height:1.45;word-break:keep-all}
 .bday{display:flex;gap:6px;align-items:baseline;margin:3px 0 2px;line-height:1.5;word-break:keep-all}
 .bday .bx{flex:1 1 0;min-width:0}
 .bday .bt{display:inline-block;font-weight:700;color:#c2255c;background:#fde8ef;border-radius:10px;padding:0 8px;flex:0 0 auto;font-size:.92em}
@@ -235,6 +236,10 @@ function draw(){
     else if(sec.id==='notice'||sec.id==='pray')inner=listSec(sec.id);
     else if(sec.id==='child')inner=kidsSec();
     else inner=pairSec(sec.id);
+    if(sec.id==='order'){
+      var mm=((D.tb&&D.tb.order&&D.tb.order.memo)||'').trim();
+      if(mm)inner+='<div class="memo" style="text-align:'+(AM[D.tb.order.mal||'l']||'left')+'">'+rich(mm).replace(/\n/g,'<br>')+'</div>';
+    }
     if(!inner)return;
     var side='';
     if((sec.side||'').trim()){
