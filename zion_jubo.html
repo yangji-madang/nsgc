@@ -34,6 +34,9 @@ table.tb td.lf,table.tb td.al-l{text-align:left}
 table.tb td.al-c{text-align:center}
 table.tb td.al-r{text-align:right}
 ul.ls.nm li{padding-left:0}
+.bday{display:flex;gap:6px;align-items:baseline;margin:3px 0 2px;line-height:1.5;word-break:keep-all}
+.bday .bx{flex:1 1 0;min-width:0}
+.bday .bt{display:inline-block;font-weight:700;color:#c2255c;background:#fde8ef;border-radius:10px;padding:0 8px;flex:0 0 auto;font-size:.92em}
 ul.ls.nm li::before{content:none}
 table.tb.fc{width:auto}
 table.tb.kids{table-layout:fixed;width:100%}
@@ -182,6 +185,8 @@ function listSec(id){
   var lines=(L.t1||'').split('\n').map(function(s){return s.trim();}).filter(Boolean);
   var h='';
   if(lines.length)h+='<ul class="ls'+((L.a1||'l')!=='l'?' nm':'')+'" style="text-align:'+(AM[L.a1||'l']||'left')+'">'+lines.map(function(s){return '<li>'+rich(s)+'</li>';}).join('')+'</ul>';
+  var bd=(L.bd||'').trim();
+  if(id==='notice'&&bd)h+='<div class="bday"><span class="bt">생일을 축하합니다</span><span class="bx" style="text-align:'+(AM[L.a3||'l']||'left')+'">'+rich(bd).replace(/\n/g,'<br>')+'</span></div>';
   var t2=(L.t2||'').replace(/^\s*\n+/,'').replace(/\s+$/,'');
   if(t2.trim()){var c=L.c2||'#1a56c4';h+='<div class="l2" style="color:'+esc(c)+';border-color:'+esc(c)+';background:'+esc(c)+'14;text-align:'+(AM[L.a2||'l']||'left')+'">'+rich(t2)+'</div>';}
   var ims=(L.imgs||[]).filter(function(m){return m&&m.src;});
