@@ -14,6 +14,9 @@ img{max-width:100%}
 body{background:#e9ecef;font-family:'Noto Sans KR','Malgun Gothic',sans-serif;-webkit-text-size-adjust:100%}
 .page{position:relative;width:100%;max-width:none;margin:0 auto;min-height:100vh;background:#fff;overflow:hidden}
 @media(min-width:1100px){.page{max-width:900px}}
+.sv{position:fixed;right:10px;bottom:10px;z-index:50;border:0;border-radius:20px;background:rgba(26,86,196,.92);color:#fff;font:700 13px 'Noto Sans KR','Malgun Gothic',sans-serif;padding:9px 14px;box-shadow:0 2px 8px rgba(0,0,0,.3);cursor:pointer}
+.sv[disabled]{opacity:.6}
+.page.cap{min-height:0!important}
 .bg,.ov{position:absolute;left:0;top:0;right:0;bottom:0;pointer-events:none}
 .bg{background-size:cover;background-position:center;background-repeat:no-repeat}
 .in{position:relative;padding:5px 5px 12px}
@@ -82,6 +85,8 @@ ul.ls li::before{content:"–";position:absolute;left:0}
 </head>
 <body>
 <div class="page"><div id="bg" class="bg"></div><div id="ov" class="ov"></div><div class="in" id="app"><div class="msg">주보를 불러오는 중입니다…</div></div></div>
+<button id="sv" class="sv" type="button" style="display:none">🖼 이미지 저장</button>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
 (function(){
 var KEY='zion_jubo_draft';
@@ -308,6 +313,30 @@ function fit(){
     if(sc<1){i.style.width=m[1]+'px';i.style.transformOrigin='0 0';i.style.transform='scale('+sc+')';w.style.height=(i.offsetHeight*sc)+'px';}
   }
 }
+
+function fname(){var d=String((D&&D.hd&&D.hd.date)||'').replace(/\D/g,'');
+  if(d.length>=8)d=d.slice(2,8);else if(d.length<6){var t=new Date();d=String(t.getFullYear()).slice(2)+('0'+(t.getMonth()+1)).slice(-2)+('0'+t.getDate()).slice(-2);}else d=d.slice(0,6);
+  return '주보-'+d+'.png';}
+function saveImg(){
+  var b=document.getElementById('sv'),pg=document.querySelector('.page');
+  if(!window.html2canvas){alert('이미지 저장 모듈을 불러오지 못했습니다. 인터넷 연결을 확인해 주세요.');return;}
+  b.disabled=true;b.textContent='저장 중…';b.style.display='none';
+  pg.classList.add('cap');
+  var sc=Math.max(2,Math.min(3,window.devicePixelRatio||2));
+  setTimeout(function(){
+    window.html2canvas(pg,{scale:sc,useCORS:true,backgroundColor:'#ffffff',scrollX:0,scrollY:-window.scrollY,windowWidth:document.documentElement.clientWidth}).then(function(c){
+      pg.classList.remove('cap');b.style.display='';b.disabled=false;b.textContent='🖼 이미지 저장';
+      c.toBlob(function(bl){
+        var a=document.createElement('a');a.href=URL.createObjectURL(bl);a.download=fname();
+        document.body.appendChild(a);a.click();document.body.removeChild(a);
+        setTimeout(function(){URL.revokeObjectURL(a.href);},4000);
+      },'image/png');
+    }).catch(function(){
+      pg.classList.remove('cap');b.style.display='';b.disabled=false;b.textContent='🖼 이미지 저장';
+      alert('이미지 저장에 실패했습니다. (외부 사이트 이미지는 저장이 막힐 수 있습니다)');
+    });
+  },60);
+}
 function msg(t){document.getElementById('app').innerHTML='<div class="msg">'+t+'</div>';}
 function draft(){try{var r=localStorage.getItem(KEY);return r?JSON.parse(r):null;}catch(e){return null;}}
 function start(){
@@ -333,6 +362,7 @@ window.addEventListener('orientationchange',function(){setTimeout(function(){if(
 window.addEventListener('load',function(){setTimeout(function(){if(D)fit();},400);setTimeout(function(){if(D)fit();},1500);});
 if(window.ResizeObserver){var _pw=0;new ResizeObserver(function(es){var w=Math.round(es[0].contentRect.width);if(w!==_pw){_pw=w;if(D)fit();}}).observe(document.querySelector('.page'));}
 if(document.fonts&&document.fonts.ready){document.fonts.ready.then(function(){if(D)fit();});}
+(function(){var b=document.getElementById('sv');if(!PREVIEW){b.style.display='';b.addEventListener('click',saveImg);}})();
 start();
 })();
 </script>
