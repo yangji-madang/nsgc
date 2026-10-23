@@ -189,7 +189,7 @@ function migrate(d){
     var t=d.tb[k];if(!Array.isArray(t.al))t.al=[];
     t.cols.forEach(function(_,j){if(!t.al[j])t.al[j]=DEFAL[k][j]||'c';});
   });
-  ['notice','pray'].forEach(function(k){var L=d.ls[k];if(!L.a1)L.a1='l';if(!L.a2)L.a2='l';});
+  ['notice','pray'].forEach(function(k){var L=d.ls[k];if(!L.a1)L.a1='l';if(!L.a2)L.a2='l';if(!L.a3)L.a3='l';if(L.bd==null)L.bd='';});
   d.hd=d.hd||f.hd;if(!d.hd.vAl)d.hd.vAl='c';
   d.sec.forEach(function(x){if(!x.sal)x.sal='r';});
   if(!d.sec.some(function(x){return x.id==='child';})){
@@ -266,6 +266,7 @@ function tblEd(k){
 }
 function listEd(k){
   var h='<div class="sub">일반 내용 (줄바꿈으로 여러 개 입력 · 한 줄이 한 항목)</div>'+RT('ls.'+k+'.t1','일반 공지를 줄바꿈으로 입력',6)+'<div class="alr"><label>일반 내용 정렬</label>'+AL('ls.'+k+'.a1','l')+'</div>'
+   +(k==='notice'?'<div class="sub">생일을 축하합니다 (비우면 이 줄은 표시되지 않음)</div>'+RT('ls.notice.bd','예: 조경식 집사님(18, 주일)',2)+'<div class="alr"><label>생일 줄 정렬</label>'+AL('ls.notice.a3','l')+'</div>':'')
    +'<div class="sub">구별 내용 (줄바꿈 가능 · 비우면 표시 안 됨)</div>'+RT('ls.'+k+'.t2','일반 내용과 구별되는 내용',6)+'<div class="alr"><label>구별 내용 정렬</label>'+AL('ls.'+k+'.a2','l')+'</div>'
    +'<div class="row"><label>구별 색상</label>'+C('ls.'+k+'.c2')+'</div>';
   if(k==='notice'){
