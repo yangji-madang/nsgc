@@ -285,7 +285,7 @@ function listEd(k){
 var ATTMSG='';
 function attEd(){
   var h='<div class="row">'+CK('attAuto','출석관리(att.html) 데이터로 자동 입력')+'<button class="s" type="button" data-act="attreload">지금 불러오기</button></div><div class="rth" id="attMsg">'+esc(ATTMSG)+'</div>'
-   +'<div class="rth">주보 날짜의 출석을 att.html 데이터에서 가져옵니다. 자동 입력을 끄면 직접 입력할 수 있습니다.</div>'
+   +'<div class="rth">주보 날짜 1주 전의 출석을 att.html 데이터에서 가져옵니다. 자동 입력을 끄면 직접 입력할 수 있습니다.</div>'
    +'<div class="sub">출석 / 재적 (분자 / 분모)'+(D.attAuto?' — 자동 입력 중(수정 불가)':' 입력')+'</div><div class="tw"><table class="et"><tr><th>파트</th><th>출석</th><th>재적</th></tr>';
   PARTS.forEach(function(p){
     h+='<tr><td>'+p[1]+'</td><td>'+N('att.'+p[0]+'.0',0,999)+'</td><td>'+N('att.'+p[0]+'.1',0,999)+'</td></tr>';
@@ -295,6 +295,7 @@ function attEd(){
   return h;
 }
 /* ---------- 출석관리(zion/data.json) 집계 : att.html의 계산 규칙과 동일 ---------- */
+function pw(s){var m=/^(\d{4})-(\d{2})-(\d{2})/.exec(String(s));if(!m)return s;var t=new Date(Date.UTC(+m[1],+m[2]-1,+m[3]-7));return t.toISOString().slice(0,10);}
 function calcAtt(S,date){
   var y=+String(date).slice(0,4);if(!S||!S.members||!S.marks||!y)return null;
   var t=new Date(Date.UTC(y,0,1));while(t.getUTCDay()!==0)t.setUTCDate(t.getUTCDate()+1);
@@ -335,15 +336,15 @@ function refreshAtt(force){
   setAttMsg('att.html 데이터를 불러오는 중…');
   loadAttSrc(force).then(function(S){
     if(D.hd.date!==dt)return;
-    var r=calcAtt(S,dt);
-    if(!r||!r.rec){setAttMsg('⚠️ '+dt+' 출석 기록이 없어 기존 값을 유지합니다.');return;}
+    var r=calcAtt(S,pw(dt));
+    if(!r||!r.rec){setAttMsg('⚠️ '+pw(dt)+'(주보 날짜 1주 전) 출석 기록이 없어 기존 값을 유지합니다.');return;}
     ['sop','alt','ten','bas','orc','cond','sign'].forEach(function(k){
       D.att[k]=r[k];
       var i0=document.querySelector('input[data-p="att.'+k+'.0"]'),i1=document.querySelector('input[data-p="att.'+k+'.1"]');
       if(i0)i0.value=r[k][0];if(i1)i1.value=r[k][1];
     });
     updCalc();save();
-    setAttMsg('✅ '+dt+' 기준 출석관리(att.html) 데이터로 자동 입력했습니다.');
+    setAttMsg('✅ '+pw(dt)+'(주보 날짜 1주 전) 기준 출석관리(att.html) 데이터로 자동 입력했습니다.');
   }).catch(function(e){setAttMsg('⚠️ att.html 데이터를 불러오지 못했습니다 ('+(e&&e.message?e.message:'오류')+'). 기존 값을 유지합니다.');});
 }
 function updCalc(){
