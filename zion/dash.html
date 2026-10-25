@@ -825,9 +825,9 @@ function render(){
   const rank=arr=>arr.filter(x=>x.first&&x.r!=null).sort((a,b)=>b.r-a.r||collator.compare(nkey(a.m),nkey(b.m)));
   const chipT=x=>`<span class="chip"><b>${esc(x.m.name)}</b> <em>${AB(x.g)}</em> <i>${(x.r*100).toFixed(1)}%</i></span>`;
   const none='<span class="note">대상 대원이 없습니다.</span>';
-  const topAll=rank(live).slice(0,10);
+  const rk0=rank(live),cut10=rk0[9]?rk0[9].r:null,topAll=cut10==null?rk0:rk0.filter((x,i)=>i<10||Math.abs(x.r-cut10)<1e-9);
   const topRow=`<div class="toprow">
-    <div class="panel"><h2>전체 Top 10 <small>${perfect.length?`개근 ${perfect.length}명`:'개근 대원 없음'} · 동률은 이름 가나다순</small></h2><div class="chips col col2">${topAll.map(chipT).join('')||none}</div></div>
+    <div class="panel"><h2>전체 Top 10 <small>${perfect.length?`개근 ${perfect.length}명`:'개근 대원 없음'} · 동률은 이름 가나다순</small></h2><div class="chips col col2" style="grid-template-rows:repeat(${Math.max(5,Math.ceil(topAll.length/2))},auto)">${topAll.map(chipT).join('')||none}</div></div>
     ${PARTS.map(p=>`<div class="panel"><h2 style="border-left-color:${cv(p)}">${AB(p)} Top 5</h2><div class="chips col">${rank(live.filter(x=>x.g===p)).slice(0,5).map(chipT).join('')||none}</div></div>`).join('')}</div>`;
   /* 연속 결석: 2~4주 / 5~8주 / 9주 이상 */
   const watch=live.filter(x=>x.tail>=2).sort((a,b)=>b.tail-a.tail||collator.compare(nkey(a.m),nkey(b.m)));
