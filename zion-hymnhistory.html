@@ -691,11 +691,11 @@ function renderDash(){
     var c=yc(g);
     return'<div class="mr"><div class="mt" title="'+esc(g.title)+'">'+esc(g.title)+'</div>'+years.map(function(y){var n=c[y]||0;return n?'<button type="button" class="mc c'+Math.min(n,3)+'" data-g="'+gi+'" data-y="'+y+'" style="--i:'+(ix%12)+'" aria-label="'+esc(g.title)+' '+y+'년 '+n+'회">'+n+'</button>':'<span class="me">·</span>';}).join('')+'<b class="ms">'+g.dates.length+'회</b></div>';
   }
-  h+='<div class="dgrid"><div class="dcol"><div class="panel pSongs"><h2>곡별 총 연주 횟수</h2><p class="sub">한 번이라도 찬양한 '+played.length+'곡 · 책이 달라도 곡명이 같으면 같은 곡으로 합산</p><div class="pbar"><input type="search" id="qB" class="qin" placeholder="곡명 검색" autocomplete="off" aria-label="곡명 검색"><button type="button" class="btn sb" id="sB">곡명 ⇅</button><span class="rc" id="rcB"></span></div><div id="songBars"></div><button type="button" class="btn more" id="btnMore" hidden></button></div>'+
+  h+='<div class="dgrid"><div class="dcol"><div class="panel pSongs"><h2>곡별 총 연주 횟수</h2><p class="sub">한 번이라도 찬양한 '+played.length+'곡 · 책이 달라도 곡명이 같으면 같은 곡으로 합산</p><div class="pbar"><input type="search" id="qB" class="qin" placeholder="곡명 검색" autocomplete="off" aria-label="곡명 검색"><button type="button" class="btn sb" id="sB">곡명 ⇅</button><button type="button" class="btn sb" id="cB">횟수 ⇅</button><span class="rc" id="rcB"></span></div><div id="songBars"></div><button type="button" class="btn more" id="btnMore" hidden></button></div>'+
     '<div class="panel pBook"><h2>책별 연주 횟수</h2><p class="sub">찬양한 곡이 수록된 책 기준</p><div id="bookBars"></div></div></div>'+
     '<div class="dcol"><div class="panel pMx"><h2>연도별 찬양 차트</h2><p class="sub">해마다 몇 번 불렀는지 · 숫자를 누르면 날짜와 영상이 나옵니다</p>'+
-    '<div class="pbar"><input type="search" id="qM" class="qin" placeholder="곡명 검색" autocomplete="off" aria-label="곡명 검색"><button type="button" class="btn sb" id="sM">곡명 ⇅</button><span class="rc" id="rcM"></span></div>'+
-    '<div class="mxwrap"><div class="mx" id="mx" style="--n:'+years.length+'"><div class="mr mh"><div class="mt sortable" id="mhName" title="눌러서 곡명 정렬">곡명 ⇅</div>'+years.map(function(y){return'<div class="my">'+y+'</div>';}).join('')+'<div class="ms">합계</div></div><div id="mxRows"></div></div></div>'+
+    '<div class="pbar"><input type="search" id="qM" class="qin" placeholder="곡명 검색" autocomplete="off" aria-label="곡명 검색"><button type="button" class="btn sb" id="sM">곡명 ⇅</button><button type="button" class="btn sb" id="cM">횟수 ⇅</button><span class="rc" id="rcM"></span></div>'+
+    '<div class="mxwrap"><div class="mx" id="mx" style="--n:'+years.length+'"><div class="mr mh"><div class="mt sortable" id="mhName" title="눌러서 곡명 정렬">곡명 ⇅</div>'+years.map(function(y){return'<div class="my">'+y+'</div>';}).join('')+'<div class="ms sortable" id="mhCnt" title="눌러서 횟수 정렬">합계 ⇅</div></div><div id="mxRows"></div></div></div>'+
     '<button type="button" class="btn more" id="btnMxMore" hidden></button></div></div></div>';
   root.innerHTML=h;
 
@@ -704,31 +704,34 @@ function renderDash(){
   $('#bookBars').innerHTML=bks.map(function(b,ix){return'<div class="bk"><div>'+tag(b)+'</div><div class="bbar"><i style="--w:'+(bm[b].n/bmx*100)+'%;--i:'+ix+'"></i></div><small><b>'+bm[b].n+'회</b> · '+bm[b].c+'곡</small></div>';}).join('');
 
   /* 곡명 검색·정렬 (패널별로 따로 동작) */
-  var st=window.__dst=window.__dst||{b:{q:'',s:null,x:false},m:{q:'',s:null,x:false}};
+  var st=window.__dst=window.__dst||{b:{q:'',s:null,k:'t',x:false},m:{q:'',s:null,k:'t',x:false}};
   function list(S){
     var a=sorted.slice(),q=norm(S.q);
     if(q)a=a.filter(function(g){return norm(g.title).indexOf(q)>=0;});
-    if(S.s)a.sort(function(x,y){return x.title.localeCompare(y.title,'ko')*(S.s==='asc'?1:-1);});
+    if(S.s&&S.k==='c')a.sort(function(x,y){return (x.dates.length-y.dates.length||x.title.localeCompare(y.title,'ko'))*(S.s==='asc'?1:-1);});
+    else if(S.s)a.sort(function(x,y){return x.title.localeCompare(y.title,'ko')*(S.s==='asc'?1:-1);});
     return a;
   }
-  function arrow(S){return S.s==='asc'?' ▲':S.s==='desc'?' ▼':' ⇅';}
+  function arrow(S,k){return S.s&&S.k===k?(S.s==='asc'?' ▲':' ▼'):' ⇅';}
   function regrow(box){$$(box+' .bbar i').forEach(function(i){var w=i.style.getPropertyValue('--w');i.style.width='0';void i.offsetWidth;i.style.width=w;});}
-  function draw(S,box,more,rc,sb,lim,rowFn,animate){
+  function draw(S,box,more,rc,sb,cb,lim,rowFn,animate){
     var rows=list(S),all=S.q||S.x,vis=all?rows:rows.slice(0,lim);
     $(box).innerHTML=vis.length?vis.map(rowFn).join(''):'<div class="nores">검색 결과가 없습니다.</div>';
     var m=$(more);m.hidden=!!all||rows.length<=lim;m.textContent='나머지 '+(rows.length-lim)+'곡 더 보기';
     $(rc).textContent=S.q?rows.length+'곡 검색됨':'';
-    $(sb).textContent='곡명'+arrow(S);
+    $(sb).textContent='곡명'+arrow(S,'t');$(cb).textContent='횟수'+arrow(S,'c');
     if(animate&&box==='#songBars')regrow(box);
   }
-  function drawBars(a){draw(st.b,'#songBars','#btnMore','#rcB','#sB',LIM,brow,a);}
-  function drawMx(a){draw(st.m,'#mxRows','#btnMxMore','#rcM','#sM',MXLIM,mrow,a);$('#mhName').textContent='곡명'+arrow(st.m);}
-  function cyc(S){S.s=S.s===null?'asc':S.s==='asc'?'desc':null;}
+  function drawBars(a){draw(st.b,'#songBars','#btnMore','#rcB','#sB','#cB',LIM,brow,a);}
+  function drawMx(a){draw(st.m,'#mxRows','#btnMxMore','#rcM','#sM','#cM',MXLIM,mrow,a);$('#mhName').textContent='곡명'+arrow(st.m,'t');$('#mhCnt').textContent='합계'+arrow(st.m,'c');}
+  function cyc(S,k){if(S.k!==k||S.s===null){S.k=k;S.s='asc';}else S.s=S.s==='asc'?'desc':null;}
   $('#qB').value=st.b.q;$('#qM').value=st.m.q;
   $('#qB').oninput=function(){st.b.q=this.value;drawBars(true);};
   $('#qM').oninput=function(){st.m.q=this.value;closePop();drawMx(true);};
-  $('#sB').onclick=function(){cyc(st.b);drawBars(true);};
-  $('#sM').onclick=$('#mhName').onclick=function(){cyc(st.m);closePop();drawMx(true);};
+  $('#sB').onclick=function(){cyc(st.b,'t');drawBars(true);};
+  $('#cB').onclick=function(){cyc(st.b,'c');drawBars(true);};
+  $('#sM').onclick=$('#mhName').onclick=function(){cyc(st.m,'t');closePop();drawMx(true);};
+  $('#cM').onclick=$('#mhCnt').onclick=function(){cyc(st.m,'c');closePop();drawMx(true);};
   $('#btnMore').onclick=function(){st.b.x=true;drawBars(true);};
   $('#btnMxMore').onclick=function(){st.m.x=true;drawMx(true);};
 
