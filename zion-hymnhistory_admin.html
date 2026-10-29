@@ -219,6 +219,13 @@ body.edit .btn.edit-only{display:inline-block}
 .my,.me{text-align:center}
 .me{color:#c4bfae}
 .mt.mh{position:relative}
+.mr.mf{border-bottom:0;border-top:2px solid var(--gold);background:#f7f1de;font-weight:700;color:var(--navy8);position:sticky;bottom:0}
+.mf .mt{font-size:13px}
+.mf .my{font-size:13px;font-variant-numeric:tabular-nums;border-radius:8px;padding:2px 0;margin:2px 1px;line-height:1.2}
+.mf .my.warn{background:#f6c27a;color:#5a2d00;box-shadow:inset 0 0 0 1px #d9892b}
+.mf .my.warn small{display:block;font-size:9.5px;font-weight:700;letter-spacing:-.02em}
+.mfnote{margin:8px 2px 0;font-size:12.5px;color:var(--ink2)}
+.mfnote .wb{display:inline-block;padding:0 6px;border-radius:7px;background:#f6c27a;color:#5a2d00;font-weight:700}
 .mt .rz{background:none}
 .mt .rz::after{background:rgba(160,128,60,.55)}
 .ms{text-align:center;font-weight:700;color:var(--navy8);font-variant-numeric:tabular-nums;font-size:13px}
@@ -314,6 +321,9 @@ dialog::backdrop{background:rgba(10,19,48,.55)}
   .mx{--mtw:100px;min-width:calc(var(--mtw) + 44px + var(--n)*25px)}
   .mr{grid-template-columns:var(--mtw) 44px repeat(var(--n),minmax(25px,1fr))}
   .mc{min-width:22px;padding:0 4px;font-size:12px}
+  .mf .my{font-size:11.5px;margin:2px 0}
+  .mf .my .wi{display:none}
+  .mf .my.warn small{font-size:8.5px}
   .mt{font-size:13px}
   .brow .bm{display:none}
   .db .two{grid-template-columns:1fr}
@@ -747,7 +757,7 @@ function renderDash(){
     '<div class="panel pBook"><h2>책별 연주 횟수</h2><p class="sub">찬양한 곡이 수록된 책 기준</p><div id="bookBars"></div></div></div>'+
     '<div class="dcol"><div class="panel pMx"><h2>연도별 찬양 차트</h2><p class="sub">해마다 몇 번 불렀는지 · 숫자를 누르면 날짜와 영상이 나옵니다</p>'+
     '<div class="pbar"><input type="search" id="qM" class="qin" placeholder="곡명 검색" autocomplete="off" aria-label="곡명 검색"><button type="button" class="btn sb" id="sM">곡명 ⇅</button><button type="button" class="btn sb" id="cM">횟수 ⇅</button><span class="rc" id="rcM"></span></div>'+
-    '<div class="mxwrap"><div class="mx" id="mx" style="--n:'+years.length+'"><div class="mr mh"><div class="mt mh"><span class="sortable" id="mhName" title="눌러서 곡명 정렬">곡명 ⇅</span><span class="rz" id="mtRz" title="좌우로 끌어서 너비 조절 · 더블클릭하면 원래대로"></span></div><div class="ms sortable" id="mhCnt" title="눌러서 횟수 정렬">합계 ⇅</div>'+years.map(function(y){return'<div class="my">'+y+'</div>';}).join('')+'</div><div id="mxRows"></div></div></div>'+
+    '<div class="mxwrap"><div class="mx" id="mx" style="--n:'+years.length+'"><div class="mr mh"><div class="mt mh"><span class="sortable" id="mhName" title="눌러서 곡명 정렬">곡명 ⇅</span><span class="rz" id="mtRz" title="좌우로 끌어서 너비 조절 · 더블클릭하면 원래대로"></span></div><div class="ms sortable" id="mhCnt" title="눌러서 횟수 정렬">합계 ⇅</div>'+years.map(function(y){return'<div class="my">'+y+'</div>';}).join('')+'</div><div id="mxRows"></div><div class="mr mf" id="mxFoot"></div></div></div><p class="mfnote">※ 연도별 총 횟수 · <span class="wb">⚠ 주황색</span>은 1년 52주 기준 52회에 못 미치는 해로, 누락된 영상이나 날짜가 없는지 확인이 필요합니다.</p>'+
     '<button type="button" class="btn more" id="btnMxMore" hidden></button></div></div></div>';
   root.innerHTML=h;
 
@@ -780,6 +790,8 @@ function renderDash(){
   var MTK='zion-hymnhistory-mtw',mtw=0;try{mtw=+localStorage.getItem(MTK)||0;}catch(e){}
   function applyMt(){var m=$('#mx');if(mtw)m.style.setProperty('--mtw',mtw+'px');else m.style.removeProperty('--mtw');}
   applyMt();
+  (function(){var tot={},all=0;played.forEach(function(g){var c=yc(g);years.forEach(function(y){tot[y]=(tot[y]||0)+(c[y]||0);});all+=g.dates.length;});
+    $('#mxFoot').innerHTML='<div class="mt">연도별 총 횟수</div><b class="ms">'+all+'회</b>'+years.map(function(y){var n=tot[y]||0,w=n<52;return'<div class="my'+(w?' warn':'')+'" title="'+y+'년 '+n+'회'+(w?' · 52회까지 '+(52-n)+'회 부족, 확인 필요':'')+'">'+(w?'<span class="wi">⚠</span>':'')+n+(w?'<small>확인</small>':'')+'</div>';}).join('');})();
   $('#mtRz').onpointerdown=function(e){e.preventDefault();e.stopPropagation();var z=this,x0=e.clientX,w0=$('#mhName').parentNode.offsetWidth;z.setPointerCapture(e.pointerId);
     z.onpointermove=function(ev){mtw=Math.max(70,Math.min(420,Math.round(w0+ev.clientX-x0)));applyMt();};
     z.onpointerup=function(){z.onpointermove=null;z.onpointerup=null;try{localStorage.setItem(MTK,String(mtw));}catch(e){}};};
@@ -844,7 +856,7 @@ function setEdit(on){
 function measure(){document.documentElement.style.setProperty('--barh',$('#bar').offsetHeight+'px');}
 function renderFoot(){
   var u=DATA.updated?new Date(DATA.updated):null;
-  $('#foot').textContent='남서울은혜교회 시온찬양대'+(u&&!isNaN(u)?' · 최종 수정 '+u.getFullYear()+'.'+String(u.getMonth()+1).padStart(2,'0')+'.'+String(u.getDate()).padStart(2,'0'):'')+(ADMIN?' · 관리 화면 버전 1030-0007':'');
+  $('#foot').textContent='남서울은혜교회 시온찬양대'+(u&&!isNaN(u)?' · 최종 수정 '+u.getFullYear()+'.'+String(u.getMonth()+1).padStart(2,'0')+'.'+String(u.getDate()).padStart(2,'0'):'')+(ADMIN?' · 관리 화면 버전 1030-0009':'');
 }
 
 /* ---------- GitHub ---------- */
