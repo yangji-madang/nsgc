@@ -203,6 +203,10 @@ dialog::backdrop{background:rgba(10,19,48,.55)}
 .db .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .dfoot{padding:12px 18px;display:flex;gap:8px;justify-content:flex-end;border-top:1px solid var(--line);background:#faf9f4;flex-wrap:wrap}
 .dfoot .l{margin-right:auto}
+.db{max-height:calc(100vh - 150px);max-height:calc(100dvh - 150px);overflow:auto}
+.drow{display:grid;grid-template-columns:150px minmax(0,1fr) auto;gap:6px;margin-top:6px;align-items:center}
+.drow input{margin:0}
+@media (max-width:560px){.drow{grid-template-columns:1fr auto}.drow .rd{grid-column:1/2}.drow .ru{grid-column:1/3;grid-row:2}}
 .hint{font-size:12.5px;color:var(--mut);margin:8px 0 0}
 .player{width:min(860px,calc(100vw - 24px))}
 .vid{position:relative;aspect-ratio:16/9;background:#000}
@@ -317,7 +321,7 @@ dialog::backdrop{background:rgba(10,19,48,.55)}
   <div class="dfoot"><a class="btn" id="pOpen" target="_blank" rel="noopener">YouTube에서 열기</a><button type="button" class="btn" data-close>닫기</button></div>
 </dialog>
 
-<dialog id="dlgSong" style="width:520px">
+<dialog id="dlgSong" style="width:620px">
   <div class="dh1"><div id="sHead">곡 추가</div><button type="button" class="x" data-close aria-label="닫기">×</button></div>
   <div class="db">
     <div class="two">
@@ -326,7 +330,9 @@ dialog::backdrop{background:rgba(10,19,48,.55)}
     </div>
     <label for="sTitle">곡명</label><input id="sTitle" autocomplete="off">
     <label for="sComp">작곡가 (없으면 비워 두세요)</label><input id="sComp" autocomplete="off">
-    <p class="hint">날짜와 영상 링크는 표에서 날짜 옆의 + 날짜 또는 ✎ 버튼으로 추가·수정합니다.</p>
+    <label style="margin-top:14px">찬양한 날짜 · YouTube 영상 링크 (여러 번 추가할 수 있습니다)</label>
+    <div id="sDates"></div>
+    <button type="button" class="addd" id="sAddDate" style="margin-top:8px">+ 날짜 추가</button>
   </div>
   <div class="dfoot"><button type="button" class="btn danger l" id="sDel">곡 삭제</button><button type="button" class="btn" data-close>취소</button><button type="button" class="btn pri" id="sOk">적용</button></div>
 </dialog>
@@ -538,8 +544,21 @@ $('#dlgPlayer').addEventListener('close',function(){$('#pVid').innerHTML='';});
 function openSong(s){
   editing=s||null;$('#sHead').textContent=s?'곡 정보 수정':'곡 추가';
   $('#sBook').value=s?s.book:(filt.book||'');$('#sPage').value=s?s.page:'';$('#sTitle').value=s?s.title:'';$('#sComp').value=s?s.composer:'';
-  $('#sDel').hidden=!s;$('#dlgSong').showModal();
+  $('#sDel').hidden=!s;
+  $('#sDates').innerHTML='';
+  (s?s.dates:[]).forEach(function(d){addDateRow(d.d,d.url);});
+  if(!s)addDateRow('','');
+  $('#dlgSong').showModal();
 }
+function addDateRow(d,u){
+  var r=document.createElement('div');r.className='drow';
+  r.innerHTML='<input type="date" class="rd" aria-label="찬양한 날짜"><input class="ru" inputmode="url" autocomplete="off" placeholder="YouTube 링크 (없으면 비워 두세요)" aria-label="YouTube 영상 링크"><button type="button" class="icb rx">삭제</button>';
+  r.querySelector('.rd').value=d||'';r.querySelector('.ru').value=u||'';
+  r.querySelector('.rx').onclick=function(){r.remove();};
+  $('#sDates').appendChild(r);
+  return r;
+}
+$('#sAddDate').onclick=function(){var r=addDateRow('','');r.querySelector('.rd').focus();};
 $('#sOk').onclick=function(){
   var b=$('#sBook').value.trim(),t=$('#sTitle').value.trim(),c=$('#sComp').value.trim(),pr=$('#sPage').value.trim();
   if(!b||!t){toast('책명과 곡명은 꼭 입력해 주세요.');return;}
@@ -547,10 +566,21 @@ $('#sOk').onclick=function(){
   var pg=pr===''?'':Number(pr);
   var dup=DATA.songs.some(function(s){return s!==editing&&s.book===b&&norm(s.title)===norm(t)&&String(s.page)===String(pg);});
   if(dup){toast('같은 책·곡명·페이지의 곡이 이미 있습니다.');return;}
-  if(editing){editing.book=b;editing.title=t;editing.composer=c;editing.page=pg;}
+  var dl=[],seen={},bad='';
+  $$('#sDates .drow').forEach(function(r){
+    var dv=r.querySelector('.rd').value,u=r.querySelector('.ru').value.trim();
+    if(!dv&&!u)return;
+    if(!/^\d{4}-\d{2}-\d{2}$/.test(dv)){bad='날짜를 선택해 주세요. 링크만 입력된 줄이 있습니다.';return;}
+    if(u&&!ytParse(u)){bad=fmt(dv)+' 줄의 링크가 YouTube 영상 주소 형식이 아닙니다.';return;}
+    if(seen[dv]){bad=fmt(dv)+' 날짜가 두 번 입력되었습니다.';return;}
+    seen[dv]=1;dl.push({d:dv,url:u});
+  });
+  if(bad){toast(bad,4200);return;}
+  dl.sort(function(a,b){return a.d<b.d?-1:a.d>b.d?1:0;});
+  if(editing){editing.book=b;editing.title=t;editing.composer=c;editing.page=pg;editing.dates=dl;}
   else{
     var mx=0;DATA.songs.forEach(function(s){var n=parseInt(String(s.id).replace(/\D/g,''),10);if(n>mx)mx=n;});
-    DATA.songs.push({id:'s'+String(mx+1).padStart(3,'0'),book:b,title:t,composer:c,page:pg,dates:[]});
+    DATA.songs.push({id:'s'+String(mx+1).padStart(3,'0'),book:b,title:t,composer:c,page:pg,dates:dl});
   }
   $('#dlgSong').close();changed();toast(editing?'곡 정보를 적용했습니다. GitHub에 저장해야 반영됩니다.':'곡을 추가했습니다. GitHub에 저장해야 반영됩니다.',3500);
 };
