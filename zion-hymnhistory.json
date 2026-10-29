@@ -1,6 +1,6 @@
 {
  "v": 1,
- "updated": "2026-10-29T13:23:14.413Z",
+ "updated": "2026-10-29T13:35:22.555Z",
  "bookOrder": [
   "시온2",
   "시온3",
@@ -112,7 +112,12 @@
    "title": "참 좋으신 주님",
    "composer": "",
    "page": 87,
-   "dates": []
+   "dates": [
+    {
+     "d": "2023-10-01",
+     "url": "https://youtu.be/tyEoQDUrqNw?si=pSjhBHZS7Id61Pb5"
+    }
+   ]
   },
   {
    "id": "s013",
@@ -120,7 +125,16 @@
    "title": "축복하노라",
    "composer": "",
    "page": 94,
-   "dates": []
+   "dates": [
+    {
+     "d": "2021-01-03",
+     "url": "https://youtu.be/xXS35rTwa-4?si=3zO1W_ih_CjvJPO7"
+    },
+    {
+     "d": "2023-08-06",
+     "url": "https://youtu.be/qsdeGZMM4Sg?si=cTBSKDRMemWUtZML"
+    }
+   ]
   },
   {
    "id": "s014",
@@ -260,7 +274,12 @@
    "title": "어린이의 기도",
    "composer": "",
    "page": 99,
-   "dates": []
+   "dates": [
+    {
+     "d": "2026-05-03",
+     "url": "https://youtu.be/iSZST8PfoOU?si=QmZj7CVY27iB9XKP"
+    }
+   ]
   },
   {
    "id": "s029",
@@ -313,7 +332,12 @@
    "title": "주의 은혜라",
    "composer": "",
    "page": 33,
-   "dates": []
+   "dates": [
+    {
+     "d": "2023-10-29",
+     "url": "https://youtu.be/qx72xneF0pg?si=rkTPaIv1F5n6nO5j"
+    }
+   ]
   },
   {
    "id": "s035",
@@ -371,7 +395,12 @@
    "title": "축복하노라",
    "composer": "",
    "page": 82,
-   "dates": []
+   "dates": [
+    {
+     "d": "2026-05-17",
+     "url": "https://youtu.be/7UCxdNaEILk?si=ywaB2DNZbw7DIeXZ"
+    }
+   ]
   },
   {
    "id": "s041",
@@ -499,6 +528,10 @@
    "composer": "",
    "page": 49,
    "dates": [
+    {
+     "d": "2021-05-02",
+     "url": "https://youtu.be/h4w3TuU2DXY?si=6969vNqsM0ov_THx"
+    },
     {
      "d": "2026-05-24",
      "url": "https://youtu.be/GQ-u1qtbKd0?si=bbBRW7p2Gadomaqj"
@@ -710,7 +743,12 @@
    "title": "기름 부으심",
    "composer": "신상우",
    "page": 27,
-   "dates": []
+   "dates": [
+    {
+     "d": "2026-06-21",
+     "url": "https://youtu.be/fLnni0-4X-0?si=MTROS27XUqQ_xyOQ"
+    }
+   ]
   },
   {
    "id": "s075",
@@ -938,6 +976,97 @@
     {
      "d": "2026-09-13",
      "url": "https://youtu.be/EZuHQ3WCBNQ?si=oTOxsnBAsy-9Bjp1"
+    }
+   ]
+  },
+  {
+   "id": "s093",
+   "book": "중앙48",
+   "title": "새롭게 변화되어",
+   "composer": "Cam Kirkland",
+   "page": 39,
+   "dates": [
+    {
+     "d": "2026-08-23",
+     "url": "https://youtu.be/GKb4IwuXSt8?si=hMsRWPBNHXKGG6ZR"
+    }
+   ]
+  },
+  {
+   "id": "s094",
+   "book": "중앙38",
+   "title": "내 영혼에 햇빛비치니",
+   "composer": "황광",
+   "page": 146,
+   "dates": [
+    {
+     "d": "2023-03-05",
+     "url": "https://youtu.be/_pfUJtMLzVs?si=fZVCPg_KQA5ZXd74"
+    }
+   ]
+  },
+  {
+   "id": "s095",
+   "book": "별도 악보",
+   "title": "보혈찬송 모",
+   "composer": "",
+   "page": "",
+   "dates": [
+    {
+     "d": "2022-04-17",
+     "url": "https://youtu.be/KygTyuwzOVY?si=Wc62d1YqM5mLsuKx"
+    }
+   ]
+  },
+  {
+   "id": "s096",
+   "book": "확인불명",
+   "title": "나 같은 죄인 살리신",
+   "composer": "",
+   "page": "",
+   "dates": [
+    {
+     "d": "2022-01-09",
+     "url": "https://youtu.be/mESGo9vkFzk?si=IhJ3PUdbtpbPMRZ_"
+    }
+   ]
+  },
+  {
+   "id": "s097",
+   "book": "중앙48",
+   "title": "사랑의 주 찬양",
+   "composer": "Mary McDoland",
+   "page": 211,
+   "dates": [
+    {
+     "d": "2026-08-09",
+     "url": "https://youtu.be/Rp5Lzl78WWI?si=bDZ8gaiLWEbbbZXv"
+    }
+   ]
+  },
+  {
+   "id": "s098",
+   "book": "확인불명",
+   "title": "옷 자락에서 전해지는 사랑",
+   "composer": "",
+   "page": "",
+   "dates": [
+    {
+     "d": "2021-10-31",
+     "url": "https://youtu.be/7gzu3q7R0oo?si=eGlys4-I8beLmvCp"
+    }
+   ]
+  },
+  {
+   "id": "s099",
+   "book": "확인불명",
+   "title": "믿음의 노래",
+   "composer": "",
+   "page": "",
+   "dates": [
+    {
+     "d": "2020-07-26",
+     "url": "https://youtu.be/4-3yd0QyjGw?si=VcOxhsCqC-uXB_Oz"
     }
    ]
   }
