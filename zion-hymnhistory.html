@@ -355,7 +355,7 @@ dialog::backdrop{background:rgba(10,19,48,.55)}
 <dialog id="dlgGh" style="width:520px">
   <div class="dh1"><div>GitHub 연결</div><button type="button" class="x" data-close aria-label="닫기">×</button></div>
   <div class="db">
-    <label for="tok">토큰 (Contents 읽기·쓰기 권한)</label><input type="password" id="tok" autocomplete="off" placeholder="github_pat_…">
+    <label for="tok">토큰 (Contents 읽기·쓰기 권한)</label><div id="tokBox"></div>
     <label style="display:flex;gap:8px;align-items:center;margin-top:12px"><input type="checkbox" id="tokSave" style="width:auto;height:auto"> 이 브라우저에 토큰 기억하기</label>
     <p class="hint">다른 찬양대 관리 페이지에서 저장해 둔 토큰이 있으면 자동으로 사용합니다. 저장 시 GitHub의 zion-hymnhistory.json 에 이력이 남습니다.</p>
     <p class="hint" id="tokMsg"></p>
@@ -708,11 +708,18 @@ function renderFoot(){
 }
 
 /* ---------- GitHub ---------- */
-function getTok(){try{return $('#tok').value.trim()||localStorage.getItem(TK)||'';}catch(e){return $('#tok').value.trim();}}
+function getTok(){var el=$('#tok'),v=el?el.value.trim():'';if(v)return v;try{return localStorage.getItem(TK)||'';}catch(e){return '';}}
+/* 비밀번호 입력칸은 팝업을 열 때만 만들고 닫으면 지웁니다(브라우저 자동완성이 다른 입력칸을 채우는 것을 막기 위함) */
+function openGh(){
+  $('#tokBox').innerHTML='<input type="password" id="tok" name="gh-pat-field" autocomplete="new-password" data-lpignore="true" data-1p-ignore placeholder="github_pat_…">';
+  try{$('#tok').value=localStorage.getItem(TK)||'';$('#tokSave').checked=!!localStorage.getItem(TK);}catch(e){}
+  $('#tokMsg').textContent='';$('#dlgGh').showModal();
+}
+$('#dlgGh').addEventListener('close',function(){$('#tokBox').innerHTML='';});
 function ghGet(tok){return fetch('https://api.github.com/repos/'+REPO+'/contents/'+FPATH+'?ref='+BRANCH+'&t='+Date.now(),{headers:{Authorization:'Bearer '+tok,Accept:'application/vnd.github+json'},cache:'no-store'}).then(function(r){if(r.status===404)return null;if(!r.ok)throw new Error('조회 실패 '+r.status);return r.json();});}
 async function save(){
   var tok=getTok();
-  if(!tok){$('#dlgGh').showModal();toast('GitHub 토큰을 먼저 입력해 주세요.');return;}
+  if(!tok){openGh();toast('GitHub 토큰을 먼저 입력해 주세요.');return;}
   var btn=$('#btnSave');btn.disabled=true;btn.textContent='저장 중…';
   try{
     var g=await ghGet(tok),sha=g&&g.sha;
@@ -733,10 +740,10 @@ async function save(){
   finally{btn.disabled=false;btn.textContent='GitHub에 저장';}
 }
 $('#btnSave').onclick=save;
-$('#btnGh').onclick=function(){try{$('#tok').value=localStorage.getItem(TK)||'';$('#tokSave').checked=!!localStorage.getItem(TK);}catch(e){}$('#tokMsg').textContent='';$('#dlgGh').showModal();};
-$('#tokOk').onclick=function(){try{if($('#tokSave').checked&&$('#tok').value.trim())localStorage.setItem(TK,$('#tok').value.trim());else if(!$('#tokSave').checked)localStorage.removeItem(TK);}catch(e){}$('#dlgGh').close();};
+$('#btnGh').onclick=openGh;
+$('#tokOk').onclick=function(){var el=$('#tok'),v=el?el.value.trim():'';try{if($('#tokSave').checked&&v)localStorage.setItem(TK,v);else if(!$('#tokSave').checked)localStorage.removeItem(TK);}catch(e){}$('#dlgGh').close();};
 $('#tokTest').onclick=function(){
-  var t=$('#tok').value.trim()||getTok();if(!t){$('#tokMsg').textContent='토큰을 입력해 주세요.';return;}
+  var t=getTok();if(!t){$('#tokMsg').textContent='토큰을 입력해 주세요.';return;}
   fetch('https://api.github.com/repos/'+REPO,{headers:{Authorization:'Bearer '+t,Accept:'application/vnd.github+json'}}).then(function(r){if(!r.ok)throw new Error(r.status);return r.json();})
    .then(function(j){$('#tokMsg').textContent=(j.permissions&&j.permissions.push)?'연결되었습니다. 저장할 수 있습니다.':'연결되었지만 쓰기 권한이 없습니다.';})
    .catch(function(e){$('#tokMsg').textContent='연결하지 못했습니다 ('+e.message+'). 토큰을 확인해 주세요.';});
@@ -774,8 +781,9 @@ $('#btnEdit').onclick=function(){setEdit(!edit);};
 $('#btnAdd').onclick=function(){openSong(null);};
 $('#btnFilter').onclick=function(){$('#filters').classList.toggle('open');measure();};
 ['fBook','fYear','fStat'].forEach(function(id){$('#'+id).onchange=function(){filt[id==='fBook'?'book':id==='fYear'?'year':'stat']=this.value;renderList();};});
-$('#fTitle').oninput=function(){filt.title=this.value;renderList();};
-$('#fComp').oninput=function(){filt.comp=this.value;renderList();};
+function guardUrl(el){if(/^\s*(https?:\/\/|www\.|youtu)/i.test(el.value)){el.value='';return true;}return false;}
+$('#fTitle').oninput=function(){if(guardUrl(this))toast('브라우저 자동완성이 넣은 주소를 지웠습니다.');filt.title=this.value;renderList();};
+$('#fComp').oninput=function(){if(guardUrl(this))toast('브라우저 자동완성이 넣은 주소를 지웠습니다.');filt.comp=this.value;renderList();};
 $('#fReset').onclick=function(){filt={book:'',title:'',comp:'',year:'',stat:''};$('#fTitle').value='';$('#fComp').value='';sortS={k:'book',dir:1};buildFilters();renderList();};
 $('#iText').oninput=function(){introSet('text',this.value);};
 $('#iColor').oninput=function(){introSet('color',this.value);};
