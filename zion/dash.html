@@ -67,7 +67,6 @@ h1 em{font-style:normal;color:var(--gold-ink)}
 .pt,.lb{opacity:0;transition:opacity .28s}
 .pt.on,.lb.on{opacity:1}
 .lb{font-weight:700;paint-order:stroke;stroke:#fff;stroke-width:3px;stroke-linejoin:round}
-@media (prefers-reduced-motion: reduce){.pt,.lb{transition:none}}
 small,sup,sub{font-size:inherit}
 
 /* 대시보드 전용: 페이지 전체 세로 스크롤, 모든 글자 12px 동일(굵기·색으로만 구분) */
@@ -638,7 +637,7 @@ function chart(host,cfg){
   }
   function play(final){
     cancelAnimationFrame(raf);
-    if(final||reduced){setP(1);return;}
+    if(final){setP(1);return;}
     const t0=performance.now(),D=cfg.dur||2600;
     setP(0);
     const tick=t=>{const p=Math.min(1,(t-t0)/D),e=1-Math.pow(1-p,2.2);setP(e);if(p<1)raf=requestAnimationFrame(tick);};
@@ -654,7 +653,7 @@ function chart(host,cfg){
     tip.style.left=Math.max(0,Math.min(rc.width-tww,tx+12))+'px';tip.style.top='6px';
   });
   hr.addEventListener('pointerleave',()=>{tip.style.display='none';hv.style.display='none';});
-  return {play,stop:()=>cancelAnimationFrame(raf)};
+  return {play,setP,stop:()=>{cancelAnimationFrame(raf);if(host._io){host._io.disconnect();host._io=null;}}};
 }
 
 /* ---------- 집계 도우미 ---------- */
@@ -714,7 +713,13 @@ function drawChart(key,animate){
   const mode=modes[key]||'w';
   const c=chart(host,cfgFor(key,mode));c.key=key;charts.push(c);
   const t=document.querySelector(`[data-ch="${key}"] .ttl`);if(t)t.innerHTML=ttlH(SPEC[key].title(mode));
-  c.play(!animate);
+  if(!animate){c.play(true);return;}
+  /* 휴대폰: 화면 밖 그래프는 보이는 순간에 재생(로드 시 한꺼번에 끝나 버리는 문제 방지) */
+  if('IntersectionObserver' in window){
+    c.setP(0);
+    const io=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting)){io.disconnect();host._io=null;c.play();}},{threshold:0.3});
+    host._io=io;io.observe(host);
+  }else c.play();
 }
 
 /* ---------- 화면 구성 ---------- */
