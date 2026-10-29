@@ -1,6 +1,6 @@
 {
  "v": 1,
- "updated": "2026-10-29T14:39:28.000Z",
+ "updated": "2026-10-29T15:03:23.573Z",
  "bookOrder": [
   "시온2",
   "시온3",
@@ -29,8 +29,8 @@
    "title": "그래도",
    "composer": "",
    "page": 1,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s002",
@@ -38,6 +38,7 @@
    "title": "그 사랑 내 생명",
    "composer": "",
    "page": 6,
+   "chk": false,
    "dates": [
     {
      "d": "2022-07-03",
@@ -47,8 +48,7 @@
      "d": "2023-07-09",
      "url": "https://www.youtube.com/watch?v=AGc3VXggK68"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s003",
@@ -56,13 +56,13 @@
    "title": "기도",
    "composer": "",
    "page": 12,
+   "chk": false,
    "dates": [
     {
      "d": "2021-05-16",
      "url": "https://www.youtube.com/watch?v=g3s06qxjGPM"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s004",
@@ -70,13 +70,13 @@
    "title": "나",
    "composer": "",
    "page": 22,
+   "chk": false,
    "dates": [
     {
      "d": "2025-11-09",
      "url": "https://www.youtube.com/watch?v=xRWyyB-A_NU"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s005",
@@ -84,8 +84,8 @@
    "title": "내가 영으로",
    "composer": "",
    "page": 31,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s006",
@@ -93,8 +93,8 @@
    "title": "내가 주님을",
    "composer": "",
    "page": 40,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s007",
@@ -102,8 +102,8 @@
    "title": "돌 베게",
    "composer": "",
    "page": 47,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s008",
@@ -111,8 +111,8 @@
    "title": "사랑은",
    "composer": "",
    "page": 56,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s009",
@@ -120,8 +120,8 @@
    "title": "사슴이 시냇물을",
    "composer": "",
    "page": 63,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s010",
@@ -129,8 +129,8 @@
    "title": "전능하신 하나님",
    "composer": "",
    "page": 71,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s011",
@@ -138,6 +138,7 @@
    "title": "주 나의 이름 부를 때",
    "composer": "",
    "page": 78,
+   "chk": false,
    "dates": [
     {
      "d": "2022-07-24",
@@ -147,8 +148,7 @@
      "d": "2023-07-02",
      "url": "https://www.youtube.com/watch?v=QM5HA0H1EDE"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s012",
@@ -156,6 +156,7 @@
    "title": "참 좋으신 주님",
    "composer": "",
    "page": 87,
+   "chk": false,
    "dates": [
     {
      "d": "2022-07-10",
@@ -169,8 +170,7 @@
      "d": "2025-02-09",
      "url": "https://www.youtube.com/watch?v=Rm_SEmUfL1U"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s013",
@@ -178,6 +178,7 @@
    "title": "축복하노라",
    "composer": "",
    "page": 94,
+   "chk": false,
    "dates": [
     {
      "d": "2021-01-03",
@@ -203,8 +204,7 @@
      "d": "2025-05-18",
      "url": "https://www.youtube.com/watch?v=4iceWZ1vPxw"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s014",
@@ -212,8 +212,8 @@
    "title": "하나님의 은혜",
    "composer": "",
    "page": 103,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s015",
@@ -221,6 +221,7 @@
    "title": "거룩한 성",
    "composer": "Stephen Adams",
    "page": 1,
+   "chk": false,
    "dates": [
     {
      "d": "2022-09-04",
@@ -242,8 +243,7 @@
      "d": "2026-02-01",
      "url": "https://www.youtube.com/watch?v=__Gv9pgKtrM"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s016",
@@ -251,6 +251,7 @@
    "title": "하늘의 아버지",
    "composer": "G. F. Handel",
    "page": 9,
+   "chk": false,
    "dates": [
     {
      "d": "2022-09-11",
@@ -260,8 +261,7 @@
      "d": "2023-06-04",
      "url": "https://www.youtube.com/watch?v=-Go3Myqf3B4"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s017",
@@ -269,6 +269,7 @@
    "title": "주님께 감사하라",
    "composer": "G. F. Handel",
    "page": 15,
+   "chk": false,
    "dates": [
     {
      "d": "2023-11-05",
@@ -278,8 +279,7 @@
      "d": "2025-11-16",
      "url": "https://www.youtube.com/watch?v=RgBtuzQ6e5g"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s018",
@@ -287,6 +287,7 @@
    "title": "주는 나의 목자",
    "composer": "Pepper Choplin",
    "page": 25,
+   "chk": false,
    "dates": [
     {
      "d": "2023-07-16",
@@ -300,8 +301,7 @@
      "d": "2025-08-31",
      "url": "https://www.youtube.com/watch?v=X23REJil_iA"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s019",
@@ -309,6 +309,7 @@
    "title": "주의 손에 나의 손을 포개고",
    "composer": "",
    "page": 33,
+   "chk": false,
    "dates": [
     {
      "d": "2022-07-31",
@@ -326,8 +327,7 @@
      "d": "2025-02-23",
      "url": "https://www.youtube.com/watch?v=b5egyigv9Dw"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s020",
@@ -335,6 +335,7 @@
    "title": "주님의 교회 이끄소서",
    "composer": "",
    "page": 41,
+   "chk": false,
    "dates": [
     {
      "d": "2022-09-25",
@@ -356,8 +357,7 @@
      "d": "2026-01-25",
      "url": "https://youtu.be/kUCNuYcxXQ4?si=Xym-7dZVq6_TNfr-"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s021",
@@ -365,6 +365,7 @@
    "title": "시편23편",
    "composer": "최덕신",
    "page": 51,
+   "chk": false,
    "dates": [
     {
      "d": "2022-05-29",
@@ -394,8 +395,7 @@
      "d": "2026-02-15",
      "url": "https://www.youtube.com/watch?v=Ndp3Zixoc5c"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s022",
@@ -403,6 +403,7 @@
    "title": "은혜",
    "composer": "",
    "page": 59,
+   "chk": false,
    "dates": [
     {
      "d": "2021-02-21",
@@ -432,8 +433,7 @@
      "d": "2026-04-26",
      "url": "https://youtu.be/HyYD_iapr3E?si=uIXT4EiZRkOlWz8U"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s023",
@@ -441,8 +441,8 @@
    "title": "주 찬송합니다",
    "composer": "",
    "page": 68,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s024",
@@ -450,6 +450,7 @@
    "title": "참 목자 예수",
    "composer": "J. S. Bach",
    "page": 72,
+   "chk": false,
    "dates": [
     {
      "d": "2022-10-23",
@@ -459,8 +460,7 @@
      "d": "2023-06-18",
      "url": "https://www.youtube.com/watch?v=x_hFgy7pyE0"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s025",
@@ -468,6 +468,7 @@
    "title": "여호와 정하신 날",
    "composer": "John W. Peterson",
    "page": 81,
+   "chk": false,
    "dates": [
     {
      "d": "2022-07-17",
@@ -485,8 +486,7 @@
      "d": "2026-09-06",
      "url": "https://youtu.be/KRSERYhmHYA?si=76LuWW7IarSy69zw"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s026",
@@ -494,6 +494,7 @@
    "title": "감사해",
    "composer": "",
    "page": 87,
+   "chk": false,
    "dates": [
     {
      "d": "2022-11-13",
@@ -503,8 +504,7 @@
      "d": "2025-09-28",
      "url": "https://www.youtube.com/watch?v=aAIPVoh4p1c"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s027",
@@ -512,6 +512,7 @@
    "title": "복음밖에 없습니다",
    "composer": "",
    "page": 93,
+   "chk": false,
    "dates": [
     {
      "d": "2021-09-05",
@@ -533,8 +534,7 @@
      "d": "2026-01-11",
      "url": "https://www.youtube.com/watch?v=uZ71Rm54bKw"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s028",
@@ -542,6 +542,7 @@
    "title": "어린이의 기도",
    "composer": "",
    "page": 99,
+   "chk": false,
    "dates": [
     {
      "d": "2022-05-01",
@@ -563,8 +564,7 @@
      "d": "2026-05-03",
      "url": "https://youtu.be/iSZST8PfoOU?si=QmZj7CVY27iB9XKP"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s029",
@@ -572,8 +572,8 @@
    "title": "내 고통 살피소서",
    "composer": "",
    "page": 107,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s030",
@@ -581,6 +581,7 @@
    "title": "천사의 합창",
    "composer": "L. v. Beethoven",
    "page": 117,
+   "chk": false,
    "dates": [
     {
      "d": "2023-12-31",
@@ -594,8 +595,7 @@
      "d": "2025-12-28",
      "url": "https://www.youtube.com/watch?v=I6Ihwt45U18"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s031",
@@ -603,13 +603,13 @@
    "title": "생명 얻은 회개",
    "composer": "",
    "page": 1,
+   "chk": false,
    "dates": [
     {
      "d": "2023-03-19",
      "url": "https://www.youtube.com/watch?v=QOBVwHH6KlI"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s032",
@@ -617,6 +617,7 @@
    "title": "어머니의 기도",
    "composer": "",
    "page": 9,
+   "chk": false,
    "dates": [
     {
      "d": "2023-05-14",
@@ -634,8 +635,7 @@
      "d": "2026-05-10",
      "url": "https://youtu.be/rGEp945toeg?si=l6D7_DbmpPQnz7vA"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s033",
@@ -643,6 +643,7 @@
    "title": "염려하지 말라",
    "composer": "",
    "page": 21,
+   "chk": false,
    "dates": [
     {
      "d": "2021-08-08",
@@ -668,8 +669,7 @@
      "d": "2026-02-22",
      "url": "https://www.youtube.com/watch?v=fy4kF4qw_VA"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s034",
@@ -677,6 +677,7 @@
    "title": "주의 은혜라",
    "composer": "",
    "page": 33,
+   "chk": false,
    "dates": [
     {
      "d": "2021-02-07",
@@ -695,6 +696,10 @@
      "url": "https://youtu.be/qx72xneF0pg?si=rkTPaIv1F5n6nO5j"
     },
     {
+     "d": "2024-06-23",
+     "url": "https://youtu.be/N68nC3W9N7c?si=9C0d_m36d-d8r17a"
+    },
+    {
      "d": "2024-11-24",
      "url": "https://www.youtube.com/watch?v=R2SzGw1mCdQ"
     },
@@ -706,8 +711,7 @@
      "d": "2025-09-14",
      "url": "https://www.youtube.com/watch?v=tD1nBRZoZxQ"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s035",
@@ -715,6 +719,7 @@
    "title": "나는 주를 섬기는 것에 후회가 없습니다",
    "composer": "",
    "page": 43,
+   "chk": false,
    "dates": [
     {
      "d": "2023-04-30",
@@ -728,8 +733,7 @@
      "d": "2026-01-18",
      "url": "https://youtu.be/tG0bWR3RTo8?si=iOfM5SZZR4A2UrvE"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s036",
@@ -737,8 +741,8 @@
    "title": "누군가 기도하네",
    "composer": "",
    "page": 49,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s037",
@@ -746,6 +750,7 @@
    "title": "살아 계신 주",
    "composer": "",
    "page": 55,
+   "chk": false,
    "dates": [
     {
      "d": "2024-01-07",
@@ -759,8 +764,7 @@
      "d": "2026-02-08",
      "url": "https://www.youtube.com/watch?v=ZleaZmwesVw"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s038",
@@ -768,6 +772,7 @@
    "title": "그대는 씻기어 있는가",
    "composer": "",
    "page": 66,
+   "chk": false,
    "dates": [
     {
      "d": "2024-03-17",
@@ -781,8 +786,7 @@
      "d": "2026-03-22",
      "url": "https://youtu.be/qvlrtoyafeU?si=RyiZZC_Wn1gWM495"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s039",
@@ -790,8 +794,8 @@
    "title": "참 좋으신 주님",
    "composer": "",
    "page": 75,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s040",
@@ -799,13 +803,13 @@
    "title": "축복하노라",
    "composer": "",
    "page": 82,
+   "chk": false,
    "dates": [
     {
      "d": "2026-05-17",
      "url": "https://youtu.be/7UCxdNaEILk?si=ywaB2DNZbw7DIeXZ"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s041",
@@ -813,6 +817,7 @@
    "title": "하나님의 은혜",
    "composer": "",
    "page": 91,
+   "chk": false,
    "dates": [
     {
      "d": "2022-10-09",
@@ -834,8 +839,7 @@
      "d": "2026-06-07",
      "url": "https://youtu.be/klzuLduNn7M?si=Ndg-vQLaA_Btpkox"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s042",
@@ -843,6 +847,7 @@
    "title": "하나되어",
    "composer": "",
    "page": 99,
+   "chk": false,
    "dates": [
     {
      "d": "2022-10-16",
@@ -864,8 +869,7 @@
      "d": "2026-10-04",
      "url": "https://youtu.be/-SIEQkYhqt4?si=B0GIAexqJzpUDJE8"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s043",
@@ -873,6 +877,7 @@
    "title": "은혜 아니면",
    "composer": "",
    "page": 110,
+   "chk": false,
    "dates": [
     {
      "d": "2021-02-28",
@@ -898,8 +903,7 @@
      "d": "2026-01-04",
      "url": "https://www.youtube.com/watch?v=LOMJS-29xpE"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s044",
@@ -907,6 +911,7 @@
    "title": "그 사랑",
    "composer": "",
    "page": 1,
+   "chk": false,
    "dates": [
     {
      "d": "2024-09-22",
@@ -920,8 +925,7 @@
      "d": "2026-04-19",
      "url": "https://youtu.be/F-LxhdJt0hU?si=GdElPWTqnpdR-ubh"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s045",
@@ -929,13 +933,13 @@
    "title": "그가",
    "composer": "",
    "page": 8,
+   "chk": false,
    "dates": [
     {
      "d": "2026-03-15",
      "url": "https://youtu.be/X8PX_RBbmuQ?si=SOGVA5GQ8kJ87JD8"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s046",
@@ -943,6 +947,7 @@
    "title": "너는 내 것이라",
    "composer": "",
    "page": 17,
+   "chk": false,
    "dates": [
     {
      "d": "2024-11-10",
@@ -956,8 +961,7 @@
      "d": "2026-07-19",
      "url": "https://youtu.be/WzOUeNh31dQ?si=gC3feLgegRGHzlba"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s047",
@@ -965,6 +969,7 @@
    "title": "세상을 사는 지혜",
    "composer": "",
    "page": 27,
+   "chk": false,
    "dates": [
     {
      "d": "2024-10-06",
@@ -978,8 +983,7 @@
      "d": "2026-09-20",
      "url": "https://youtu.be/mZ-M_P-Ok2U?si=1Wfay12bQ1bJKvgG"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s048",
@@ -987,8 +991,8 @@
    "title": "시편 23",
    "composer": "",
    "page": 32,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s049",
@@ -996,6 +1000,7 @@
    "title": "여정",
    "composer": "",
    "page": 43,
+   "chk": false,
    "dates": [
     {
      "d": "2024-12-01",
@@ -1009,8 +1014,7 @@
      "d": "2026-06-28",
      "url": "https://youtu.be/GLIgHHHV_TI?si=Gdm05DondswUZicJ"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s050",
@@ -1018,6 +1022,7 @@
    "title": "요게벳의 노래",
    "composer": "",
    "page": 49,
+   "chk": false,
    "dates": [
     {
      "d": "2021-05-02",
@@ -1031,8 +1036,7 @@
      "d": "2026-05-24",
      "url": "https://youtu.be/GQ-u1qtbKd0?si=bbBRW7p2Gadomaqj"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s051",
@@ -1040,13 +1044,13 @@
    "title": "원하고 바라고 기도합니다",
    "composer": "",
    "page": 61,
+   "chk": false,
    "dates": [
     {
      "d": "2025-11-30",
      "url": "https://www.youtube.com/watch?v=dBU_ZW6XlF4"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s052",
@@ -1054,6 +1058,7 @@
    "title": "이제야 돌아봅니다",
    "composer": "진선미",
    "page": 69,
+   "chk": false,
    "dates": [
     {
      "d": "2025-03-16",
@@ -1063,8 +1068,7 @@
      "d": "2026-09-27",
      "url": "https://youtu.be/lh7C4gATIdo?si=FpDFT9S5-LXucFs_"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s053",
@@ -1072,13 +1076,13 @@
    "title": "주의 은혜라 (마리아의 노래)",
    "composer": "",
    "page": 77,
+   "chk": false,
    "dates": [
     {
      "d": "2026-05-31",
      "url": "https://youtu.be/HC75QQ0JFOE?si=zS5lgPEcD0bHHP95"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s054",
@@ -1086,8 +1090,8 @@
    "title": "왕 되신 주",
    "composer": "손경민",
    "page": 3,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s055",
@@ -1095,8 +1099,8 @@
    "title": "시편 139편",
    "composer": "주민정",
    "page": 13,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s056",
@@ -1104,8 +1108,8 @@
    "title": "베드로의 고백",
    "composer": "D.Sword",
    "page": 22,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s057",
@@ -1113,8 +1117,8 @@
    "title": "하나님의 열심",
    "composer": "사공정",
    "page": 30,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s058",
@@ -1122,8 +1126,8 @@
    "title": "하나님의 부르심",
    "composer": "손경민",
    "page": 37,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s059",
@@ -1131,8 +1135,8 @@
    "title": "믿음의 고백",
    "composer": "이율구",
    "page": 48,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s060",
@@ -1140,8 +1144,8 @@
    "title": "예수 안에 소망 있네",
    "composer": "S. Townend & K. Getty",
    "page": 54,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s061",
@@ -1149,8 +1153,8 @@
    "title": "하나님의 약속",
    "composer": "김석균",
    "page": 61,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s062",
@@ -1158,8 +1162,8 @@
    "title": "다시 복음으로",
    "composer": "손경민",
    "page": 69,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s063",
@@ -1167,8 +1171,8 @@
    "title": "말씀 앞에서",
    "composer": "윤석주",
    "page": 78,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s064",
@@ -1176,8 +1180,8 @@
    "title": "모든 것 되시는 예수",
    "composer": "백승남",
    "page": 86,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s065",
@@ -1185,13 +1189,13 @@
    "title": "꽃들도",
    "composer": "Mebig",
    "page": 94,
+   "chk": false,
    "dates": [
     {
      "d": "2026-10-25",
      "url": "https://www.youtube.com/watch?v=TUMfGlyqubU"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s066",
@@ -1199,8 +1203,8 @@
    "title": "주를 위한 이 곳에",
    "composer": "김준영&임선호",
    "page": 101,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s067",
@@ -1208,8 +1212,8 @@
    "title": "Love Never Fails 여호와께 돌아가자",
    "composer": "주민정",
    "page": 106,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s068",
@@ -1217,8 +1221,8 @@
    "title": "주 예수 나의 산 소망",
    "composer": "B. Johnson & P. Wickham",
    "page": 114,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s069",
@@ -1226,8 +1230,8 @@
    "title": "주의 보혈",
    "composer": "김유라",
    "page": 122,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s070",
@@ -1235,8 +1239,8 @@
    "title": "주 은혜가 나에게 족하네",
    "composer": "홍지열",
    "page": 130,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s071",
@@ -1244,8 +1248,8 @@
    "title": "은혜 아니면",
    "composer": "조성은",
    "page": 3,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s072",
@@ -1253,8 +1257,8 @@
    "title": "감사",
    "composer": "손경민",
    "page": 11,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s073",
@@ -1262,8 +1266,8 @@
    "title": "주의 은혜라",
    "composer": "이율구",
    "page": 20,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s074",
@@ -1271,6 +1275,7 @@
    "title": "기름 부으심",
    "composer": "신상우",
    "page": 27,
+   "chk": false,
    "dates": [
     {
      "d": "2021-01-24",
@@ -1280,8 +1285,7 @@
      "d": "2026-06-21",
      "url": "https://youtu.be/fLnni0-4X-0?si=MTROS27XUqQ_xyOQ"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s075",
@@ -1289,13 +1293,13 @@
    "title": "동행",
    "composer": "손경민",
    "page": 40,
+   "chk": false,
    "dates": [
     {
      "d": "2026-10-11",
      "url": "https://youtu.be/qvlrtoyafeU?si=RyiZZC_Wn1gWM495"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s076",
@@ -1303,8 +1307,8 @@
    "title": "그 은혜가 족하네",
    "composer": "김예은",
    "page": 47,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s077",
@@ -1312,6 +1316,7 @@
    "title": "겸손의 왕",
    "composer": "",
    "page": 1,
+   "chk": false,
    "dates": [
     {
      "d": "2024-03-24",
@@ -1329,8 +1334,7 @@
      "d": "2026-03-08",
      "url": "https://www.youtube.com/watch?v=Dl4p3aSWD4I"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s078",
@@ -1338,6 +1342,7 @@
    "title": "그래도",
    "composer": "",
    "page": 15,
+   "chk": false,
    "dates": [
     {
      "d": "2022-02-27",
@@ -1359,8 +1364,7 @@
      "d": "2026-03-01",
      "url": "https://www.youtube.com/watch?v=HtL7yEKozno"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s079",
@@ -1368,13 +1372,13 @@
    "title": "고난의 길",
    "composer": "",
    "page": 20,
+   "chk": false,
    "dates": [
     {
      "d": "2024-03-29",
      "url": ""
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s080",
@@ -1382,6 +1386,7 @@
    "title": "내고통 살피소서",
    "composer": "",
    "page": 21,
+   "chk": false,
    "dates": [
     {
      "d": "2023-04-02",
@@ -1403,8 +1408,7 @@
      "d": "2026-03-29",
      "url": "https://www.youtube.com/watch?v=mWNOoEMDbxg"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s081",
@@ -1412,13 +1416,13 @@
    "title": "내가 주님을",
    "composer": "",
    "page": 31,
+   "chk": false,
    "dates": [
     {
      "d": "2024-03-29",
      "url": ""
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s082",
@@ -1426,13 +1430,13 @@
    "title": "주 예수 대문 밖에",
    "composer": "",
    "page": 39,
+   "chk": false,
    "dates": [
     {
      "d": "2024-03-29",
      "url": ""
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s083",
@@ -1440,13 +1444,13 @@
    "title": "그대는 씻기어 있는가",
    "composer": "",
    "page": 46,
+   "chk": false,
    "dates": [
     {
      "d": "2024-03-29",
      "url": ""
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s084",
@@ -1454,13 +1458,13 @@
    "title": "모든 것이 은혜",
    "composer": "제갈수영",
    "page": 68,
+   "chk": false,
    "dates": [
     {
      "d": "2026-08-16",
      "url": "https://youtu.be/jAtLO3HY4AE?si=9p-Ae8OT3FEdyRso"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s085",
@@ -1468,13 +1472,13 @@
    "title": "모든 것 주셨네",
    "composer": "Craig Curry",
    "page": 200,
+   "chk": false,
    "dates": [
     {
      "d": "2026-07-26",
      "url": "https://youtu.be/RN5v0dq9j1k?si=EJvB4K_6yZY_Drgy"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s086",
@@ -1482,6 +1486,7 @@
    "title": "오직 주의 사랑에 매여",
    "composer": "서경환",
    "page": 99,
+   "chk": false,
    "dates": [
     {
      "d": "2026-08-02",
@@ -1491,8 +1496,7 @@
      "d": "2026-08-07",
      "url": "https://www.youtube.com/watch?v=F-LxhdJt0hU"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s087",
@@ -1500,13 +1504,13 @@
    "title": "하늘에 계신 우리 아버지",
    "composer": "홍지열",
    "page": 316,
+   "chk": false,
    "dates": [
     {
      "d": "2026-08-30",
      "url": "https://youtu.be/DipJZEHIvlw?si=mBzUS3NBY3f03aV4"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s088",
@@ -1514,6 +1518,7 @@
    "title": "주 임하소서",
    "composer": "Mary McDonald",
    "page": 119,
+   "chk": false,
    "dates": [
     {
      "d": "2022-02-20",
@@ -1531,8 +1536,7 @@
      "d": "2026-10-18",
      "url": "https://youtu.be/6V93iHaNEqQ?si=dmA0VC0qgPnxKPHB"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s089",
@@ -1540,13 +1544,13 @@
    "title": "주 예수는 참된 소망",
    "composer": "Mary McDonald",
    "page": 137,
+   "chk": false,
    "dates": [
     {
      "d": "2026-07-05",
      "url": "https://youtu.be/D4SgAKaRfmE?si=2MPgGs4P1f8cB16C"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s090",
@@ -1554,13 +1558,13 @@
    "title": "사랑하는 주의 형제여",
    "composer": "최규현",
    "page": 190,
+   "chk": false,
    "dates": [
     {
      "d": "2026-07-12",
      "url": "https://youtu.be/QCrb9GkMzWE?si=3EH8u_vQetv_vf3c"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s091",
@@ -1568,6 +1572,7 @@
    "title": "하나님이 너를 정말 사랑하신대",
    "composer": "",
    "page": "",
+   "chk": false,
    "dates": [
     {
      "d": "2024-06-09",
@@ -1581,8 +1586,7 @@
      "d": "2026-06-14",
      "url": "https://www.youtube.com/watch?v=N7sNqqm20VA"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s092",
@@ -1590,13 +1594,13 @@
    "title": "인도하심",
    "composer": "지혜정",
    "page": 243,
+   "chk": false,
    "dates": [
     {
      "d": "2026-09-13",
      "url": "https://youtu.be/EZuHQ3WCBNQ?si=oTOxsnBAsy-9Bjp1"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s093",
@@ -1604,13 +1608,13 @@
    "title": "새롭게 변화되어",
    "composer": "Cam Kirkland",
    "page": 39,
+   "chk": false,
    "dates": [
     {
      "d": "2026-08-23",
      "url": "https://youtu.be/GKb4IwuXSt8?si=hMsRWPBNHXKGG6ZR"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s094",
@@ -1618,6 +1622,7 @@
    "title": "내 영혼에 햇빛비치니",
    "composer": "황광",
    "page": 146,
+   "chk": false,
    "dates": [
     {
      "d": "2023-03-05",
@@ -1631,8 +1636,7 @@
      "d": "2026-04-12",
      "url": "https://www.youtube.com/watch?v=CiaDxNm4K9M"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s096",
@@ -1640,13 +1644,13 @@
    "title": "나 같은 죄인 살리신",
    "composer": "",
    "page": "",
+   "chk": false,
    "dates": [
     {
      "d": "2022-01-09",
      "url": "https://youtu.be/mESGo9vkFzk?si=IhJ3PUdbtpbPMRZ_"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s097",
@@ -1654,13 +1658,13 @@
    "title": "사랑의 주 찬양",
    "composer": "Mary McDoland",
    "page": 211,
+   "chk": false,
    "dates": [
     {
      "d": "2026-08-09",
      "url": "https://youtu.be/Rp5Lzl78WWI?si=bDZ8gaiLWEbbbZXv"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s098",
@@ -1668,6 +1672,7 @@
    "title": "옷 자락에서 전해지는 사랑",
    "composer": "",
    "page": "",
+   "chk": false,
    "dates": [
     {
      "d": "2021-01-31",
@@ -1677,8 +1682,7 @@
      "d": "2021-10-31",
      "url": "https://youtu.be/7gzu3q7R0oo?si=eGlys4-I8beLmvCp"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s099",
@@ -1686,6 +1690,7 @@
    "title": "믿음의 노래",
    "composer": "",
    "page": "",
+   "chk": false,
    "dates": [
     {
      "d": "2020-07-26",
@@ -1703,8 +1708,7 @@
      "d": "2024-01-14",
      "url": "https://www.youtube.com/watch?v=bGrrGcySMzg"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s100",
@@ -1712,8 +1716,8 @@
    "title": "우리 기쁨이 되시는 예수",
    "composer": "Johann Sebastian Bach",
    "page": 4,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s101",
@@ -1721,8 +1725,8 @@
    "title": "주님께만 영광",
    "composer": "T.A. Walmisley",
    "page": 10,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s102",
@@ -1730,8 +1734,8 @@
    "title": "기쁜 노래 불러",
    "composer": "Martin Shaw",
    "page": 16,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s103",
@@ -1739,8 +1743,8 @@
    "title": "성삼위일체 하나님",
    "composer": "C. Kenneth Turner",
    "page": 24,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s104",
@@ -1748,8 +1752,8 @@
    "title": "시편 43편",
    "composer": "F. Mendelssohn",
    "page": 28,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s105",
@@ -1757,8 +1761,8 @@
    "title": "주 여호와는 나의 목자",
    "composer": "Franz Schubert",
    "page": 41,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s106",
@@ -1766,8 +1770,8 @@
    "title": "오 세상의 구주",
    "composer": "John Goss",
    "page": 51,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s107",
@@ -1775,8 +1779,8 @@
    "title": "오 아름다운 주의 성전",
    "composer": "R. Vaughan Williams",
    "page": 55,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s108",
@@ -1784,6 +1788,7 @@
    "title": "생명의 양식",
    "composer": "César Franck",
    "page": 61,
+   "chk": false,
    "dates": [
     {
      "d": "2021-04-25",
@@ -1805,8 +1810,7 @@
      "d": "2025-11-09",
      "url": "https://www.youtube.com/watch?v=o9xVj8q2we8"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s109",
@@ -1814,8 +1818,8 @@
    "title": "내 마음 정결케 하소서",
    "composer": "Carl F. Mueller",
    "page": 66,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s110",
@@ -1823,8 +1827,8 @@
    "title": "하나님께서 사랑하셨다",
    "composer": "John Stainer",
    "page": 70,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s111",
@@ -1832,8 +1836,8 @@
    "title": "찬양해 내 혼아",
    "composer": "Caleb Simper",
    "page": 73,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s112",
@@ -1841,6 +1845,7 @@
    "title": "내 주는 선한 목자",
    "composer": "Lani Smith",
    "page": 82,
+   "chk": false,
    "dates": [
     {
      "d": "2022-08-28",
@@ -1854,8 +1859,7 @@
      "d": "2025-07-06",
      "url": "https://www.youtube.com/watch?v=5G1iAVxSTmY"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s113",
@@ -1863,8 +1867,8 @@
    "title": "오 사슴이 시냇물 갈급함같이",
    "composer": "G.P.da Palestrina",
    "page": 87,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s114",
@@ -1872,8 +1876,8 @@
    "title": "가장 높으신 주",
    "composer": "Gabriel Urbain Fauré / Arranged by Hal Hopson",
    "page": 92,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s115",
@@ -1881,8 +1885,8 @@
    "title": "하나님께 찬송드리세",
    "composer": "G.F. Händel",
    "page": 105,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s116",
@@ -1890,8 +1894,8 @@
    "title": "사슴이 시냇물 찾듯이",
    "composer": "Herbert Howells",
    "page": 114,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s117",
@@ -1899,6 +1903,7 @@
    "title": "주의 기도",
    "composer": "Albert Hay Malotte",
    "page": 122,
+   "chk": false,
    "dates": [
     {
      "d": "2021-06-06",
@@ -1916,8 +1921,7 @@
      "d": "2025-06-29",
      "url": "https://www.youtube.com/watch?v=hdHm-FEh8YI"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s118",
@@ -1925,8 +1929,8 @@
    "title": "우리 눈 여소서",
    "composer": "Will C. Macfarlane",
    "page": 128,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s119",
@@ -1934,6 +1938,7 @@
    "title": "여호와는 나의 목자시니",
    "composer": "나운영",
    "page": 138,
+   "chk": false,
    "dates": [
     {
      "d": "2020-09-06",
@@ -1943,8 +1948,7 @@
      "d": "2022-01-16",
      "url": "https://www.youtube.com/watch?v=pwT_9G_24ms"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s120",
@@ -1952,6 +1956,7 @@
    "title": "주 너를 지키시고",
    "composer": "John Rutter",
    "page": 142,
+   "chk": false,
    "dates": [
     {
      "d": "2023-05-21",
@@ -1961,8 +1966,7 @@
      "d": "2025-07-13",
      "url": "https://www.youtube.com/watch?v=LER5V0brTYM"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s121",
@@ -1970,8 +1974,8 @@
    "title": "하늘의 아버지",
    "composer": "P.K. Biggs",
    "page": 147,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s122",
@@ -1979,8 +1983,8 @@
    "title": "주기도",
    "composer": "A.E. Patterson",
    "page": 149,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s123",
@@ -1988,8 +1992,8 @@
    "title": "하늘의 주",
    "composer": "L.F. Rossi",
    "page": 152,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s124",
@@ -1997,8 +2001,8 @@
    "title": "사랑의 왕 내 목자",
    "composer": "Harry Rowe Shelley",
    "page": 160,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s125",
@@ -2006,8 +2010,8 @@
    "title": "온 땅이여 주님을 찬양하라",
    "composer": "L. Stanley Glarum",
    "page": 166,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s126",
@@ -2015,8 +2019,8 @@
    "title": "내 주는 강한 성이요",
    "composer": "Martin Luther / Arranged by Benjamin Harlan",
    "page": 173,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s127",
@@ -2024,8 +2028,8 @@
    "title": "주 안에서 항상 기뻐하라",
    "composer": "George Rathbone",
    "page": 4,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s128",
@@ -2033,8 +2037,8 @@
    "title": "나를 이끄소서",
    "composer": "Samuel Sebastian Wesley",
    "page": 14,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s129",
@@ -2042,8 +2046,8 @@
    "title": "저녁기도",
    "composer": "Evening Hymn",
    "page": 17,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s130",
@@ -2051,8 +2055,8 @@
    "title": "주님을 찬양하여라",
    "composer": "Piotr Ilyich Tchaikovsky",
    "page": 25,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s131",
@@ -2060,13 +2064,13 @@
    "title": "내 맘의 주여 소망 되소서",
    "composer": "Bob Chilcott",
    "page": 31,
+   "chk": false,
    "dates": [
     {
      "d": "2022-09-18",
      "url": "https://www.youtube.com/watch?v=SIHCwBuTbSQ"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s132",
@@ -2074,8 +2078,8 @@
    "title": "시편 23편",
    "composer": "김성기",
    "page": 38,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s133",
@@ -2083,8 +2087,8 @@
    "title": "주를 찬양해",
    "composer": "조혜영",
    "page": 47,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s134",
@@ -2092,8 +2096,8 @@
    "title": "찬송과 권능 가운데",
    "composer": "Felix Mendelssohn",
    "page": 59,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s135",
@@ -2101,6 +2105,7 @@
    "title": "평화 있으라",
    "composer": "John Rutter",
    "page": 63,
+   "chk": false,
    "dates": [
     {
      "d": "2022-08-14",
@@ -2114,8 +2119,7 @@
      "d": "2025-08-10",
      "url": "https://www.youtube.com/watch?v=7Wjzmk5v78Q"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s136",
@@ -2123,13 +2127,13 @@
    "title": "주님은 나의 목자시니",
    "composer": "Howard Goodall",
    "page": 67,
+   "chk": false,
    "dates": [
     {
      "d": "2022-08-21",
      "url": "https://www.youtube.com/watch?v=ZyCQLgOy7Us"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s137",
@@ -2137,8 +2141,8 @@
    "title": "주 그늘 안에 거하는 자",
    "composer": "Joseph Haydn",
    "page": 75,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s138",
@@ -2146,8 +2150,8 @@
    "title": "하늘 아버지",
    "composer": "Maurice Duruflé",
    "page": 78,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s139",
@@ -2155,6 +2159,7 @@
    "title": "오 주여 어서 오소서(대림)",
    "composer": "Nicholas White",
    "page": 80,
+   "chk": false,
    "dates": [
     {
      "d": "2022-12-11",
@@ -2164,8 +2169,7 @@
      "d": "2023-12-17",
      "url": "https://www.youtube.com/watch?v=xOH19d2j6PA"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s140",
@@ -2173,6 +2177,7 @@
    "title": "곧 오소서 임마누엘(대림)",
    "composer": "arr. by John Rutter",
    "page": 86,
+   "chk": false,
    "dates": [
     {
      "d": "2020-10-25",
@@ -2182,8 +2187,7 @@
      "d": "2021-12-19",
      "url": "https://www.youtube.com/watch?v=M_XXeXQKziE"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s141",
@@ -2191,13 +2195,13 @@
    "title": "그 맑고 환한 밤중에(대림)",
    "composer": "arr. by Barry Rose",
    "page": 91,
+   "chk": false,
    "dates": [
     {
      "d": "2022-12-18",
      "url": "https://www.youtube.com/watch?v=ppyU1_F61S8"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s142",
@@ -2205,8 +2209,8 @@
    "title": "거룩(대림)",
    "composer": "Gabriel Fauré",
    "page": 99,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s143",
@@ -2214,8 +2218,8 @@
    "title": "참 반가운 성도여(성탄절)",
    "composer": "arr. by David Willcocks",
    "page": 106,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s144",
@@ -2223,8 +2227,8 @@
    "title": "주 세상 돌보사(신년예배)",
    "composer": "arr. by John Baird",
    "page": 110,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s145",
@@ -2232,8 +2236,8 @@
    "title": "오 주 하나님(사순절)",
    "composer": "Samuel Sebastian Wesley",
    "page": 115,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s146",
@@ -2241,8 +2245,8 @@
    "title": "오 구세주 예수(사순절)",
    "composer": "Edward Elgar",
    "page": 120,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s147",
@@ -2250,8 +2254,8 @@
    "title": "하나님 세상 사랑하사(사순절)",
    "composer": "Bob Chilcott",
    "page": 124,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s148",
@@ -2259,8 +2263,8 @@
    "title": "오 세상의 구주(사순절)",
    "composer": "Arthur Somervell",
    "page": 128,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s149",
@@ -2268,8 +2272,8 @@
    "title": "오 구세주 예수(고난주일)",
    "composer": "Flor Peeters",
    "page": 132,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s150",
@@ -2277,8 +2281,8 @@
    "title": "부활절 찬송(부활주일)",
    "composer": "Richard Shephard",
    "page": 136,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s151",
@@ -2286,8 +2290,8 @@
    "title": "성령님 오시옵소서(성령강림주일)",
    "composer": "Joe Cox and Jody Lindh",
    "page": 140,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s152",
@@ -2295,8 +2299,8 @@
    "title": "주께 감사하세(감사주일)",
    "composer": "김성기",
    "page": 147,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s153",
@@ -2304,8 +2308,8 @@
    "title": "성령의 줄로 이끄소서(성찬예배)",
    "composer": "Harold W. Friedell",
    "page": 154,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s154",
@@ -2313,8 +2317,8 @@
    "title": "입례송",
    "composer": "",
    "page": 161,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s155",
@@ -2322,8 +2326,8 @@
    "title": "기도송",
    "composer": "김성기",
    "page": 162,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s156",
@@ -2331,8 +2335,8 @@
    "title": "폐회송",
    "composer": "Arthur Frackenpohl",
    "page": 163,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s157",
@@ -2340,8 +2344,8 @@
    "title": "서곡(신포니아)",
    "composer": "",
    "page": 5,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s158",
@@ -2349,8 +2353,8 @@
    "title": "내 백성을 위로하라",
    "composer": "",
    "page": 9,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s159",
@@ -2358,8 +2362,8 @@
    "title": "모든 골짜기 높아지리라",
    "composer": "",
    "page": 11,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s160",
@@ -2367,6 +2371,7 @@
    "title": "주의 영광",
    "composer": "",
    "page": 15,
+   "chk": false,
    "dates": [
     {
      "d": "2022-11-27",
@@ -2380,8 +2385,7 @@
      "d": "2025-07-20",
      "url": "https://www.youtube.com/watch?v=Zmm3Hs1eufI"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s161",
@@ -2389,8 +2393,8 @@
    "title": "만군의 여호와가 말하노라",
    "composer": "",
    "page": 23,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s162",
@@ -2398,8 +2402,8 @@
    "title": "주 임하는날 뉘능히 당하리",
    "composer": "",
    "page": 25,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s163",
@@ -2407,8 +2411,8 @@
    "title": "정결케 하시리",
    "composer": "",
    "page": 32,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s164",
@@ -2416,8 +2420,8 @@
    "title": "보라 동정녀가 잉태하여",
    "composer": "",
    "page": 38,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s165",
@@ -2425,6 +2429,7 @@
    "title": "오 기쁜소식을 시온에 전하는 자여",
    "composer": "",
    "page": 38,
+   "chk": false,
    "dates": [
     {
      "d": "2023-12-10",
@@ -2434,8 +2439,7 @@
      "d": "2025-12-07",
      "url": "https://www.youtube.com/watch?v=myhNzj_Z-lg"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s166",
@@ -2443,8 +2447,8 @@
    "title": "보아라 어둠이 땅을 덮으며",
    "composer": "",
    "page": 47,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s167",
@@ -2452,8 +2456,8 @@
    "title": "흑암에 행하던 백성이",
    "composer": "",
    "page": 48,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s168",
@@ -2461,6 +2465,7 @@
    "title": "우리를 위해 나셨다",
    "composer": "",
    "page": 52,
+   "chk": false,
    "dates": [
     {
      "d": "2023-12-24",
@@ -2474,8 +2479,7 @@
      "d": "2025-12-21",
      "url": "https://www.youtube.com/watch?v=mLNNxkWPuHk"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s169",
@@ -2483,8 +2487,8 @@
    "title": "전원 교향곡 (Pifa Pastoral Symphony)",
    "composer": "",
    "page": 62,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s170",
@@ -2492,8 +2496,8 @@
    "title": "그 지경에 목자들이 / 주의 천사가 저희에게 임하고",
    "composer": "",
    "page": 64,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s171",
@@ -2501,8 +2505,8 @@
    "title": "그 천사가 말하기를",
    "composer": "",
    "page": 65,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s172",
@@ -2510,8 +2514,8 @@
    "title": "홀연히 천군천사가 나타나",
    "composer": "",
    "page": 65,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s173",
@@ -2519,6 +2523,7 @@
    "title": "높은 곳에 하나님께 영광",
    "composer": "",
    "page": 66,
+   "chk": false,
    "dates": [
     {
      "d": "2022-12-04",
@@ -2532,8 +2537,7 @@
      "d": "2025-12-14",
      "url": "https://www.youtube.com/watch?v=gO_734ego-8"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s174",
@@ -2541,8 +2545,8 @@
    "title": "시온의 딸들아 기뻐하라",
    "composer": "",
    "page": 70,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s175",
@@ -2550,8 +2554,8 @@
    "title": "그때 소경의 눈이 밝을 것이며",
    "composer": "",
    "page": 76,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s176",
@@ -2559,8 +2563,8 @@
    "title": "내주는 목자와 같이 양무리를 먹이시며",
    "composer": "",
    "page": 76,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s177",
@@ -2568,8 +2572,8 @@
    "title": "그 멍에는 쉽고 그 짐은 가벼워",
    "composer": "",
    "page": 80,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s178",
@@ -2577,8 +2581,8 @@
    "title": "하나님의 어린양을 보라",
    "composer": "",
    "page": 85,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s179",
@@ -2586,8 +2590,8 @@
    "title": "주는 멸시를 당하시고",
    "composer": "",
    "page": 88,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s180",
@@ -2595,8 +2599,8 @@
    "title": "진실로 주는 우리의 질고를 지셨도다",
    "composer": "",
    "page": 92,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s181",
@@ -2604,8 +2608,8 @@
    "title": "주가 채찍 맞음으로",
    "composer": "",
    "page": 96,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s182",
@@ -2613,8 +2617,8 @@
    "title": "우리는 다 양같아서 그릇행하여 각기 제길로 갔거늘",
    "composer": "",
    "page": 100,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s183",
@@ -2622,8 +2626,8 @@
    "title": "주를 보는자 비웃으며",
    "composer": "",
    "page": 108,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s184",
@@ -2631,8 +2635,8 @@
    "title": "하나님이 저를 구원하실 걸",
    "composer": "",
    "page": 109,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s185",
@@ -2640,8 +2644,8 @@
    "title": "주님의 마음이 상하여",
    "composer": "",
    "page": 116,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s186",
@@ -2649,8 +2653,8 @@
    "title": "보라 주님의 서러움을",
    "composer": "",
    "page": 117,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s187",
@@ -2658,8 +2662,8 @@
    "title": "그가 산자의 땅에서 끊어짐은",
    "composer": "",
    "page": 118,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s188",
@@ -2667,8 +2671,8 @@
    "title": "주의 영을 구하리라",
    "composer": "",
    "page": 118,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s189",
@@ -2676,13 +2680,13 @@
    "title": "문들아 너희 머리를 들지어다",
    "composer": "",
    "page": 121,
+   "chk": false,
    "dates": [
     {
      "d": "2025-07-27",
      "url": "https://www.youtube.com/watch?v=V6k0C6iOc1k"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s190",
@@ -2690,8 +2694,8 @@
    "title": "하나님이 어느 천사중 누구에게 말씀하셨나",
    "composer": "",
    "page": 129,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s191",
@@ -2699,8 +2703,8 @@
    "title": "주의 모든 천사들아 경배하라",
    "composer": "",
    "page": 129,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s192",
@@ -2708,8 +2712,8 @@
    "title": "주께서 높이 오르사",
    "composer": "",
    "page": 133,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s193",
@@ -2717,8 +2721,8 @@
    "title": "주 말씀을 주셨다",
    "composer": "",
    "page": 138,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s194",
@@ -2726,8 +2730,8 @@
    "title": "저들의 발걸음이 아름다움이여",
    "composer": "",
    "page": 141,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s195",
@@ -2735,8 +2739,8 @@
    "title": "그 소리가 온땅에 퍼졌고",
    "composer": "",
    "page": 143,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s196",
@@ -2744,8 +2748,8 @@
    "title": "어찌하여 열방이 분노하며",
    "composer": "",
    "page": 147,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s197",
@@ -2753,8 +2757,8 @@
    "title": "우리가 그 결박을 끊어 버리자",
    "composer": "",
    "page": 153,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s198",
@@ -2762,8 +2766,8 @@
    "title": "하늘에 계신이가 웃으심이여",
    "composer": "",
    "page": 159,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s199",
@@ -2771,8 +2775,8 @@
    "title": "주께서 저들을 깨뜨시리라",
    "composer": "",
    "page": 159,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s200",
@@ -2780,6 +2784,7 @@
    "title": "할렐루야",
    "composer": "",
    "page": 163,
+   "chk": false,
    "dates": [
     {
      "d": "2022-12-25",
@@ -2801,8 +2806,7 @@
      "d": "2026-04-05",
      "url": "https://www.youtube.com/watch?v=Zcw8FBVc89I"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s201",
@@ -2810,8 +2814,8 @@
    "title": "내 주님은 살아계시니",
    "composer": "",
    "page": 172,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s202",
@@ -2819,8 +2823,8 @@
    "title": "사람을 인하여 죽음왔으니",
    "composer": "",
    "page": 177,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s203",
@@ -2828,8 +2832,8 @@
    "title": "보라 내가 너희에게 비밀을 말하노니",
    "composer": "",
    "page": 180,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s204",
@@ -2837,8 +2841,8 @@
    "title": "나팔소리가 나매",
    "composer": "",
    "page": 180,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s205",
@@ -2846,8 +2850,8 @@
    "title": "사망이 이김의 삼킨바 되리라",
    "composer": "",
    "page": 187,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s206",
@@ -2855,8 +2859,8 @@
    "title": "사망아 너 쏘는 것이 어디 있느냐",
    "composer": "",
    "page": 187,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s207",
@@ -2864,6 +2868,7 @@
    "title": "하나님께 감사드리세",
    "composer": "",
    "page": 189,
+   "chk": false,
    "dates": [
     {
      "d": "2023-11-05",
@@ -2877,8 +2882,7 @@
      "d": "2025-11-23",
      "url": "https://www.youtube.com/watch?v=z-053XqZBkQ"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s208",
@@ -2886,8 +2890,8 @@
    "title": "만일 하나님이 우리를 위하시면 누가 대적하리요?",
    "composer": "",
    "page": 195,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s209",
@@ -2895,8 +2899,8 @@
    "title": "죽음 당하신 어린양",
    "composer": "",
    "page": 201,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s210",
@@ -2904,8 +2908,8 @@
    "title": "나의 힘이 되신 주님",
    "composer": "서경환",
    "page": 6,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s211",
@@ -2913,8 +2917,8 @@
    "title": "내 주가 주신 이 노래는",
    "composer": "Arr. Patti Drennan",
    "page": 14,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s212",
@@ -2922,8 +2926,8 @@
    "title": "기름 부으심",
    "composer": "Arr. 조성원",
    "page": 26,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s213",
@@ -2931,8 +2935,8 @@
    "title": "거기 너 있었는가",
    "composer": "황선우",
    "page": 50,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s214",
@@ -2940,8 +2944,8 @@
    "title": "돌들아 외쳐",
    "composer": "Lloyd Larson",
    "page": 58,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s215",
@@ -2949,8 +2953,8 @@
    "title": "마른 뼈들",
    "composer": "Arr. Tom Fettke and Thomas Grassi",
    "page": 77,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s216",
@@ -2958,8 +2962,8 @@
    "title": "더 원합니다",
    "composer": "Arr. 황광선",
    "page": 91,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s217",
@@ -2967,8 +2971,8 @@
    "title": "나의 죄를 씻기는",
    "composer": "Arr. 황광선",
    "page": 107,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s218",
@@ -2976,8 +2980,8 @@
    "title": "샤론의 꽃 주 예수",
    "composer": "Stan Pethel",
    "page": 115,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s219",
@@ -2985,8 +2989,8 @@
    "title": "너 기쁜 자여",
    "composer": "Michael Barrett",
    "page": 124,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s220",
@@ -2994,8 +2998,8 @@
    "title": "여호수아와 여리고성",
    "composer": "진선미",
    "page": 145,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s221",
@@ -3003,8 +3007,8 @@
    "title": "이 세상은 주의 것이로다",
    "composer": "Carl J. Nygard, Jr.",
    "page": 170,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s222",
@@ -3012,8 +3016,8 @@
    "title": "우리는 찬양하는 주의 백성",
    "composer": "Joseph M. Martin",
    "page": 179,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s223",
@@ -3021,8 +3025,8 @@
    "title": "나의 가는 길",
    "composer": "Arr. 김선민",
    "page": 221,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s224",
@@ -3030,8 +3034,8 @@
    "title": "나의 갈 길 다가도록",
    "composer": "김재훈",
    "page": 233,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s225",
@@ -3039,8 +3043,8 @@
    "title": "믿음의 주요",
    "composer": "신현민",
    "page": 254,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s226",
@@ -3048,8 +3052,8 @@
    "title": "난 만족합니다",
    "composer": "이형구",
    "page": 261,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s227",
@@ -3057,8 +3061,8 @@
    "title": "노래로 주께 영광 돌리며",
    "composer": "Arr. Mary McDonald",
    "page": 273,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s228",
@@ -3066,8 +3070,8 @@
    "title": "여호와는 나의 빛이요",
    "composer": "노희석",
    "page": 283,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s229",
@@ -3075,8 +3079,8 @@
    "title": "영광을 높이 계신 주께",
    "composer": "Arr. Lloyd Larson",
    "page": 290,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s230",
@@ -3084,8 +3088,8 @@
    "title": "축복",
    "composer": "조성원",
    "page": 305,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s231",
@@ -3093,8 +3097,8 @@
    "title": "만왕의 왕께(입례송)",
    "composer": "진선미",
    "page": 327,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s232",
@@ -3102,8 +3106,8 @@
    "title": "우리 주님께(기도송)",
    "composer": "박보람",
    "page": 329,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s233",
@@ -3111,8 +3115,8 @@
    "title": "축도송",
    "composer": "김정범",
    "page": 330,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s234",
@@ -3120,6 +3124,7 @@
    "title": "주님이 일하십니다",
    "composer": "진선미",
    "page": 6,
+   "chk": false,
    "dates": [
     {
      "d": "2021-11-14",
@@ -3137,8 +3142,7 @@
      "d": "2025-01-12",
      "url": "https://www.youtube.com/watch?v=noYtxNPcgcA"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s235",
@@ -3146,6 +3150,7 @@
    "title": "감사함으로 받으면",
    "composer": "홍지열",
    "page": 16,
+   "chk": false,
    "dates": [
     {
      "d": "2021-11-21",
@@ -3163,8 +3168,7 @@
      "d": "2024-04-14",
      "url": "https://www.youtube.com/watch?v=DYKOxUKfAKA"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s236",
@@ -3172,13 +3176,13 @@
    "title": "부흥",
    "composer": "arr. 황수진",
    "page": 24,
+   "chk": false,
    "dates": [
     {
      "d": "2023-04-16",
      "url": "https://www.youtube.com/watch?v=-ByhXKjFUbw"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s237",
@@ -3186,6 +3190,7 @@
    "title": "주님을 기억합니다",
    "composer": "이형구",
    "page": 35,
+   "chk": false,
    "dates": [
     {
      "d": "2022-04-03",
@@ -3195,8 +3200,7 @@
      "d": "2023-08-27",
      "url": "https://www.youtube.com/watch?v=0fMahlYkHiw"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s238",
@@ -3204,8 +3208,8 @@
    "title": "주를 따르리",
    "composer": "Darcy Stanley",
    "page": 44,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s239",
@@ -3213,6 +3217,7 @@
    "title": "내 삶을 드립니다",
    "composer": "이형구",
    "page": 52,
+   "chk": false,
    "dates": [
     {
      "d": "2022-04-10",
@@ -3222,8 +3227,7 @@
      "d": "2023-09-03",
      "url": "https://www.youtube.com/watch?v=IDk6PafQK0o"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s240",
@@ -3231,6 +3235,7 @@
    "title": "보혈 찬송 모음",
    "composer": "arr. Jay Rouse",
    "page": 59,
+   "chk": false,
    "dates": [
     {
      "d": "2022-04-17",
@@ -3240,8 +3245,7 @@
      "d": "2024-04-07",
      "url": "https://www.youtube.com/watch?v=rkzzUIpvu4M"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s241",
@@ -3249,8 +3253,8 @@
    "title": "내 눈을 들어 두루 살피니",
    "composer": "윤창호",
    "page": 72,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s242",
@@ -3258,6 +3262,7 @@
    "title": "날 지으신 주님",
    "composer": "탁우빈",
    "page": 81,
+   "chk": false,
    "dates": [
     {
      "d": "2022-03-27",
@@ -3271,8 +3276,7 @@
      "d": "2024-02-11",
      "url": "https://www.youtube.com/watch?v=ofVU3utGpi4"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s243",
@@ -3280,8 +3284,8 @@
    "title": "난 순례자라",
    "composer": "Stan Pethel",
    "page": 93,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s244",
@@ -3289,6 +3293,7 @@
    "title": "너 예수께 조용히 나가",
    "composer": "arr. 황주연",
    "page": 100,
+   "chk": false,
    "dates": [
     {
      "d": "2022-02-13",
@@ -3298,8 +3303,7 @@
      "d": "2023-08-20",
      "url": "https://www.youtube.com/watch?v=ik_FGhePMB8"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s245",
@@ -3307,8 +3311,8 @@
    "title": "믿음의 노래",
    "composer": "Joseph M. Martin",
    "page": 109,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s246",
@@ -3316,13 +3320,13 @@
    "title": "그 사랑(어버이 사랑)",
    "composer": "안재숙",
    "page": 130,
+   "chk": false,
    "dates": [
     {
      "d": "2022-05-08",
      "url": "https://www.youtube.com/watch?v=76ZZ5oht5lU"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s247",
@@ -3330,13 +3334,13 @@
    "title": "구주와 함께 나 죽었으니",
    "composer": "arr. 김자영",
    "page": 138,
+   "chk": false,
    "dates": [
     {
      "d": "2020-08-16",
      "url": "https://www.youtube.com/watch?v=8zTwqbLBHX4"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s248",
@@ -3344,8 +3348,8 @@
    "title": "거룩한 주님의 땅으로",
    "composer": "서은정",
    "page": 154,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s249",
@@ -3353,8 +3357,8 @@
    "title": "크신 은혜",
    "composer": "arr. Tom Fettke",
    "page": 167,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s250",
@@ -3362,8 +3366,8 @@
    "title": "곧 오소서 임마누엘",
    "composer": "이형구",
    "page": 173,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s251",
@@ -3371,8 +3375,8 @@
    "title": "평강의 왕",
    "composer": "홍지열",
    "page": 179,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s252",
@@ -3380,8 +3384,8 @@
    "title": "주님께 영광",
    "composer": "arr. Heather Sorenson",
    "page": 187,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s253",
@@ -3389,8 +3393,8 @@
    "title": "온 세상아 기뻐하라",
    "composer": "Joseph M. Martin",
    "page": 202,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s254",
@@ -3398,8 +3402,8 @@
    "title": "예수, 승리하신 어린 양!",
    "composer": "Marty Parks",
    "page": 215,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s255",
@@ -3407,13 +3411,13 @@
    "title": "아 하나님의 은혜로",
    "composer": "황선우",
    "page": 224,
+   "chk": false,
    "dates": [
     {
      "d": "2022-05-22",
      "url": "https://www.youtube.com/watch?v=yg-YZjaVWQM"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s256",
@@ -3421,6 +3425,7 @@
    "title": "주 예수 넓은 품에",
    "composer": "이현철",
    "page": 234,
+   "chk": false,
    "dates": [
     {
      "d": "2023-02-05",
@@ -3430,8 +3435,7 @@
      "d": "2023-09-10",
      "url": "https://www.youtube.com/watch?v=gDQNT-IWPRc"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s257",
@@ -3439,6 +3443,7 @@
    "title": "영광 오직 주님께",
    "composer": "Marty Parks",
    "page": 243,
+   "chk": false,
    "dates": [
     {
      "d": "2022-02-06",
@@ -3452,8 +3457,7 @@
      "d": "2025-01-19",
      "url": "https://www.youtube.com/watch?v=Ue8_fqJOxf8"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s258",
@@ -3461,8 +3465,8 @@
    "title": "유빌라테 데오, 찬양해!",
    "composer": "양이룩",
    "page": 252,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s259",
@@ -3470,8 +3474,8 @@
    "title": "내 영혼이 은총 입어",
    "composer": "안재숙",
    "page": 262,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s260",
@@ -3479,8 +3483,8 @@
    "title": "왕께 노래 부르리",
    "composer": "arr. Michael Barrett",
    "page": 271,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s261",
@@ -3488,8 +3492,8 @@
    "title": "모든 영광 주 안에 있네",
    "composer": "arr. Mary McDonald",
    "page": 281,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s262",
@@ -3497,8 +3501,8 @@
    "title": "죄짐 맡은 우리 구주",
    "composer": "arr. Mary McDonald",
    "page": 291,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s263",
@@ -3506,8 +3510,8 @@
    "title": "입례송",
    "composer": "홍지열",
    "page": 303,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s264",
@@ -3515,8 +3519,8 @@
    "title": "기도송",
    "composer": "홍지열",
    "page": 305,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   },
   {
    "id": "s265",
@@ -3524,8 +3528,8 @@
    "title": "폐회송",
    "composer": "홍지열",
    "page": 306,
-   "dates": [],
-   "chk": false
+   "chk": false,
+   "dates": []
   }
  ]
 }
