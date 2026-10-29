@@ -331,17 +331,7 @@ dialog::backdrop{background:rgba(10,19,48,.55)}
         <g stroke="#ead9aa" stroke-width="1.4"><line x1="48.5" y1="21" x2="48.5" y2="-2"/><line x1="90.5" y1="12" x2="90.5" y2="-4"/><line x1="132.5" y1="6" x2="132.5" y2="-6"/></g>
       </svg>
       <p class="intro" id="intro"></p>
-      <div class="ipanel edit-only" id="ipanel">
-        <label class="t" for="iText">안내 문구 (이 화면에서 바로 수정)</label>
-        <textarea id="iText" rows="3" maxlength="400"></textarea>
-        <div class="irow">
-          <label class="ic">색상 <input type="color" id="iColor"></label>
-          <span class="sw" id="iSw"></span>
-          <label class="ic">크기 <input type="range" id="iSizeR" min="12" max="40"> <input type="number" id="iSizeN" min="12" max="40">px</label>
-          <span class="grp" id="iAl"><button type="button" data-al="left">왼쪽</button><button type="button" data-al="center">가운데</button><button type="button" data-al="right">오른쪽</button></span>
-          <span class="grp" id="iBold"><button type="button" data-b="0">보통</button><button type="button" data-b="1">굵게</button></span>
-        </div>
-      </div>
+      
     </div>
   </div>
 </header>
@@ -356,11 +346,6 @@ dialog::backdrop{background:rgba(10,19,48,.55)}
       <div class="stats" id="statLine"></div>
       <div class="tools">
         <button type="button" class="btn mobile-only" id="btnFilter">검색 필터</button>
-        <span class="dirty edit-only" id="dirtyMark" hidden>● 저장 전</span>
-        <button type="button" class="btn gold edit-only" id="btnAdd">+ 곡 추가</button>
-        <button type="button" class="btn pri edit-only" id="btnSave">GitHub에 저장</button>
-        <button type="button" class="btn edit-only" id="btnGh">연결 설정</button>
-        <button type="button" class="btn" id="btnEdit">편집 모드</button>
       </div>
     </div>
     <div class="filters" id="filters">
@@ -388,43 +373,11 @@ dialog::backdrop{background:rgba(10,19,48,.55)}
   <div class="dfoot"><a class="btn" id="pOpen" target="_blank" rel="noopener">YouTube에서 열기</a><button type="button" class="btn" data-close>닫기</button></div>
 </dialog>
 
-<dialog id="dlgSong" style="width:620px">
-  <div class="dh1"><div id="sHead">곡 추가</div><button type="button" class="x" data-close aria-label="닫기">×</button></div>
-  <div class="db">
-    <div class="two">
-      <div><label for="sBook">책명</label><input id="sBook" list="dlBook" autocomplete="off" placeholder="예: 시온7"></div>
-      <div><label for="sPage">페이지</label><input id="sPage" inputmode="numeric" autocomplete="off"></div>
-    </div>
-    <label for="sTitle">곡명</label><input id="sTitle" autocomplete="off">
-    <label for="sComp">작곡가 (없으면 비워 두세요)</label><input id="sComp" autocomplete="off">
-    <label style="margin-top:14px">찬양한 날짜 · YouTube 영상 링크 (여러 번 추가할 수 있습니다)</label>
-    <div id="sDates"></div>
-    <button type="button" class="addd" id="sAddDate" style="margin-top:8px">+ 날짜 추가</button>
-    <p class="hint">날짜는 입력 순서와 관계없이 빠른 날짜부터 자동으로 정렬됩니다.</p>
-  </div>
-  <div class="dfoot"><button type="button" class="btn danger l" id="sDel">곡 삭제</button><button type="button" class="btn" data-close>취소</button><button type="button" class="btn pri" id="sOk">적용</button></div>
-</dialog>
 
-<dialog id="dlgDate" style="width:480px">
-  <div class="dh1"><div><span id="dHead">날짜 추가</span><small id="dSub"></small></div><button type="button" class="x" data-close aria-label="닫기">×</button></div>
-  <div class="db">
-    <label for="dDate">찬양한 날짜</label><input type="date" id="dDate">
-    <label for="dUrl">YouTube 영상 링크 (없으면 비워 두세요)</label><input id="dUrl" inputmode="url" autocomplete="off" placeholder="https://youtu.be/…">
-    <p class="hint">이 날짜를 누르면 입력한 영상이 재생됩니다.</p>
-  </div>
-  <div class="dfoot"><button type="button" class="btn danger l" id="dDel">날짜 삭제</button><button type="button" class="btn" data-close>취소</button><button type="button" class="btn pri" id="dOk">적용</button></div>
-</dialog>
 
-<dialog id="dlgGh" style="width:520px">
-  <div class="dh1"><div>GitHub 연결</div><button type="button" class="x" data-close aria-label="닫기">×</button></div>
-  <div class="db">
-    <label for="tok">토큰 (Contents 읽기·쓰기 권한)</label><div id="tokBox"></div>
-    <label style="display:flex;gap:8px;align-items:center;margin-top:12px"><input type="checkbox" id="tokSave" style="width:auto;height:auto"> 이 브라우저에 토큰 기억하기</label>
-    <p class="hint">다른 찬양대 관리 페이지에서 저장해 둔 토큰이 있으면 자동으로 사용합니다. 저장 시 GitHub의 zion-hymnhistory.json 에 이력이 남습니다.</p>
-    <p class="hint" id="tokMsg"></p>
-  </div>
-  <div class="dfoot"><button type="button" class="btn" id="tokTest">연결 확인</button><button type="button" class="btn pri" id="tokOk">확인</button></div>
-</dialog>
+
+
+
 
 <dialog id="dlgAsk" style="width:420px">
   <div class="dh1"><div>확인</div></div>
@@ -437,7 +390,8 @@ dialog::backdrop{background:rgba(10,19,48,.55)}
 (function(){
 'use strict';
 var REPO='yangji-madang/nsgc',FPATH='zion-hymnhistory.json',BRANCH='main',TK='choir-gh-token-v1',DRAFT='zion-hymnhistory-draft-v1';
-var $=function(s){return document.querySelector(s);},$$=function(s){return Array.prototype.slice.call(document.querySelectorAll(s));};
+var ADMIN=false;
+var $=function(s){return document.querySelector(s)||document.createElement('div');},$$=function(s){return Array.prototype.slice.call(document.querySelectorAll(s));};
 var esc=function(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];});};
 var DATA=null,edit=false,dirty=false,view='list',loadedStamp='';
 var filt={book:'',title:'',comp:'',year:'',stat:''};
@@ -928,17 +882,18 @@ if(window.ResizeObserver)new ResizeObserver(measure).observe($('#bar'));
 
 /* ---------- boot ---------- */
 async function boot(){
-  var d=null,tok=''; try{tok=localStorage.getItem(TK)||'';}catch(e){}
+  var d=null,tok=''; if(ADMIN){try{tok=localStorage.getItem(TK)||'';}catch(e){}}
   var timeout=new Promise(function(r){setTimeout(function(){r(null);},5000);});
   var fetchRemote=(async function(){
     if(tok){try{var g=await ghGet(tok);if(g&&g.content)return JSON.parse(unb64(g.content));}catch(e){}}
     try{var r=await fetch(FPATH+'?t='+Date.now(),{cache:'no-store'});if(r.ok)return await r.json();}catch(e){}
+    if(!ADMIN){try{var r2=await fetch('https://raw.githubusercontent.com/'+REPO+'/'+BRANCH+'/'+FPATH,{cache:'no-store'});if(r2.ok)return await r2.json();}catch(e){}}
     return null;
   })();
   d=await Promise.race([fetchRemote,timeout]);
   if(!d)d=JSON.parse($('#seed').textContent);
   DATA=normalize(d);loadedStamp=DATA.updated||'';
-  var draft=null;try{draft=JSON.parse(localStorage.getItem(DRAFT));}catch(e){}
+  var draft=null;if(ADMIN){try{draft=JSON.parse(localStorage.getItem(DRAFT));}catch(e){}}
   if(draft&&draft.songs&&JSON.stringify(draft)!==JSON.stringify(DATA)){
     var bn=$('#banner');
     bn.innerHTML='<div class="banner"><span>저장하지 않은 수정본이 이 브라우저에 남아 있습니다.</span><button type="button" class="btn pri" id="bkLoad">수정본 이어서 편집</button><button type="button" class="btn" id="bkDrop" style="margin-left:0">버리기</button></div>';
