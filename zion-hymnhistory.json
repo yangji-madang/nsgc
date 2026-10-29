@@ -1,6 +1,6 @@
 {
  "v": 1,
- "updated": "2026-10-29T13:02:18.658Z",
+ "updated": "2026-10-29T13:06:10.879Z",
  "bookOrder": [
   "시온2",
   "시온3",
@@ -292,7 +292,12 @@
    "title": "어머니의 기도",
    "composer": "",
    "page": 9,
-   "dates": []
+   "dates": [
+    {
+     "d": "2026-05-10",
+     "url": "https://youtu.be/rGEp945toeg?si=l6D7_DbmpPQnz7vA"
+    }
+   ]
   },
   {
    "id": "s033",
@@ -375,6 +380,10 @@
    "composer": "",
    "page": 91,
    "dates": [
+    {
+     "d": "2023-07-30",
+     "url": "https://youtu.be/iAt3r0s7_TQ?si=nrOzggUHNc5hrbru"
+    },
     {
      "d": "2025-10-26",
      "url": "https://youtu.be/9tW35b32rvc?si=TtMtBkP2MnwfYbvm"
@@ -485,7 +494,12 @@
    "title": "요게벳의 노래",
    "composer": "",
    "page": 49,
-   "dates": []
+   "dates": [
+    {
+     "d": "2026-05-24",
+     "url": "https://youtu.be/GQ-u1qtbKd0?si=bbBRW7p2Gadomaqj"
+    }
+   ]
   },
   {
    "id": "s051",
@@ -889,6 +903,32 @@
     {
      "d": "2026-07-12",
      "url": "https://youtu.be/QCrb9GkMzWE?si=3EH8u_vQetv_vf3c"
+    }
+   ]
+  },
+  {
+   "id": "s091",
+   "book": "별도 악보",
+   "title": "하나님이 너를 엄청 사랑하신대",
+   "composer": "",
+   "page": "",
+   "dates": [
+    {
+     "d": "2024-06-09",
+     "url": "https://youtu.be/hBVd8dkw_-A?si=MblIZsGH-08b4cbg"
+    }
+   ]
+  },
+  {
+   "id": "s092",
+   "book": "중앙48",
+   "title": "인도하심",
+   "composer": "지혜정",
+   "page": 243,
+   "dates": [
+    {
+     "d": "2026-09-13",
+     "url": "https://youtu.be/EZuHQ3WCBNQ?si=oTOxsnBAsy-9Bjp1"
     }
    ]
   }
