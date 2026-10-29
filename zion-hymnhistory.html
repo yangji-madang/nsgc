@@ -360,10 +360,10 @@ dialog::backdrop{background:rgba(10,19,48,.55)}
       </div>
       <div class="stats" id="statLine"></div>
       <div class="tools">
-        <button type="button" class="btn mobile-only" id="btnFilter">검색 필터</button>
+        <button type="button" class="btn mobile-only" id="btnFilter">검색기능 감추기</button>
       </div>
     </div>
-    <div class="filters" id="filters">
+    <div class="filters open" id="filters">
       <div><label for="fStat">구분</label><select id="fStat"><option value="">전체</option><option value="played">연주한 찬양</option><option value="none">연주하지 않은 찬양</option></select></div>
       <div><label for="fBook">책명</label><select id="fBook"></select></div>
       <div><label for="fTitle">곡명</label><input id="fTitle" list="dlTitle" placeholder="선택 또는 입력" autocomplete="off"></div>
@@ -809,7 +809,7 @@ function setEdit(on){
 function measure(){document.documentElement.style.setProperty('--barh',$('#bar').offsetHeight+'px');}
 function renderFoot(){
   var u=DATA.updated?new Date(DATA.updated):null;
-  $('#foot').textContent='남서울은혜교회 시온찬양대'+(u&&!isNaN(u)?' · 최종 수정 '+u.getFullYear()+'.'+String(u.getMonth()+1).padStart(2,'0')+'.'+String(u.getDate()).padStart(2,'0'):'')+(ADMIN?' · 관리 화면 버전 1030-0654':'');
+  $('#foot').textContent='남서울은혜교회 시온찬양대'+(u&&!isNaN(u)?' · 최종 수정 '+u.getFullYear()+'.'+String(u.getMonth()+1).padStart(2,'0')+'.'+String(u.getDate()).padStart(2,'0'):'')+(ADMIN?' · 관리 화면 버전 1030-0706':'');
 }
 
 /* ---------- GitHub ---------- */
@@ -890,7 +890,7 @@ $('#tabList').onclick=function(){setView('list');};
 $('#tabDash').onclick=function(){setView('dash');};
 $('#btnEdit').onclick=function(){setEdit(!edit);};
 $('#btnAdd').onclick=function(){openSong(null);};
-$('#btnFilter').onclick=function(){$('#filters').classList.toggle('open');measure();};
+$('#btnFilter').onclick=function(){var o=$('#filters').classList.toggle('open');this.textContent=o?'검색기능 감추기':'검색기능 보기';measure();};
 ['fBook','fYear','fStat'].forEach(function(id){$('#'+id).onchange=function(){filt[id==='fBook'?'book':id==='fYear'?'year':'stat']=this.value;renderList();};});
 function guardUrl(el){if(/^\s*(https?:\/\/|www\.|youtu)/i.test(el.value)){el.value='';return true;}return false;}
 $('#fTitle').oninput=function(){if(guardUrl(this))toast('브라우저 자동완성이 넣은 주소를 지웠습니다.');filt.title=this.value;renderList();};
