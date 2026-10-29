@@ -1,6 +1,6 @@
 {
  "v": 1,
- "updated": "2026-10-29T15:38:45.147Z",
+ "updated": "2026-10-29T15:40:12.588Z",
  "bookOrder": [
   "시온2",
   "시온3",
@@ -1067,6 +1067,10 @@
    "page": 61,
    "chk": false,
    "dates": [
+    {
+     "d": "2024-08-04",
+     "url": "https://youtu.be/MEhMKb6wE40?si=kt4ga9LcyYH62MRx"
+    },
     {
      "d": "2025-11-30",
      "url": "https://www.youtube.com/watch?v=dBU_ZW6XlF4"
