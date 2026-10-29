@@ -199,6 +199,31 @@ body.edit .btn.edit-only{display:inline-block}
 .playb{border:1px solid #e4cf98;background:#fff7dd;border-radius:8px;padding:3px 10px;font-size:13px;display:inline-flex;align-items:center;gap:6px}
 .playb:hover{background:#fdeeba}
 .yb2{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:18px}
+.pMx{position:relative}
+.mxwrap{overflow-x:auto}
+.mx{min-width:calc(130px + var(--n)*34px + 50px)}
+.mr{display:grid;grid-template-columns:minmax(120px,1.6fr) repeat(var(--n),minmax(34px,1fr)) 50px;align-items:center;padding:2px 0;border-bottom:1px solid var(--line2)}
+.mr.mh{border-bottom:2px solid var(--gold);position:sticky;top:0;background:#fff;font-weight:700;color:var(--navy8);font-size:13px}
+.mr:not(.mh):hover{background:#faf6e8}
+.mt{font-weight:600;font-size:13.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding-right:6px}
+.my,.me{text-align:center}
+.me{color:#c4bfae}
+.ms{text-align:right;font-weight:700;color:var(--navy8);font-variant-numeric:tabular-nums;font-size:13px}
+.mc{justify-self:center;min-width:28px;height:22px;padding:0 6px;border:0;border-radius:11px;font-weight:700;font-size:13px;cursor:pointer;transition:transform .15s,box-shadow .15s}
+.mc:hover{transform:scale(1.15)}
+.mc.sel{box-shadow:0 0 0 3px rgba(201,164,92,.7)}
+.mc.c1{background:#f0dfae;color:#4a3608}
+.mc.c2{background:#d9b45e;color:#3a2a07}
+.mc.c3{background:var(--navy7);color:#fff}
+@keyframes mcin{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:none}}
+.go .mc{animation:mcin .45s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i,0)*30ms)}
+.mpop{position:absolute;z-index:20;background:#fff;border:1px solid #bfb9a5;border-top:3px solid var(--gold);border-radius:10px;box-shadow:0 12px 30px -8px rgba(10,19,48,.55);padding:8px 10px;animation:rise .25s ease-out}
+.mph{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13.5px;margin-bottom:4px;color:var(--navy8)}
+.mph .x{border:0;background:transparent;font-size:20px;line-height:1;color:var(--mut)}
+.mpop ul{margin:0;padding:0;list-style:none;max-height:240px;overflow:auto}
+.mpop li{display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding:4px 0;border-top:1px dashed var(--line);font-size:13.5px}
+.mpop li .pm{color:var(--mut)}
+.mpop li .nv{color:var(--mut);font-size:12.5px}
 .bk{display:grid;grid-template-columns:118px 1fr auto;gap:8px;align-items:center;padding:2px 0}
 .bk .bbar{height:12px}
 .bk small{color:var(--ink2);font-variant-numeric:tabular-nums;white-space:nowrap}
@@ -236,7 +261,7 @@ dialog::backdrop{background:rgba(10,19,48,.55)}
   .kpi .s{white-space:normal}
   .tl{min-width:430px}
   .dcol{display:contents}
-  .pSongs{order:1}.pYear{order:2}.pTl{order:3}.detail{order:4}
+  .pSongs{order:1}.pMx{order:2}.pBook{order:3}
 }
 @media (max-width:820px){
   :root{--isk:.88}
@@ -273,6 +298,10 @@ dialog::backdrop{background:rgba(10,19,48,.55)}
 }
 @media (max-width:700px){.yb2{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:520px){
+  .mx{min-width:calc(84px + var(--n)*25px + 42px)}
+  .mr{grid-template-columns:minmax(84px,1.4fr) repeat(var(--n),minmax(25px,1fr)) 42px}
+  .mc{min-width:22px;padding:0 4px;font-size:12px}
+  .mt{font-size:13px}
   .brow .bm{display:none}
   .db .two{grid-template-columns:1fr}
 }
@@ -656,68 +685,85 @@ function animateDash(){
     (function step(t){if(t0===null)t0=t;var k=Math.min(1,(t-t0)/800),e=1-Math.pow(1-k,3);el.textContent=Math.round(n*e);if(k<1)requestAnimationFrame(step);})(performance.now());
   });
 }
+function groupSongs(){
+  var m={},order=[];
+  DATA.songs.forEach(function(s){
+    var k=norm(s.title),g=m[k];
+    if(!g){g=m[k]={key:k,title:s.title,entries:[],dm:{}};order.push(g);}
+    g.entries.push(s);
+    s.dates.forEach(function(x,i){var e=g.dm[x.d];if(!e||(!e.url&&x.url))g.dm[x.d]={d:x.d,url:x.url,s:s,i:i};});
+  });
+  order.forEach(function(g){
+    g.dates=Object.keys(g.dm).sort().map(function(d){return g.dm[d];});
+    var pb=[];g.entries.forEach(function(s){if(s.dates.length&&pb.indexOf(s.book)<0)pb.push(s.book);});g.pbooks=pb;
+  });
+  return order;
+}
 function renderDash(){
-  var played=DATA.songs.filter(function(s){return s.dates.length;});
+  var groups=groupSongs(),played=groups.filter(function(g){return g.dates.length;});
   var root=$('#viewDash');
   if(!played.length){root.innerHTML='<div class="panel empty">아직 찬양한 곡이 없습니다. 찬양 현황에서 날짜를 등록하면 이곳에 집계됩니다.</div>';return;}
-  var plays=0,dmap={};
-  played.forEach(function(s){plays+=s.dates.length;s.dates.forEach(function(x,i){(dmap[x.d]=dmap[x.d]||[]).push({s:s,i:i});});});
-  var dates=Object.keys(dmap).sort(),latest=dates[dates.length-1];
-  var latestSongs=dmap[latest].map(function(o){return o.s.title;}).join(', ');
-  if(!selDate||!dmap[selDate])selDate=latest;
+  var plays=0,dset={};
+  played.forEach(function(g){plays+=g.dates.length;g.dates.forEach(function(x){(dset[x.d]=dset[x.d]||[]).push(g);});});
+  var dates=Object.keys(dset).sort(),latest=dates[dates.length-1];
+  var latestSongs=dset[latest].map(function(g){return g.title;}).join(', ');
   var y0=+dates[0].slice(0,4),y1=+dates[dates.length-1].slice(0,4),years=[];
   for(var y=y0;y<=y1;y++)years.push(y);
-  var yDates={},yPlays={};years.forEach(function(y){yDates[y]=0;yPlays[y]=0;});
-  dates.forEach(function(d){var y=+d.slice(0,4);yDates[y]++;yPlays[y]+=dmap[d].length;});
-
   var h='<div class="kpis">'+
-   '<div class="kpi"><div class="k">찬양한 곡</div><div class="v"><span class="cu" data-n="'+played.length+'">'+played.length+'</span><small>곡</small></div><span class="s">전체 '+DATA.songs.length+'곡 중 '+Math.round(played.length/DATA.songs.length*100)+'%</span></div>'+
+   '<div class="kpi"><div class="k">찬양한 곡</div><div class="v"><span class="cu" data-n="'+played.length+'">'+played.length+'</span><small>곡</small></div><span class="s">전체 '+groups.length+'곡 중 '+Math.round(played.length/groups.length*100)+'%</span></div>'+
    '<div class="kpi"><div class="k">총 연주 횟수</div><div class="v"><span class="cu" data-n="'+plays+'">'+plays+'</span><small>회</small></div><span class="s">찬양한 곡 합계</span></div>'+
    '<div class="kpi"><div class="k">찬양한 날짜</div><div class="v"><span class="cu" data-n="'+dates.length+'">'+dates.length+'</span><small>일</small></div><span class="s">'+y0+(y1>y0?'~'+y1:'')+'년</span></div>'+
    '<div class="kpi"><div class="k">가장 최근 찬양일</div><div class="v" style="font-size:19px">'+fmt(latest)+'</div><span class="s">'+esc(latestSongs)+'</span></div></div>';
 
-  /* A: per-song bars */
-  var sorted=played.slice().sort(function(a,b){return b.dates.length-a.dates.length||(lastDate(b)<lastDate(a)?-1:lastDate(b)>lastDate(a)?1:0)||cmpDefault(a,b);});
-  var mx=Math.max(3,sorted[0].dates.length),LIM=15;
-  function brow(s,ix){return'<div class="brow"><div class="bl"><span class="bt" title="'+esc(s.title)+'">'+esc(s.title)+'</span><span class="bm">'+esc(s.book)+(s.page!==''?' · '+s.page+'쪽':'')+'</span></div><div class="bbar"><i style="--w:'+(s.dates.length/mx*100)+'%;--i:'+(ix||0)+'"></i></div><b class="bn">'+s.dates.length+'회</b></div>';}
-  h+='<div class="dgrid"><div class="dcol"><div class="panel pSongs"><h2>곡별 총 연주 횟수</h2><p class="sub">한 번이라도 찬양한 '+played.length+'곡 · 많이 부른 순</p><div id="songBars">'+sorted.slice(0,LIM).map(brow).join('')+'</div>'+
-    (sorted.length>LIM?'<button type="button" class="btn more" id="btnMore">나머지 '+(sorted.length-LIM)+'곡 더 보기</button>':'')+'</div><div class="detail" id="detail"></div></div>';
-
-  /* B: per-year columns (right column) */
-  var ymx=Math.max(5,Math.max.apply(null,years.map(function(y){return Math.max(yDates[y],yPlays[y]);})));
-  h+='<div class="dcol"><div class="panel pYear"><div class="yb2"><div><h2>년도별 찬양 현황</h2><p class="sub">찬양한 날짜 수와 연주 횟수</p><div class="legend"><span><i style="background:var(--navy7)"></i>찬양한 날짜 수</span><span><i style="background:var(--gold)"></i>연주 횟수</span></div>'+
-    '<div class="ycols">'+years.map(function(y){return'<div class="ycol"><div class="ypair"><div class="yb"><b>'+yDates[y]+'</b><span style="--h:'+(yDates[y]/ymx*86)+'%;--i:'+(y-y0)+';background:var(--navy7)"></span></div><div class="yb"><b>'+yPlays[y]+'</b><span style="--h:'+(yPlays[y]/ymx*86)+'%;--i:'+(y-y0)+';background:var(--gold)"></span></div></div></div>';}).join('')+'</div>'+
-    '<div class="ylabels">'+years.map(function(y){return'<span>'+y+'년</span>';}).join('')+'</div></div>'+
-    '<div><h2>책별 연주 횟수</h2><p class="sub">찬양한 곡이 수록된 책 기준</p><div id="bookBars"></div></div></div></div>';
-
-  /* C: timeline */
-  h+='<div class="panel pTl"><h2>년도별 찬양한 날짜</h2><p class="sub">점의 크기와 숫자는 그날 찬양한 곡 수 · 점을 누르면 그날의 곡 목록이 표시됩니다</p><div class="tlscroll"><div class="tl">'+
-    '<div class="tl-head"><span></span><div class="months">'+[1,2,3,4,5,6,7,8,9,10,11,12].map(function(m){return'<span>'+m+'월</span>';}).join('')+'</div></div>';
-  years.forEach(function(y){
-    var ds=dates.filter(function(d){return +d.slice(0,4)===y;});
-    if(!ds.length){h+='<div class="tl-row"><span class="yl">'+y+'</span><div class="track emp">찬양 기록 없음</div></div>';return;}
-    h+='<div class="tl-row"><span class="yl">'+y+'</span><div class="track">'+[1,2,3,4,5,6,7,8,9,10,11,12].map(function(){return'<div class="m"></div>';}).join('')+
-      (function(){var tw=Math.max(430,(innerWidth>980?$('#viewDash').clientWidth*0.55:$('#viewDash').clientWidth)-60),gap=34/tw*100,last=-99;
-      return ds.map(function(d){var n=dmap[d].length,sz=Math.round(18+Math.min(n,10)*2.4),p=dayPos(d),showL=(p-last)>=gap;if(showL)last=p;return'<button type="button" class="dot'+(d===selDate?' sel':'')+'" data-date="'+d+'" style="left:'+p+'%;width:'+sz+'px;height:'+sz+'px" title="'+fmt(d)+' · '+n+'곡" aria-label="'+fmt(d)+' '+n+'곡">'+n+'</button>'+(showL?'<span class="dlab" style="left:'+p+'%;top:'+(20+Math.round(sz/2)+2)+'px">'+(+d.slice(5,7))+'.'+(+d.slice(8,10))+'</span>':'');}).join('');})()+'</div></div>';
-  });
-  h+='</div></div></div></div>';
+  var sorted=played.slice().sort(function(a,b){var la=a.dates[a.dates.length-1].d,lb=b.dates[b.dates.length-1].d;return b.dates.length-a.dates.length||(lb<la?-1:lb>la?1:0)||a.title.localeCompare(b.title,'ko');});
+  var mx=Math.max(3,sorted[0].dates.length),LIM=15,MXLIM=24;
+  function meta(g){var e=g.entries.filter(function(s){return s.dates.length;});return e.length===1?e[0].book+(e[0].page!==''?' · '+e[0].page+'쪽':''):g.pbooks.join('·');}
+  function brow(g,ix){return'<div class="brow"><div class="bl"><span class="bt" title="'+esc(g.title)+'">'+esc(g.title)+'</span><span class="bm">'+esc(meta(g))+'</span></div><div class="bbar"><i style="--w:'+(g.dates.length/mx*100)+'%;--i:'+(ix||0)+'"></i></div><b class="bn">'+g.dates.length+'회</b></div>';}
+  function yc(g){var o={};g.dates.forEach(function(x){var y=x.d.slice(0,4);o[y]=(o[y]||0)+1;});return o;}
+  function mrow(g,gi){
+    var c=yc(g);
+    return'<div class="mr"><div class="mt" title="'+esc(g.title)+'">'+esc(g.title)+'</div>'+years.map(function(y){var n=c[y]||0;return n?'<button type="button" class="mc c'+Math.min(n,3)+'" data-g="'+gi+'" data-y="'+y+'" style="--i:'+(gi%12)+'" aria-label="'+esc(g.title)+' '+y+'년 '+n+'회">'+n+'</button>':'<span class="me">·</span>';}).join('')+'<b class="ms">'+g.dates.length+'회</b></div>';
+  }
+  h+='<div class="dgrid"><div class="dcol"><div class="panel pSongs"><h2>곡별 총 연주 횟수</h2><p class="sub">한 번이라도 찬양한 '+played.length+'곡 · 책이 달라도 곡명이 같으면 같은 곡으로 합산</p><div id="songBars">'+sorted.slice(0,LIM).map(brow).join('')+'</div>'+
+    (sorted.length>LIM?'<button type="button" class="btn more" id="btnMore">나머지 '+(sorted.length-LIM)+'곡 더 보기</button>':'')+'</div>'+
+    '<div class="panel pBook"><h2>책별 연주 횟수</h2><p class="sub">찬양한 곡이 수록된 책 기준</p><div id="bookBars"></div></div></div>'+
+    '<div class="dcol"><div class="panel pMx"><h2>연도별 찬양 차트</h2><p class="sub">해마다 몇 번 불렀는지 · 숫자를 누르면 날짜와 영상이 나옵니다</p>'+
+    '<div class="mxwrap"><div class="mx" id="mx" style="--n:'+years.length+'"><div class="mr mh"><div class="mt">곡명</div>'+years.map(function(y){return'<div class="my">'+y+'</div>';}).join('')+'<div class="ms">합계</div></div><div id="mxRows">'+sorted.slice(0,MXLIM).map(mrow).join('')+'</div></div></div>'+
+    (sorted.length>MXLIM?'<button type="button" class="btn more" id="btnMxMore">나머지 '+(sorted.length-MXLIM)+'곡 더 보기</button>':'')+'</div></div></div>';
   root.innerHTML=h;
 
-  /* book bars */
-  var bm={};played.forEach(function(s){var o=bm[s.book]=bm[s.book]||{n:0,c:0};o.n+=s.dates.length;o.c++;});
+  var bm={};DATA.songs.filter(function(s){return s.dates.length;}).forEach(function(s){var o=bm[s.book]=bm[s.book]||{n:0,c:0};o.n+=s.dates.length;o.c++;});
   var bks=bookList().filter(function(b){return bm[b];}),bmx=Math.max(3,Math.max.apply(null,bks.map(function(b){return bm[b].n;})));
   $('#bookBars').innerHTML=bks.map(function(b,ix){return'<div class="bk"><div>'+tag(b)+'</div><div class="bbar"><i style="--w:'+(bm[b].n/bmx*100)+'%;--i:'+ix+'"></i></div><small><b>'+bm[b].n+'회</b> · '+bm[b].c+'곡</small></div>';}).join('');
 
   var more=$('#btnMore');if(more)more.onclick=function(){$('#songBars').innerHTML=sorted.map(brow).join('');more.remove();animateDash();};
-  function detail(){
-    var list=dmap[selDate];
-    $('#detail').innerHTML='<h3>'+fmt(selDate)+' ('+wd(selDate)+') · '+list.length+'곡 찬양</h3><ul>'+list.map(function(o){return'<li>'+tag(o.s.book)+'<b>'+esc(o.s.title)+'</b>'+(o.s.page!==''?'<span style="color:var(--mut)">'+o.s.page+'쪽</span>':'')+(o.s.composer?'<span style="color:var(--mut)">'+esc(o.s.composer)+'</span>':'')+
-      (o.s.dates[o.i].url?'<button type="button" class="playb" data-id="'+esc(o.s.id)+'" data-i="'+o.i+'"><i class="pl"></i>영상 재생</button>':'<span style="color:var(--mut);font-size:13px">영상 링크 없음</span>')+'</li>';}).join('')+'</ul>';
-  }
-  detail();
-  $$('#viewDash .dot').forEach(function(b){b.onclick=function(){selDate=b.dataset.date;$$('#viewDash .dot').forEach(function(x){x.classList.toggle('sel',x===b);x.classList.remove('pop');});void b.offsetWidth;b.classList.add('pop');detail();var dt=$('#detail');dt.classList.remove('flash');void dt.offsetWidth;dt.classList.add('flash');};});
-  $('#detail').onclick=function(e){var b=e.target.closest('.playb');if(b)play(b.dataset.id,+b.dataset.i);};
+  var mm=$('#btnMxMore');if(mm)mm.onclick=function(){$('#mxRows').innerHTML=sorted.map(mrow).join('');mm.remove();animateDash();};
+
+  /* 숫자 버튼 → 날짜·영상 팝업 */
+  var panel=$('.pMx');
+  function closePop(){var o=$('#mpop');if(o)o.remove();$$('#viewDash .mc.sel').forEach(function(x){x.classList.remove('sel');});}
+  $('#mx').addEventListener('click',function(e){
+    var b=e.target.closest('.mc');if(!b)return;
+    closePop();
+    var g=sorted[+b.dataset.g],y=b.dataset.y,list=g.dates.filter(function(x){return x.d.slice(0,4)===y;});
+    b.classList.add('sel');
+    var pop=document.createElement('div');pop.id='mpop';pop.className='mpop';pop.setAttribute('role','dialog');
+    pop.innerHTML='<div class="mph"><span><b>'+esc(g.title)+'</b> · '+y+'년 '+list.length+'회</span><button type="button" class="x" aria-label="닫기">×</button></div><ul>'+list.map(function(x){
+      return'<li><b>'+fmt(x.d)+'</b><span>('+wd(x.d)+')</span><span class="pm">'+esc(x.s.book)+(x.s.page!==''?' '+x.s.page+'쪽':'')+'</span>'+(x.url?'<button type="button" class="playb" data-id="'+esc(x.s.id)+'" data-i="'+x.i+'"><i class="pl"></i>영상 재생</button>':'<span class="nv">영상 링크 없음</span>')+'</li>';}).join('')+'</ul>';
+    panel.appendChild(pop);
+    var pr=panel.getBoundingClientRect(),br=b.getBoundingClientRect(),w=Math.min(340,pr.width-16);
+    pop.style.width=w+'px';
+    var left=Math.max(8,Math.min(br.left-pr.left-w/2+br.width/2,pr.width-w-8)),ph=pop.offsetHeight;
+    var top=(br.bottom+ph+12>innerHeight&&br.top-ph-12>0)?br.top-pr.top-ph-6:br.bottom-pr.top+6;
+    pop.style.left=left+'px';pop.style.top=top+'px';
+    pop.querySelector('.x').onclick=closePop;
+    pop.onclick=function(ev){var p=ev.target.closest('.playb');if(p)play(p.dataset.id,+p.dataset.i);};
+  });
   animateDash();
+}
+if(!window.__popBound){window.__popBound=1;
+  document.addEventListener('click',function(e){if(!e.target.closest('.mpop,.mc')){var o=document.getElementById('mpop');if(o){o.remove();Array.prototype.forEach.call(document.querySelectorAll('.mc.sel'),function(x){x.classList.remove('sel');});}}});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'){var o=document.getElementById('mpop');if(o)o.remove();}});
 }
 
 /* ---------- view / edit mode ---------- */
