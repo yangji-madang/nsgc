@@ -1,6 +1,6 @@
 {
  "v": 1,
- "updated": "2026-10-29T12:14:56.680Z",
+ "updated": "2026-10-29T12:33:34.899Z",
  "bookOrder": [
   "시온2",
   "시온3",
@@ -360,7 +360,7 @@
    "dates": [
     {
      "d": "2026-10-04",
-     "url": ""
+     "url": "https://youtu.be/-SIEQkYhqt4?si=B0GIAexqJzpUDJE8"
     }
    ]
   },
@@ -378,7 +378,12 @@
    "title": "그 사랑",
    "composer": "",
    "page": 1,
-   "dates": []
+   "dates": [
+    {
+     "d": "2026-04-19",
+     "url": "https://youtu.be/F-LxhdJt0hU?si=GdElPWTqnpdR-ubh"
+    }
+   ]
   },
   {
    "id": "s045",
@@ -405,7 +410,7 @@
    "dates": [
     {
      "d": "2026-09-20",
-     "url": ""
+     "url": "https://youtu.be/mZ-M_P-Ok2U?si=1Wfay12bQ1bJKvgG"
     }
    ]
   },
@@ -734,6 +739,58 @@
     {
      "d": "2024-03-29",
      "url": ""
+    }
+   ]
+  },
+  {
+   "id": "s084",
+   "book": "중앙48",
+   "title": "모든 것이 은혜",
+   "composer": "",
+   "page": 211,
+   "dates": [
+    {
+     "d": "2026-08-16",
+     "url": "https://youtu.be/jAtLO3HY4AE?si=9p-Ae8OT3FEdyRso"
+    }
+   ]
+  },
+  {
+   "id": "s085",
+   "book": "중앙48",
+   "title": "모든 것 주셨네",
+   "composer": "Craig Curry",
+   "page": 200,
+   "dates": [
+    {
+     "d": "2026-07-26",
+     "url": "https://youtu.be/RN5v0dq9j1k?si=EJvB4K_6yZY_Drgy"
+    }
+   ]
+  },
+  {
+   "id": "s086",
+   "book": "중앙48",
+   "title": "오직 주의 사랑에 매여",
+   "composer": "서경환",
+   "page": 99,
+   "dates": [
+    {
+     "d": "2026-08-02",
+     "url": "https://youtu.be/F-LxhdJt0hU?si=GdElPWTqnpdR-ubh"
+    }
+   ]
+  },
+  {
+   "id": "s087",
+   "book": "중앙48",
+   "title": "하늘에 계신 우리 아버지",
+   "composer": "홍지열",
+   "page": 316,
+   "dates": [
+    {
+     "d": "2026-08-30",
+     "url": "https://youtu.be/DipJZEHIvlw?si=mBzUS3NBY3f03aV4"
     }
    ]
   }
