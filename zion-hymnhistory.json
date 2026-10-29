@@ -1,6 +1,6 @@
 {
  "v": 1,
- "updated": "2026-10-29T12:57:01.837Z",
+ "updated": "2026-10-29T12:57:44.350Z",
  "bookOrder": [
   "시온2",
   "시온3",
@@ -128,7 +128,12 @@
    "title": "하나님의 은혜",
    "composer": "",
    "page": 103,
-   "dates": []
+   "dates": [
+    {
+     "d": "2025-10-26",
+     "url": "https://youtu.be/9tW35b32rvc?si=TtMtBkP2MnwfYbvm"
+    }
+   ]
   },
   {
    "id": "s015",
