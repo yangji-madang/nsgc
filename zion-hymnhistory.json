@@ -1,6 +1,6 @@
 {
  "v": 1,
- "updated": "2026-10-29T12:33:34.899Z",
+ "updated": "2026-10-29T12:56:20.629Z",
  "bookOrder": [
   "시온2",
   "시온3",
@@ -181,7 +181,12 @@
    "title": "주님의 교회 이끄소서",
    "composer": "",
    "page": 41,
-   "dates": []
+   "dates": [
+    {
+     "d": "2026-01-25",
+     "url": "https://youtu.be/kUCNuYcxXQ4?si=Xym-7dZVq6_TNfr-"
+    }
+   ]
   },
   {
    "id": "s021",
@@ -197,7 +202,12 @@
    "title": "은혜",
    "composer": "",
    "page": 59,
-   "dates": []
+   "dates": [
+    {
+     "d": "2026-04-26",
+     "url": "https://youtu.be/HyYD_iapr3E?si=uIXT4EiZRkOlWz8U"
+    }
+   ]
   },
   {
    "id": "s023",
@@ -221,7 +231,12 @@
    "title": "여호와 정하신 날",
    "composer": "John W. Peterson",
    "page": 81,
-   "dates": []
+   "dates": [
+    {
+     "d": "2026-09-06",
+     "url": "https://youtu.be/KRSERYhmHYA?si=76LuWW7IarSy69zw"
+    }
+   ]
   },
   {
    "id": "s026",
@@ -301,7 +316,12 @@
    "title": "나는 주를 섬기는 것에 후회가 없습니다",
    "composer": "",
    "page": 43,
-   "dates": []
+   "dates": [
+    {
+     "d": "2026-01-18",
+     "url": "https://youtu.be/tG0bWR3RTo8?si=iOfM5SZZR4A2UrvE"
+    }
+   ]
   },
   {
    "id": "s036",
@@ -325,7 +345,12 @@
    "title": "그대는 씻기어 있는가",
    "composer": "",
    "page": 66,
-   "dates": []
+   "dates": [
+    {
+     "d": "2026-03-22",
+     "url": "https://youtu.be/qvlrtoyafeU?si=RyiZZC_Wn1gWM495"
+    }
+   ]
   },
   {
    "id": "s039",
@@ -349,7 +374,12 @@
    "title": "하나님의 은혜",
    "composer": "",
    "page": 91,
-   "dates": []
+   "dates": [
+    {
+     "d": "2025-10-26",
+     "url": "https://youtu.be/9tW35b32rvc?si=TtMtBkP2MnwfYbvm"
+    }
+   ]
   },
   {
    "id": "s042",
@@ -399,7 +429,12 @@
    "title": "너는 내 것이라",
    "composer": "",
    "page": 17,
-   "dates": []
+   "dates": [
+    {
+     "d": "2026-07-19",
+     "url": "https://youtu.be/WzOUeNh31dQ?si=gC3feLgegRGHzlba"
+    }
+   ]
   },
   {
    "id": "s047",
@@ -428,7 +463,12 @@
    "title": "여정",
    "composer": "",
    "page": 43,
-   "dates": []
+   "dates": [
+    {
+     "d": "2026-06-28",
+     "url": "https://youtu.be/GLIgHHHV_TI?si=Gdm05DondswUZicJ"
+    }
+   ]
   },
   {
    "id": "s050",
@@ -449,10 +489,15 @@
   {
    "id": "s052",
    "book": "시온6",
-   "title": "이제야 바라봅니다",
-   "composer": "",
+   "title": "이제야 돌아봅니다",
+   "composer": "진선미",
    "page": 69,
-   "dates": []
+   "dates": [
+    {
+     "d": "2026-09-27",
+     "url": "https://youtu.be/lh7C4gATIdo?si=FpDFT9S5-LXucFs_"
+    }
+   ]
   },
   {
    "id": "s053",
@@ -641,7 +686,12 @@
    "title": "동행",
    "composer": "손경민",
    "page": 40,
-   "dates": []
+   "dates": [
+    {
+     "d": "2026-10-11",
+     "url": "https://youtu.be/qvlrtoyafeU?si=RyiZZC_Wn1gWM495"
+    }
+   ]
   },
   {
    "id": "s076",
@@ -791,6 +841,45 @@
     {
      "d": "2026-08-30",
      "url": "https://youtu.be/DipJZEHIvlw?si=mBzUS3NBY3f03aV4"
+    }
+   ]
+  },
+  {
+   "id": "s088",
+   "book": "중앙38",
+   "title": "주 임하소서",
+   "composer": "Mary McDonald",
+   "page": 119,
+   "dates": [
+    {
+     "d": "2026-10-18",
+     "url": "https://youtu.be/6V93iHaNEqQ?si=dmA0VC0qgPnxKPHB"
+    }
+   ]
+  },
+  {
+   "id": "s089",
+   "book": "중앙48",
+   "title": "주 예수는 참된 소망",
+   "composer": "Mary McDonald",
+   "page": 137,
+   "dates": [
+    {
+     "d": "2026-07-05",
+     "url": "https://youtu.be/D4SgAKaRfmE?si=2MPgGs4P1f8cB16C"
+    }
+   ]
+  },
+  {
+   "id": "s090",
+   "book": "중앙48",
+   "title": "사랑하는 주의 형제여",
+   "composer": "최규현",
+   "page": 100,
+   "dates": [
+    {
+     "d": "2026-07-12",
+     "url": "https://youtu.be/QCrb9GkMzWE?si=3EH8u_vQetv_vf3c"
     }
    ]
   }
