@@ -1,6 +1,6 @@
 {
  "v": 1,
- "updated": "2026-10-29T11:34:49.000Z",
+ "updated": "2026-10-29T12:14:04.657Z",
  "bookOrder": [
   "시온2",
   "시온3",
@@ -11,7 +11,7 @@
   "고난"
  ],
  "intro": {
-  "text": "주님께 올려 드린 찬양의 발자취를 곡별·날짜별로 살펴보세요.",
+  "text": "주님께 올려 드린 시온찬양대의 발자취입니다.\n서승연 지휘자님과 진윤정 반주자님, 모든 대원 여러분들과 함께 찬양함이 참으로 복됩니다.",
   "color": "#f1e7d0",
   "size": 17,
   "align": "left",
@@ -19,118 +19,119 @@
  },
  "songs": [
   {
+   "id": "s001",
    "book": "시온2",
    "title": "그래도",
    "composer": "",
    "page": 1,
-   "dates": [],
-   "id": "s001"
+   "dates": []
   },
   {
+   "id": "s002",
    "book": "시온2",
    "title": "그 사랑 내 생명",
    "composer": "",
    "page": 6,
-   "dates": [],
-   "id": "s002"
+   "dates": []
   },
   {
+   "id": "s003",
    "book": "시온2",
    "title": "기도",
    "composer": "",
    "page": 12,
-   "dates": [],
-   "id": "s003"
+   "dates": []
   },
   {
+   "id": "s004",
    "book": "시온2",
    "title": "나",
    "composer": "",
    "page": 22,
-   "dates": [],
-   "id": "s004"
+   "dates": []
   },
   {
+   "id": "s005",
    "book": "시온2",
    "title": "내가 영으로",
    "composer": "",
    "page": 31,
-   "dates": [],
-   "id": "s005"
+   "dates": []
   },
   {
+   "id": "s006",
    "book": "시온2",
    "title": "내가 주님을",
    "composer": "",
    "page": 40,
-   "dates": [],
-   "id": "s006"
+   "dates": []
   },
   {
+   "id": "s007",
    "book": "시온2",
    "title": "돌 베게",
    "composer": "",
    "page": 47,
-   "dates": [],
-   "id": "s007"
+   "dates": []
   },
   {
+   "id": "s008",
    "book": "시온2",
    "title": "사랑은",
    "composer": "",
    "page": 56,
-   "dates": [],
-   "id": "s008"
+   "dates": []
   },
   {
+   "id": "s009",
    "book": "시온2",
    "title": "사슴이 시냇물을",
    "composer": "",
    "page": 63,
-   "dates": [],
-   "id": "s009"
+   "dates": []
   },
   {
+   "id": "s010",
    "book": "시온2",
    "title": "전능하신 하나님",
    "composer": "",
    "page": 71,
-   "dates": [],
-   "id": "s010"
+   "dates": []
   },
   {
+   "id": "s011",
    "book": "시온2",
    "title": "주 나의 이름 부를 때",
    "composer": "",
    "page": 78,
-   "dates": [],
-   "id": "s011"
+   "dates": []
   },
   {
+   "id": "s012",
    "book": "시온2",
    "title": "참 좋으신 주님",
    "composer": "",
    "page": 87,
-   "dates": [],
-   "id": "s012"
+   "dates": []
   },
   {
+   "id": "s013",
    "book": "시온2",
    "title": "축복하노라",
    "composer": "",
    "page": 94,
-   "dates": [],
-   "id": "s013"
+   "dates": []
   },
   {
+   "id": "s014",
    "book": "시온2",
    "title": "하나님의 은혜",
    "composer": "",
    "page": 103,
-   "dates": [],
-   "id": "s014"
+   "dates": []
   },
   {
+   "id": "s015",
    "book": "시온3",
    "title": "거룩한 성",
    "composer": "Stephen Adams",
@@ -140,218 +141,218 @@
      "d": "2026-02-01",
      "url": ""
     }
-   ],
-   "id": "s015"
+   ]
   },
   {
+   "id": "s016",
    "book": "시온3",
    "title": "하늘의 아버지",
    "composer": "G. F. Handel",
    "page": 9,
-   "dates": [],
-   "id": "s016"
+   "dates": []
   },
   {
+   "id": "s017",
    "book": "시온3",
    "title": "주님께 감사하라",
    "composer": "G. F. Handel",
    "page": 15,
-   "dates": [],
-   "id": "s017"
+   "dates": []
   },
   {
+   "id": "s018",
    "book": "시온3",
    "title": "주는 나의 목자",
    "composer": "Pepper Choplin",
    "page": 25,
-   "dates": [],
-   "id": "s018"
+   "dates": []
   },
   {
+   "id": "s019",
    "book": "시온3",
    "title": "주의 손에 나의 손을 포개고",
    "composer": "",
    "page": 33,
-   "dates": [],
-   "id": "s019"
+   "dates": []
   },
   {
+   "id": "s020",
    "book": "시온3",
    "title": "주님의 교회 이끄소서",
    "composer": "",
    "page": 41,
-   "dates": [],
-   "id": "s020"
+   "dates": []
   },
   {
+   "id": "s021",
    "book": "시온3",
    "title": "시편23편",
    "composer": "최덕신",
    "page": 51,
-   "dates": [],
-   "id": "s021"
+   "dates": []
   },
   {
+   "id": "s022",
    "book": "시온3",
    "title": "은혜",
    "composer": "",
    "page": 59,
-   "dates": [],
-   "id": "s022"
+   "dates": []
   },
   {
+   "id": "s023",
    "book": "시온3",
    "title": "주 찬송합니다",
    "composer": "",
    "page": 68,
-   "dates": [],
-   "id": "s023"
+   "dates": []
   },
   {
+   "id": "s024",
    "book": "시온3",
    "title": "참 목자 예수",
    "composer": "J. S. Bach",
    "page": 72,
-   "dates": [],
-   "id": "s024"
+   "dates": []
   },
   {
+   "id": "s025",
    "book": "시온3",
    "title": "여호와 정하신 날",
    "composer": "John W. Peterson",
    "page": 81,
-   "dates": [],
-   "id": "s025"
+   "dates": []
   },
   {
+   "id": "s026",
    "book": "시온3",
    "title": "감사해",
    "composer": "",
    "page": 87,
-   "dates": [],
-   "id": "s026"
+   "dates": []
   },
   {
+   "id": "s027",
    "book": "시온3",
    "title": "복음밖에 없습니다",
    "composer": "",
    "page": 93,
-   "dates": [],
-   "id": "s027"
+   "dates": []
   },
   {
+   "id": "s028",
    "book": "시온3",
    "title": "어린이의 기도",
    "composer": "",
    "page": 99,
-   "dates": [],
-   "id": "s028"
+   "dates": []
   },
   {
+   "id": "s029",
    "book": "시온3",
    "title": "내 고통 살피소서",
    "composer": "",
    "page": 107,
-   "dates": [],
-   "id": "s029"
+   "dates": []
   },
   {
+   "id": "s030",
    "book": "시온3",
    "title": "천사의 합창",
    "composer": "L. v. Beethoven",
    "page": 117,
-   "dates": [],
-   "id": "s030"
+   "dates": []
   },
   {
+   "id": "s031",
    "book": "시온4",
    "title": "생명 얻는 회개",
    "composer": "",
    "page": 1,
-   "dates": [],
-   "id": "s031"
+   "dates": []
   },
   {
+   "id": "s032",
    "book": "시온4",
    "title": "어머니의 기도",
    "composer": "",
    "page": 9,
-   "dates": [],
-   "id": "s032"
+   "dates": []
   },
   {
+   "id": "s033",
    "book": "시온4",
    "title": "염려하지 말라",
    "composer": "",
    "page": 21,
-   "dates": [],
-   "id": "s033"
+   "dates": []
   },
   {
+   "id": "s034",
    "book": "시온4",
    "title": "주의 은혜라",
    "composer": "",
    "page": 33,
-   "dates": [],
-   "id": "s034"
+   "dates": []
   },
   {
+   "id": "s035",
    "book": "시온4",
    "title": "나는 주를 섬기는 것에 후회가 없습니다",
    "composer": "",
    "page": 43,
-   "dates": [],
-   "id": "s035"
+   "dates": []
   },
   {
+   "id": "s036",
    "book": "시온4",
    "title": "누군가 기도하네",
    "composer": "",
    "page": 49,
-   "dates": [],
-   "id": "s036"
+   "dates": []
   },
   {
+   "id": "s037",
    "book": "시온4",
    "title": "살아 계신 주",
    "composer": "",
    "page": 55,
-   "dates": [],
-   "id": "s037"
+   "dates": []
   },
   {
+   "id": "s038",
    "book": "시온4",
    "title": "그대는 씻기어 있는가",
    "composer": "",
    "page": 66,
-   "dates": [],
-   "id": "s038"
+   "dates": []
   },
   {
+   "id": "s039",
    "book": "시온4",
    "title": "참 좋으신 주님",
    "composer": "",
    "page": 75,
-   "dates": [],
-   "id": "s039"
+   "dates": []
   },
   {
+   "id": "s040",
    "book": "시온4",
    "title": "축복하노라",
    "composer": "",
    "page": 82,
-   "dates": [],
-   "id": "s040"
+   "dates": []
   },
   {
+   "id": "s041",
    "book": "시온4",
    "title": "하나님의 은혜",
    "composer": "",
    "page": 91,
-   "dates": [],
-   "id": "s041"
+   "dates": []
   },
   {
+   "id": "s042",
    "book": "시온4",
    "title": "하나되어",
    "composer": "",
@@ -361,42 +362,42 @@
      "d": "2026-10-04",
      "url": ""
     }
-   ],
-   "id": "s042"
+   ]
   },
   {
+   "id": "s043",
    "book": "시온4",
    "title": "은혜 아니면",
    "composer": "",
    "page": 110,
-   "dates": [],
-   "id": "s043"
+   "dates": []
   },
   {
+   "id": "s044",
    "book": "시온6",
    "title": "그 사랑",
    "composer": "",
    "page": 1,
-   "dates": [],
-   "id": "s044"
+   "dates": []
   },
   {
+   "id": "s045",
    "book": "시온6",
    "title": "그가",
    "composer": "",
    "page": 8,
-   "dates": [],
-   "id": "s045"
+   "dates": []
   },
   {
+   "id": "s046",
    "book": "시온6",
    "title": "너는 내 것이라",
    "composer": "",
    "page": 17,
-   "dates": [],
-   "id": "s046"
+   "dates": []
   },
   {
+   "id": "s047",
    "book": "시온6",
    "title": "세상을 사는 지혜",
    "composer": "",
@@ -406,146 +407,146 @@
      "d": "2026-09-20",
      "url": ""
     }
-   ],
-   "id": "s047"
+   ]
   },
   {
+   "id": "s048",
    "book": "시온6",
    "title": "시편 23",
    "composer": "",
    "page": 32,
-   "dates": [],
-   "id": "s048"
+   "dates": []
   },
   {
+   "id": "s049",
    "book": "시온6",
    "title": "여정",
    "composer": "",
    "page": 43,
-   "dates": [],
-   "id": "s049"
+   "dates": []
   },
   {
+   "id": "s050",
    "book": "시온6",
    "title": "요게벳의 노래",
    "composer": "",
    "page": 49,
-   "dates": [],
-   "id": "s050"
+   "dates": []
   },
   {
+   "id": "s051",
    "book": "시온6",
    "title": "원하고 바라고 기도합니다",
    "composer": "",
    "page": 61,
-   "dates": [],
-   "id": "s051"
+   "dates": []
   },
   {
+   "id": "s052",
    "book": "시온6",
    "title": "이제야 바라봅니다",
    "composer": "",
    "page": 69,
-   "dates": [],
-   "id": "s052"
+   "dates": []
   },
   {
+   "id": "s053",
    "book": "시온6",
    "title": "주의 은혜라 (마리아의 노래)",
    "composer": "",
    "page": 77,
-   "dates": [],
-   "id": "s053"
+   "dates": []
   },
   {
+   "id": "s054",
    "book": "시온7",
    "title": "왕 되신 주",
    "composer": "손경민",
    "page": 3,
-   "dates": [],
-   "id": "s054"
+   "dates": []
   },
   {
+   "id": "s055",
    "book": "시온7",
    "title": "시편 139편",
    "composer": "주민정",
    "page": 13,
-   "dates": [],
-   "id": "s055"
+   "dates": []
   },
   {
+   "id": "s056",
    "book": "시온7",
    "title": "베드로의 고백",
    "composer": "D.Sword",
    "page": 22,
-   "dates": [],
-   "id": "s056"
+   "dates": []
   },
   {
+   "id": "s057",
    "book": "시온7",
    "title": "하나님의 열심",
    "composer": "사공정",
    "page": 30,
-   "dates": [],
-   "id": "s057"
+   "dates": []
   },
   {
+   "id": "s058",
    "book": "시온7",
    "title": "하나님의 부르심",
    "composer": "손경민",
    "page": 37,
-   "dates": [],
-   "id": "s058"
+   "dates": []
   },
   {
+   "id": "s059",
    "book": "시온7",
    "title": "믿음의 고백",
    "composer": "이율구",
    "page": 48,
-   "dates": [],
-   "id": "s059"
+   "dates": []
   },
   {
+   "id": "s060",
    "book": "시온7",
    "title": "예수 안에 소망 있네",
    "composer": "S. Townend & K. Getty",
    "page": 54,
-   "dates": [],
-   "id": "s060"
+   "dates": []
   },
   {
+   "id": "s061",
    "book": "시온7",
    "title": "하나님의 약속",
    "composer": "김석균",
    "page": 61,
-   "dates": [],
-   "id": "s061"
+   "dates": []
   },
   {
+   "id": "s062",
    "book": "시온7",
    "title": "다시 복음으로",
    "composer": "손경민",
    "page": 69,
-   "dates": [],
-   "id": "s062"
+   "dates": []
   },
   {
+   "id": "s063",
    "book": "시온7",
    "title": "말씀 앞에서",
    "composer": "윤석주",
    "page": 78,
-   "dates": [],
-   "id": "s063"
+   "dates": []
   },
   {
+   "id": "s064",
    "book": "시온7",
    "title": "모든 것 되시는 예수",
    "composer": "백승남",
    "page": 86,
-   "dates": [],
-   "id": "s064"
+   "dates": []
   },
   {
+   "id": "s065",
    "book": "시온7",
    "title": "꽃들도",
    "composer": "Mebig",
@@ -555,98 +556,98 @@
      "d": "2026-10-25",
      "url": ""
     }
-   ],
-   "id": "s065"
+   ]
   },
   {
+   "id": "s066",
    "book": "시온7",
    "title": "주를 위한 이 곳에",
    "composer": "김준영&임선호",
    "page": 101,
-   "dates": [],
-   "id": "s066"
+   "dates": []
   },
   {
+   "id": "s067",
    "book": "시온7",
    "title": "Love Never Fails 여호와께 돌아가자",
    "composer": "주민정",
    "page": 106,
-   "dates": [],
-   "id": "s067"
+   "dates": []
   },
   {
+   "id": "s068",
    "book": "시온7",
    "title": "주 예수 나의 산 소망",
    "composer": "B. Johnson & P. Wickham",
    "page": 114,
-   "dates": [],
-   "id": "s068"
+   "dates": []
   },
   {
+   "id": "s069",
    "book": "시온7",
    "title": "주의 보혈",
    "composer": "김유라",
    "page": 122,
-   "dates": [],
-   "id": "s069"
+   "dates": []
   },
   {
+   "id": "s070",
    "book": "시온7",
    "title": "주 은혜가 나에게 족하네",
    "composer": "홍지열",
    "page": 130,
-   "dates": [],
-   "id": "s070"
+   "dates": []
   },
   {
+   "id": "s071",
    "book": "시온8 추수감사",
    "title": "은혜 아니면",
    "composer": "조성은",
    "page": 3,
-   "dates": [],
-   "id": "s071"
+   "dates": []
   },
   {
+   "id": "s072",
    "book": "시온8 추수감사",
    "title": "감사",
    "composer": "손경민",
    "page": 11,
-   "dates": [],
-   "id": "s072"
+   "dates": []
   },
   {
+   "id": "s073",
    "book": "시온8 추수감사",
    "title": "주의 은혜라",
    "composer": "이율구",
    "page": 20,
-   "dates": [],
-   "id": "s073"
+   "dates": []
   },
   {
+   "id": "s074",
    "book": "시온8 추수감사",
    "title": "기름 부으심",
    "composer": "신상우",
    "page": 27,
-   "dates": [],
-   "id": "s074"
+   "dates": []
   },
   {
+   "id": "s075",
    "book": "시온8 추수감사",
    "title": "동행",
    "composer": "손경민",
    "page": 40,
-   "dates": [],
-   "id": "s075"
+   "dates": []
   },
   {
+   "id": "s076",
    "book": "시온8 추수감사",
    "title": "그 은혜가 족하네",
    "composer": "김예은",
    "page": 47,
-   "dates": [],
-   "id": "s076"
+   "dates": []
   },
   {
+   "id": "s077",
    "book": "고난",
    "title": "겸손의 왕",
    "composer": "",
@@ -656,10 +657,10 @@
      "d": "2024-03-29",
      "url": ""
     }
-   ],
-   "id": "s077"
+   ]
   },
   {
+   "id": "s078",
    "book": "고난",
    "title": "그래도",
    "composer": "",
@@ -669,10 +670,10 @@
      "d": "2024-03-29",
      "url": ""
     }
-   ],
-   "id": "s078"
+   ]
   },
   {
+   "id": "s079",
    "book": "고난",
    "title": "고난의 길",
    "composer": "",
@@ -682,10 +683,10 @@
      "d": "2024-03-29",
      "url": ""
     }
-   ],
-   "id": "s079"
+   ]
   },
   {
+   "id": "s080",
    "book": "고난",
    "title": "내고통 살피소서",
    "composer": "",
@@ -695,10 +696,10 @@
      "d": "2024-03-29",
      "url": ""
     }
-   ],
-   "id": "s080"
+   ]
   },
   {
+   "id": "s081",
    "book": "고난",
    "title": "내가 주님을",
    "composer": "",
@@ -708,10 +709,10 @@
      "d": "2024-03-29",
      "url": ""
     }
-   ],
-   "id": "s081"
+   ]
   },
   {
+   "id": "s082",
    "book": "고난",
    "title": "주 예수 대문 밖에",
    "composer": "",
@@ -721,10 +722,10 @@
      "d": "2024-03-29",
      "url": ""
     }
-   ],
-   "id": "s082"
+   ]
   },
   {
+   "id": "s083",
    "book": "고난",
    "title": "그대는 씻기어 있는가",
    "composer": "",
@@ -734,8 +735,7 @@
      "d": "2024-03-29",
      "url": ""
     }
-   ],
-   "id": "s083"
+   ]
   }
  ]
 }
