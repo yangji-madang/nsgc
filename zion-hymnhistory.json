@@ -1,6 +1,6 @@
 {
  "v": 1,
- "updated": "2026-10-29T14:25:44.000Z",
+ "updated": "2026-10-29T14:36:36.000Z",
  "bookOrder": [
   "시온2",
   "시온3",
@@ -10,7 +10,7 @@
   "시온8 추수감사",
   "고난",
   "고전성가곡집 1",
-  "고전성가곡집 II",
+  "고전성가곡집 2",
   "헨델 메시아",
   "중앙38",
   "중앙48"
@@ -30,7 +30,7 @@
    "composer": "",
    "page": 1,
    "dates": [],
-   "chk": true
+   "chk": false
   },
   {
    "id": "s002",
@@ -170,7 +170,7 @@
      "url": "https://www.youtube.com/watch?v=Rm_SEmUfL1U"
     }
    ],
-   "chk": true
+   "chk": false
   },
   {
    "id": "s013",
@@ -204,7 +204,7 @@
      "url": "https://www.youtube.com/watch?v=4iceWZ1vPxw"
     }
    ],
-   "chk": true
+   "chk": false
   },
   {
    "id": "s014",
@@ -213,7 +213,7 @@
    "composer": "",
    "page": 103,
    "dates": [],
-   "chk": true
+   "chk": false
   },
   {
    "id": "s015",
@@ -261,7 +261,7 @@
      "url": "https://www.youtube.com/watch?v=-Go3Myqf3B4"
     }
    ],
-   "chk": true
+   "chk": false
   },
   {
    "id": "s017",
@@ -395,7 +395,7 @@
      "url": "https://www.youtube.com/watch?v=Ndp3Zixoc5c"
     }
    ],
-   "chk": true
+   "chk": false
   },
   {
    "id": "s022",
@@ -573,7 +573,7 @@
    "composer": "",
    "page": 107,
    "dates": [],
-   "chk": true
+   "chk": false
   },
   {
    "id": "s030",
@@ -600,10 +600,15 @@
   {
    "id": "s031",
    "book": "시온4",
-   "title": "생명 얻는 회개",
+   "title": "생명 얻은 회개",
    "composer": "",
    "page": 1,
-   "dates": [],
+   "dates": [
+    {
+     "d": "2023-03-19",
+     "url": "https://www.youtube.com/watch?v=QOBVwHH6KlI"
+    }
+   ],
    "chk": false
   },
   {
@@ -702,7 +707,7 @@
      "url": "https://www.youtube.com/watch?v=tD1nBRZoZxQ"
     }
    ],
-   "chk": true
+   "chk": false
   },
   {
    "id": "s035",
@@ -777,7 +782,7 @@
      "url": "https://youtu.be/qvlrtoyafeU?si=RyiZZC_Wn1gWM495"
     }
    ],
-   "chk": true
+   "chk": false
   },
   {
    "id": "s039",
@@ -786,7 +791,7 @@
    "composer": "",
    "page": 75,
    "dates": [],
-   "chk": true
+   "chk": false
   },
   {
    "id": "s040",
@@ -800,7 +805,7 @@
      "url": "https://youtu.be/7UCxdNaEILk?si=ywaB2DNZbw7DIeXZ"
     }
    ],
-   "chk": true
+   "chk": false
   },
   {
    "id": "s041",
@@ -830,7 +835,7 @@
      "url": "https://youtu.be/klzuLduNn7M?si=Ndg-vQLaA_Btpkox"
     }
    ],
-   "chk": true
+   "chk": false
   },
   {
    "id": "s042",
@@ -894,7 +899,7 @@
      "url": "https://www.youtube.com/watch?v=LOMJS-29xpE"
     }
    ],
-   "chk": true
+   "chk": false
   },
   {
    "id": "s044",
@@ -916,7 +921,7 @@
      "url": "https://youtu.be/F-LxhdJt0hU?si=GdElPWTqnpdR-ubh"
     }
    ],
-   "chk": true
+   "chk": false
   },
   {
    "id": "s045",
@@ -983,7 +988,7 @@
    "composer": "",
    "page": 32,
    "dates": [],
-   "chk": true
+   "chk": false
   },
   {
    "id": "s049",
@@ -1073,7 +1078,7 @@
      "url": "https://youtu.be/HC75QQ0JFOE?si=zS5lgPEcD0bHHP95"
     }
    ],
-   "chk": true
+   "chk": false
   },
   {
    "id": "s054",
@@ -1240,7 +1245,7 @@
    "composer": "조성은",
    "page": 3,
    "dates": [],
-   "chk": true
+   "chk": false
   },
   {
    "id": "s072",
@@ -1258,7 +1263,7 @@
    "composer": "이율구",
    "page": 20,
    "dates": [],
-   "chk": true
+   "chk": false
   },
   {
    "id": "s074",
@@ -1276,7 +1281,7 @@
      "url": "https://youtu.be/fLnni0-4X-0?si=MTROS27XUqQ_xyOQ"
     }
    ],
-   "chk": true
+   "chk": false
   },
   {
    "id": "s075",
@@ -1355,7 +1360,7 @@
      "url": "https://www.youtube.com/watch?v=HtL7yEKozno"
     }
    ],
-   "chk": true
+   "chk": false
   },
   {
    "id": "s079",
@@ -1399,7 +1404,7 @@
      "url": "https://www.youtube.com/watch?v=mWNOoEMDbxg"
     }
    ],
-   "chk": true
+   "chk": false
   },
   {
    "id": "s081",
@@ -1441,7 +1446,7 @@
      "url": ""
     }
    ],
-   "chk": true
+   "chk": false
   },
   {
    "id": "s084",
@@ -1560,13 +1565,21 @@
   {
    "id": "s091",
    "book": "별도 악보",
-   "title": "하나님이 너를 엄청 사랑하신대",
+   "title": "하나님이 너를 정말 사랑하신대",
    "composer": "",
    "page": "",
    "dates": [
     {
      "d": "2024-06-09",
      "url": "https://youtu.be/hBVd8dkw_-A?si=MblIZsGH-08b4cbg"
+    },
+    {
+     "d": "2025-04-27",
+     "url": "https://www.youtube.com/watch?v=WU9ucCtb5sY"
+    },
+    {
+     "d": "2026-06-14",
+     "url": "https://www.youtube.com/watch?v=N7sNqqm20VA"
     }
    ],
    "chk": false
@@ -1624,7 +1637,7 @@
   {
    "id": "s095",
    "book": "별도 악보",
-   "title": "보혈찬송 모",
+   "title": "보혈찬송 모음",
    "composer": "",
    "page": "",
    "dates": [
@@ -1705,7 +1718,7 @@
      "url": "https://www.youtube.com/watch?v=bGrrGcySMzg"
     }
    ],
-   "chk": true
+   "chk": false
   },
   {
    "id": "s100",
@@ -1972,7 +1985,7 @@
    "composer": "P.K. Biggs",
    "page": 147,
    "dates": [],
-   "chk": true
+   "chk": false
   },
   {
    "id": "s122",
@@ -2021,7 +2034,7 @@
   },
   {
    "id": "s127",
-   "book": "고전성가곡집 II",
+   "book": "고전성가곡집 2",
    "title": "주 안에서 항상 기뻐하라",
    "composer": "George Rathbone",
    "page": 4,
@@ -2030,7 +2043,7 @@
   },
   {
    "id": "s128",
-   "book": "고전성가곡집 II",
+   "book": "고전성가곡집 2",
    "title": "나를 이끄소서",
    "composer": "Samuel Sebastian Wesley",
    "page": 14,
@@ -2039,7 +2052,7 @@
   },
   {
    "id": "s129",
-   "book": "고전성가곡집 II",
+   "book": "고전성가곡집 2",
    "title": "저녁기도",
    "composer": "Evening Hymn",
    "page": 17,
@@ -2048,7 +2061,7 @@
   },
   {
    "id": "s130",
-   "book": "고전성가곡집 II",
+   "book": "고전성가곡집 2",
    "title": "주님을 찬양하여라",
    "composer": "Piotr Ilyich Tchaikovsky",
    "page": 25,
@@ -2057,7 +2070,7 @@
   },
   {
    "id": "s131",
-   "book": "고전성가곡집 II",
+   "book": "고전성가곡집 2",
    "title": "내 맘의 주여 소망 되소서",
    "composer": "Bob Chilcott",
    "page": 31,
@@ -2071,16 +2084,16 @@
   },
   {
    "id": "s132",
-   "book": "고전성가곡집 II",
+   "book": "고전성가곡집 2",
    "title": "시편 23편",
    "composer": "김성기",
    "page": 38,
    "dates": [],
-   "chk": true
+   "chk": false
   },
   {
    "id": "s133",
-   "book": "고전성가곡집 II",
+   "book": "고전성가곡집 2",
    "title": "주를 찬양해",
    "composer": "조혜영",
    "page": 47,
@@ -2089,7 +2102,7 @@
   },
   {
    "id": "s134",
-   "book": "고전성가곡집 II",
+   "book": "고전성가곡집 2",
    "title": "찬송과 권능 가운데",
    "composer": "Felix Mendelssohn",
    "page": 59,
@@ -2098,7 +2111,7 @@
   },
   {
    "id": "s135",
-   "book": "고전성가곡집 II",
+   "book": "고전성가곡집 2",
    "title": "평화 있으라",
    "composer": "John Rutter",
    "page": 63,
@@ -2120,7 +2133,7 @@
   },
   {
    "id": "s136",
-   "book": "고전성가곡집 II",
+   "book": "고전성가곡집 2",
    "title": "주님은 나의 목자시니",
    "composer": "Howard Goodall",
    "page": 67,
@@ -2134,7 +2147,7 @@
   },
   {
    "id": "s137",
-   "book": "고전성가곡집 II",
+   "book": "고전성가곡집 2",
    "title": "주 그늘 안에 거하는 자",
    "composer": "Joseph Haydn",
    "page": 75,
@@ -2143,7 +2156,7 @@
   },
   {
    "id": "s138",
-   "book": "고전성가곡집 II",
+   "book": "고전성가곡집 2",
    "title": "하늘 아버지",
    "composer": "Maurice Duruflé",
    "page": 78,
@@ -2152,7 +2165,7 @@
   },
   {
    "id": "s139",
-   "book": "고전성가곡집 II",
+   "book": "고전성가곡집 2",
    "title": "오 주여 어서 오소서(대림)",
    "composer": "Nicholas White",
    "page": 80,
@@ -2170,7 +2183,7 @@
   },
   {
    "id": "s140",
-   "book": "고전성가곡집 II",
+   "book": "고전성가곡집 2",
    "title": "곧 오소서 임마누엘(대림)",
    "composer": "arr. by John Rutter",
    "page": 86,
@@ -2184,11 +2197,11 @@
      "url": "https://www.youtube.com/watch?v=M_XXeXQKziE"
     }
    ],
-   "chk": true
+   "chk": false
   },
   {
    "id": "s141",
-   "book": "고전성가곡집 II",
+   "book": "고전성가곡집 2",
    "title": "그 맑고 환한 밤중에(대림)",
    "composer": "arr. by Barry Rose",
    "page": 91,
@@ -2202,7 +2215,7 @@
   },
   {
    "id": "s142",
-   "book": "고전성가곡집 II",
+   "book": "고전성가곡집 2",
    "title": "거룩(대림)",
    "composer": "Gabriel Fauré",
    "page": 99,
@@ -2211,7 +2224,7 @@
   },
   {
    "id": "s143",
-   "book": "고전성가곡집 II",
+   "book": "고전성가곡집 2",
    "title": "참 반가운 성도여(성탄절)",
    "composer": "arr. by David Willcocks",
    "page": 106,
@@ -2220,7 +2233,7 @@
   },
   {
    "id": "s144",
-   "book": "고전성가곡집 II",
+   "book": "고전성가곡집 2",
    "title": "주 세상 돌보사(신년예배)",
    "composer": "arr. by John Baird",
    "page": 110,
@@ -2229,7 +2242,7 @@
   },
   {
    "id": "s145",
-   "book": "고전성가곡집 II",
+   "book": "고전성가곡집 2",
    "title": "오 주 하나님(사순절)",
    "composer": "Samuel Sebastian Wesley",
    "page": 115,
@@ -2238,7 +2251,7 @@
   },
   {
    "id": "s146",
-   "book": "고전성가곡집 II",
+   "book": "고전성가곡집 2",
    "title": "오 구세주 예수(사순절)",
    "composer": "Edward Elgar",
    "page": 120,
@@ -2247,7 +2260,7 @@
   },
   {
    "id": "s147",
-   "book": "고전성가곡집 II",
+   "book": "고전성가곡집 2",
    "title": "하나님 세상 사랑하사(사순절)",
    "composer": "Bob Chilcott",
    "page": 124,
@@ -2256,7 +2269,7 @@
   },
   {
    "id": "s148",
-   "book": "고전성가곡집 II",
+   "book": "고전성가곡집 2",
    "title": "오 세상의 구주(사순절)",
    "composer": "Arthur Somervell",
    "page": 128,
@@ -2265,7 +2278,7 @@
   },
   {
    "id": "s149",
-   "book": "고전성가곡집 II",
+   "book": "고전성가곡집 2",
    "title": "오 구세주 예수(고난주일)",
    "composer": "Flor Peeters",
    "page": 132,
@@ -2274,7 +2287,7 @@
   },
   {
    "id": "s150",
-   "book": "고전성가곡집 II",
+   "book": "고전성가곡집 2",
    "title": "부활절 찬송(부활주일)",
    "composer": "Richard Shephard",
    "page": 136,
@@ -2283,7 +2296,7 @@
   },
   {
    "id": "s151",
-   "book": "고전성가곡집 II",
+   "book": "고전성가곡집 2",
    "title": "성령님 오시옵소서(성령강림주일)",
    "composer": "Joe Cox and Jody Lindh",
    "page": 140,
@@ -2292,7 +2305,7 @@
   },
   {
    "id": "s152",
-   "book": "고전성가곡집 II",
+   "book": "고전성가곡집 2",
    "title": "주께 감사하세(감사주일)",
    "composer": "김성기",
    "page": 147,
@@ -2301,7 +2314,7 @@
   },
   {
    "id": "s153",
-   "book": "고전성가곡집 II",
+   "book": "고전성가곡집 2",
    "title": "성령의 줄로 이끄소서(성찬예배)",
    "composer": "Harold W. Friedell",
    "page": 154,
@@ -2310,7 +2323,7 @@
   },
   {
    "id": "s154",
-   "book": "고전성가곡집 II",
+   "book": "고전성가곡집 2",
    "title": "입례송",
    "composer": "",
    "page": 161,
@@ -2319,7 +2332,7 @@
   },
   {
    "id": "s155",
-   "book": "고전성가곡집 II",
+   "book": "고전성가곡집 2",
    "title": "기도송",
    "composer": "김성기",
    "page": 162,
@@ -2328,7 +2341,7 @@
   },
   {
    "id": "s156",
-   "book": "고전성가곡집 II",
+   "book": "고전성가곡집 2",
    "title": "폐회송",
    "composer": "Arthur Frackenpohl",
    "page": 163,
@@ -2427,6 +2440,10 @@
    "composer": "",
    "page": 38,
    "dates": [
+    {
+     "d": "2023-12-10",
+     "url": "https://www.youtube.com/watch?v=Io7t6Jqx8lk"
+    },
     {
      "d": "2025-12-07",
      "url": "https://www.youtube.com/watch?v=myhNzj_Z-lg"
@@ -2783,6 +2800,10 @@
      "url": "https://www.youtube.com/watch?v=_-2jelDTWBg"
     },
     {
+     "d": "2023-04-09",
+     "url": "https://www.youtube.com/watch?v=sAqe5D4o4sc"
+    },
+    {
      "d": "2024-03-31",
      "url": "https://www.youtube.com/watch?v=ydIVZglC7Ow"
     },
@@ -2916,7 +2937,7 @@
    "composer": "Arr. 조성원",
    "page": 26,
    "dates": [],
-   "chk": true
+   "chk": false
   },
   {
    "id": "s213",
@@ -3301,7 +3322,7 @@
    "composer": "Joseph M. Martin",
    "page": 109,
    "dates": [],
-   "chk": true
+   "chk": false
   },
   {
    "id": "s246",
@@ -3315,7 +3336,7 @@
      "url": "https://www.youtube.com/watch?v=76ZZ5oht5lU"
     }
    ],
-   "chk": true
+   "chk": false
   },
   {
    "id": "s247",
@@ -3356,7 +3377,7 @@
    "composer": "이형구",
    "page": 173,
    "dates": [],
-   "chk": true
+   "chk": false
   },
   {
    "id": "s251",
