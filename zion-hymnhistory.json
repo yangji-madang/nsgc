@@ -1,6 +1,6 @@
 {
  "v": 1,
- "updated": "2026-10-29T13:06:10.879Z",
+ "updated": "2026-10-29T13:07:57.592Z",
  "bookOrder": [
   "시온2",
   "시온3",
@@ -483,6 +483,10 @@
    "page": 43,
    "dates": [
     {
+     "d": "2025-06-15",
+     "url": "https://youtu.be/C0CX6LZcE64?si=BpwlE5chzj1nnh_t"
+    },
+    {
      "d": "2026-06-28",
      "url": "https://youtu.be/GLIgHHHV_TI?si=Gdm05DondswUZicJ"
     }
@@ -528,7 +532,12 @@
    "title": "주의 은혜라 (마리아의 노래)",
    "composer": "",
    "page": 77,
-   "dates": []
+   "dates": [
+    {
+     "d": "2026-05-31",
+     "url": "https://youtu.be/HC75QQ0JFOE?si=zS5lgPEcD0bHHP95"
+    }
+   ]
   },
   {
    "id": "s054",
