@@ -441,7 +441,7 @@ dialog::backdrop{background:rgba(10,19,48,.55)}
 'use strict';
 var REPO='yangji-madang/nsgc',FPATH='zion-hymnhistory.json',BRANCH='main',TK='choir-gh-token-v1',DRAFT='zion-hymnhistory-draft-v1';
 var ADMIN=true;
-var $=function(s){return document.querySelector(s)||document.createElement('div');},$$=function(s){return Array.prototype.slice.call(document.querySelectorAll(s));};
+var $=function(s){var e=document.querySelector(s);if(e)return e;e=document.createElement('div');e.value='';e.checked=false;return e;},$$=function(s){return Array.prototype.slice.call(document.querySelectorAll(s));};
 var esc=function(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];});};
 var DATA=null,edit=false,dirty=false,view='list',loadedStamp='';
 var filt={book:'',title:'',comp:'',year:'',stat:''};
