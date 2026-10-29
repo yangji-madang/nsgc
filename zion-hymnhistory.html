@@ -98,6 +98,8 @@ thead th.sl{z-index:7;background:var(--navy8);color:#fff}
 .c1{left:0}
 .c2{left:var(--c1w,0px);font-weight:700;color:var(--navy8)}
 thead th.c2{color:#fff}
+.c3fix .c3{width:var(--c3w);min-width:var(--c3w);max-width:var(--c3w);overflow:hidden;text-overflow:ellipsis}
+thead th.c3{position:sticky;padding-right:14px}
 .c2fix .c2{width:var(--c2w);min-width:var(--c2w);max-width:var(--c2w);overflow:hidden;text-overflow:ellipsis}
 thead th.c2{padding-right:14px}
 .rz{position:absolute;top:0;right:0;bottom:0;width:9px;cursor:col-resize;touch-action:none}
@@ -231,11 +233,6 @@ dialog::backdrop{background:rgba(10,19,48,.55)}
 }
 @media (max-width:820px){
   :root{--isk:.88}
-  .photo{position:relative;width:100%;height:190px}
-  .photo .img{background-size:157% auto;background-position:70% 14%}
-  .photo .shade{background:linear-gradient(0deg,#0a1330 0%,rgba(10,19,48,.8) 18%,rgba(10,19,48,0) 52%),linear-gradient(180deg,rgba(10,19,48,.45) 0%,rgba(10,19,48,0) 22%)}
-  .hero-in{display:block;min-height:0;padding:0 18px 26px;margin-top:-40px}
-  .hero-txt{width:100%}
   td.c1{position:static}
   thead th.c1{left:auto}
   .c2{left:0}
@@ -244,6 +241,28 @@ dialog::backdrop{background:rgba(10,19,48,.55)}
   .filters.open{display:flex}
   .tools{margin-left:0}
   .brow{grid-template-columns:1fr 1.2fr 38px}
+}
+@media (max-width:820px){
+  .hero-txt{width:min(58%,620px)}
+  .photo{width:min(82%,1050px)}
+  .hero-in{padding:16px 18px 14px}
+}
+@media (max-width:560px){
+  .hero-in{padding:12px 16px 14px;min-height:0}
+  .hero-txt{width:100%}
+  .eyebrow{font-size:11px;letter-spacing:.08em}
+  .eyebrow::before{display:none}
+  .eyebrow,h1,.staff{max-width:62%}
+  h1{margin-top:4px}
+  h1 .ch{font-size:13px}
+  h1 .big{font-size:24px;text-wrap:balance;word-break:keep-all}
+  .staff{display:none}
+  .intro{margin-top:8px;font-size:calc(var(--is,17)*1px*.82)}
+  .photo{width:100%}
+  .photo .img{background-size:528px auto;background-position:-21px -16px}
+  .photo .shade{background:
+    linear-gradient(90deg,rgba(10,19,48,.88) 0%,rgba(10,19,48,.55) 45%,rgba(10,19,48,0) 72%),
+    linear-gradient(0deg,#0a1330 0%,rgba(10,19,48,.8) 30%,rgba(10,19,48,0) 62%)}
 }
 @media (max-width:700px){.yb2{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:520px){
@@ -508,11 +527,11 @@ function th(k,label,cls,extra){
 function renderList(){
   var a=rows(),maxLen=0;a.forEach(function(s){if(s.dates.length>maxLen)maxLen=s.dates.length;});
   var nc=Math.max(3,maxLen+(edit?1:0));
-  var h='<thead><tr><th class="c1 sl" scope="col">책명</th>'+th('title','곡명','c2 sl','<span class="rz" data-rz title="좌우로 끌어서 너비 조절 · 더블클릭하면 자동 맞춤"></span>')+'<th scope="col">작곡가</th><th class="num" scope="col">페이지</th>'+th('cnt','횟수','num')+(edit?'<th class="num">관리</th>':'');
+  var h='<thead><tr><th class="c1 sl" scope="col">책명</th>'+th('title','곡명','c2 sl','<span class="rz" data-rz="c2" title="좌우로 끌어서 너비 조절 · 더블클릭하면 자동 맞춤"></span>')+'<th scope="col" class="c3">작곡가<span class="rz" data-rz="c3" title="좌우로 끌어서 너비 조절 · 더블클릭하면 자동 맞춤"></span></th><th class="num" scope="col">페이지</th>'+th('cnt','횟수','num')+(edit?'<th class="num">관리</th>':'');
   for(var i=1;i<=nc;i++)h+=th('d'+(i-1),'날짜 '+i,'dh');
   h+='</tr></thead><tbody>';
   a.forEach(function(s){
-    h+='<tr class="'+(s.dates.length?'':'none')+'" data-id="'+esc(s.id)+'"><td class="c1 sl">'+tag(s.book)+'</td><td class="c2 sl" title="'+esc(s.title)+'">'+esc(s.title)+'</td><td>'+esc(s.composer)+'</td><td class="num">'+esc(s.page)+'</td><td class="num">'+(s.dates.length?'<span class="cnt">'+s.dates.length+'회</span>':'<span class="cnt z">–</span>')+'</td>';
+    h+='<tr class="'+(s.dates.length?'':'none')+'" data-id="'+esc(s.id)+'"><td class="c1 sl">'+tag(s.book)+'</td><td class="c2 sl" title="'+esc(s.title)+'">'+esc(s.title)+'</td><td class="c3" title="'+esc(s.composer)+'">'+esc(s.composer)+'</td><td class="num">'+esc(s.page)+'</td><td class="num">'+(s.dates.length?'<span class="cnt">'+s.dates.length+'회</span>':'<span class="cnt z">–</span>')+'</td>';
     if(edit)h+='<td class="num"><button type="button" class="icb" data-act="sedit" data-id="'+esc(s.id)+'" aria-label="곡 정보 수정">✎ 수정</button>'+'</td>';
     for(var j=0;j<nc;j++){
       var d=s.dates[j];
@@ -764,17 +783,22 @@ $('#tbl').addEventListener('click',function(e){
   else if(a==='dadd')openDate(s,null);
   else if(a==='sedit')openSong(s);
 });
-var C2K='zion-hymnhistory-c2w',C2W=null;
-try{C2W=+localStorage.getItem(C2K)||null;}catch(e){}
-function applyC2(){var w=$('#wrap');w.classList.toggle('c2fix',!!C2W);if(C2W)w.style.setProperty('--c2w',C2W+'px');var c1=$('#tbl thead th.c1');if(c1)w.style.setProperty('--c1w',c1.offsetWidth+'px');}
+var CW={c2:null,c3:null},CK={c2:'zion-hymnhistory-c2w',c3:'zion-hymnhistory-c3w'};
+try{CW.c2=+localStorage.getItem(CK.c2)||null;CW.c3=+localStorage.getItem(CK.c3)||null;}catch(e){}
+function applyC2(){
+  var w=$('#wrap');
+  ['c2','c3'].forEach(function(k){w.classList.toggle(k+'fix',!!CW[k]);if(CW[k])w.style.setProperty('--'+k+'w',CW[k]+'px');});
+  var c1=$('#tbl thead th.c1');if(c1)w.style.setProperty('--c1w',c1.offsetWidth+'px');
+}
 $('#tbl').addEventListener('pointerdown',function(e){
   var z=e.target.closest('[data-rz]');if(!z)return;
+  var k=z.dataset.rz;
   e.preventDefault();e.stopPropagation();
   var th=z.closest('th'),x0=e.clientX,w0=th.offsetWidth;z.setPointerCapture(e.pointerId);
-  z.onpointermove=function(ev){C2W=Math.max(110,Math.min(640,Math.round(w0+ev.clientX-x0)));applyC2();};
-  z.onpointerup=function(){z.onpointermove=null;z.onpointerup=null;try{localStorage.setItem(C2K,String(C2W));}catch(e){}};
+  z.onpointermove=function(ev){CW[k]=Math.max(k==='c2'?110:70,Math.min(640,Math.round(w0+ev.clientX-x0)));applyC2();};
+  z.onpointerup=function(){z.onpointermove=null;z.onpointerup=null;try{localStorage.setItem(CK[k],String(CW[k]));}catch(e){}};
 });
-$('#tbl').addEventListener('dblclick',function(e){if(!e.target.closest('[data-rz]'))return;C2W=null;try{localStorage.removeItem(C2K);}catch(x){}applyC2();});
+$('#tbl').addEventListener('dblclick',function(e){var z=e.target.closest('[data-rz]');if(!z)return;var k=z.dataset.rz;CW[k]=null;try{localStorage.removeItem(CK[k]);}catch(x){}applyC2();});
 $('#tabList').onclick=function(){setView('list');};
 $('#tabDash').onclick=function(){setView('dash');};
 $('#btnEdit').onclick=function(){setEdit(!edit);};
