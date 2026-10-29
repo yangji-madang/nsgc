@@ -1,6 +1,6 @@
 {
  "v": 1,
- "updated": "2026-10-29T15:40:59.259Z",
+ "updated": "2026-10-29T15:50:13.000Z",
  "bookOrder": [
   "시온2",
   "시온3",
@@ -73,7 +73,7 @@
    "chk": false,
    "dates": [
     {
-     "d": "2025-11-09",
+     "d": "2022-08-07",
      "url": "https://www.youtube.com/watch?v=xRWyyB-A_NU"
     }
    ]
@@ -272,6 +272,10 @@
    "chk": false,
    "dates": [
     {
+     "d": "2022-11-06",
+     "url": "https://www.youtube.com/watch?v=lO6mJoR9gac"
+    },
+    {
      "d": "2023-11-05",
      "url": "https://www.youtube.com/watch?v=Zi27RTT0Tf0"
     },
@@ -316,6 +320,10 @@
    "chk": false,
    "dates": [
     {
+     "d": "2020-12-13",
+     "url": "https://www.youtube.com/watch?v=Pv7vw_zpkQ0"
+    },
+    {
      "d": "2022-07-31",
      "url": "https://www.youtube.com/watch?v=bTNCsu5nvKc"
     },
@@ -326,6 +334,10 @@
     {
      "d": "2024-02-04",
      "url": "https://www.youtube.com/watch?v=pzoSoKfFFjc"
+    },
+    {
+     "d": "2024-07-21",
+     "url": "https://www.youtube.com/watch?v=SVFytr-ud_4"
     },
     {
      "d": "2025-02-23",
@@ -445,7 +457,7 @@
    "title": "주 찬송합니다",
    "composer": "",
    "page": 68,
-   "chk": false,
+   "chk": true,
    "dates": []
   },
   {
@@ -463,6 +475,10 @@
     {
      "d": "2023-06-18",
      "url": "https://www.youtube.com/watch?v=x_hFgy7pyE0"
+    },
+    {
+     "d": "2024-07-28",
+     "url": "https://www.youtube.com/watch?v=vyLBtg7MFBQ"
     }
    ]
   },
@@ -507,6 +523,10 @@
     {
      "d": "2022-11-13",
      "url": "https://www.youtube.com/watch?v=qF9ef7-3pYU"
+    },
+    {
+     "d": "2024-09-15",
+     "url": "https://www.youtube.com/watch?v=0_cf_VDfimc"
     },
     {
      "d": "2025-09-28",
@@ -757,7 +777,7 @@
    "title": "누군가 기도하네",
    "composer": "",
    "page": 49,
-   "chk": false,
+   "chk": true,
    "dates": [
     {
      "d": "2024-09-29",
@@ -1357,7 +1377,7 @@
     },
     {
      "d": "2024-03-29",
-     "url": ""
+     "url": "https://www.youtube.com/watch?v=ORexojnXKAQ"
     },
     {
      "d": "2025-03-23",
@@ -1387,7 +1407,7 @@
     },
     {
      "d": "2024-03-29",
-     "url": ""
+     "url": "https://www.youtube.com/watch?v=ORexojnXKAQ"
     },
     {
      "d": "2025-03-30",
@@ -1409,7 +1429,7 @@
    "dates": [
     {
      "d": "2024-03-29",
-     "url": ""
+     "url": "https://www.youtube.com/watch?v=ORexojnXKAQ"
     }
    ]
   },
@@ -1431,7 +1451,7 @@
     },
     {
      "d": "2024-03-29",
-     "url": ""
+     "url": "https://www.youtube.com/watch?v=ORexojnXKAQ"
     },
     {
      "d": "2025-04-06",
@@ -1453,7 +1473,7 @@
    "dates": [
     {
      "d": "2024-03-29",
-     "url": ""
+     "url": "https://www.youtube.com/watch?v=ORexojnXKAQ"
     }
    ]
   },
@@ -1467,7 +1487,7 @@
    "dates": [
     {
      "d": "2024-03-29",
-     "url": ""
+     "url": "https://www.youtube.com/watch?v=ORexojnXKAQ"
     }
    ]
   },
@@ -1519,10 +1539,6 @@
     {
      "d": "2026-08-02",
      "url": "https://youtu.be/F-LxhdJt0hU?si=GdElPWTqnpdR-ubh"
-    },
-    {
-     "d": "2026-08-07",
-     "url": "https://www.youtube.com/watch?v=F-LxhdJt0hU"
     }
    ]
   },
@@ -1652,6 +1668,10 @@
    "page": 146,
    "chk": false,
    "dates": [
+    {
+     "d": "2022-03-06",
+     "url": "https://www.youtube.com/watch?v=OjsOVkfLdSs"
+    },
     {
      "d": "2023-03-05",
      "url": "https://youtu.be/_pfUJtMLzVs?si=fZVCPg_KQA5ZXd74"
@@ -1950,6 +1970,10 @@
      "url": "https://www.youtube.com/watch?v=nLeqMbSbD5A"
     },
     {
+     "d": "2024-06-30",
+     "url": "https://www.youtube.com/watch?v=XgH9oCV5hNE"
+    },
+    {
      "d": "2025-06-29",
      "url": "https://www.youtube.com/watch?v=hdHm-FEh8YI"
     }
@@ -1993,6 +2017,10 @@
     {
      "d": "2023-05-21",
      "url": "https://www.youtube.com/watch?v=3kG9Am02IDs"
+    },
+    {
+     "d": "2024-07-14",
+     "url": "https://www.youtube.com/watch?v=6dO-M4q8vxk"
     },
     {
      "d": "2025-07-13",
@@ -2146,6 +2174,10 @@
     {
      "d": "2023-08-13",
      "url": "https://www.youtube.com/watch?v=MO6Yx4U9WYo"
+    },
+    {
+     "d": "2024-08-11",
+     "url": "https://www.youtube.com/watch?v=c6Cv5bbzV5w"
     },
     {
      "d": "2025-08-10",
@@ -3159,6 +3191,10 @@
    "chk": false,
    "dates": [
     {
+     "d": "2020-06-07",
+     "url": "https://www.youtube.com/watch?v=OthAdj7oS_8"
+    },
+    {
      "d": "2021-11-14",
      "url": "https://www.youtube.com/watch?v=SSKgo7BrS_Y"
     },
@@ -3184,6 +3220,10 @@
    "page": 16,
    "chk": false,
    "dates": [
+    {
+     "d": "2020-06-21",
+     "url": "https://www.youtube.com/watch?v=w-Eyg7I9OvE"
+    },
     {
      "d": "2021-11-21",
      "url": "https://www.youtube.com/watch?v=v8tXge0SoLA"
@@ -3225,6 +3265,10 @@
    "chk": false,
    "dates": [
     {
+     "d": "2020-06-28",
+     "url": "https://www.youtube.com/watch?v=cclsoD1_rrA"
+    },
+    {
      "d": "2022-04-03",
      "url": "https://www.youtube.com/watch?v=sFA5GKJlNP4"
     },
@@ -3241,7 +3285,12 @@
    "composer": "Darcy Stanley",
    "page": 44,
    "chk": false,
-   "dates": []
+   "dates": [
+    {
+     "d": "2020-06-14",
+     "url": "https://www.youtube.com/watch?v=D-i0ZVCsAWk"
+    }
+   ]
   },
   {
    "id": "s239",
@@ -3251,6 +3300,10 @@
    "page": 52,
    "chk": false,
    "dates": [
+    {
+     "d": "2020-07-05",
+     "url": "https://www.youtube.com/watch?v=55MzA4t1yjk"
+    },
     {
      "d": "2022-04-10",
      "url": "https://www.youtube.com/watch?v=GcIBNuOS7Cg"
@@ -3297,6 +3350,10 @@
    "chk": false,
    "dates": [
     {
+     "d": "2020-08-02",
+     "url": "https://www.youtube.com/watch?v=Ip3Zh0cFM7o"
+    },
+    {
      "d": "2022-03-27",
      "url": "https://www.youtube.com/watch?v=2hIj8h-aK58"
     },
@@ -3327,6 +3384,10 @@
    "page": 100,
    "chk": false,
    "dates": [
+    {
+     "d": "2020-08-09",
+     "url": "https://www.youtube.com/watch?v=qybxty5MSvw"
+    },
     {
      "d": "2022-02-13",
      "url": "https://www.youtube.com/watch?v=Z1IcvCBvDtk"
@@ -3381,7 +3442,12 @@
    "composer": "arr. Tom Fettke",
    "page": 167,
    "chk": false,
-   "dates": []
+   "dates": [
+    {
+     "d": "2020-07-12",
+     "url": "https://www.youtube.com/watch?v=QXxpLop8u7M"
+    }
+   ]
   },
   {
    "id": "s250",
@@ -3448,8 +3514,12 @@
    "title": "주 예수 넓은 품에",
    "composer": "이현철",
    "page": 234,
-   "chk": false,
+   "chk": true,
    "dates": [
+    {
+     "d": "2020-07-19",
+     "url": "https://www.youtube.com/watch?v=mv3KSMBl0cs"
+    },
     {
      "d": "2023-02-05",
      "url": "https://www.youtube.com/watch?v=U4WL-hWaI5E"
@@ -3471,6 +3541,10 @@
     {
      "d": "2022-02-06",
      "url": "https://www.youtube.com/watch?v=wEzLjUtc-Ak"
+    },
+    {
+     "d": "2023-09-17",
+     "url": "https://www.youtube.com/watch?v=ymiyhdBHbxw"
     },
     {
      "d": "2024-04-28",
@@ -3553,6 +3627,444 @@
    "page": 306,
    "chk": false,
    "dates": []
+  },
+  {
+   "id": "s266",
+   "book": "확인불명",
+   "title": "내가 산을 향하여",
+   "composer": "",
+   "page": "",
+   "dates": [
+    {
+     "d": "2020-05-10",
+     "url": "https://www.youtube.com/watch?v=4mA28rRPB5w"
+    },
+    {
+     "d": "2021-08-29",
+     "url": "https://www.youtube.com/watch?v=9Ohih_UZknQ"
+    },
+    {
+     "d": "2021-12-12",
+     "url": "https://www.youtube.com/watch?v=gz_Z-UY-Yxw"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s267",
+   "book": "확인불명",
+   "title": "추수 감사의 노래",
+   "composer": "",
+   "page": "",
+   "dates": [
+    {
+     "d": "2020-11-15",
+     "url": "https://www.youtube.com/watch?v=X65jy1TW4Cg"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s268",
+   "book": "확인불명",
+   "title": "그 크신 하나님의 사랑",
+   "composer": "",
+   "page": "",
+   "dates": [
+    {
+     "d": "2020-11-22",
+     "url": "https://www.youtube.com/watch?v=i3QsibBa36w"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s269",
+   "book": "확인불명",
+   "title": "아버지 품으로",
+   "composer": "",
+   "page": "",
+   "dates": [
+    {
+     "d": "2020-11-29",
+     "url": "https://www.youtube.com/watch?v=FXbSTa9UO34"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s270",
+   "book": "확인불명",
+   "title": "예수가 우리를 부르는 소리",
+   "composer": "",
+   "page": "",
+   "dates": [
+    {
+     "d": "2020-12-06",
+     "url": "https://www.youtube.com/watch?v=LGlOgqxVczg"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s271",
+   "book": "확인불명",
+   "title": "O Holy Night (거룩한 밤)",
+   "composer": "",
+   "page": "",
+   "dates": [
+    {
+     "d": "2020-12-20",
+     "url": "https://www.youtube.com/watch?v=HTG_4Q3G9C0"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s272",
+   "book": "확인불명",
+   "title": "사명",
+   "composer": "",
+   "page": "",
+   "dates": [
+    {
+     "d": "2021-02-14",
+     "url": "https://www.youtube.com/watch?v=ZZmcm78zLOQ"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s273",
+   "book": "확인불명",
+   "title": "참 좋으신 하나님",
+   "composer": "",
+   "page": "",
+   "dates": [
+    {
+     "d": "2021-03-07",
+     "url": "https://www.youtube.com/watch?v=pglx7Z-lFBA"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s274",
+   "book": "확인불명",
+   "title": "갈보리 산 위에",
+   "composer": "",
+   "page": "",
+   "dates": [
+    {
+     "d": "2021-03-14",
+     "url": "https://www.youtube.com/watch?v=J5APUAKhlYA"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s275",
+   "book": "확인불명",
+   "title": "예수",
+   "composer": "",
+   "page": "",
+   "dates": [
+    {
+     "d": "2021-03-21",
+     "url": "https://www.youtube.com/watch?v=BJBKgAhlpUc"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s276",
+   "book": "확인불명",
+   "title": "십자가의 길",
+   "composer": "",
+   "page": "",
+   "dates": [
+    {
+     "d": "2021-04-04",
+     "url": "https://www.youtube.com/watch?v=cnsTY0PCVTw"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s277",
+   "book": "확인불명",
+   "title": "어머니,아버지 그리고 주님",
+   "composer": "",
+   "page": "",
+   "dates": [
+    {
+     "d": "2021-05-09",
+     "url": "https://www.youtube.com/watch?v=KskuZCF_FOE"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s278",
+   "book": "확인불명",
+   "title": "하나님 손길은",
+   "composer": "",
+   "page": "",
+   "dates": [
+    {
+     "d": "2021-05-23",
+     "url": "https://www.youtube.com/watch?v=zx-kJTca1JY"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s279",
+   "book": "확인불명",
+   "title": "나는 소리요",
+   "composer": "",
+   "page": "",
+   "dates": [
+    {
+     "d": "2021-05-30",
+     "url": "https://www.youtube.com/watch?v=Ubst8GWjX5E"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s280",
+   "book": "확인불명",
+   "title": "아무것도 두려워 말라",
+   "composer": "",
+   "page": "",
+   "dates": [
+    {
+     "d": "2021-06-13",
+     "url": "https://www.youtube.com/watch?v=-adx0XTNyg4"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s281",
+   "book": "확인불명",
+   "title": "십자가",
+   "composer": "",
+   "page": "",
+   "dates": [
+    {
+     "d": "2021-06-20",
+     "url": "https://www.youtube.com/watch?v=NQs3F5oOq_w"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s282",
+   "book": "확인불명",
+   "title": "누군가 널 위해 기도하네",
+   "composer": "",
+   "page": "",
+   "dates": [
+    {
+     "d": "2021-06-27",
+     "url": "https://www.youtube.com/watch?v=_n16uK4_1Ko"
+    },
+    {
+     "d": "2023-07-23",
+     "url": "https://www.youtube.com/watch?v=qFFtN70qSLg"
+    },
+    {
+     "d": "2024-09-29",
+     "url": "https://www.youtube.com/watch?v=MY340k5g5v8"
+    }
+   ],
+   "chk": true
+  },
+  {
+   "id": "s283",
+   "book": "확인불명",
+   "title": "Amor Dei",
+   "composer": "",
+   "page": "",
+   "dates": [
+    {
+     "d": "2021-07-04",
+     "url": "https://www.youtube.com/watch?v=nOUxth0UPow"
+    },
+    {
+     "d": "2021-09-26",
+     "url": "https://www.youtube.com/watch?v=S7DChuJIhGc"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s284",
+   "book": "확인불명",
+   "title": "내 삶의 이유라",
+   "composer": "",
+   "page": "",
+   "dates": [
+    {
+     "d": "2021-07-11",
+     "url": "https://www.youtube.com/watch?v=7gtzNYRijoA"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s285",
+   "book": "확인불명",
+   "title": "어찌하여야",
+   "composer": "",
+   "page": "",
+   "dates": [
+    {
+     "d": "2021-09-12",
+     "url": "https://www.youtube.com/watch?v=vLdSA9Xa1h4"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s286",
+   "book": "확인불명",
+   "title": "나를 통하여",
+   "composer": "",
+   "page": "",
+   "dates": [
+    {
+     "d": "2021-10-24",
+     "url": "https://www.youtube.com/watch?v=yOKSu3eD7n4"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s287",
+   "book": "확인불명",
+   "title": "주를 따르라",
+   "composer": "",
+   "page": "",
+   "dates": [
+    {
+     "d": "2021-11-28",
+     "url": "https://www.youtube.com/watch?v=14VEBsaiUS0"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s288",
+   "book": "확인불명",
+   "title": "Amazing Grace",
+   "composer": "",
+   "page": "",
+   "dates": [
+    {
+     "d": "2021-12-26",
+     "url": "https://www.youtube.com/watch?v=njbi6_ASJnQ"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s289",
+   "book": "확인불명",
+   "title": "주는 나의 빛",
+   "composer": "",
+   "page": "",
+   "dates": [
+    {
+     "d": "2022-01-02",
+     "url": "https://www.youtube.com/watch?v=Hoj_MN8FMzk"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s290",
+   "book": "확인불명",
+   "title": "아름다운 세상과",
+   "composer": "",
+   "page": "",
+   "dates": [
+    {
+     "d": "2022-03-13",
+     "url": "https://www.youtube.com/watch?v=BmJjr1YkgEs"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s291",
+   "book": "확인불명",
+   "title": "인류의 기쁨이 되시는 예수",
+   "composer": "",
+   "page": "",
+   "dates": [
+    {
+     "d": "2022-06-12",
+     "url": "https://www.youtube.com/watch?v=upX_sPReHhA"
+    },
+    {
+     "d": "2023-02-26",
+     "url": "https://www.youtube.com/watch?v=Mtxj2ieAPLc"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s292",
+   "book": "확인불명",
+   "title": "나 찬송합니다",
+   "composer": "",
+   "page": "",
+   "dates": [
+    {
+     "d": "2022-10-02",
+     "url": "https://www.youtube.com/watch?v=rPx-644xWfQ"
+    },
+    {
+     "d": "2023-10-08",
+     "url": "https://www.youtube.com/watch?v=pwJjSrLzw_s"
+    }
+   ],
+   "chk": true
+  },
+  {
+   "id": "s293",
+   "book": "확인불명",
+   "title": "추수감사주일 음악예배",
+   "composer": "",
+   "page": "",
+   "dates": [
+    {
+     "d": "2022-11-20",
+     "url": "https://www.youtube.com/watch?v=h1ekFIyzNVY"
+    },
+    {
+     "d": "2023-11-19",
+     "url": "https://www.youtube.com/watch?v=v9xlHkhM8SU"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s294",
+   "book": "확인불명",
+   "title": "예수 십자가의 흘린 피로써",
+   "composer": "",
+   "page": "",
+   "dates": [
+    {
+     "d": "2023-03-26",
+     "url": "https://www.youtube.com/watch?v=1xXYV1hdb7s"
+    }
+   ],
+   "chk": false
   }
  ]
 }
