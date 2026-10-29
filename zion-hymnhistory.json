@@ -1,6 +1,6 @@
 {
  "v": 1,
- "updated": "2026-10-29T14:38:14.000Z",
+ "updated": "2026-10-29T14:39:28.000Z",
  "bookOrder": [
   "시온2",
   "시온3",
@@ -1632,15 +1632,6 @@
      "url": "https://www.youtube.com/watch?v=CiaDxNm4K9M"
     }
    ],
-   "chk": false
-  },
-  {
-   "id": "s095",
-   "book": "별도 악보",
-   "title": "보혈찬송 모음",
-   "composer": "",
-   "page": "",
-   "dates": [],
    "chk": false
   },
   {
