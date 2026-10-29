@@ -410,6 +410,7 @@ function wd(d){var p=d.split('-');return WD[new Date(+p[0],+p[1]-1,+p[2]).getDay
 function b64(s){return btoa(unescape(encodeURIComponent(s)));}
 function unb64(s){return decodeURIComponent(escape(atob(s.replace(/\s/g,''))));}
 function toast(m,ms){var t=document.createElement('div');t.className='toast';t.textContent=m;document.body.appendChild(t);setTimeout(function(){t.remove();},ms||2600);}
+if(ADMIN)window.addEventListener('error',function(e){toast('오류가 났습니다: '+e.message,7000);});
 function ask(msg){return new Promise(function(res){var d=$('#dlgAsk');$('#askMsg').textContent=msg;var done=function(v){d.close();res(v);};$('#askYes').onclick=function(){done(true);};$('#askNo').onclick=function(){done(false);};d.oncancel=function(){res(false);};d.showModal();});}
 function ytParse(u){
   try{
@@ -784,7 +785,7 @@ function setEdit(on){
 function measure(){document.documentElement.style.setProperty('--barh',$('#bar').offsetHeight+'px');}
 function renderFoot(){
   var u=DATA.updated?new Date(DATA.updated):null;
-  $('#foot').textContent='남서울은혜교회 시온찬양대'+(u&&!isNaN(u)?' · 최종 수정 '+u.getFullYear()+'.'+String(u.getMonth()+1).padStart(2,'0')+'.'+String(u.getDate()).padStart(2,'0'):'');
+  $('#foot').textContent='남서울은혜교회 시온찬양대'+(u&&!isNaN(u)?' · 최종 수정 '+u.getFullYear()+'.'+String(u.getMonth()+1).padStart(2,'0')+'.'+String(u.getDate()).padStart(2,'0'):'')+(ADMIN?' · 관리 화면 버전 1030-0002':'');
 }
 
 /* ---------- GitHub ---------- */
@@ -798,6 +799,7 @@ function openGh(){
 $('#dlgGh').addEventListener('close',function(){$('#tokBox').innerHTML='';});
 function ghGet(tok){return fetch('https://api.github.com/repos/'+REPO+'/contents/'+FPATH+'?ref='+BRANCH+'&t='+Date.now(),{headers:{Authorization:'Bearer '+tok,Accept:'application/vnd.github+json'},cache:'no-store'}).then(function(r){if(r.status===404)return null;if(!r.ok)throw new Error('조회 실패 '+r.status);return r.json();});}
 async function save(){
+  toast('저장을 시작합니다…',1500);
   var tok=getTok();
   if(!tok){openGh();toast('GitHub 토큰을 먼저 입력해 주세요.');return;}
   var btn=$('#btnSave');btn.disabled=true;btn.textContent='저장 중…';
