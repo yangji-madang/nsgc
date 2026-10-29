@@ -318,7 +318,7 @@ dialog::backdrop{background:rgba(10,19,48,.55)}
   .brow .bm{display:none}
   .db .two{grid-template-columns:1fr}
 }
-@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+
 </style>
 </head>
 <body>
@@ -695,7 +695,7 @@ function dayPos(d){var p=d.split('-'),m=+p[1],dd=+p[2],dim=new Date(+p[0],m,0).g
 function animateDash(){
   var root=$('#viewDash');root.classList.remove('go');void root.offsetWidth;
   requestAnimationFrame(function(){requestAnimationFrame(function(){root.classList.add('go');});});
-  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var reduce=false;
   $$('#viewDash .cu').forEach(function(el){
     var n=+el.dataset.n;if(reduce||!n){el.textContent=n;return;}
     var t0=null;el.textContent='0';
@@ -844,7 +844,7 @@ function setEdit(on){
 function measure(){document.documentElement.style.setProperty('--barh',$('#bar').offsetHeight+'px');}
 function renderFoot(){
   var u=DATA.updated?new Date(DATA.updated):null;
-  $('#foot').textContent='남서울은혜교회 시온찬양대'+(u&&!isNaN(u)?' · 최종 수정 '+u.getFullYear()+'.'+String(u.getMonth()+1).padStart(2,'0')+'.'+String(u.getDate()).padStart(2,'0'):'')+(ADMIN?' · 관리 화면 버전 1030-0006':'');
+  $('#foot').textContent='남서울은혜교회 시온찬양대'+(u&&!isNaN(u)?' · 최종 수정 '+u.getFullYear()+'.'+String(u.getMonth()+1).padStart(2,'0')+'.'+String(u.getDate()).padStart(2,'0'):'')+(ADMIN?' · 관리 화면 버전 1030-0007':'');
 }
 
 /* ---------- GitHub ---------- */
