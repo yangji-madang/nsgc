@@ -211,14 +211,17 @@ body.edit .btn.edit-only{display:inline-block}
 .mt.sortable:hover{color:var(--gold3)}
 .pMx{position:relative}
 .mxwrap{overflow-x:auto}
-.mx{min-width:calc(130px + var(--n)*34px + 50px)}
-.mr{display:grid;grid-template-columns:minmax(120px,1.6fr) repeat(var(--n),minmax(34px,1fr)) 50px;align-items:center;padding:2px 0;border-bottom:1px solid var(--line2)}
+.mx{--mtw:160px;min-width:calc(var(--mtw) + 54px + var(--n)*34px)}
+.mr{display:grid;grid-template-columns:var(--mtw) 54px repeat(var(--n),minmax(34px,1fr));align-items:center;padding:2px 0;border-bottom:1px solid var(--line2)}
 .mr.mh{border-bottom:2px solid var(--gold);position:sticky;top:0;background:#fff;font-weight:700;color:var(--navy8);font-size:13px}
 .mr:not(.mh):hover{background:#faf6e8}
 .mt{font-weight:600;font-size:13.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding-right:6px}
 .my,.me{text-align:center}
 .me{color:#c4bfae}
-.ms{text-align:right;font-weight:700;color:var(--navy8);font-variant-numeric:tabular-nums;font-size:13px}
+.mt.mh{position:relative}
+.mt .rz{background:none}
+.mt .rz::after{background:rgba(160,128,60,.55)}
+.ms{text-align:center;font-weight:700;color:var(--navy8);font-variant-numeric:tabular-nums;font-size:13px}
 .mc{justify-self:center;min-width:28px;height:22px;padding:0 6px;border:0;border-radius:11px;font-weight:700;font-size:13px;cursor:pointer;transition:transform .15s,box-shadow .15s}
 .mc:hover{transform:scale(1.15)}
 .mc.sel{box-shadow:0 0 0 3px rgba(201,164,92,.7)}
@@ -308,8 +311,8 @@ dialog::backdrop{background:rgba(10,19,48,.55)}
 }
 @media (max-width:700px){.yb2{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:520px){
-  .mx{min-width:calc(84px + var(--n)*25px + 42px)}
-  .mr{grid-template-columns:minmax(84px,1.4fr) repeat(var(--n),minmax(25px,1fr)) 42px}
+  .mx{--mtw:100px;min-width:calc(var(--mtw) + 44px + var(--n)*25px)}
+  .mr{grid-template-columns:var(--mtw) 44px repeat(var(--n),minmax(25px,1fr))}
   .mc{min-width:22px;padding:0 4px;font-size:12px}
   .mt{font-size:13px}
   .brow .bm{display:none}
@@ -738,13 +741,13 @@ function renderDash(){
   function mrow(g,ix){
     var gi=g.pi;ix=ix||0;
     var c=yc(g);
-    return'<div class="mr"><div class="mt" title="'+esc(g.title)+'">'+esc(g.title)+'</div>'+years.map(function(y){var n=c[y]||0;return n?'<button type="button" class="mc c'+Math.min(n,3)+'" data-g="'+gi+'" data-y="'+y+'" style="--i:'+(ix%12)+'" aria-label="'+esc(g.title)+' '+y+'년 '+n+'회">'+n+'</button>':'<span class="me">·</span>';}).join('')+'<b class="ms">'+g.dates.length+'회</b></div>';
+    return'<div class="mr"><div class="mt" title="'+esc(g.title)+'">'+esc(g.title)+'</div><b class="ms">'+g.dates.length+'회</b>'+years.map(function(y){var n=c[y]||0;return n?'<button type="button" class="mc c'+Math.min(n,3)+'" data-g="'+gi+'" data-y="'+y+'" style="--i:'+(ix%12)+'" aria-label="'+esc(g.title)+' '+y+'년 '+n+'회">'+n+'</button>':'<span class="me">·</span>';}).join('')+'</div>';
   }
   h+='<div class="dgrid"><div class="dcol"><div class="panel pSongs"><h2>곡별 총 연주 횟수</h2><p class="sub">한 번이라도 찬양한 '+played.length+'곡 · 책이 달라도 곡명이 같으면 같은 곡으로 합산</p><div class="pbar"><input type="search" id="qB" class="qin" placeholder="곡명 검색" autocomplete="off" aria-label="곡명 검색"><button type="button" class="btn sb" id="sB">곡명 ⇅</button><button type="button" class="btn sb" id="cB">횟수 ⇅</button><span class="rc" id="rcB"></span></div><div id="songBars"></div><button type="button" class="btn more" id="btnMore" hidden></button></div>'+
     '<div class="panel pBook"><h2>책별 연주 횟수</h2><p class="sub">찬양한 곡이 수록된 책 기준</p><div id="bookBars"></div></div></div>'+
     '<div class="dcol"><div class="panel pMx"><h2>연도별 찬양 차트</h2><p class="sub">해마다 몇 번 불렀는지 · 숫자를 누르면 날짜와 영상이 나옵니다</p>'+
     '<div class="pbar"><input type="search" id="qM" class="qin" placeholder="곡명 검색" autocomplete="off" aria-label="곡명 검색"><button type="button" class="btn sb" id="sM">곡명 ⇅</button><button type="button" class="btn sb" id="cM">횟수 ⇅</button><span class="rc" id="rcM"></span></div>'+
-    '<div class="mxwrap"><div class="mx" id="mx" style="--n:'+years.length+'"><div class="mr mh"><div class="mt sortable" id="mhName" title="눌러서 곡명 정렬">곡명 ⇅</div>'+years.map(function(y){return'<div class="my">'+y+'</div>';}).join('')+'<div class="ms sortable" id="mhCnt" title="눌러서 횟수 정렬">합계 ⇅</div></div><div id="mxRows"></div></div></div>'+
+    '<div class="mxwrap"><div class="mx" id="mx" style="--n:'+years.length+'"><div class="mr mh"><div class="mt mh"><span class="sortable" id="mhName" title="눌러서 곡명 정렬">곡명 ⇅</span><span class="rz" id="mtRz" title="좌우로 끌어서 너비 조절 · 더블클릭하면 원래대로"></span></div><div class="ms sortable" id="mhCnt" title="눌러서 횟수 정렬">합계 ⇅</div>'+years.map(function(y){return'<div class="my">'+y+'</div>';}).join('')+'</div><div id="mxRows"></div></div></div>'+
     '<button type="button" class="btn more" id="btnMxMore" hidden></button></div></div></div>';
   root.innerHTML=h;
 
@@ -774,6 +777,14 @@ function renderDash(){
   function drawBars(a){draw(st.b,'#songBars','#btnMore','#rcB','#sB','#cB',LIM,brow,a);}
   function drawMx(a){draw(st.m,'#mxRows','#btnMxMore','#rcM','#sM','#cM',MXLIM,mrow,a);$('#mhName').textContent='곡명'+arrow(st.m,'t');$('#mhCnt').textContent='합계'+arrow(st.m,'c');}
   function cyc(S,k){if(S.k!==k||S.s===null){S.k=k;S.s='asc';}else S.s=S.s==='asc'?'desc':null;}
+  var MTK='zion-hymnhistory-mtw',mtw=0;try{mtw=+localStorage.getItem(MTK)||0;}catch(e){}
+  function applyMt(){var m=$('#mx');if(mtw)m.style.setProperty('--mtw',mtw+'px');else m.style.removeProperty('--mtw');}
+  applyMt();
+  $('#mtRz').onpointerdown=function(e){e.preventDefault();e.stopPropagation();var z=this,x0=e.clientX,w0=$('#mhName').parentNode.offsetWidth;z.setPointerCapture(e.pointerId);
+    z.onpointermove=function(ev){mtw=Math.max(70,Math.min(420,Math.round(w0+ev.clientX-x0)));applyMt();};
+    z.onpointerup=function(){z.onpointermove=null;z.onpointerup=null;try{localStorage.setItem(MTK,String(mtw));}catch(e){}};};
+  $('#mtRz').onclick=function(e){e.stopPropagation();};
+  $('#mtRz').ondblclick=function(e){e.stopPropagation();mtw=0;try{localStorage.removeItem(MTK);}catch(x){}applyMt();};
   $('#qB').value=st.b.q;$('#qM').value=st.m.q;
   $('#qB').oninput=function(){st.b.q=this.value;drawBars(true);};
   $('#qM').oninput=function(){st.m.q=this.value;closePop();drawMx(true);};
@@ -833,7 +844,7 @@ function setEdit(on){
 function measure(){document.documentElement.style.setProperty('--barh',$('#bar').offsetHeight+'px');}
 function renderFoot(){
   var u=DATA.updated?new Date(DATA.updated):null;
-  $('#foot').textContent='남서울은혜교회 시온찬양대'+(u&&!isNaN(u)?' · 최종 수정 '+u.getFullYear()+'.'+String(u.getMonth()+1).padStart(2,'0')+'.'+String(u.getDate()).padStart(2,'0'):'')+(ADMIN?' · 관리 화면 버전 1030-0002':'');
+  $('#foot').textContent='남서울은혜교회 시온찬양대'+(u&&!isNaN(u)?' · 최종 수정 '+u.getFullYear()+'.'+String(u.getMonth()+1).padStart(2,'0')+'.'+String(u.getDate()).padStart(2,'0'):'')+(ADMIN?' · 관리 화면 버전 1030-0005':'');
 }
 
 /* ---------- GitHub ---------- */
