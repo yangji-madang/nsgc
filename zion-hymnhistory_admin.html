@@ -80,6 +80,8 @@ h1 .big{display:block;font-size:clamp(26px,3.3vw,40px);font-weight:900;letter-sp
 .filters input:focus,.filters select:focus{border-color:var(--gold3);outline:2px solid rgba(201,164,92,.35)}
 .filters .btn{height:26px;padding:0 8px;font-size:13.5px;border-radius:6px}
 .mobile-only{display:none}
+#btnFilter{font-weight:700;padding:7px 14px;box-shadow:0 2px 8px -2px rgba(10,19,48,.5)}
+#btnFilter.show{background:linear-gradient(135deg,var(--gold2),var(--gold));border-color:var(--gold);color:#2b2108}
 
 /* ===== TABLE ===== */
 .page{max-width:1400px;margin:0 auto;padding:10px 16px 8px}
@@ -370,7 +372,7 @@ dialog::backdrop{background:rgba(10,19,48,.55)}
       </div>
       <div class="stats" id="statLine"></div>
       <div class="tools">
-        <button type="button" class="btn mobile-only" id="btnFilter">검색기능 감추기</button>
+        <button type="button" class="btn pri mobile-only" id="btnFilter">검색기능 감추기</button>
         <span class="dirty edit-only" id="dirtyMark" hidden>● 저장 전</span>
         <button type="button" class="btn gold edit-only" id="btnAdd">+ 곡 추가</button>
         <button type="button" class="btn pri edit-only" id="btnSave">GitHub에 저장</button>
@@ -857,7 +859,7 @@ function setEdit(on){
 function measure(){document.documentElement.style.setProperty('--barh',$('#bar').offsetHeight+'px');}
 function renderFoot(){
   var u=DATA.updated?new Date(DATA.updated):null;
-  $('#foot').textContent='남서울은혜교회 시온찬양대'+(u&&!isNaN(u)?' · 최종 수정 '+u.getFullYear()+'.'+String(u.getMonth()+1).padStart(2,'0')+'.'+String(u.getDate()).padStart(2,'0'):'')+(ADMIN?' · 관리 화면 버전 1030-0706':'');
+  $('#foot').textContent='남서울은혜교회 시온찬양대'+(u&&!isNaN(u)?' · 최종 수정 '+u.getFullYear()+'.'+String(u.getMonth()+1).padStart(2,'0')+'.'+String(u.getDate()).padStart(2,'0'):'')+(ADMIN?' · 관리 화면 버전 1030-0708':'');
 }
 
 /* ---------- GitHub ---------- */
@@ -938,7 +940,7 @@ $('#tabList').onclick=function(){setView('list');};
 $('#tabDash').onclick=function(){setView('dash');};
 $('#btnEdit').onclick=function(){setEdit(!edit);};
 $('#btnAdd').onclick=function(){openSong(null);};
-$('#btnFilter').onclick=function(){var o=$('#filters').classList.toggle('open');this.textContent=o?'검색기능 감추기':'검색기능 보기';measure();};
+$('#btnFilter').onclick=function(){var o=$('#filters').classList.toggle('open');this.textContent=o?'검색기능 감추기':'검색기능 보기';this.classList.toggle('show',!o);measure();};
 ['fBook','fYear','fStat'].forEach(function(id){$('#'+id).onchange=function(){filt[id==='fBook'?'book':id==='fYear'?'year':'stat']=this.value;renderList();};});
 function guardUrl(el){if(/^\s*(https?:\/\/|www\.|youtu)/i.test(el.value)){el.value='';return true;}return false;}
 $('#fTitle').oninput=function(){if(guardUrl(this))toast('브라우저 자동완성이 넣은 주소를 지웠습니다.');filt.title=this.value;renderList();};
