@@ -1,6 +1,6 @@
 {
  "v": 1,
- "updated": "2026-10-29T14:04:04.000Z",
+ "updated": "2026-10-29T14:25:44.000Z",
  "bookOrder": [
   "시온2",
   "시온3",
@@ -8,7 +8,12 @@
   "시온6",
   "시온7",
   "시온8 추수감사",
-  "고난"
+  "고난",
+  "고전성가곡집 1",
+  "고전성가곡집 II",
+  "헨델 메시아",
+  "중앙38",
+  "중앙48"
  ],
  "intro": {
   "text": "주님께 올려 드린 시온찬양대의 발자취입니다.\n서승연 지휘자님과 진윤정 반주자님,\n모든 대원 여러분들과 함께 찬양함이 참으로 복됩니다.\n\n※ 다른 악보에 중복으로 있는 곡은, 연주 당시 사용한 악보를 확인할 수 없어 악보정보는 실제와 다를 수 있습니다.",
@@ -42,7 +47,8 @@
      "d": "2023-07-09",
      "url": "https://www.youtube.com/watch?v=AGc3VXggK68"
     }
-   ]
+   ],
+   "chk": false
   },
   {
    "id": "s003",
@@ -55,7 +61,8 @@
      "d": "2021-05-16",
      "url": "https://www.youtube.com/watch?v=g3s06qxjGPM"
     }
-   ]
+   ],
+   "chk": false
   },
   {
    "id": "s004",
@@ -68,7 +75,8 @@
      "d": "2025-11-09",
      "url": "https://www.youtube.com/watch?v=xRWyyB-A_NU"
     }
-   ]
+   ],
+   "chk": false
   },
   {
    "id": "s005",
@@ -76,7 +84,8 @@
    "title": "내가 영으로",
    "composer": "",
    "page": 31,
-   "dates": []
+   "dates": [],
+   "chk": false
   },
   {
    "id": "s006",
@@ -84,7 +93,8 @@
    "title": "내가 주님을",
    "composer": "",
    "page": 40,
-   "dates": []
+   "dates": [],
+   "chk": false
   },
   {
    "id": "s007",
@@ -92,7 +102,8 @@
    "title": "돌 베게",
    "composer": "",
    "page": 47,
-   "dates": []
+   "dates": [],
+   "chk": false
   },
   {
    "id": "s008",
@@ -100,7 +111,8 @@
    "title": "사랑은",
    "composer": "",
    "page": 56,
-   "dates": []
+   "dates": [],
+   "chk": false
   },
   {
    "id": "s009",
@@ -108,7 +120,8 @@
    "title": "사슴이 시냇물을",
    "composer": "",
    "page": 63,
-   "dates": []
+   "dates": [],
+   "chk": false
   },
   {
    "id": "s010",
@@ -116,7 +129,8 @@
    "title": "전능하신 하나님",
    "composer": "",
    "page": 71,
-   "dates": []
+   "dates": [],
+   "chk": false
   },
   {
    "id": "s011",
@@ -133,7 +147,8 @@
      "d": "2023-07-02",
      "url": "https://www.youtube.com/watch?v=QM5HA0H1EDE"
     }
-   ]
+   ],
+   "chk": false
   },
   {
    "id": "s012",
@@ -227,7 +242,8 @@
      "d": "2026-02-01",
      "url": "https://www.youtube.com/watch?v=__Gv9pgKtrM"
     }
-   ]
+   ],
+   "chk": false
   },
   {
    "id": "s016",
@@ -244,7 +260,8 @@
      "d": "2023-06-04",
      "url": "https://www.youtube.com/watch?v=-Go3Myqf3B4"
     }
-   ]
+   ],
+   "chk": true
   },
   {
    "id": "s017",
@@ -261,7 +278,8 @@
      "d": "2025-11-16",
      "url": "https://www.youtube.com/watch?v=RgBtuzQ6e5g"
     }
-   ]
+   ],
+   "chk": false
   },
   {
    "id": "s018",
@@ -282,7 +300,8 @@
      "d": "2025-08-31",
      "url": "https://www.youtube.com/watch?v=X23REJil_iA"
     }
-   ]
+   ],
+   "chk": false
   },
   {
    "id": "s019",
@@ -307,7 +326,8 @@
      "d": "2025-02-23",
      "url": "https://www.youtube.com/watch?v=b5egyigv9Dw"
     }
-   ]
+   ],
+   "chk": false
   },
   {
    "id": "s020",
@@ -336,7 +356,8 @@
      "d": "2026-01-25",
      "url": "https://youtu.be/kUCNuYcxXQ4?si=Xym-7dZVq6_TNfr-"
     }
-   ]
+   ],
+   "chk": false
   },
   {
    "id": "s021",
@@ -411,7 +432,8 @@
      "d": "2026-04-26",
      "url": "https://youtu.be/HyYD_iapr3E?si=uIXT4EiZRkOlWz8U"
     }
-   ]
+   ],
+   "chk": false
   },
   {
    "id": "s023",
@@ -419,7 +441,8 @@
    "title": "주 찬송합니다",
    "composer": "",
    "page": 68,
-   "dates": []
+   "dates": [],
+   "chk": false
   },
   {
    "id": "s024",
@@ -436,7 +459,8 @@
      "d": "2023-06-18",
      "url": "https://www.youtube.com/watch?v=x_hFgy7pyE0"
     }
-   ]
+   ],
+   "chk": false
   },
   {
    "id": "s025",
@@ -461,7 +485,8 @@
      "d": "2026-09-06",
      "url": "https://youtu.be/KRSERYhmHYA?si=76LuWW7IarSy69zw"
     }
-   ]
+   ],
+   "chk": false
   },
   {
    "id": "s026",
@@ -478,7 +503,8 @@
      "d": "2025-09-28",
      "url": "https://www.youtube.com/watch?v=aAIPVoh4p1c"
     }
-   ]
+   ],
+   "chk": false
   },
   {
    "id": "s027",
@@ -507,7 +533,8 @@
      "d": "2026-01-11",
      "url": "https://www.youtube.com/watch?v=uZ71Rm54bKw"
     }
-   ]
+   ],
+   "chk": false
   },
   {
    "id": "s028",
@@ -536,7 +563,8 @@
      "d": "2026-05-03",
      "url": "https://youtu.be/iSZST8PfoOU?si=QmZj7CVY27iB9XKP"
     }
-   ]
+   ],
+   "chk": false
   },
   {
    "id": "s029",
@@ -566,7 +594,8 @@
      "d": "2025-12-28",
      "url": "https://www.youtube.com/watch?v=I6Ihwt45U18"
     }
-   ]
+   ],
+   "chk": false
   },
   {
    "id": "s031",
@@ -574,7 +603,8 @@
    "title": "생명 얻는 회개",
    "composer": "",
    "page": 1,
-   "dates": []
+   "dates": [],
+   "chk": false
   },
   {
    "id": "s032",
@@ -599,7 +629,8 @@
      "d": "2026-05-10",
      "url": "https://youtu.be/rGEp945toeg?si=l6D7_DbmpPQnz7vA"
     }
-   ]
+   ],
+   "chk": false
   },
   {
    "id": "s033",
@@ -632,7 +663,8 @@
      "d": "2026-02-22",
      "url": "https://www.youtube.com/watch?v=fy4kF4qw_VA"
     }
-   ]
+   ],
+   "chk": false
   },
   {
    "id": "s034",
@@ -691,7 +723,8 @@
      "d": "2026-01-18",
      "url": "https://youtu.be/tG0bWR3RTo8?si=iOfM5SZZR4A2UrvE"
     }
-   ]
+   ],
+   "chk": false
   },
   {
    "id": "s036",
@@ -699,7 +732,8 @@
    "title": "누군가 기도하네",
    "composer": "",
    "page": 49,
-   "dates": []
+   "dates": [],
+   "chk": false
   },
   {
    "id": "s037",
@@ -720,7 +754,8 @@
      "d": "2026-02-08",
      "url": "https://www.youtube.com/watch?v=ZleaZmwesVw"
     }
-   ]
+   ],
+   "chk": false
   },
   {
    "id": "s038",
@@ -824,7 +859,8 @@
      "d": "2026-10-04",
      "url": "https://youtu.be/-SIEQkYhqt4?si=B0GIAexqJzpUDJE8"
     }
-   ]
+   ],
+   "chk": false
   },
   {
    "id": "s043",
@@ -879,7 +915,8 @@
      "d": "2026-04-19",
      "url": "https://youtu.be/F-LxhdJt0hU?si=GdElPWTqnpdR-ubh"
     }
-   ]
+   ],
+   "chk": true
   },
   {
    "id": "s045",
@@ -892,7 +929,8 @@
      "d": "2026-03-15",
      "url": "https://youtu.be/X8PX_RBbmuQ?si=SOGVA5GQ8kJ87JD8"
     }
-   ]
+   ],
+   "chk": false
   },
   {
    "id": "s046",
@@ -913,7 +951,8 @@
      "d": "2026-07-19",
      "url": "https://youtu.be/WzOUeNh31dQ?si=gC3feLgegRGHzlba"
     }
-   ]
+   ],
+   "chk": false
   },
   {
    "id": "s047",
@@ -934,7 +973,8 @@
      "d": "2026-09-20",
      "url": "https://youtu.be/mZ-M_P-Ok2U?si=1Wfay12bQ1bJKvgG"
     }
-   ]
+   ],
+   "chk": false
   },
   {
    "id": "s048",
@@ -964,7 +1004,8 @@
      "d": "2026-06-28",
      "url": "https://youtu.be/GLIgHHHV_TI?si=Gdm05DondswUZicJ"
     }
-   ]
+   ],
+   "chk": false
   },
   {
    "id": "s050",
@@ -985,7 +1026,8 @@
      "d": "2026-05-24",
      "url": "https://youtu.be/GQ-u1qtbKd0?si=bbBRW7p2Gadomaqj"
     }
-   ]
+   ],
+   "chk": false
   },
   {
    "id": "s051",
@@ -998,7 +1040,8 @@
      "d": "2025-11-30",
      "url": "https://www.youtube.com/watch?v=dBU_ZW6XlF4"
     }
-   ]
+   ],
+   "chk": false
   },
   {
    "id": "s052",
@@ -1015,7 +1058,8 @@
      "d": "2026-09-27",
      "url": "https://youtu.be/lh7C4gATIdo?si=FpDFT9S5-LXucFs_"
     }
-   ]
+   ],
+   "chk": false
   },
   {
    "id": "s053",
@@ -1037,7 +1081,8 @@
    "title": "왕 되신 주",
    "composer": "손경민",
    "page": 3,
-   "dates": []
+   "dates": [],
+   "chk": false
   },
   {
    "id": "s055",
@@ -1045,7 +1090,8 @@
    "title": "시편 139편",
    "composer": "주민정",
    "page": 13,
-   "dates": []
+   "dates": [],
+   "chk": false
   },
   {
    "id": "s056",
@@ -1053,7 +1099,8 @@
    "title": "베드로의 고백",
    "composer": "D.Sword",
    "page": 22,
-   "dates": []
+   "dates": [],
+   "chk": false
   },
   {
    "id": "s057",
@@ -1061,7 +1108,8 @@
    "title": "하나님의 열심",
    "composer": "사공정",
    "page": 30,
-   "dates": []
+   "dates": [],
+   "chk": false
   },
   {
    "id": "s058",
@@ -1069,7 +1117,8 @@
    "title": "하나님의 부르심",
    "composer": "손경민",
    "page": 37,
-   "dates": []
+   "dates": [],
+   "chk": false
   },
   {
    "id": "s059",
@@ -1077,7 +1126,8 @@
    "title": "믿음의 고백",
    "composer": "이율구",
    "page": 48,
-   "dates": []
+   "dates": [],
+   "chk": false
   },
   {
    "id": "s060",
@@ -1085,7 +1135,8 @@
    "title": "예수 안에 소망 있네",
    "composer": "S. Townend & K. Getty",
    "page": 54,
-   "dates": []
+   "dates": [],
+   "chk": false
   },
   {
    "id": "s061",
@@ -1093,7 +1144,8 @@
    "title": "하나님의 약속",
    "composer": "김석균",
    "page": 61,
-   "dates": []
+   "dates": [],
+   "chk": false
   },
   {
    "id": "s062",
@@ -1101,7 +1153,8 @@
    "title": "다시 복음으로",
    "composer": "손경민",
    "page": 69,
-   "dates": []
+   "dates": [],
+   "chk": false
   },
   {
    "id": "s063",
@@ -1109,7 +1162,8 @@
    "title": "말씀 앞에서",
    "composer": "윤석주",
    "page": 78,
-   "dates": []
+   "dates": [],
+   "chk": false
   },
   {
    "id": "s064",
@@ -1117,7 +1171,8 @@
    "title": "모든 것 되시는 예수",
    "composer": "백승남",
    "page": 86,
-   "dates": []
+   "dates": [],
+   "chk": false
   },
   {
    "id": "s065",
@@ -1130,7 +1185,8 @@
      "d": "2026-10-25",
      "url": "https://www.youtube.com/watch?v=TUMfGlyqubU"
     }
-   ]
+   ],
+   "chk": false
   },
   {
    "id": "s066",
@@ -1138,7 +1194,8 @@
    "title": "주를 위한 이 곳에",
    "composer": "김준영&임선호",
    "page": 101,
-   "dates": []
+   "dates": [],
+   "chk": false
   },
   {
    "id": "s067",
@@ -1146,7 +1203,8 @@
    "title": "Love Never Fails 여호와께 돌아가자",
    "composer": "주민정",
    "page": 106,
-   "dates": []
+   "dates": [],
+   "chk": false
   },
   {
    "id": "s068",
@@ -1154,7 +1212,8 @@
    "title": "주 예수 나의 산 소망",
    "composer": "B. Johnson & P. Wickham",
    "page": 114,
-   "dates": []
+   "dates": [],
+   "chk": false
   },
   {
    "id": "s069",
@@ -1162,7 +1221,8 @@
    "title": "주의 보혈",
    "composer": "김유라",
    "page": 122,
-   "dates": []
+   "dates": [],
+   "chk": false
   },
   {
    "id": "s070",
@@ -1170,7 +1230,8 @@
    "title": "주 은혜가 나에게 족하네",
    "composer": "홍지열",
    "page": 130,
-   "dates": []
+   "dates": [],
+   "chk": false
   },
   {
    "id": "s071",
@@ -1187,7 +1248,8 @@
    "title": "감사",
    "composer": "손경민",
    "page": 11,
-   "dates": []
+   "dates": [],
+   "chk": false
   },
   {
    "id": "s073",
@@ -1213,7 +1275,8 @@
      "d": "2026-06-21",
      "url": "https://youtu.be/fLnni0-4X-0?si=MTROS27XUqQ_xyOQ"
     }
-   ]
+   ],
+   "chk": true
   },
   {
    "id": "s075",
@@ -1226,7 +1289,8 @@
      "d": "2026-10-11",
      "url": "https://youtu.be/qvlrtoyafeU?si=RyiZZC_Wn1gWM495"
     }
-   ]
+   ],
+   "chk": false
   },
   {
    "id": "s076",
@@ -1234,7 +1298,8 @@
    "title": "그 은혜가 족하네",
    "composer": "김예은",
    "page": 47,
-   "dates": []
+   "dates": [],
+   "chk": false
   },
   {
    "id": "s077",
@@ -1259,7 +1324,8 @@
      "d": "2026-03-08",
      "url": "https://www.youtube.com/watch?v=Dl4p3aSWD4I"
     }
-   ]
+   ],
+   "chk": false
   },
   {
    "id": "s078",
@@ -1302,7 +1368,8 @@
      "d": "2024-03-29",
      "url": ""
     }
-   ]
+   ],
+   "chk": false
   },
   {
    "id": "s080",
@@ -1345,7 +1412,8 @@
      "d": "2024-03-29",
      "url": ""
     }
-   ]
+   ],
+   "chk": false
   },
   {
    "id": "s082",
@@ -1358,7 +1426,8 @@
      "d": "2024-03-29",
      "url": ""
     }
-   ]
+   ],
+   "chk": false
   },
   {
    "id": "s083",
@@ -1378,14 +1447,15 @@
    "id": "s084",
    "book": "중앙48",
    "title": "모든 것이 은혜",
-   "composer": "",
-   "page": 211,
+   "composer": "제갈수영",
+   "page": 68,
    "dates": [
     {
      "d": "2026-08-16",
      "url": "https://youtu.be/jAtLO3HY4AE?si=9p-Ae8OT3FEdyRso"
     }
-   ]
+   ],
+   "chk": false
   },
   {
    "id": "s085",
@@ -1398,7 +1468,8 @@
      "d": "2026-07-26",
      "url": "https://youtu.be/RN5v0dq9j1k?si=EJvB4K_6yZY_Drgy"
     }
-   ]
+   ],
+   "chk": false
   },
   {
    "id": "s086",
@@ -1415,7 +1486,8 @@
      "d": "2026-08-07",
      "url": "https://www.youtube.com/watch?v=F-LxhdJt0hU"
     }
-   ]
+   ],
+   "chk": false
   },
   {
    "id": "s087",
@@ -1428,7 +1500,8 @@
      "d": "2026-08-30",
      "url": "https://youtu.be/DipJZEHIvlw?si=mBzUS3NBY3f03aV4"
     }
-   ]
+   ],
+   "chk": false
   },
   {
    "id": "s088",
@@ -1453,7 +1526,8 @@
      "d": "2026-10-18",
      "url": "https://youtu.be/6V93iHaNEqQ?si=dmA0VC0qgPnxKPHB"
     }
-   ]
+   ],
+   "chk": false
   },
   {
    "id": "s089",
@@ -1466,20 +1540,22 @@
      "d": "2026-07-05",
      "url": "https://youtu.be/D4SgAKaRfmE?si=2MPgGs4P1f8cB16C"
     }
-   ]
+   ],
+   "chk": false
   },
   {
    "id": "s090",
    "book": "중앙48",
    "title": "사랑하는 주의 형제여",
    "composer": "최규현",
-   "page": 100,
+   "page": 190,
    "dates": [
     {
      "d": "2026-07-12",
      "url": "https://youtu.be/QCrb9GkMzWE?si=3EH8u_vQetv_vf3c"
     }
-   ]
+   ],
+   "chk": false
   },
   {
    "id": "s091",
@@ -1492,7 +1568,8 @@
      "d": "2024-06-09",
      "url": "https://youtu.be/hBVd8dkw_-A?si=MblIZsGH-08b4cbg"
     }
-   ]
+   ],
+   "chk": false
   },
   {
    "id": "s092",
@@ -1505,7 +1582,8 @@
      "d": "2026-09-13",
      "url": "https://youtu.be/EZuHQ3WCBNQ?si=oTOxsnBAsy-9Bjp1"
     }
-   ]
+   ],
+   "chk": false
   },
   {
    "id": "s093",
@@ -1518,7 +1596,8 @@
      "d": "2026-08-23",
      "url": "https://youtu.be/GKb4IwuXSt8?si=hMsRWPBNHXKGG6ZR"
     }
-   ]
+   ],
+   "chk": false
   },
   {
    "id": "s094",
@@ -1539,7 +1618,8 @@
      "d": "2026-04-12",
      "url": "https://www.youtube.com/watch?v=CiaDxNm4K9M"
     }
-   ]
+   ],
+   "chk": false
   },
   {
    "id": "s095",
@@ -1552,7 +1632,8 @@
      "d": "2022-04-17",
      "url": "https://youtu.be/KygTyuwzOVY?si=Wc62d1YqM5mLsuKx"
     }
-   ]
+   ],
+   "chk": false
   },
   {
    "id": "s096",
@@ -1565,7 +1646,8 @@
      "d": "2022-01-09",
      "url": "https://youtu.be/mESGo9vkFzk?si=IhJ3PUdbtpbPMRZ_"
     }
-   ]
+   ],
+   "chk": false
   },
   {
    "id": "s097",
@@ -1578,7 +1660,8 @@
      "d": "2026-08-09",
      "url": "https://youtu.be/Rp5Lzl78WWI?si=bDZ8gaiLWEbbbZXv"
     }
-   ]
+   ],
+   "chk": false
   },
   {
    "id": "s098",
@@ -1595,7 +1678,8 @@
      "d": "2021-10-31",
      "url": "https://youtu.be/7gzu3q7R0oo?si=eGlys4-I8beLmvCp"
     }
-   ]
+   ],
+   "chk": false
   },
   {
    "id": "s099",
@@ -1620,7 +1704,1821 @@
      "d": "2024-01-14",
      "url": "https://www.youtube.com/watch?v=bGrrGcySMzg"
     }
-   ]
+   ],
+   "chk": true
+  },
+  {
+   "id": "s100",
+   "book": "고전성가곡집 1",
+   "title": "우리 기쁨이 되시는 예수",
+   "composer": "Johann Sebastian Bach",
+   "page": 4,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s101",
+   "book": "고전성가곡집 1",
+   "title": "주님께만 영광",
+   "composer": "T.A. Walmisley",
+   "page": 10,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s102",
+   "book": "고전성가곡집 1",
+   "title": "기쁜 노래 불러",
+   "composer": "Martin Shaw",
+   "page": 16,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s103",
+   "book": "고전성가곡집 1",
+   "title": "성삼위일체 하나님",
+   "composer": "C. Kenneth Turner",
+   "page": 24,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s104",
+   "book": "고전성가곡집 1",
+   "title": "시편 43편",
+   "composer": "F. Mendelssohn",
+   "page": 28,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s105",
+   "book": "고전성가곡집 1",
+   "title": "주 여호와는 나의 목자",
+   "composer": "Franz Schubert",
+   "page": 41,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s106",
+   "book": "고전성가곡집 1",
+   "title": "오 세상의 구주",
+   "composer": "John Goss",
+   "page": 51,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s107",
+   "book": "고전성가곡집 1",
+   "title": "오 아름다운 주의 성전",
+   "composer": "R. Vaughan Williams",
+   "page": 55,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s108",
+   "book": "고전성가곡집 1",
+   "title": "생명의 양식",
+   "composer": "César Franck",
+   "page": 61,
+   "dates": [
+    {
+     "d": "2021-04-25",
+     "url": "https://www.youtube.com/watch?v=gP8Qq2N9lFo"
+    },
+    {
+     "d": "2022-06-19",
+     "url": "https://www.youtube.com/watch?v=kPtp8sLAV2k"
+    },
+    {
+     "d": "2023-05-28",
+     "url": "https://www.youtube.com/watch?v=3VAjdFgicWU"
+    },
+    {
+     "d": "2024-02-25",
+     "url": "https://www.youtube.com/watch?v=mweLOs2ibJw"
+    },
+    {
+     "d": "2025-11-09",
+     "url": "https://www.youtube.com/watch?v=o9xVj8q2we8"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s109",
+   "book": "고전성가곡집 1",
+   "title": "내 마음 정결케 하소서",
+   "composer": "Carl F. Mueller",
+   "page": 66,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s110",
+   "book": "고전성가곡집 1",
+   "title": "하나님께서 사랑하셨다",
+   "composer": "John Stainer",
+   "page": 70,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s111",
+   "book": "고전성가곡집 1",
+   "title": "찬양해 내 혼아",
+   "composer": "Caleb Simper",
+   "page": 73,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s112",
+   "book": "고전성가곡집 1",
+   "title": "내 주는 선한 목자",
+   "composer": "Lani Smith",
+   "page": 82,
+   "dates": [
+    {
+     "d": "2022-08-28",
+     "url": "https://www.youtube.com/watch?v=8xe76OTMOSg"
+    },
+    {
+     "d": "2023-09-24",
+     "url": "https://www.youtube.com/watch?v=DT7z6zyLgHc"
+    },
+    {
+     "d": "2025-07-06",
+     "url": "https://www.youtube.com/watch?v=5G1iAVxSTmY"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s113",
+   "book": "고전성가곡집 1",
+   "title": "오 사슴이 시냇물 갈급함같이",
+   "composer": "G.P.da Palestrina",
+   "page": 87,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s114",
+   "book": "고전성가곡집 1",
+   "title": "가장 높으신 주",
+   "composer": "Gabriel Urbain Fauré / Arranged by Hal Hopson",
+   "page": 92,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s115",
+   "book": "고전성가곡집 1",
+   "title": "하나님께 찬송드리세",
+   "composer": "G.F. Händel",
+   "page": 105,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s116",
+   "book": "고전성가곡집 1",
+   "title": "사슴이 시냇물 찾듯이",
+   "composer": "Herbert Howells",
+   "page": 114,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s117",
+   "book": "고전성가곡집 1",
+   "title": "주의 기도",
+   "composer": "Albert Hay Malotte",
+   "page": 122,
+   "dates": [
+    {
+     "d": "2021-06-06",
+     "url": "https://www.youtube.com/watch?v=PlQK8vz9tA8"
+    },
+    {
+     "d": "2022-06-26",
+     "url": "https://www.youtube.com/watch?v=CXo4tQfqu3o"
+    },
+    {
+     "d": "2023-06-25",
+     "url": "https://www.youtube.com/watch?v=nLeqMbSbD5A"
+    },
+    {
+     "d": "2025-06-29",
+     "url": "https://www.youtube.com/watch?v=hdHm-FEh8YI"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s118",
+   "book": "고전성가곡집 1",
+   "title": "우리 눈 여소서",
+   "composer": "Will C. Macfarlane",
+   "page": 128,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s119",
+   "book": "고전성가곡집 1",
+   "title": "여호와는 나의 목자시니",
+   "composer": "나운영",
+   "page": 138,
+   "dates": [
+    {
+     "d": "2020-09-06",
+     "url": "https://www.youtube.com/watch?v=7uJHHnoQUCM"
+    },
+    {
+     "d": "2022-01-16",
+     "url": "https://www.youtube.com/watch?v=pwT_9G_24ms"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s120",
+   "book": "고전성가곡집 1",
+   "title": "주 너를 지키시고",
+   "composer": "John Rutter",
+   "page": 142,
+   "dates": [
+    {
+     "d": "2023-05-21",
+     "url": "https://www.youtube.com/watch?v=3kG9Am02IDs"
+    },
+    {
+     "d": "2025-07-13",
+     "url": "https://www.youtube.com/watch?v=LER5V0brTYM"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s121",
+   "book": "고전성가곡집 1",
+   "title": "하늘의 아버지",
+   "composer": "P.K. Biggs",
+   "page": 147,
+   "dates": [],
+   "chk": true
+  },
+  {
+   "id": "s122",
+   "book": "고전성가곡집 1",
+   "title": "주기도",
+   "composer": "A.E. Patterson",
+   "page": 149,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s123",
+   "book": "고전성가곡집 1",
+   "title": "하늘의 주",
+   "composer": "L.F. Rossi",
+   "page": 152,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s124",
+   "book": "고전성가곡집 1",
+   "title": "사랑의 왕 내 목자",
+   "composer": "Harry Rowe Shelley",
+   "page": 160,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s125",
+   "book": "고전성가곡집 1",
+   "title": "온 땅이여 주님을 찬양하라",
+   "composer": "L. Stanley Glarum",
+   "page": 166,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s126",
+   "book": "고전성가곡집 1",
+   "title": "내 주는 강한 성이요",
+   "composer": "Martin Luther / Arranged by Benjamin Harlan",
+   "page": 173,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s127",
+   "book": "고전성가곡집 II",
+   "title": "주 안에서 항상 기뻐하라",
+   "composer": "George Rathbone",
+   "page": 4,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s128",
+   "book": "고전성가곡집 II",
+   "title": "나를 이끄소서",
+   "composer": "Samuel Sebastian Wesley",
+   "page": 14,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s129",
+   "book": "고전성가곡집 II",
+   "title": "저녁기도",
+   "composer": "Evening Hymn",
+   "page": 17,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s130",
+   "book": "고전성가곡집 II",
+   "title": "주님을 찬양하여라",
+   "composer": "Piotr Ilyich Tchaikovsky",
+   "page": 25,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s131",
+   "book": "고전성가곡집 II",
+   "title": "내 맘의 주여 소망 되소서",
+   "composer": "Bob Chilcott",
+   "page": 31,
+   "dates": [
+    {
+     "d": "2022-09-18",
+     "url": "https://www.youtube.com/watch?v=SIHCwBuTbSQ"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s132",
+   "book": "고전성가곡집 II",
+   "title": "시편 23편",
+   "composer": "김성기",
+   "page": 38,
+   "dates": [],
+   "chk": true
+  },
+  {
+   "id": "s133",
+   "book": "고전성가곡집 II",
+   "title": "주를 찬양해",
+   "composer": "조혜영",
+   "page": 47,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s134",
+   "book": "고전성가곡집 II",
+   "title": "찬송과 권능 가운데",
+   "composer": "Felix Mendelssohn",
+   "page": 59,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s135",
+   "book": "고전성가곡집 II",
+   "title": "평화 있으라",
+   "composer": "John Rutter",
+   "page": 63,
+   "dates": [
+    {
+     "d": "2022-08-14",
+     "url": "https://www.youtube.com/watch?v=SqV5GGRK8Yw"
+    },
+    {
+     "d": "2023-08-13",
+     "url": "https://www.youtube.com/watch?v=MO6Yx4U9WYo"
+    },
+    {
+     "d": "2025-08-10",
+     "url": "https://www.youtube.com/watch?v=7Wjzmk5v78Q"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s136",
+   "book": "고전성가곡집 II",
+   "title": "주님은 나의 목자시니",
+   "composer": "Howard Goodall",
+   "page": 67,
+   "dates": [
+    {
+     "d": "2022-08-21",
+     "url": "https://www.youtube.com/watch?v=ZyCQLgOy7Us"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s137",
+   "book": "고전성가곡집 II",
+   "title": "주 그늘 안에 거하는 자",
+   "composer": "Joseph Haydn",
+   "page": 75,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s138",
+   "book": "고전성가곡집 II",
+   "title": "하늘 아버지",
+   "composer": "Maurice Duruflé",
+   "page": 78,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s139",
+   "book": "고전성가곡집 II",
+   "title": "오 주여 어서 오소서(대림)",
+   "composer": "Nicholas White",
+   "page": 80,
+   "dates": [
+    {
+     "d": "2022-12-11",
+     "url": "https://www.youtube.com/watch?v=5oScJg3oJRk"
+    },
+    {
+     "d": "2023-12-17",
+     "url": "https://www.youtube.com/watch?v=xOH19d2j6PA"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s140",
+   "book": "고전성가곡집 II",
+   "title": "곧 오소서 임마누엘(대림)",
+   "composer": "arr. by John Rutter",
+   "page": 86,
+   "dates": [
+    {
+     "d": "2020-10-25",
+     "url": "https://www.youtube.com/watch?v=7Qwib5ALeMo"
+    },
+    {
+     "d": "2021-12-19",
+     "url": "https://www.youtube.com/watch?v=M_XXeXQKziE"
+    }
+   ],
+   "chk": true
+  },
+  {
+   "id": "s141",
+   "book": "고전성가곡집 II",
+   "title": "그 맑고 환한 밤중에(대림)",
+   "composer": "arr. by Barry Rose",
+   "page": 91,
+   "dates": [
+    {
+     "d": "2022-12-18",
+     "url": "https://www.youtube.com/watch?v=ppyU1_F61S8"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s142",
+   "book": "고전성가곡집 II",
+   "title": "거룩(대림)",
+   "composer": "Gabriel Fauré",
+   "page": 99,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s143",
+   "book": "고전성가곡집 II",
+   "title": "참 반가운 성도여(성탄절)",
+   "composer": "arr. by David Willcocks",
+   "page": 106,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s144",
+   "book": "고전성가곡집 II",
+   "title": "주 세상 돌보사(신년예배)",
+   "composer": "arr. by John Baird",
+   "page": 110,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s145",
+   "book": "고전성가곡집 II",
+   "title": "오 주 하나님(사순절)",
+   "composer": "Samuel Sebastian Wesley",
+   "page": 115,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s146",
+   "book": "고전성가곡집 II",
+   "title": "오 구세주 예수(사순절)",
+   "composer": "Edward Elgar",
+   "page": 120,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s147",
+   "book": "고전성가곡집 II",
+   "title": "하나님 세상 사랑하사(사순절)",
+   "composer": "Bob Chilcott",
+   "page": 124,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s148",
+   "book": "고전성가곡집 II",
+   "title": "오 세상의 구주(사순절)",
+   "composer": "Arthur Somervell",
+   "page": 128,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s149",
+   "book": "고전성가곡집 II",
+   "title": "오 구세주 예수(고난주일)",
+   "composer": "Flor Peeters",
+   "page": 132,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s150",
+   "book": "고전성가곡집 II",
+   "title": "부활절 찬송(부활주일)",
+   "composer": "Richard Shephard",
+   "page": 136,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s151",
+   "book": "고전성가곡집 II",
+   "title": "성령님 오시옵소서(성령강림주일)",
+   "composer": "Joe Cox and Jody Lindh",
+   "page": 140,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s152",
+   "book": "고전성가곡집 II",
+   "title": "주께 감사하세(감사주일)",
+   "composer": "김성기",
+   "page": 147,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s153",
+   "book": "고전성가곡집 II",
+   "title": "성령의 줄로 이끄소서(성찬예배)",
+   "composer": "Harold W. Friedell",
+   "page": 154,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s154",
+   "book": "고전성가곡집 II",
+   "title": "입례송",
+   "composer": "",
+   "page": 161,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s155",
+   "book": "고전성가곡집 II",
+   "title": "기도송",
+   "composer": "김성기",
+   "page": 162,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s156",
+   "book": "고전성가곡집 II",
+   "title": "폐회송",
+   "composer": "Arthur Frackenpohl",
+   "page": 163,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s157",
+   "book": "헨델 메시아",
+   "title": "서곡(신포니아)",
+   "composer": "",
+   "page": 5,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s158",
+   "book": "헨델 메시아",
+   "title": "내 백성을 위로하라",
+   "composer": "",
+   "page": 9,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s159",
+   "book": "헨델 메시아",
+   "title": "모든 골짜기 높아지리라",
+   "composer": "",
+   "page": 11,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s160",
+   "book": "헨델 메시아",
+   "title": "주의 영광",
+   "composer": "",
+   "page": 15,
+   "dates": [
+    {
+     "d": "2022-11-27",
+     "url": "https://www.youtube.com/watch?v=t7Tnv79mHrM"
+    },
+    {
+     "d": "2024-12-08",
+     "url": "https://www.youtube.com/watch?v=oaxzdGljJPw"
+    },
+    {
+     "d": "2025-07-20",
+     "url": "https://www.youtube.com/watch?v=Zmm3Hs1eufI"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s161",
+   "book": "헨델 메시아",
+   "title": "만군의 여호와가 말하노라",
+   "composer": "",
+   "page": 23,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s162",
+   "book": "헨델 메시아",
+   "title": "주 임하는날 뉘능히 당하리",
+   "composer": "",
+   "page": 25,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s163",
+   "book": "헨델 메시아",
+   "title": "정결케 하시리",
+   "composer": "",
+   "page": 32,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s164",
+   "book": "헨델 메시아",
+   "title": "보라 동정녀가 잉태하여",
+   "composer": "",
+   "page": 38,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s165",
+   "book": "헨델 메시아",
+   "title": "오 기쁜소식을 시온에 전하는 자여",
+   "composer": "",
+   "page": 38,
+   "dates": [
+    {
+     "d": "2025-12-07",
+     "url": "https://www.youtube.com/watch?v=myhNzj_Z-lg"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s166",
+   "book": "헨델 메시아",
+   "title": "보아라 어둠이 땅을 덮으며",
+   "composer": "",
+   "page": 47,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s167",
+   "book": "헨델 메시아",
+   "title": "흑암에 행하던 백성이",
+   "composer": "",
+   "page": 48,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s168",
+   "book": "헨델 메시아",
+   "title": "우리를 위해 나셨다",
+   "composer": "",
+   "page": 52,
+   "dates": [
+    {
+     "d": "2023-12-24",
+     "url": "https://www.youtube.com/watch?v=n3y1iDfOWqY"
+    },
+    {
+     "d": "2024-12-22",
+     "url": "https://www.youtube.com/watch?v=n-DJnGrdSe4"
+    },
+    {
+     "d": "2025-12-21",
+     "url": "https://www.youtube.com/watch?v=mLNNxkWPuHk"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s169",
+   "book": "헨델 메시아",
+   "title": "전원 교향곡 (Pifa Pastoral Symphony)",
+   "composer": "",
+   "page": 62,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s170",
+   "book": "헨델 메시아",
+   "title": "그 지경에 목자들이 / 주의 천사가 저희에게 임하고",
+   "composer": "",
+   "page": 64,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s171",
+   "book": "헨델 메시아",
+   "title": "그 천사가 말하기를",
+   "composer": "",
+   "page": 65,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s172",
+   "book": "헨델 메시아",
+   "title": "홀연히 천군천사가 나타나",
+   "composer": "",
+   "page": 65,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s173",
+   "book": "헨델 메시아",
+   "title": "높은 곳에 하나님께 영광",
+   "composer": "",
+   "page": 66,
+   "dates": [
+    {
+     "d": "2022-12-04",
+     "url": "https://www.youtube.com/watch?v=EkIzSk5w0G0"
+    },
+    {
+     "d": "2024-12-15",
+     "url": "https://www.youtube.com/watch?v=ggr4-ci4Prw"
+    },
+    {
+     "d": "2025-12-14",
+     "url": "https://www.youtube.com/watch?v=gO_734ego-8"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s174",
+   "book": "헨델 메시아",
+   "title": "시온의 딸들아 기뻐하라",
+   "composer": "",
+   "page": 70,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s175",
+   "book": "헨델 메시아",
+   "title": "그때 소경의 눈이 밝을 것이며",
+   "composer": "",
+   "page": 76,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s176",
+   "book": "헨델 메시아",
+   "title": "내주는 목자와 같이 양무리를 먹이시며",
+   "composer": "",
+   "page": 76,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s177",
+   "book": "헨델 메시아",
+   "title": "그 멍에는 쉽고 그 짐은 가벼워",
+   "composer": "",
+   "page": 80,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s178",
+   "book": "헨델 메시아",
+   "title": "하나님의 어린양을 보라",
+   "composer": "",
+   "page": 85,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s179",
+   "book": "헨델 메시아",
+   "title": "주는 멸시를 당하시고",
+   "composer": "",
+   "page": 88,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s180",
+   "book": "헨델 메시아",
+   "title": "진실로 주는 우리의 질고를 지셨도다",
+   "composer": "",
+   "page": 92,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s181",
+   "book": "헨델 메시아",
+   "title": "주가 채찍 맞음으로",
+   "composer": "",
+   "page": 96,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s182",
+   "book": "헨델 메시아",
+   "title": "우리는 다 양같아서 그릇행하여 각기 제길로 갔거늘",
+   "composer": "",
+   "page": 100,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s183",
+   "book": "헨델 메시아",
+   "title": "주를 보는자 비웃으며",
+   "composer": "",
+   "page": 108,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s184",
+   "book": "헨델 메시아",
+   "title": "하나님이 저를 구원하실 걸",
+   "composer": "",
+   "page": 109,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s185",
+   "book": "헨델 메시아",
+   "title": "주님의 마음이 상하여",
+   "composer": "",
+   "page": 116,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s186",
+   "book": "헨델 메시아",
+   "title": "보라 주님의 서러움을",
+   "composer": "",
+   "page": 117,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s187",
+   "book": "헨델 메시아",
+   "title": "그가 산자의 땅에서 끊어짐은",
+   "composer": "",
+   "page": 118,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s188",
+   "book": "헨델 메시아",
+   "title": "주의 영을 구하리라",
+   "composer": "",
+   "page": 118,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s189",
+   "book": "헨델 메시아",
+   "title": "문들아 너희 머리를 들지어다",
+   "composer": "",
+   "page": 121,
+   "dates": [
+    {
+     "d": "2025-07-27",
+     "url": "https://www.youtube.com/watch?v=V6k0C6iOc1k"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s190",
+   "book": "헨델 메시아",
+   "title": "하나님이 어느 천사중 누구에게 말씀하셨나",
+   "composer": "",
+   "page": 129,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s191",
+   "book": "헨델 메시아",
+   "title": "주의 모든 천사들아 경배하라",
+   "composer": "",
+   "page": 129,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s192",
+   "book": "헨델 메시아",
+   "title": "주께서 높이 오르사",
+   "composer": "",
+   "page": 133,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s193",
+   "book": "헨델 메시아",
+   "title": "주 말씀을 주셨다",
+   "composer": "",
+   "page": 138,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s194",
+   "book": "헨델 메시아",
+   "title": "저들의 발걸음이 아름다움이여",
+   "composer": "",
+   "page": 141,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s195",
+   "book": "헨델 메시아",
+   "title": "그 소리가 온땅에 퍼졌고",
+   "composer": "",
+   "page": 143,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s196",
+   "book": "헨델 메시아",
+   "title": "어찌하여 열방이 분노하며",
+   "composer": "",
+   "page": 147,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s197",
+   "book": "헨델 메시아",
+   "title": "우리가 그 결박을 끊어 버리자",
+   "composer": "",
+   "page": 153,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s198",
+   "book": "헨델 메시아",
+   "title": "하늘에 계신이가 웃으심이여",
+   "composer": "",
+   "page": 159,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s199",
+   "book": "헨델 메시아",
+   "title": "주께서 저들을 깨뜨시리라",
+   "composer": "",
+   "page": 159,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s200",
+   "book": "헨델 메시아",
+   "title": "할렐루야",
+   "composer": "",
+   "page": 163,
+   "dates": [
+    {
+     "d": "2022-12-25",
+     "url": "https://www.youtube.com/watch?v=_-2jelDTWBg"
+    },
+    {
+     "d": "2024-03-31",
+     "url": "https://www.youtube.com/watch?v=ydIVZglC7Ow"
+    },
+    {
+     "d": "2025-04-20",
+     "url": "https://www.youtube.com/watch?v=Y5_LzdO66EU"
+    },
+    {
+     "d": "2026-04-05",
+     "url": "https://www.youtube.com/watch?v=Zcw8FBVc89I"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s201",
+   "book": "헨델 메시아",
+   "title": "내 주님은 살아계시니",
+   "composer": "",
+   "page": 172,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s202",
+   "book": "헨델 메시아",
+   "title": "사람을 인하여 죽음왔으니",
+   "composer": "",
+   "page": 177,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s203",
+   "book": "헨델 메시아",
+   "title": "보라 내가 너희에게 비밀을 말하노니",
+   "composer": "",
+   "page": 180,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s204",
+   "book": "헨델 메시아",
+   "title": "나팔소리가 나매",
+   "composer": "",
+   "page": 180,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s205",
+   "book": "헨델 메시아",
+   "title": "사망이 이김의 삼킨바 되리라",
+   "composer": "",
+   "page": 187,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s206",
+   "book": "헨델 메시아",
+   "title": "사망아 너 쏘는 것이 어디 있느냐",
+   "composer": "",
+   "page": 187,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s207",
+   "book": "헨델 메시아",
+   "title": "하나님께 감사드리세",
+   "composer": "",
+   "page": 189,
+   "dates": [
+    {
+     "d": "2023-11-05",
+     "url": "https://www.youtube.com/watch?v=_9tJb3yGwT8"
+    },
+    {
+     "d": "2024-11-17",
+     "url": "https://www.youtube.com/watch?v=LNHbGNkGESo"
+    },
+    {
+     "d": "2025-11-23",
+     "url": "https://www.youtube.com/watch?v=z-053XqZBkQ"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s208",
+   "book": "헨델 메시아",
+   "title": "만일 하나님이 우리를 위하시면 누가 대적하리요?",
+   "composer": "",
+   "page": 195,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s209",
+   "book": "헨델 메시아",
+   "title": "죽음 당하신 어린양",
+   "composer": "",
+   "page": 201,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s210",
+   "book": "중앙48",
+   "title": "나의 힘이 되신 주님",
+   "composer": "서경환",
+   "page": 6,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s211",
+   "book": "중앙48",
+   "title": "내 주가 주신 이 노래는",
+   "composer": "Arr. Patti Drennan",
+   "page": 14,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s212",
+   "book": "중앙48",
+   "title": "기름 부으심",
+   "composer": "Arr. 조성원",
+   "page": 26,
+   "dates": [],
+   "chk": true
+  },
+  {
+   "id": "s213",
+   "book": "중앙48",
+   "title": "거기 너 있었는가",
+   "composer": "황선우",
+   "page": 50,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s214",
+   "book": "중앙48",
+   "title": "돌들아 외쳐",
+   "composer": "Lloyd Larson",
+   "page": 58,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s215",
+   "book": "중앙48",
+   "title": "마른 뼈들",
+   "composer": "Arr. Tom Fettke and Thomas Grassi",
+   "page": 77,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s216",
+   "book": "중앙48",
+   "title": "더 원합니다",
+   "composer": "Arr. 황광선",
+   "page": 91,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s217",
+   "book": "중앙48",
+   "title": "나의 죄를 씻기는",
+   "composer": "Arr. 황광선",
+   "page": 107,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s218",
+   "book": "중앙48",
+   "title": "샤론의 꽃 주 예수",
+   "composer": "Stan Pethel",
+   "page": 115,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s219",
+   "book": "중앙48",
+   "title": "너 기쁜 자여",
+   "composer": "Michael Barrett",
+   "page": 124,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s220",
+   "book": "중앙48",
+   "title": "여호수아와 여리고성",
+   "composer": "진선미",
+   "page": 145,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s221",
+   "book": "중앙48",
+   "title": "이 세상은 주의 것이로다",
+   "composer": "Carl J. Nygard, Jr.",
+   "page": 170,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s222",
+   "book": "중앙48",
+   "title": "우리는 찬양하는 주의 백성",
+   "composer": "Joseph M. Martin",
+   "page": 179,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s223",
+   "book": "중앙48",
+   "title": "나의 가는 길",
+   "composer": "Arr. 김선민",
+   "page": 221,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s224",
+   "book": "중앙48",
+   "title": "나의 갈 길 다가도록",
+   "composer": "김재훈",
+   "page": 233,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s225",
+   "book": "중앙48",
+   "title": "믿음의 주요",
+   "composer": "신현민",
+   "page": 254,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s226",
+   "book": "중앙48",
+   "title": "난 만족합니다",
+   "composer": "이형구",
+   "page": 261,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s227",
+   "book": "중앙48",
+   "title": "노래로 주께 영광 돌리며",
+   "composer": "Arr. Mary McDonald",
+   "page": 273,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s228",
+   "book": "중앙48",
+   "title": "여호와는 나의 빛이요",
+   "composer": "노희석",
+   "page": 283,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s229",
+   "book": "중앙48",
+   "title": "영광을 높이 계신 주께",
+   "composer": "Arr. Lloyd Larson",
+   "page": 290,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s230",
+   "book": "중앙48",
+   "title": "축복",
+   "composer": "조성원",
+   "page": 305,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s231",
+   "book": "중앙48",
+   "title": "만왕의 왕께(입례송)",
+   "composer": "진선미",
+   "page": 327,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s232",
+   "book": "중앙48",
+   "title": "우리 주님께(기도송)",
+   "composer": "박보람",
+   "page": 329,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s233",
+   "book": "중앙48",
+   "title": "축도송",
+   "composer": "김정범",
+   "page": 330,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s234",
+   "book": "중앙38",
+   "title": "주님이 일하십니다",
+   "composer": "진선미",
+   "page": 6,
+   "dates": [
+    {
+     "d": "2021-11-14",
+     "url": "https://www.youtube.com/watch?v=SSKgo7BrS_Y"
+    },
+    {
+     "d": "2023-02-12",
+     "url": "https://www.youtube.com/watch?v=GFdQihuSZ-Y"
+    },
+    {
+     "d": "2024-01-21",
+     "url": "https://www.youtube.com/watch?v=RoNS32_VpCg"
+    },
+    {
+     "d": "2025-01-12",
+     "url": "https://www.youtube.com/watch?v=noYtxNPcgcA"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s235",
+   "book": "중앙38",
+   "title": "감사함으로 받으면",
+   "composer": "홍지열",
+   "page": 16,
+   "dates": [
+    {
+     "d": "2021-11-21",
+     "url": "https://www.youtube.com/watch?v=v8tXge0SoLA"
+    },
+    {
+     "d": "2022-01-23",
+     "url": "https://www.youtube.com/watch?v=z0RZgiHnQaw"
+    },
+    {
+     "d": "2023-12-03",
+     "url": "https://www.youtube.com/watch?v=3dgOmFXlBMQ"
+    },
+    {
+     "d": "2024-04-14",
+     "url": "https://www.youtube.com/watch?v=DYKOxUKfAKA"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s236",
+   "book": "중앙38",
+   "title": "부흥",
+   "composer": "arr. 황수진",
+   "page": 24,
+   "dates": [
+    {
+     "d": "2023-04-16",
+     "url": "https://www.youtube.com/watch?v=-ByhXKjFUbw"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s237",
+   "book": "중앙38",
+   "title": "주님을 기억합니다",
+   "composer": "이형구",
+   "page": 35,
+   "dates": [
+    {
+     "d": "2022-04-03",
+     "url": "https://www.youtube.com/watch?v=sFA5GKJlNP4"
+    },
+    {
+     "d": "2023-08-27",
+     "url": "https://www.youtube.com/watch?v=0fMahlYkHiw"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s238",
+   "book": "중앙38",
+   "title": "주를 따르리",
+   "composer": "Darcy Stanley",
+   "page": 44,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s239",
+   "book": "중앙38",
+   "title": "내 삶을 드립니다",
+   "composer": "이형구",
+   "page": 52,
+   "dates": [
+    {
+     "d": "2022-04-10",
+     "url": "https://www.youtube.com/watch?v=GcIBNuOS7Cg"
+    },
+    {
+     "d": "2023-09-03",
+     "url": "https://www.youtube.com/watch?v=IDk6PafQK0o"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s240",
+   "book": "중앙38",
+   "title": "보혈 찬송 모음",
+   "composer": "arr. Jay Rouse",
+   "page": 59,
+   "dates": [
+    {
+     "d": "2022-04-17",
+     "url": "https://www.youtube.com/watch?v=KygTyuwzOVY"
+    },
+    {
+     "d": "2024-04-07",
+     "url": "https://www.youtube.com/watch?v=rkzzUIpvu4M"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s241",
+   "book": "중앙38",
+   "title": "내 눈을 들어 두루 살피니",
+   "composer": "윤창호",
+   "page": 72,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s242",
+   "book": "중앙38",
+   "title": "날 지으신 주님",
+   "composer": "탁우빈",
+   "page": 81,
+   "dates": [
+    {
+     "d": "2022-03-27",
+     "url": "https://www.youtube.com/watch?v=2hIj8h-aK58"
+    },
+    {
+     "d": "2023-03-12",
+     "url": "https://www.youtube.com/watch?v=6EuJ6nk6WwE"
+    },
+    {
+     "d": "2024-02-11",
+     "url": "https://www.youtube.com/watch?v=ofVU3utGpi4"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s243",
+   "book": "중앙38",
+   "title": "난 순례자라",
+   "composer": "Stan Pethel",
+   "page": 93,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s244",
+   "book": "중앙38",
+   "title": "너 예수께 조용히 나가",
+   "composer": "arr. 황주연",
+   "page": 100,
+   "dates": [
+    {
+     "d": "2022-02-13",
+     "url": "https://www.youtube.com/watch?v=Z1IcvCBvDtk"
+    },
+    {
+     "d": "2023-08-20",
+     "url": "https://www.youtube.com/watch?v=ik_FGhePMB8"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s245",
+   "book": "중앙38",
+   "title": "믿음의 노래",
+   "composer": "Joseph M. Martin",
+   "page": 109,
+   "dates": [],
+   "chk": true
+  },
+  {
+   "id": "s246",
+   "book": "중앙38",
+   "title": "그 사랑(어버이 사랑)",
+   "composer": "안재숙",
+   "page": 130,
+   "dates": [
+    {
+     "d": "2022-05-08",
+     "url": "https://www.youtube.com/watch?v=76ZZ5oht5lU"
+    }
+   ],
+   "chk": true
+  },
+  {
+   "id": "s247",
+   "book": "중앙38",
+   "title": "구주와 함께 나 죽었으니",
+   "composer": "arr. 김자영",
+   "page": 138,
+   "dates": [
+    {
+     "d": "2020-08-16",
+     "url": "https://www.youtube.com/watch?v=8zTwqbLBHX4"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s248",
+   "book": "중앙38",
+   "title": "거룩한 주님의 땅으로",
+   "composer": "서은정",
+   "page": 154,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s249",
+   "book": "중앙38",
+   "title": "크신 은혜",
+   "composer": "arr. Tom Fettke",
+   "page": 167,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s250",
+   "book": "중앙38",
+   "title": "곧 오소서 임마누엘",
+   "composer": "이형구",
+   "page": 173,
+   "dates": [],
+   "chk": true
+  },
+  {
+   "id": "s251",
+   "book": "중앙38",
+   "title": "평강의 왕",
+   "composer": "홍지열",
+   "page": 179,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s252",
+   "book": "중앙38",
+   "title": "주님께 영광",
+   "composer": "arr. Heather Sorenson",
+   "page": 187,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s253",
+   "book": "중앙38",
+   "title": "온 세상아 기뻐하라",
+   "composer": "Joseph M. Martin",
+   "page": 202,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s254",
+   "book": "중앙38",
+   "title": "예수, 승리하신 어린 양!",
+   "composer": "Marty Parks",
+   "page": 215,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s255",
+   "book": "중앙38",
+   "title": "아 하나님의 은혜로",
+   "composer": "황선우",
+   "page": 224,
+   "dates": [
+    {
+     "d": "2022-05-22",
+     "url": "https://www.youtube.com/watch?v=yg-YZjaVWQM"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s256",
+   "book": "중앙38",
+   "title": "주 예수 넓은 품에",
+   "composer": "이현철",
+   "page": 234,
+   "dates": [
+    {
+     "d": "2023-02-05",
+     "url": "https://www.youtube.com/watch?v=U4WL-hWaI5E"
+    },
+    {
+     "d": "2023-09-10",
+     "url": "https://www.youtube.com/watch?v=gDQNT-IWPRc"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s257",
+   "book": "중앙38",
+   "title": "영광 오직 주님께",
+   "composer": "Marty Parks",
+   "page": 243,
+   "dates": [
+    {
+     "d": "2022-02-06",
+     "url": "https://www.youtube.com/watch?v=wEzLjUtc-Ak"
+    },
+    {
+     "d": "2024-04-28",
+     "url": "https://www.youtube.com/watch?v=rfJ0z1RV9IM"
+    },
+    {
+     "d": "2025-01-19",
+     "url": "https://www.youtube.com/watch?v=Ue8_fqJOxf8"
+    }
+   ],
+   "chk": false
+  },
+  {
+   "id": "s258",
+   "book": "중앙38",
+   "title": "유빌라테 데오, 찬양해!",
+   "composer": "양이룩",
+   "page": 252,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s259",
+   "book": "중앙38",
+   "title": "내 영혼이 은총 입어",
+   "composer": "안재숙",
+   "page": 262,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s260",
+   "book": "중앙38",
+   "title": "왕께 노래 부르리",
+   "composer": "arr. Michael Barrett",
+   "page": 271,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s261",
+   "book": "중앙38",
+   "title": "모든 영광 주 안에 있네",
+   "composer": "arr. Mary McDonald",
+   "page": 281,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s262",
+   "book": "중앙38",
+   "title": "죄짐 맡은 우리 구주",
+   "composer": "arr. Mary McDonald",
+   "page": 291,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s263",
+   "book": "중앙38",
+   "title": "입례송",
+   "composer": "홍지열",
+   "page": 303,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s264",
+   "book": "중앙38",
+   "title": "기도송",
+   "composer": "홍지열",
+   "page": 305,
+   "dates": [],
+   "chk": false
+  },
+  {
+   "id": "s265",
+   "book": "중앙38",
+   "title": "폐회송",
+   "composer": "홍지열",
+   "page": 306,
+   "dates": [],
+   "chk": false
   }
  ]
 }
