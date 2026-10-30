@@ -597,7 +597,7 @@ function renderList(){
   var a=rows(),maxLen=0;a.forEach(function(s){if(s.dates.length>maxLen)maxLen=s.dates.length;});
   var nc=Math.max(3,maxLen+(edit?1:0));
   var h='<thead><tr><th class="c1 sl" scope="col">책명</th>'+th('title','곡명','c2 sl','<span class="rz" data-rz="c2" title="좌우로 끌어서 너비 조절 · 더블클릭하면 자동 맞춤"></span>')+'<th scope="col" class="c3">작곡가<span class="rz" data-rz="c3" title="좌우로 끌어서 너비 조절 · 더블클릭하면 자동 맞춤"></span></th><th class="num" scope="col">페이지</th>'+th('cnt','횟수','num')+(edit?'<th class="num">관리</th>':'');
-  for(var i=1;i<=nc;i++)h+=th('d'+(i-1),'날짜 '+i,'dh');
+  for(var i=1;i<=nc;i++)h+=th('d'+(i-1),'찬양날짜 '+i,'dh');
   h+='</tr></thead><tbody>';
   a.forEach(function(s){
     h+='<tr class="'+(s.dates.length?'':'none')+'" data-id="'+esc(s.id)+'"><td class="c1 sl">'+tag(s.book)+'</td><td class="c2 sl" title="'+esc(s.title)+'">'+esc(s.title)+(ADMIN&&s.chk?' <span class="chkb" title="같은 곡이 여러 악보에 있습니다. 날짜가 맞는 악보에 들어갔는지 확인하세요.">⚠ 악보확인</span>':'')+'</td><td class="c3" title="'+esc(s.composer)+'">'+esc(s.composer)+'</td><td class="num">'+esc(s.page)+'</td><td class="num">'+(s.dates.length?'<span class="cnt">'+s.dates.length+'회</span>':'<span class="cnt z">–</span>')+'</td>';
@@ -863,7 +863,7 @@ function setEdit(on){
 function measure(){document.documentElement.style.setProperty('--barh',$('#bar').offsetHeight+'px');}
 function renderFoot(){
   var u=DATA.updated?new Date(DATA.updated):null;
-  $('#foot').textContent='남서울은혜교회 시온찬양대'+(u&&!isNaN(u)?' · 최종 수정 '+u.getFullYear()+'.'+String(u.getMonth()+1).padStart(2,'0')+'.'+String(u.getDate()).padStart(2,'0'):'')+(ADMIN?' · 관리 화면 버전 1030-1908':'');
+  $('#foot').textContent='남서울은혜교회 시온찬양대'+(u&&!isNaN(u)?' · 최종 수정 '+u.getFullYear()+'.'+String(u.getMonth()+1).padStart(2,'0')+'.'+String(u.getDate()).padStart(2,'0'):'')+(ADMIN?' · 관리 화면 버전 1030-1912':'');
 }
 
 /* ---------- GitHub ---------- */
