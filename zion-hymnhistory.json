@@ -1,6 +1,6 @@
 {
  "v": 1,
- "updated": "2026-10-29T15:50:13.000Z",
+ "updated": "2026-10-30T04:26:52.171Z",
  "bookOrder": [
   "시온2",
   "시온3",
@@ -16,7 +16,7 @@
   "중앙48"
  ],
  "intro": {
-  "text": "주님께 올려 드린 시온찬양대의 발자취입니다.\n서승연 지휘자님과 진윤정 반주자님,\n모든 대원 여러분들과 함께 찬양함이 참으로 복됩니다.\n\n※ 다른 악보에 중복으로 있는 곡은, 연주 당시 사용한 악보를 확인할 수 없어 악보정보는 실제와 다를 수 있습니다.",
+  "text": "주님께 올려 드린 시온찬양대의 발자취입니다.\n모든 대원 여러분들과 함께 찬양함이 참으로 복됩니다.\n\n※ 다른 악보에 중복으로 있는 곡은, 연주 당시 사용한 악보를 확인할 수 없어 악보정보는 실제와 다를 수 있습니다.",
   "color": "#f1e7d0",
   "size": 13,
   "align": "left",
@@ -3634,6 +3634,7 @@
    "title": "내가 산을 향하여",
    "composer": "",
    "page": "",
+   "chk": false,
    "dates": [
     {
      "d": "2020-05-10",
@@ -3647,8 +3648,7 @@
      "d": "2021-12-12",
      "url": "https://www.youtube.com/watch?v=gz_Z-UY-Yxw"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s267",
@@ -3656,13 +3656,13 @@
    "title": "추수 감사의 노래",
    "composer": "",
    "page": "",
+   "chk": false,
    "dates": [
     {
      "d": "2020-11-15",
      "url": "https://www.youtube.com/watch?v=X65jy1TW4Cg"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s268",
@@ -3670,13 +3670,13 @@
    "title": "그 크신 하나님의 사랑",
    "composer": "",
    "page": "",
+   "chk": false,
    "dates": [
     {
      "d": "2020-11-22",
      "url": "https://www.youtube.com/watch?v=i3QsibBa36w"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s269",
@@ -3684,13 +3684,13 @@
    "title": "아버지 품으로",
    "composer": "",
    "page": "",
+   "chk": false,
    "dates": [
     {
      "d": "2020-11-29",
      "url": "https://www.youtube.com/watch?v=FXbSTa9UO34"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s270",
@@ -3698,13 +3698,13 @@
    "title": "예수가 우리를 부르는 소리",
    "composer": "",
    "page": "",
+   "chk": false,
    "dates": [
     {
      "d": "2020-12-06",
      "url": "https://www.youtube.com/watch?v=LGlOgqxVczg"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s271",
@@ -3712,13 +3712,13 @@
    "title": "O Holy Night (거룩한 밤)",
    "composer": "",
    "page": "",
+   "chk": false,
    "dates": [
     {
      "d": "2020-12-20",
      "url": "https://www.youtube.com/watch?v=HTG_4Q3G9C0"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s272",
@@ -3726,13 +3726,13 @@
    "title": "사명",
    "composer": "",
    "page": "",
+   "chk": false,
    "dates": [
     {
      "d": "2021-02-14",
      "url": "https://www.youtube.com/watch?v=ZZmcm78zLOQ"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s273",
@@ -3740,13 +3740,13 @@
    "title": "참 좋으신 하나님",
    "composer": "",
    "page": "",
+   "chk": false,
    "dates": [
     {
      "d": "2021-03-07",
      "url": "https://www.youtube.com/watch?v=pglx7Z-lFBA"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s274",
@@ -3754,13 +3754,13 @@
    "title": "갈보리 산 위에",
    "composer": "",
    "page": "",
+   "chk": false,
    "dates": [
     {
      "d": "2021-03-14",
      "url": "https://www.youtube.com/watch?v=J5APUAKhlYA"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s275",
@@ -3768,13 +3768,13 @@
    "title": "예수",
    "composer": "",
    "page": "",
+   "chk": false,
    "dates": [
     {
      "d": "2021-03-21",
      "url": "https://www.youtube.com/watch?v=BJBKgAhlpUc"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s276",
@@ -3782,13 +3782,13 @@
    "title": "십자가의 길",
    "composer": "",
    "page": "",
+   "chk": false,
    "dates": [
     {
      "d": "2021-04-04",
      "url": "https://www.youtube.com/watch?v=cnsTY0PCVTw"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s277",
@@ -3796,13 +3796,13 @@
    "title": "어머니,아버지 그리고 주님",
    "composer": "",
    "page": "",
+   "chk": false,
    "dates": [
     {
      "d": "2021-05-09",
      "url": "https://www.youtube.com/watch?v=KskuZCF_FOE"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s278",
@@ -3810,13 +3810,13 @@
    "title": "하나님 손길은",
    "composer": "",
    "page": "",
+   "chk": false,
    "dates": [
     {
      "d": "2021-05-23",
      "url": "https://www.youtube.com/watch?v=zx-kJTca1JY"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s279",
@@ -3824,13 +3824,13 @@
    "title": "나는 소리요",
    "composer": "",
    "page": "",
+   "chk": false,
    "dates": [
     {
      "d": "2021-05-30",
      "url": "https://www.youtube.com/watch?v=Ubst8GWjX5E"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s280",
@@ -3838,13 +3838,13 @@
    "title": "아무것도 두려워 말라",
    "composer": "",
    "page": "",
+   "chk": false,
    "dates": [
     {
      "d": "2021-06-13",
      "url": "https://www.youtube.com/watch?v=-adx0XTNyg4"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s281",
@@ -3852,13 +3852,13 @@
    "title": "십자가",
    "composer": "",
    "page": "",
+   "chk": false,
    "dates": [
     {
      "d": "2021-06-20",
      "url": "https://www.youtube.com/watch?v=NQs3F5oOq_w"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s282",
@@ -3866,6 +3866,7 @@
    "title": "누군가 널 위해 기도하네",
    "composer": "",
    "page": "",
+   "chk": true,
    "dates": [
     {
      "d": "2021-06-27",
@@ -3879,8 +3880,7 @@
      "d": "2024-09-29",
      "url": "https://www.youtube.com/watch?v=MY340k5g5v8"
     }
-   ],
-   "chk": true
+   ]
   },
   {
    "id": "s283",
@@ -3888,6 +3888,7 @@
    "title": "Amor Dei",
    "composer": "",
    "page": "",
+   "chk": false,
    "dates": [
     {
      "d": "2021-07-04",
@@ -3897,8 +3898,7 @@
      "d": "2021-09-26",
      "url": "https://www.youtube.com/watch?v=S7DChuJIhGc"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s284",
@@ -3906,13 +3906,13 @@
    "title": "내 삶의 이유라",
    "composer": "",
    "page": "",
+   "chk": false,
    "dates": [
     {
      "d": "2021-07-11",
      "url": "https://www.youtube.com/watch?v=7gtzNYRijoA"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s285",
@@ -3920,13 +3920,13 @@
    "title": "어찌하여야",
    "composer": "",
    "page": "",
+   "chk": false,
    "dates": [
     {
      "d": "2021-09-12",
      "url": "https://www.youtube.com/watch?v=vLdSA9Xa1h4"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s286",
@@ -3934,13 +3934,13 @@
    "title": "나를 통하여",
    "composer": "",
    "page": "",
+   "chk": false,
    "dates": [
     {
      "d": "2021-10-24",
      "url": "https://www.youtube.com/watch?v=yOKSu3eD7n4"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s287",
@@ -3948,13 +3948,13 @@
    "title": "주를 따르라",
    "composer": "",
    "page": "",
+   "chk": false,
    "dates": [
     {
      "d": "2021-11-28",
      "url": "https://www.youtube.com/watch?v=14VEBsaiUS0"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s288",
@@ -3962,13 +3962,13 @@
    "title": "Amazing Grace",
    "composer": "",
    "page": "",
+   "chk": false,
    "dates": [
     {
      "d": "2021-12-26",
      "url": "https://www.youtube.com/watch?v=njbi6_ASJnQ"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s289",
@@ -3976,13 +3976,13 @@
    "title": "주는 나의 빛",
    "composer": "",
    "page": "",
+   "chk": false,
    "dates": [
     {
      "d": "2022-01-02",
      "url": "https://www.youtube.com/watch?v=Hoj_MN8FMzk"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s290",
@@ -3990,13 +3990,13 @@
    "title": "아름다운 세상과",
    "composer": "",
    "page": "",
+   "chk": false,
    "dates": [
     {
      "d": "2022-03-13",
      "url": "https://www.youtube.com/watch?v=BmJjr1YkgEs"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s291",
@@ -4004,6 +4004,7 @@
    "title": "인류의 기쁨이 되시는 예수",
    "composer": "",
    "page": "",
+   "chk": false,
    "dates": [
     {
      "d": "2022-06-12",
@@ -4013,8 +4014,7 @@
      "d": "2023-02-26",
      "url": "https://www.youtube.com/watch?v=Mtxj2ieAPLc"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s292",
@@ -4022,6 +4022,7 @@
    "title": "나 찬송합니다",
    "composer": "",
    "page": "",
+   "chk": true,
    "dates": [
     {
      "d": "2022-10-02",
@@ -4031,8 +4032,7 @@
      "d": "2023-10-08",
      "url": "https://www.youtube.com/watch?v=pwJjSrLzw_s"
     }
-   ],
-   "chk": true
+   ]
   },
   {
    "id": "s293",
@@ -4040,6 +4040,7 @@
    "title": "추수감사주일 음악예배",
    "composer": "",
    "page": "",
+   "chk": false,
    "dates": [
     {
      "d": "2022-11-20",
@@ -4049,8 +4050,7 @@
      "d": "2023-11-19",
      "url": "https://www.youtube.com/watch?v=v9xlHkhM8SU"
     }
-   ],
-   "chk": false
+   ]
   },
   {
    "id": "s294",
@@ -4058,13 +4058,13 @@
    "title": "예수 십자가의 흘린 피로써",
    "composer": "",
    "page": "",
+   "chk": false,
    "dates": [
     {
      "d": "2023-03-26",
      "url": "https://www.youtube.com/watch?v=1xXYV1hdb7s"
     }
-   ],
-   "chk": false
+   ]
   }
  ]
 }
