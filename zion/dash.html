@@ -52,6 +52,8 @@ h1 em{font-style:normal;color:var(--gold-ink)}
 .btn.danger{border-color:var(--bad);color:var(--bad)}
 .btn.arm,.mini.arm,.rt.arm{background:var(--bad);color:#fff;border-color:var(--bad)}
 .cp{align-self:flex-end;color:var(--ink-faint);line-height:1.2;white-space:nowrap;padding-top:2px}
+.cp .wd{font-weight:500;text-transform:none}
+@media(max-width:560px){.cp{text-align:right}.cp .wd{display:block}}
 .toast{position:fixed;left:50%;bottom:calc(26px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--head-ink);color:#fff;border:1px solid var(--gold);padding:6px 14px;border-radius:9px;z-index:80;opacity:0;pointer-events:none;transition:opacity .2s;max-width:92vw}
 .toast.show{opacity:.97}
 .pill-on{background:var(--gold);color:#fff}
@@ -323,7 +325,7 @@ h2.sec .exc{margin-left:22px;padding:0 10px;border-radius:999px;background:#fff;
     <span class="asof" id="asof"></span>
   </header>
   <main id="dashBody"></main>
-  <div class="cp">(C)2026. YOON, HYUNCHUL ALL RIGHTS RESERVED.</div>
+  <div class="cp">(C)2026. YOON, HYUNCHUL ALL RIGHTS RESERVED. <span class="wd">· 문지기 : 윤현철</span></div>
 </div>
 <div class="toast" id="toast" role="status"></div>
 <script>
