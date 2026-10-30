@@ -1,6 +1,6 @@
 {
  "v": 1,
- "updated": "2026-10-30T11:32:04.210Z",
+ "updated": "2026-10-30T11:38:53.198Z",
  "hero": {
   "eyebrow": "NAMSEOUL GRACE CHURCH",
   "ko": "시온찬양대 포털",
@@ -12,7 +12,7 @@
   {
    "id": "g1",
    "name": "찬양",
-   "en": "PRACTICE",
+   "en": "PRAISE",
    "items": [
     {
      "id": "i1",
@@ -39,8 +39,8 @@
   },
   {
    "id": "g2",
-   "name": "역사와 현황",
-   "en": "RECORDS",
+   "name": "현황",
+   "en": "HISTORY",
    "items": [
     {
      "id": "i4",
