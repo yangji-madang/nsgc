@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>남서울은혜교회 시온찬양대 찬양곡 현황</title>
+<title>남서울은혜교회 시온찬양 연대기 · Zion Praise Chronicle</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@600;700;900&display=swap" rel="stylesheet">
@@ -38,6 +38,9 @@ button{cursor:pointer}
 .eyebrow::before{content:"";width:34px;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
 h1{margin:6px 0 0;font-family:var(--serif);font-weight:700;line-height:1.18}
 h1 .ch{display:block;font-size:clamp(14px,1.4vw,17px);font-weight:600;color:var(--gold2);letter-spacing:.06em}
+h1 .en{display:block;margin-top:5px;font-family:Georgia,'Times New Roman',serif;font-style:italic;font-weight:400;font-size:clamp(13.5px,1.5vw,17px);letter-spacing:.04em;color:var(--gold2)}
+@media (max-width:480px){h1 .en2{display:none}}
+h1 .en i{font-style:normal;color:var(--gold);margin:0 .3em}
 h1 .big{display:block;font-size:clamp(26px,3.3vw,40px);font-weight:900;letter-spacing:-.01em;margin-top:2px;
   background:linear-gradient(100deg,#fff 10%,var(--gold2) 55%,var(--gold) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
 .staff{display:block;margin:4px 0 0;width:min(220px,70%);height:22px}
@@ -341,7 +344,7 @@ dialog::backdrop{background:rgba(10,19,48,.55)}
   <div class="hero-in">
     <div class="hero-txt">
       <div class="eyebrow">NAMSEOUL GRACE CHURCH</div>
-      <h1><span class="ch">남서울은혜교회</span> <span class="big">시온찬양대 찬양곡 현황</span></h1>
+      <h1><span class="ch">남서울은혜교회</span> <span class="big">시온찬양 연대기</span><span class="en">Zion Praise Chronicle <span class="en2"><i>·</i> Songs We Have Sung</span></span></h1>
       <svg class="staff" viewBox="0 0 300 30" aria-hidden="true">
         <defs><linearGradient id="sg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="300" y2="0"><stop offset="0" stop-color="#c9a45c"/><stop offset="1" stop-color="#c9a45c" stop-opacity="0"/></linearGradient></defs>
         <g stroke="url(#sg)" stroke-width="1"><line x1="0" y1="4" x2="300" y2="4"/><line x1="0" y1="10" x2="300" y2="10"/><line x1="0" y1="16" x2="300" y2="16"/><line x1="0" y1="22" x2="300" y2="22"/><line x1="0" y1="28" x2="300" y2="28"/></g>
@@ -812,7 +815,7 @@ function setEdit(on){
 function measure(){document.documentElement.style.setProperty('--barh',$('#bar').offsetHeight+'px');}
 function renderFoot(){
   var u=DATA.updated?new Date(DATA.updated):null;
-  $('#foot').textContent='남서울은혜교회 시온찬양대'+(u&&!isNaN(u)?' · 최종 수정 '+u.getFullYear()+'.'+String(u.getMonth()+1).padStart(2,'0')+'.'+String(u.getDate()).padStart(2,'0'):'')+(ADMIN?' · 관리 화면 버전 1030-1113':'');
+  $('#foot').textContent='남서울은혜교회 시온찬양대'+(u&&!isNaN(u)?' · 최종 수정 '+u.getFullYear()+'.'+String(u.getMonth()+1).padStart(2,'0')+'.'+String(u.getDate()).padStart(2,'0'):'')+(ADMIN?' · 관리 화면 버전 1030-1726':'');
 }
 
 /* ---------- GitHub ---------- */
