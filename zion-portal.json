@@ -4,9 +4,7 @@
  "hero": {
   "eyebrow": "NAMSEOUL GRACE CHURCH",
   "ko": "시온찬양대 포털",
-  "en": "Zion Choir Portal",
-  "sub": "찬양곡목 · 기록 · 출석 · 주보를 한곳에서 만나 보세요.",
-  "enSub": "All of Zion's songs and records, in one place."
+  "en": "Zion Choir Portal"
  },
  "view": [
   {
@@ -130,5 +128,12 @@
     }
    ]
   }
- ]
+ ],
+ "intro": {
+  "text": "찬양곡목 · 기록 · 출석 · 주보를 한곳에서 만나 보세요.\nAll of Zion's songs and records, in one place.",
+  "color": "#e9e4d3",
+  "size": 16,
+  "align": "left",
+  "bold": false
+ }
 }
