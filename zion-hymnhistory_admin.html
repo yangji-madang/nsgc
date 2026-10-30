@@ -371,7 +371,7 @@ dialog::backdrop{background:rgba(10,19,48,.55)}
   <div class="bar-in">
     <div class="row1">
       <div class="seg" role="tablist" aria-label="화면 전환">
-        <button type="button" id="tabList" role="tab" class="on">찬양 현황</button>
+        <button type="button" id="tabList" role="tab" class="on">찬양곡 전체 보기</button>
         <button type="button" id="tabDash" role="tab">대시보드</button>
       </div>
       <div class="stats" id="statLine"></div>
@@ -735,7 +735,7 @@ function groupSongs(){
 function renderDash(){
   var groups=groupSongs(),played=groups.filter(function(g){return g.dates.length;});
   var root=$('#viewDash');
-  if(!played.length){root.innerHTML='<div class="panel empty">아직 찬양한 곡이 없습니다. 찬양 현황에서 날짜를 등록하면 이곳에 집계됩니다.</div>';return;}
+  if(!played.length){root.innerHTML='<div class="panel empty">아직 찬양한 곡이 없습니다. 찬양곡 전체 보기에서 날짜를 등록하면 이곳에 집계됩니다.</div>';return;}
   var plays=0,dset={};
   played.forEach(function(g){plays+=g.dates.length;g.dates.forEach(function(x){(dset[x.d]=dset[x.d]||[]).push(g);});});
   var dates=Object.keys(dset).sort(),latest=dates[dates.length-1];
@@ -863,7 +863,7 @@ function setEdit(on){
 function measure(){document.documentElement.style.setProperty('--barh',$('#bar').offsetHeight+'px');}
 function renderFoot(){
   var u=DATA.updated?new Date(DATA.updated):null;
-  $('#foot').textContent='남서울은혜교회 시온찬양대'+(u&&!isNaN(u)?' · 최종 수정 '+u.getFullYear()+'.'+String(u.getMonth()+1).padStart(2,'0')+'.'+String(u.getDate()).padStart(2,'0'):'')+(ADMIN?' · 관리 화면 버전 1030-1726':'');
+  $('#foot').textContent='남서울은혜교회 시온찬양대'+(u&&!isNaN(u)?' · 최종 수정 '+u.getFullYear()+'.'+String(u.getMonth()+1).padStart(2,'0')+'.'+String(u.getDate()).padStart(2,'0'):'')+(ADMIN?' · 관리 화면 버전 1030-1908':'');
 }
 
 /* ---------- GitHub ---------- */
