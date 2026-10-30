@@ -1,6 +1,6 @@
 {
  "v": 1,
- "updated": "2026-10-30T11:24:42.665Z",
+ "updated": "2026-10-30T11:32:04.210Z",
  "hero": {
   "eyebrow": "NAMSEOUL GRACE CHURCH",
   "ko": "시온찬양대 포털",
@@ -55,6 +55,20 @@
      "desc": "파트별 인원과 출석 통계",
      "url": "zion/dash.html",
      "icon": "users"
+    },
+    {
+     "id": "imvuw58dfna",
+     "title": "2025년 야유회",
+     "desc": "'25.5.6. 대부도",
+     "url": "https://youtu.be/KBmBEoRLRgM",
+     "icon": "star"
+    },
+    {
+     "id": "imvuw6zp7p7",
+     "title": "2026년 야유회",
+     "desc": "'26.5.5. 춘천 일",
+     "url": "https://youtu.be/7dy1iM_qTLc",
+     "icon": "star"
     }
    ]
   },
