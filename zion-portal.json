@@ -1,10 +1,12 @@
 {
  "v": 1,
- "updated": "2026-10-30T00:00:00.000Z",
+ "updated": "2026-10-30T11:22:49.564Z",
  "hero": {
   "eyebrow": "NAMSEOUL GRACE CHURCH",
   "ko": "시온찬양대 포털",
-  "en": "Zion Choir Portal"
+  "en": "Zion Choir Portal",
+  "sub": "찬양곡목 · 기록 · 출석 · 주보를 한곳에서 만나 보세요.",
+  "enSub": "All of Zion's songs and records, in one place."
  },
  "view": [
   {
@@ -14,14 +16,14 @@
    "items": [
     {
      "id": "i1",
-     "title": "2026 찬양곡목",
+     "title": "2026년 찬양 연습 모음",
      "desc": "곡별 파트 연습 영상과 음원 모음",
      "url": "index.html",
      "icon": "music"
     },
     {
      "id": "i2",
-     "title": "추수감사주일 찬양",
+     "title": "추수감사주일 찬양 연습 모음",
      "desc": "연습 일정과 파트별 연습 자료",
      "url": "2026_Zion_Thanksgiving.html",
      "icon": "leaf"
@@ -66,7 +68,8 @@
      "title": "시온찬양대 주보",
      "desc": "이번 주 소식을 한 장으로",
      "url": "zion_jubo.html",
-     "icon": "paper"
+     "icon": "paper",
+     "hide": true
     }
    ]
   }
@@ -128,12 +131,5 @@
     }
    ]
   }
- ],
- "intro": {
-  "text": "찬양곡목 · 기록 · 출석 · 주보를 한곳에서 만나 보세요.\nAll of Zion's songs and records, in one place.",
-  "color": "#e9e4d3",
-  "size": 16,
-  "align": "left",
-  "bold": false
- }
+ ]
 }
