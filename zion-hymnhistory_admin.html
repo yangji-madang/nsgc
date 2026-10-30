@@ -66,7 +66,7 @@ h1 .big{display:block;font-size:clamp(26px,3.3vw,40px);font-weight:900;letter-sp
 .seg button.on{background:var(--navy8);color:#fff;box-shadow:0 2px 8px -2px rgba(10,19,48,.5)}
 .stats{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13.5px;color:var(--ink2)}
 .stats b{color:var(--navy7);font-variant-numeric:tabular-nums}
-.warden{font-size:12px;color:#a3a3a0;font-weight:400;white-space:nowrap;letter-spacing:.02em}
+.warden{font-size:12px;color:#6b6a66;font-weight:500;white-space:nowrap;letter-spacing:.02em}
 .tools{margin-left:auto;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .btn{border:1px solid var(--line);background:#fff;border-radius:9px;padding:7px 13px;font-size:13.5px;font-weight:500;color:var(--ink)}
 .btn:hover{border-color:var(--gold);background:#fffaf0}
@@ -383,6 +383,7 @@ dialog::backdrop{background:rgba(10,19,48,.55)}
         <button type="button" class="btn gold edit-only" id="btnAdd">+ 곡 추가</button>
         <button type="button" class="btn pri edit-only" id="btnSave">GitHub에 저장</button>
         <button type="button" class="btn edit-only" id="btnGh">연결 설정</button>
+        <a class="btn pri" id="btnView" href="zion-hymnhistory.html" target="_blank" rel="noopener" style="text-decoration:none;display:inline-block">보기 화면 ↗</a>
         <button type="button" class="btn" id="btnEdit">편집 모드</button>
         <span class="warden">문지기 : 윤현철</span>
       </div>
@@ -866,7 +867,7 @@ function setEdit(on){
 function measure(){document.documentElement.style.setProperty('--barh',$('#bar').offsetHeight+'px');}
 function renderFoot(){
   var u=DATA.updated?new Date(DATA.updated):null;
-  $('#foot').textContent='남서울은혜교회 시온찬양대'+(u&&!isNaN(u)?' · 최종 수정 '+u.getFullYear()+'.'+String(u.getMonth()+1).padStart(2,'0')+'.'+String(u.getDate()).padStart(2,'0'):'')+(ADMIN?' · 관리 화면 버전 1030-1924':'');
+  $('#foot').textContent='남서울은혜교회 시온찬양대'+(u&&!isNaN(u)?' · 최종 수정 '+u.getFullYear()+'.'+String(u.getMonth()+1).padStart(2,'0')+'.'+String(u.getDate()).padStart(2,'0'):'')+(ADMIN?' · 관리 화면 버전 1030-1936':'');
 }
 
 /* ---------- GitHub ---------- */
