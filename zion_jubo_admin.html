@@ -8,6 +8,7 @@
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#f3f5f8;font-family:'Noto Sans KR','Malgun Gothic',sans-serif;color:#222;font-size:14px}
+.wd{margin-left:auto;font-size:12px;color:rgba(255,255,255,.6);font-weight:500;white-space:nowrap}
 .top{position:sticky;top:0;z-index:20;background:#1f3a5f;color:#fff;padding:8px 12px;display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center}
 .top b{font-size:16px;margin-right:auto}
 .top a,.top button{background:#fff;color:#1f3a5f;border:0;border-radius:6px;padding:6px 10px;font-size:13px;font-weight:700;cursor:pointer;text-decoration:none;font-family:inherit}
@@ -77,6 +78,7 @@ table.et input{min-width:70px}
   <button data-act="import">파일 불러오기</button>
   <button data-act="loadpub">발행본 불러오기</button>
   <button data-act="reset">초기화</button>
+  <span class="wd">문지기 : 윤현철</span>
   <input type="file" id="fimport" accept="application/json,.json" hidden>
   <input type="file" id="fimg" accept="image/*" hidden>
   <input type="file" id="fnimg" accept="image/*" multiple hidden>

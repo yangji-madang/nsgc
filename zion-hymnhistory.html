@@ -718,7 +718,7 @@ function renderDash(){
     '<div class="panel pBook"><h2>책별 연주 횟수</h2><p class="sub">찬양한 곡이 수록된 책 기준</p><div id="bookBars"></div></div></div>'+
     '<div class="dcol"><div class="panel pMx"><h2>연도별 찬양 차트</h2><p class="sub">해마다 몇 번 불렀는지 · 숫자를 누르면 날짜와 영상이 나옵니다</p>'+
     '<div class="pbar"><input type="search" id="qM" class="qin" placeholder="곡명 검색" autocomplete="off" aria-label="곡명 검색"><button type="button" class="btn sb" id="sM">곡명 ⇅</button><button type="button" class="btn sb" id="cM">횟수 ⇅</button><span class="rc" id="rcM"></span></div>'+
-    '<div class="mxwrap"><div class="mx" id="mx" style="--n:'+years.length+'"><div class="mr mh"><div class="mt mh"><span class="sortable" id="mhName" title="눌러서 곡명 정렬">곡명 ⇅</span><span class="rz" id="mtRz" title="좌우로 끌어서 너비 조절 · 더블클릭하면 원래대로"></span></div><div class="ms sortable" id="mhCnt" title="눌러서 횟수 정렬">합계 ⇅</div>'+years.map(function(y){return'<div class="my">'+y+'</div>';}).join('')+'</div><div id="mxRows"></div><div class="mr mf" id="mxFoot"></div></div></div><p class="mfnote">※ 연도별 찬양 주일 수(같은 주일에 2곡이면 1주, 주일이 아닌 날은 제외) · <span class="wb">⚠ 주황색</span>은 1년 52주 기준(올해는 오늘까지의 주일 수)에 못 미치는 해로, 누락된 영상이나 날짜가 없는지 확인이 필요합니다.</p>'+
+    '<div class="mxwrap"><div class="mx" id="mx" style="--n:'+years.length+'"><div class="mr mh"><div class="mt mh"><span class="sortable" id="mhName" title="눌러서 곡명 정렬">곡명 ⇅</span><span class="rz" id="mtRz" title="좌우로 끌어서 너비 조절 · 더블클릭하면 원래대로"></span></div><div class="ms sortable" id="mhCnt" title="눌러서 횟수 정렬">합계 ⇅</div>'+years.map(function(y){return'<div class="my">'+y+'</div>';}).join('')+'</div><div id="mxRows"></div></div></div>'+
     '<button type="button" class="btn more" id="btnMxMore" hidden></button></div></div></div>';
   root.innerHTML=h;
 
@@ -818,7 +818,7 @@ function setEdit(on){
 function measure(){document.documentElement.style.setProperty('--barh',$('#bar').offsetHeight+'px');}
 function renderFoot(){
   var u=DATA.updated?new Date(DATA.updated):null;
-  $('#foot').textContent='남서울은혜교회 시온찬양대'+(u&&!isNaN(u)?' · 최종 수정 '+u.getFullYear()+'.'+String(u.getMonth()+1).padStart(2,'0')+'.'+String(u.getDate()).padStart(2,'0'):'')+(ADMIN?' · 관리 화면 버전 1030-1936':'');
+  $('#foot').textContent='남서울은혜교회 시온찬양대'+(u&&!isNaN(u)?' · 최종 수정 '+u.getFullYear()+'.'+String(u.getMonth()+1).padStart(2,'0')+'.'+String(u.getDate()).padStart(2,'0'):'')+(ADMIN?' · 관리 화면 버전 1030-1940':'');
 }
 
 /* ---------- GitHub ---------- */
