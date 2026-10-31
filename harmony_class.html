@@ -172,9 +172,97 @@ b,strong{color:var(--navy)}
   .pick,.grid2,.grid3,.chk{grid-template-columns:1fr}
   .hero{min-height:440px}
   .topnav .brand{display:none}
-  .keybox .row{flex-direction:column;gap:2px}
+  .keybox .row{flex-direction:column;gap:0}
+  .keybox .lb{flex:none!important}
   .tbl{font-size:13.5px}
   .copy{position:static;display:block;text-align:right;margin:6px 0}
+}
+
+
+/* ======== 2차 압축 오버라이드 (여백 최소화) ======== */
+html,body{max-width:100%;overflow-x:hidden}
+.grid2>*,.grid3>*,.pick>*,.s4 .it .v,.keybox .tx{min-width:0}
+.card,.tbl td,.tbl th,.v,.res{overflow-wrap:anywhere;word-break:keep-all}
+body{font-size:14.5px;line-height:1.42}
+.hero{min-height:0;padding:7px 10px 26px;gap:0;
+  background:
+   linear-gradient(180deg,rgba(255,250,236,.30) 0%,rgba(255,250,236,.18) 55%,rgba(251,249,244,0) 80%,var(--paper) 100%),
+   linear-gradient(90deg,rgba(255,244,214,.55) 0%,rgba(255,244,214,.25) 50%,rgba(255,244,214,.55) 100%),
+   var(--bgimg),
+   radial-gradient(ellipse at 50% 30%,#f3dfa6 0%,#c9b27a 50%,#8d9bc4 100%);
+  background-size:cover;background-position:center 40%;background-blend-mode:normal,normal,screen,normal;color:var(--navy)}
+.hero h1{font-size:clamp(22px,4vw,34px);line-height:1.15;letter-spacing:.03em}
+.hero h1 .sub{font-size:.46em;color:var(--navy);opacity:1;letter-spacing:.28em;margin-right:.6em;text-shadow:0 1px 0 rgba(255,255,255,.6)}
+.hero h1 .gd{background:linear-gradient(180deg,#2b3a69 0%,#1f2a4d 45%,#8a6a1f 100%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;filter:drop-shadow(0 1px 0 rgba(255,255,255,.7))}
+.hero .intro{margin:1px auto 0;font-size:13px;font-weight:500;color:var(--navy);text-shadow:0 1px 0 rgba(255,255,255,.7)}
+.hero .heroacts{gap:5px;margin-top:3px}
+.hero .tutor{padding:2px 12px;font-size:13px;color:var(--navy);background:rgba(255,255,255,.85);border-color:var(--gold)}
+.hero .tutor b{color:#7a5a12}
+.hero .heroacts .nbtn{padding:2px 12px;font-size:12.5px;color:var(--navy);border-color:var(--navy);background:rgba(255,255,255,.8)}
+.hero .heroacts .nbtn.on{background:var(--gold);border-color:var(--gold);color:#fff}
+.hero .heroacts .nbtn.portal,.hero .portalbtn{position:static;margin:0;background:var(--navy);color:var(--gold2);border-color:var(--navy)}
+.hero .heroacts .sepv{background:rgba(31,42,77,.35);height:18px;margin:0 3px}
+.searchbox{margin:-20px auto 0;padding:0 10px}
+.searchbox .hint{display:none}
+.searchbox .bar{padding:0 6px 0 12px}
+.searchbox input{padding:6px 4px;font-size:14.5px}
+.pick{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:6px;margin:7px 0 2px}
+.pcard{padding:4px 8px;border-top-width:3px;border-radius:8px}
+.pcard .n{font-size:16px}.pcard .d{font-size:11px;margin-left:4px}
+.pcard h3{font-size:12.5px;margin:0;line-height:1.25;word-break:keep-all}
+.wrap{padding:0 10px}
+.sum-title{margin:6px 0 0}.sum-title h2{font-size:17px}.sum-title p{display:none}
+.lec{max-width:1240px;padding:4px 8px 30px}
+.lec-head{padding:4px 10px;font-size:13.5px}
+.lec-title{margin:4px 0 0;font-size:clamp(18px,2.6vw,22px)}
+.lec-sub{margin:0 0 4px;font-size:13.5px}
+.keybox{padding:3px 10px;margin:0 0 3px;font-size:14px}
+.keybox .row{padding:1px 0;gap:8px}.keybox .lb{flex:0 0 78px}
+.sec{margin:6px 0 0}
+.sec>h3{font-size:15.5px;gap:7px;margin:0 0 3px;padding-bottom:1px}
+.sec>h3 .no{flex:0 0 22px;height:22px;font-size:12.5px}
+.grid2,.grid3{gap:5px}
+.card{padding:4px 8px;border-radius:7px}
+.card h4{font-size:14px;margin:0 0 1px;padding-left:7px;border-left-width:4px}
+.card ul{padding-left:14px}
+.card li{margin:0;line-height:1.4}
+.card li::before{left:-12px;top:2px;font-size:11px}
+.card li ul{display:inline;padding:0;margin:0}
+.card li ul li{display:inline;margin:0}
+.card li ul li::before{content:" ▸ ";position:static;color:var(--gold);font-size:11px;top:0}
+.card li ul li ul li::before{content:" · "}
+.card p{margin:1px 0}
+.tbl{font-size:13.5px}.tbl th{padding:2px 6px}.tbl td{padding:2px 6px}
+.banner{padding:3px 10px;margin:0 0 4px;font-size:14px}.banner b{font-size:15px}
+.steps{gap:4px;margin:1px 0}.steps .s{padding:2px 5px;font-size:13px;flex:1 1 90px}
+.s4{gap:3px}.s4 .it{padding:2px 8px;gap:8px}.s4 .it .k{flex:0 0 50px;font-size:13px}.s4 .it .k small{font-size:11.5px}
+.chk{gap:0 12px;padding:3px 8px;font-size:13.5px}
+.chk li::before{font-size:15px;line-height:1.2}
+.pnav{margin-top:8px}.pbtn{padding:3px 12px;font-size:13px}
+.topnav{padding:4px 10px}.topnav .nbtn{padding:3px 12px;font-size:13px}
+.foot{margin:6px 0 0;font-size:11.5px}
+.sfig svg{width:90px;height:98px}
+@media (max-width:760px){
+  .grid2,.grid3,.chk{grid-template-columns:1fr}
+  .hero h1 .sub{font-size:.5em;letter-spacing:.12em;margin-right:.4em}
+  .hero .heroacts .sepv{display:none}
+  .hero .tutor{font-size:11.5px;padding:2px 8px}
+  .hero .heroacts .nbtn{padding:2px 9px;font-size:12px}
+  .keep3{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:4px}
+  .keep3 .card{padding:3px 5px}
+  .keep3 .card h4{font-size:11.5px;padding-left:5px;border-left-width:3px}
+  .keep3 .card li,.keep3 .card p{font-size:11px;line-height:1.32}
+  .keep3 .card ul{padding-left:10px}
+  .keep3 .card li::before{left:-9px;font-size:9px}
+  .flow{gap:3px}.flow>span{font-size:11.5px;padding:1px 7px}
+  .sec>h3{font-size:14.5px}
+  .lec{padding:3px 5px 24px}.wrap{padding:0 6px}
+  .hero .intro{font-size:12px}
+  .pcard .d{display:none}
+  .pcard{padding:3px 5px;text-align:center}
+  .pcard h3{font-size:11px}
+  .tbl{font-size:12.5px}
+  body{font-size:14px}
 }
 
 /* ---------- 인쇄 (A4 세로) ---------- */
@@ -221,10 +309,7 @@ b,strong{color:var(--navy)}
 <!-- =====================================================  메인  ===================================================== -->
 <main id="mainpage">
   <header class="hero">
-    <div class="en">Zion Choir · Harmony Class</div>
-    <div class="rule"><i></i><b></b><i></i></div>
     <h1><span class="sub">시온찬양대</span><span class="gd">하모니클래스 2026</span></h1>
-    <div class="rule"><i></i><b></b><i></i></div>
     <p class="intro">2026년 9월~10월중 진행된 ‘하모니클래스’ 남자파트 강의요약입니다.</p>
     <div class="heroacts">
       <div class="tutor">강사 : <b>테너 이재명 선생님</b></div>
@@ -233,8 +318,9 @@ b,strong{color:var(--navy)}
       <a class="nbtn" data-r="1" href="#/1">1강</a>
       <a class="nbtn" data-r="2" href="#/2">2강</a>
       <a class="nbtn" data-r="3" href="#/3">3강</a>
+      <span class="sepv"></span>
+      <a class="nbtn portal portalbtn noprint" href="zion-portal.html">시온포털 보기</a>
     </div>
-    <a class="nbtn portal portalbtn noprint" href="zion-portal.html">시온포털 보기</a>
   </header>
 
   <div class="searchbox noprint">
@@ -261,7 +347,7 @@ b,strong{color:var(--navy)}
       <div class="flow">
         <span>몸 세팅</span><em>→</em><span>서포트 호흡 (하루 100번)</span><em>→</em><span>후두 낮추기</span><em>→</em><span>코르크 허밍·연구개 들기</span><em>→</em><span>성구 전환</span><em>→</em><span>숨 쉴 때 소리의 길 찾기</span><em>→</em><span>혀 내밀고 노래</span>
       </div>
-      <div class="grid3" style="margin-top:10px">
+      <div class="grid3 keep3" style="margin-top:6px">
         <div class="card"><h4>1강 · 몸이 악기다</h4><ul>
           <li>소리 내기 전에 몸 세팅(가슴·목·단전)부터 한다 - 노래의 70% 안팎을 좌우한다 (1강 오늘의 핵심)</li>
           <li>소리는 힘이 아니라 ‘버티는 힘(서포트)’과 적은 공기로 낸다 - 편안한 소리 + 단전만 유지</li>
@@ -686,7 +772,7 @@ b,strong{color:var(--navy)}
   </section>
 
   <section class="sec"><h3><span class="no">5</span>자세는 ‘악기’, 연주자는 ‘공기’만 조절한다</h3>
-    <div class="grid3">
+    <div class="grid3 keep3">
       <div class="card"><h4>몸 = 악기 몸통</h4><p>줄을 잡아 주는 악기대. 자세가 바로 서야 줄(성대)이 울릴 준비가 된다</p></div>
       <div class="card"><h4>성대 = 줄</h4><p>자세가 갖춰지면 저절로 울릴 준비가 된 상태가 된다</p></div>
       <div class="card dark"><h4>연주자 = 공기 조절</h4><p>공기의 양으로 음높이·세기·음색이 바뀐다 → 그래서 호흡 훈련이 중요</p></div>
@@ -869,7 +955,7 @@ b,strong{color:var(--navy)}
   </section>
 
   <section class="sec"><h3><span class="no">5</span>단전과 자세 : 의지로 하는 건 ‘단전’ 하나뿐</h3>
-    <div class="grid3">
+    <div class="grid3 keep3">
       <div class="card"><h4>상체 = 릴렉스</h4><p>어깨가 올라가면 오히려 더 내린다. 단전 위쪽은 모두 힘을 뺀다</p></div>
       <div class="card dark"><h4>단전 = 당긴다</h4><p>아랫배를 계속 잡아 준다. 고음일수록 필요한 근육은 알아서 쓰인다</p></div>
       <div class="card"><h4>나머지 = 맡긴다</h4><p>목·턱·혀는 아무것도 하지 않는다. 단전을 당기면 숙이려 해도 안 숙여진다</p></div>
