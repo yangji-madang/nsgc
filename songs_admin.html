@@ -139,6 +139,11 @@ tr.next td.date::after{content:" 이번 주일";font-size:11px;background:#ffff0
   td.act .copy{display:none}
   .tab{padding:5px 9px}
 }
+.btn.portal{display:inline-block;text-decoration:none;padding:4px 10px;line-height:1.4;color:var(--accent-ink);border-color:var(--accent)}
+.btn.portal:hover{background:var(--accent);color:#fff}
+.top-row .btn.portal{order:5}
+@media(max-width:800px){.top-row .btn.portal{order:0}}
+@media print{.zp-btn,.btn.portal{display:none!important}}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
@@ -147,6 +152,7 @@ tr.next td.date::after{content:" 이번 주일";font-size:11px;background:#ffff0
   <div class="top-row">
     <h1><small>ZION CHOIR · ADMIN</small>찬양곡목 관리</h1>
     <span id="dirtyBadge" class="clean">저장됨</span>
+    <a class="btn portal" href="zion-portal.html" target="_blank" rel="noopener">시온포털 ↗</a>
     <a class="btn" href="index.html" target="_blank" rel="noopener">보기 페이지 ↗</a>
     <button class="btn" id="btnPreview" type="button">초안 미리보기 ↗</button>
     <button class="btn primary" id="btnSave" type="button">GitHub에 저장</button>
