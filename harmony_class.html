@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>시온찬양대 하모니클래스 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@500;700;900&family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#1f2a4d; --navy2:#2b3a69; --gold:#b8923a; --gold2:#e3c46f;
+  --ink:#232838; --paper:#fbf9f4; --line:#d9d2c0; --soft:#f3efe4;
+  --red:#a8382e; --green:#2f7a5a;
+  --bgimg:url("https://cms-toolkit-artifacts.artlist.io/content/-t-e-x-t_-t-o_-i-m-a-g-e-v1/media__6/image-031ca4f3-e443-4e40-a949-9065c4879b7b.png?Expires=2108847957&Key-Pair-Id=K2ZDLYDZI2R1DF&Signature=l~6P0yWna3aFDGeGYXAQSD-22v95-ub4H-WgHm-AjPTv1O-Sro5i1g1-0ut1CADgZJ91Ywk1783sFiliuu~hBVx88TBg6uOjGkxLhuA3nSq5obIcQ6d~9fnVw4yRfkIt~UpElu-xBojV4fEqyEx37yM7JN3FBQ3FtZF8I-LuXjSdC8ktSPwXBVNjpPfnBrCyUvXDRmmBTfJ8los0j8mwCqg-JHCgCzr0WrQQSo2MHUnkjyITd3rN9QK5EXs8TYvll1lDxE0NZKr4gujEm2b~MrBfQOZwXRpSXrd3fAQt7Zpf0MDSDZxZhkDl1LvK4EPcY0CF6fTwVUyZCYfOmpAAPg__");
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:"Noto Sans KR","Malgun Gothic","Apple SD Gothic Neo",sans-serif;color:var(--ink);background:var(--paper);line-height:1.5;font-size:15px;-webkit-text-size-adjust:100%}
+button{font-family:inherit;cursor:pointer}
+
+/* ---------- 공통 상단 이동 바 ---------- */
+.topnav{position:sticky;top:0;z-index:50;display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:6px 14px;background:rgba(31,42,77,.96);backdrop-filter:blur(6px);border-bottom:3px solid var(--gold)}
+.topnav .brand{color:#fff;font-weight:700;font-size:14px;margin-right:14px;letter-spacing:.02em}
+.nbtn{border:1px solid rgba(255,255,255,.35);background:transparent;color:#fff;border-radius:999px;padding:6px 15px;font-size:13.5px;font-weight:500;text-decoration:none;transition:.15s}
+.nbtn:hover{background:rgba(255,255,255,.15)}
+.nbtn.on{background:var(--gold);border-color:var(--gold);color:#fff;font-weight:700}
+.nbtn.portal{border-color:var(--gold2);color:var(--gold2);margin-left:auto;padding-left:16px}
+.topnav .gap{flex:0 0 28px}
+body.onmain .topnav{display:none}
+.hero .heroacts{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;margin-top:5px}
+.hero .heroacts .tutor{margin-top:0}
+.hero .heroacts .nbtn{padding:3px 14px;font-size:13px}
+.hero .heroacts .sepv{width:1px;height:20px;background:rgba(255,255,255,.35);margin:0 4px}
+.hero .portalbtn{margin-left:0;position:absolute;top:10px;right:14px;padding:4px 14px;font-size:13px;background:rgba(14,19,40,.45)}
+
+/* ---------- 메인 ---------- */
+#mainpage{display:none}
+.hero{position:relative;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px 20px 42px;color:#fff;
+  background:
+   linear-gradient(180deg,rgba(14,19,40,.55) 0%,rgba(14,19,40,.38) 45%,rgba(251,249,244,0) 78%,var(--paper) 100%),
+   linear-gradient(90deg,rgba(14,19,40,.65) 0%,rgba(14,19,40,0) 22%,rgba(14,19,40,0) 78%,rgba(14,19,40,.65) 100%),
+   var(--bgimg),
+   radial-gradient(ellipse at 50% 30%,#8a6a2c 0%,#2b3a69 45%,#121830 100%);
+  background-size:cover;background-position:center}
+.hero .en{font-family:"Cormorant Garamond",serif;font-style:italic;font-weight:500;font-size:15px;letter-spacing:.3em;color:var(--gold2);text-transform:uppercase;margin-bottom:0}
+.hero .rule{display:flex;align-items:center;gap:12px;margin:3px 0 5px}
+.hero .rule i{display:block;width:90px;height:1px;background:linear-gradient(90deg,transparent,var(--gold2),transparent)}
+.hero .rule b{width:9px;height:9px;transform:rotate(45deg);background:var(--gold2)}
+.hero h1{margin:0;font-family:"Noto Serif KR","Nanum Myeongjo",serif;font-weight:900;line-height:1.15;font-size:clamp(26px,4.6vw,44px);letter-spacing:.04em}
+.hero h1 .sub{display:inline-block;font-size:.42em;font-weight:500;letter-spacing:.32em;color:#fff;opacity:.92;margin-right:.7em;vertical-align:middle}
+.hero h1 .gd{background:linear-gradient(180deg,#fff7dc 0%,#e8c97a 48%,#b8923a 100%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;text-shadow:none;filter:drop-shadow(0 3px 10px rgba(0,0,0,.55))}
+.hero .intro{margin:6px auto 2px;max-width:760px;font-size:15px;font-weight:500;text-shadow:0 2px 8px rgba(0,0,0,.6)}
+.hero .tutor{display:inline-block;margin-top:4px;padding:3px 16px;font-size:14px;border:1px solid var(--gold2);border-radius:999px;color:#fff;font-weight:500;background:rgba(14,19,40,.45);text-shadow:0 1px 4px rgba(0,0,0,.6)}
+.hero .tutor b{color:var(--gold2)}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 18px}
+.searchbox{margin:-24px auto 0;position:relative;z-index:5;max-width:760px;padding:0 18px}
+.searchbox .bar{display:flex;align-items:center;gap:8px;background:#fff;border:2px solid var(--gold);border-radius:12px;padding:2px 6px 2px 14px;box-shadow:0 10px 28px rgba(20,28,60,.18)}
+.searchbox input{flex:1;border:0;outline:0;font:inherit;font-size:15px;padding:7px 4px;background:transparent;color:var(--ink)}
+.searchbox .x{border:0;background:var(--soft);border-radius:8px;padding:7px 12px;font-size:13px;color:var(--navy)}
+.searchbox .hint{font-size:12px;color:#5a6075;margin:3px 4px 0;text-align:center}
+#results{margin:8px auto 0;max-width:760px;padding:0 18px}
+.res{display:block;width:100%;text-align:left;background:#fff;border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:10px;padding:10px 14px;margin-bottom:8px;color:var(--ink);font-size:14.5px}
+.res:hover{background:#fffaf0}
+.res .tag{display:inline-block;background:var(--navy);color:#fff;font-size:12px;border-radius:5px;padding:1px 8px;margin-right:8px;font-weight:500}
+.res .sec{color:#6a6f82;font-size:12.5px;margin-left:2px}
+.res .snip{display:block;margin-top:3px}
+mark,.hl{background:#ffe27a;color:inherit;border-radius:3px;padding:0 1px}
+.nores{text-align:center;color:#6a6f82;padding:10px}
+
+.pick{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0 4px}
+.pcard{display:block;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-top:4px solid var(--gold);border-radius:10px;padding:7px 12px;box-shadow:0 2px 8px rgba(20,28,60,.07);transition:.18s}
+.pcard:hover{transform:translateY(-3px);box-shadow:0 10px 22px rgba(20,28,60,.15)}
+.pcard .n{font-family:"Noto Serif KR",serif;font-weight:900;font-size:19px;color:var(--navy)}
+.pcard .d{font-size:12.5px;color:#6a6f82;margin-left:6px}
+.pcard h3{margin:1px 0 0;font-size:14.5px;color:var(--navy);line-height:1.3}
+.pcard p{display:none}
+.pcard .go{display:none}
+
+.sum-title{margin:12px 0 0;text-align:center}
+.sum-title h2{display:inline-block;margin:0;font-family:"Noto Serif KR",serif;font-size:20px;color:var(--navy);padding-bottom:2px;border-bottom:3px solid var(--gold)}
+.sum-title p{margin:3px 0 0;color:#5a6075;font-size:12.5px}
+
+/* ---------- 강의 공통 ---------- */
+.lec{display:none;max-width:1040px;margin:0 auto;padding:8px 14px 44px}
+.lecbg{background:
+  linear-gradient(180deg,rgba(251,249,244,.93),rgba(246,241,229,.96)),
+  var(--bgimg) center top/cover fixed,
+  linear-gradient(160deg,#f5efe0,#eef0f6)}
+.lec-head{display:flex;justify-content:space-between;gap:10px;background:var(--navy);color:#fff;font-weight:700;padding:6px 14px;border-bottom:4px solid var(--gold);border-radius:8px 8px 0 0;font-size:15px}
+.lec-title{margin:8px 0 0;font-family:"Noto Serif KR",serif;font-weight:900;color:var(--navy);font-size:clamp(20px,3vw,25px);line-height:1.25}
+.lec-sub{margin:0 0 8px;color:#4a5068;font-size:14.5px}
+.keybox{background:var(--navy);color:#fff;border-radius:10px;padding:6px 14px;margin:0 0 6px}
+.keybox .row{display:flex;gap:10px;align-items:flex-start;padding:3px 0}
+.keybox .row+.row{border-top:1px dashed rgba(255,255,255,.25)}
+.keybox .lb{flex:0 0 92px;color:var(--gold2);font-weight:700;white-space:nowrap}
+.keybox .tx{flex:1}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0 0 6px}
+.flow>span{background:#fff;border:1px solid var(--gold);color:var(--navy);padding:3px 11px;border-radius:999px;font-size:13.5px;font-weight:500}
+.flow em{font-style:normal;color:var(--gold);font-weight:700}
+.sec{margin:12px 0 0}
+.sec>h3{display:flex;align-items:center;gap:9px;margin:0 0 6px;padding-bottom:3px;border-bottom:1px solid var(--line);font-size:17.5px;color:var(--navy)}
+.sec>h3 .no{flex:0 0 26px;height:26px;border-radius:50%;background:var(--gold);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14.5px;font-weight:700}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.card{background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:8px;padding:7px 11px}
+.card h4{margin:0 0 3px;font-size:15px;color:var(--navy);padding-left:9px;border-left:5px solid var(--gold)}
+.card ul{margin:0;padding-left:18px;list-style:none}
+.card li{position:relative;margin:1px 0}
+.card li::before{content:"▸";position:absolute;left:-15px;color:var(--gold);font-size:12px;top:3px}
+.card li ul{margin-top:0;padding-left:15px}
+.card li li::before{content:"–";color:#8a8fa3;top:0;font-size:14px}
+.card p{margin:2px 0}
+.card.bad{background:#fbeeec;border-color:#e6b9b3}
+.card.good{background:#e9f4ee;border-color:#a9d3bc}
+.card.dark{background:var(--navy);color:#fff;border-color:var(--navy)}
+.card.dark h4{color:var(--gold2)}
+.tbl{width:100%;border-collapse:collapse;background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:10px;overflow:hidden;font-size:14px}
+.tbl th{background:var(--navy);color:#fff;font-weight:700;padding:4px 8px;text-align:left;border:1px solid var(--navy2)}
+.tbl td{padding:4px 8px;border:1px solid var(--line);vertical-align:top}
+.tbl tr:nth-child(even) td{background:#faf7ee}
+.tbl .rl{background:var(--soft)!important;font-weight:700;color:var(--navy);white-space:nowrap}
+.tbl .x{color:var(--red);font-weight:700}
+.tbl .o{color:var(--green);font-weight:700}
+.banner{background:var(--navy);color:#fff;border-radius:8px;padding:5px 14px;text-align:center;font-size:15px;margin:0 0 8px}
+.banner b{color:var(--gold2);font-size:19px}
+.steps{display:flex;gap:6px;flex-wrap:wrap;margin:3px 0}
+.steps .s{flex:1 1 130px;background:#f6eed9;border:1px solid var(--gold);border-radius:8px;text-align:center;padding:3px 6px;font-size:13.5px}
+.steps .s b{display:block;color:var(--navy)}
+.s4{display:grid;gap:4px}
+.s4 .it{display:flex;gap:12px;background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:7px;padding:4px 10px;align-items:flex-start}
+.s4 .it .k{flex:0 0 54px;font-weight:700;color:var(--gold);text-align:center;line-height:1.3}
+.s4 .it .k small{display:block;color:var(--navy);font-size:12.5px}
+.s4 .it .v{flex:1}
+.s4 .it .v b{color:var(--navy)}
+.chk{display:grid;grid-template-columns:1fr 1fr;gap:2px 16px;background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:8px;padding:6px 12px;margin:0;list-style:none}
+.chk li{position:relative;padding-left:26px}
+.chk li::before{content:"☐";position:absolute;left:0;color:var(--gold);font-size:17px;line-height:1.3}
+.chk li small{color:#6a6f82}
+.x1{color:var(--red);font-weight:700}
+.o1{color:var(--green);font-weight:700}
+b,strong{color:var(--navy)}
+.card.dark b,.keybox b,.banner b{color:var(--gold2)}
+.card.bad b{color:#8a2a22}
+.pnav{display:flex;justify-content:space-between;gap:10px;margin-top:14px}
+.pbtn{border:1px solid var(--navy);background:#fff;color:var(--navy);border-radius:999px;padding:5px 16px;text-decoration:none;font-weight:700;font-size:13.5px}
+.pbtn:hover{background:var(--navy);color:#fff}
+.sfig{display:flex;justify-content:center;gap:26px;align-items:flex-end;margin:4px 0 2px}
+.sfig figure{margin:0;text-align:center;font-size:12.5px}
+.sfig figcaption{margin-top:4px;line-height:1.35}
+
+/* ---------- 용어 팝업 ---------- */
+.term{border-bottom:2px dotted var(--gold);color:inherit;cursor:help;background:linear-gradient(transparent 62%,rgba(227,196,111,.28) 62%)}
+.term:hover{background:rgba(227,196,111,.5)}
+.keybox .term,.card.dark .term,.banner .term,.lec-head .term{border-bottom-color:var(--gold2)}
+#pop{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;background:rgba(14,19,40,.55);padding:18px}
+#pop.on{display:flex}
+#pop .box{background:#fff;max-width:480px;width:100%;border-radius:14px;border-top:6px solid var(--gold);box-shadow:0 20px 50px rgba(0,0,0,.4);padding:20px 22px 18px;position:relative;max-height:88vh;overflow:auto}
+#pop h4{margin:0 0 2px;font-family:"Noto Serif KR",serif;font-size:21px;color:var(--navy)}
+#pop .hj{color:#6a6f82;font-size:13px;margin-bottom:8px}
+#pop p{margin:6px 0;font-size:15px}
+#pop .lec-ref{background:var(--soft);border-radius:8px;padding:7px 11px;font-size:13.5px;margin-top:8px}
+#pop .lk{display:inline-block;margin-top:12px;background:var(--navy);color:#fff;text-decoration:none;border-radius:999px;padding:7px 16px;font-size:13.5px;font-weight:500}
+#pop .cl{position:absolute;top:8px;right:10px;border:0;background:transparent;font-size:24px;color:#6a6f82;line-height:1}
+
+/* ---------- 하단 고정 표기 ---------- */
+.foot{margin:12px 0 0;padding:4px 0 2px;text-align:right;font-size:12px;color:#5a6075;border-top:1px solid var(--line)}
+.copy{position:fixed;right:10px;bottom:6px;font-size:11.5px;color:#5a6075;z-index:5;background:rgba(251,249,244,.92);padding:1px 8px;border-radius:6px}
+
+@media (max-width:760px){
+  .pick,.grid2,.grid3,.chk{grid-template-columns:1fr}
+  .hero{min-height:440px}
+  .topnav .brand{display:none}
+  .keybox .row{flex-direction:column;gap:2px}
+  .tbl{font-size:13.5px}
+  .copy{position:static;display:block;text-align:right;margin:6px 0}
+}
+
+/* ---------- 인쇄 (A4 세로) ---------- */
+@page{size:A4 portrait;margin:11mm 10mm 14mm 10mm}
+@media print{
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body{background:#fff!important;font-size:9.8pt;line-height:1.45}
+  .topnav,.searchbox,#results,.pick,.pnav,#pop,.noprint{display:none!important}
+  .lecbg,.lec{background:#fff!important}
+  .lec{max-width:none;padding:0}
+  .hero{min-height:0;padding:16mm 8mm 8mm;background:linear-gradient(135deg,#1f2a4d,#2b3a69)!important;border-radius:8px;margin-bottom:6mm}
+  .hero h1{font-size:30pt}
+  .hero .en{font-size:12pt}
+  .hero .intro{font-size:11pt;text-shadow:none}
+  .wrap{max-width:none;padding:0}
+  .card,.keybox,.banner,.tbl tr,.s4 .it,.sfig,.pcard{break-inside:avoid;page-break-inside:avoid}
+  .sec{margin-top:4mm}
+  .card{padding:2.4mm 3.4mm}
+  .grid2,.grid3{gap:2.6mm}
+  .lec-title{margin:4mm 0 1mm}
+  .sec>h3{break-after:avoid;page-break-after:avoid}
+  .card,.tbl,.chk,.s4 .it{background:#fff!important}
+  .card.bad{background:#fbeeec!important}.card.good{background:#e9f4ee!important}.card.dark{background:var(--navy)!important}
+  .term{background:none!important;border-bottom:0!important}
+  mark,.hl{background:none!important}
+  .copy{display:none!important}
+  .foot{display:none}
+  .lec.print-pad,#mainpage{padding-bottom:6mm}
+}
+</style>
+</head>
+<body>
+
+<nav class="topnav" id="topnav">
+  <span class="brand">시온찬양대 하모니클래스 2026</span>
+  <a class="nbtn" data-r="" href="#/">메인</a>
+  <a class="nbtn" data-r="1" href="#/1">1강</a>
+  <a class="nbtn" data-r="2" href="#/2">2강</a>
+  <a class="nbtn" data-r="3" href="#/3">3강</a>
+  <span class="gap"></span>
+  <a class="nbtn portal" href="zion-portal.html">시온포털 보기</a>
+</nav>
+
+<!-- =====================================================  메인  ===================================================== -->
+<main id="mainpage">
+  <header class="hero">
+    <div class="en">Zion Choir · Harmony Class</div>
+    <div class="rule"><i></i><b></b><i></i></div>
+    <h1><span class="sub">시온찬양대</span><span class="gd">하모니클래스 2026</span></h1>
+    <div class="rule"><i></i><b></b><i></i></div>
+    <p class="intro">2026년 9월~10월중 진행된 ‘하모니클래스’ 남자파트 강의요약입니다.</p>
+    <div class="heroacts">
+      <div class="tutor">강사 : <b>테너 이재명 선생님</b></div>
+      <span class="sepv"></span>
+      <a class="nbtn on" data-r="" href="#/">메인</a>
+      <a class="nbtn" data-r="1" href="#/1">1강</a>
+      <a class="nbtn" data-r="2" href="#/2">2강</a>
+      <a class="nbtn" data-r="3" href="#/3">3강</a>
+    </div>
+    <a class="nbtn portal portalbtn noprint" href="zion-portal.html">시온포털 보기</a>
+  </header>
+
+  <div class="searchbox noprint">
+    <div class="bar">
+      <span aria-hidden="true">🔍</span>
+      <input id="q" type="search" placeholder="강의 내용 검색 (예: 단전, 연구개, 코르크, 후두)" autocomplete="off" aria-label="강의 내용 검색">
+      <button class="x" id="qx" type="button">지우기</button>
+    </div>
+    <div class="hint">1·2·3강 전체 내용에서 찾아 줍니다. 결과를 누르면 해당 강의의 그 위치로 이동합니다.</div>
+  </div>
+  <div id="results"></div>
+
+  <div class="wrap">
+    <div class="pick noprint">
+      <a class="pcard" href="#/1"><span class="n">1강</span><span class="d">2026.09.13.</span><h3>몸이 악기다 : 몸 세팅과 서포트 호흡</h3><p>가슴·목·단전과 후두를 세팅해 ‘좋은 소리가 나는 악기’를 만드는 법</p><span class="go">1강 보기 →</span></a>
+      <a class="pcard" href="#/2"><span class="n">2강</span><span class="d">2026.09.27.</span><h3>연구개(軟口蓋) 훈련과 성구 전환</h3><p>코르크 마개 허밍으로 ‘소리의 길’을 찾는 법</p><span class="go">2강 보기 →</span></a>
+      <a class="pcard" href="#/3"><span class="n">3강</span><span class="d">2026.10.04.</span><h3>혀 릴렉스와 소리의 길 완성</h3><p>혀를 내밀고 노래해 연구개 ‘소리의 길’을 지키는 법</p><span class="go">3강 보기 →</span></a>
+    </div>
+
+    <div class="sum-title"><h2>3회 강의 통합 요약</h2><p>괄호의 (1강 §2)는 해당 강의의 항목 번호입니다. 밑줄 친 전문용어를 누르면 설명이 나옵니다.</p></div>
+
+    <section class="sec">
+      <h3><span class="no">1</span>학습 흐름 : 몸 → 후두 → 연구개 → 혀</h3>
+      <div class="flow">
+        <span>몸 세팅</span><em>→</em><span>서포트 호흡 (하루 100번)</span><em>→</em><span>후두 낮추기</span><em>→</em><span>코르크 허밍·연구개 들기</span><em>→</em><span>성구 전환</span><em>→</em><span>숨 쉴 때 소리의 길 찾기</span><em>→</em><span>혀 내밀고 노래</span>
+      </div>
+      <div class="grid3" style="margin-top:10px">
+        <div class="card"><h4>1강 · 몸이 악기다</h4><ul>
+          <li>소리 내기 전에 몸 세팅(가슴·목·단전)부터 한다 - 노래의 70% 안팎을 좌우한다 (1강 오늘의 핵심)</li>
+          <li>소리는 힘이 아니라 ‘버티는 힘(서포트)’과 적은 공기로 낸다 - 편안한 소리 + 단전만 유지</li>
+          <li>소리 99% : 공기 1%</li></ul></div>
+        <div class="card"><h4>2강 · 연구개 훈련과 성구 전환</h4><ul>
+          <li>코르크 마개를 물고 허밍해 연구개를 들어 올린 ‘소리의 길’을 찾고, 그 길로 노래한다 (2강 오늘의 핵심)</li>
+          <li>목의 힘은 버리고, 자세(악기)와 공기(호흡)만으로 조절한다</li>
+          <li>소리가 얇아지는 건 당연하다</li></ul></div>
+        <div class="card"><h4>3강 · 혀 릴렉스와 소리의 길 완성</h4><ul>
+          <li>숨 쉴 때 이미 ‘소리의 길’을 열어 두고, 혀를 내밀어 혀의 힘을 빼면 그 길로 공명이 생긴다 (3강 오늘의 핵심)</li>
+          <li>노래는 힘이 아니라 준비(호흡)와 공기의 속도로 한다</li>
+          <li>내 귀에 어색하게 들려야 정상</li></ul></div>
+      </div>
+    </section>
+
+    <section class="sec">
+      <h3><span class="no">2</span>세 번의 강의를 관통하는 6가지 원칙</h3>
+      <div class="s4">
+        <div class="it"><div class="k">①<small>악기</small></div><div class="v"><b>몸이 악기다.</b> 구부정하거나 휜 몸에서는 좋은 소리가 안 난다. 몸 세팅만 잘해도 최소 50~70%는 좋은 소리가 난다 (1강 §1). 2강에서도 자세는 ‘악기’, 성대는 ‘줄’, 연주자는 ‘공기’로 정리한다 (2강 §5).</div></div>
+        <div class="it"><div class="k">②<small>단전</small></div><div class="v"><b>의지로 하는 건 ‘단전’ 하나뿐.</b> 아랫배(<span class="term-src">단전</span>)를 뒤쪽·대각선 위로 당겨 노래하는 내내 유지한다 (1강 §2). 상체·목·턱·혀는 아무것도 하지 않는다 (3강 §5).</div></div>
+        <div class="it"><div class="k">③<small>후두</small></div><div class="v"><b>후두는 먼저 낮추고, 끝까지 유지한다.</b> 후두가 떨어져야 가슴이 울린다 (1강 §6). 연구개는 후두가 먼저 내려간 상태에서 높인다 (2강 §3). 숨 쉴 때 낮아진 후두가 어떤 경우에도 올라가지 않아야 한다 (3강 §5).</div></div>
+        <div class="it"><div class="k">④<small>소리의 길</small></div><div class="v"><b>숨이 들어오는 길 = 소리가 나가는 길.</b> 코르크 허밍으로 연구개를 들어 ‘소리의 길’을 찾고 (2강 §3), 숨 쉴 때 이미 그 길을 찾아 놓는다 (3강 §2).</div></div>
+        <div class="it"><div class="k">⑤<small>공기</small></div><div class="v"><b>힘이 아니라 공기의 양과 속도.</b> 큰 소리는 관(공명)의 세팅에서 나온다 (1강 §7). 성구 전환도 목에 힘이 없으면 공기의 양과 속도만으로 자동으로 이루어진다 (2강 §4). 소리 크기는 바람의 속도로 커지는 것이지 힘이 아니다 (3강 §4).</div></div>
+        <div class="it"><div class="k">⑥<small>어색함</small></div><div class="v"><b>내 귀에 어색해야 정상.</b> 자기 귀에 진하게·쨍하게 들리면 납작하고 눌린 소리다. 어색하고 피곤한 건 정상이며 듣는 사람에게는 좋은 소리다 (3강 §7).</div></div>
+      </div>
+    </section>
+
+    <section class="sec">
+      <h3><span class="no">3</span>주제별 3회 비교표</h3>
+      <table class="tbl">
+        <tr><th style="width:12%">주제</th><th>1강 (9.13.)</th><th>2강 (9.27.)</th><th>3강 (10.4.)</th></tr>
+        <tr><td class="rl">자세</td><td>가슴 열기 · 목을 일자로 세워 살짝 당기기 · 단전 당기기</td><td>등받이에서 떨어져 앞으로 나와 앉기. 악보를 들고 보기</td><td>거울을 보며 바른 자세. 악보는 한 손으로 받치고 눈동자로 보기</td></tr>
+        <tr><td class="rl">호흡</td><td>코로 천천히 깊게 마시고 귀에만 들릴 만큼 조금씩 내뱉기. 하루 100번(10번×10세트)</td><td>코로 숨 쉬기를 2주 매일 하면 숨이 저절로 들어온다</td><td>대기 시간에 호흡 5~10회. 숨 쉴 때 이미 ‘소리의 길’을 찾아 놓기</td></tr>
+        <tr><td class="rl">후두</td><td>혀뿌리를 낮춰 후두 낮추기. 남성은 필수</td><td>후두가 먼저 내려간 상태에서 연구개를 높인다</td><td>숨 쉴 때 낮아진 후두가 올라가지 않게 고정</td></tr>
+        <tr><td class="rl">연구개</td><td>마지막 단계 - 일반인은 신경 안 써도 된다 (1차 시점 안내)</td><td>코르크 허밍으로 연구개 들기. ‘응 → 아’ 전환 훈련</td><td>코로 마시며 연구개가 싹 올라간다고 생각. ‘우 → 아’ 전환 훈련</td></tr>
+        <tr><td class="rl">소리 내기</td><td>만들지 않고 가진 소리, 생소리로 편하게</td><td>성구 전환은 힘이 아닌 공기로. 소리가 얇아지는 건 당연</td><td>혀를 내밀고 ‘아’로 가볍게. 소리의 길 위에서 낸다</td></tr>
+        <tr><td class="rl">도구</td><td>준비물 예고 : 나무 코르크 마개</td><td>코르크 마개 (약 3cm 이하)</td><td>코르크 마개 + 거울</td></tr>
+      </table>
+    </section>
+
+    <section class="sec">
+      <h3><span class="no">4</span>매일 연습 통합 루틴</h3>
+      <div class="grid2">
+        <div class="card"><h4>연습 순서</h4><ul>
+          <li><b>호흡</b> : 하루 100번(10×10), 아침·점심·저녁 틈틈이 (1강 §4, §8). 소리 내기 전 대기 시간에도 5~10회 (3강 §1)</li>
+          <li><b>코르크 허밍</b> : 코르크를 앞니로 꽉 물고 허밍. ‘이·오’ 모음을 같은 위치에서 바꿔 보기 (2강 §7)</li>
+          <li><b>혀 스트레칭 → 혀 내밀고 ‘아’</b> → 포지션 찾기 → 노래 (3강 §1)</li>
+          <li>혀 내밀고 가사를 느낌만 불러 본 뒤 평소처럼 노래 (3강 §7)</li></ul></div>
+        <div class="card"><h4>습관·요령</h4><ul>
+          <li>3~4일 쉬면 되찾는 데 평균 1주일 → 매일 연습 (1강 §8)</li>
+          <li>차 안 출퇴근 시간 활용 (2강 §7, 3강 §7)</li>
+          <li>연구개를 오래 쓰면 목이 건조해진다 → 수분 섭취 필수 (2강 §7)</li>
+          <li>힘든 날은 한 손을 배에 살짝 올려 두고, 자기 파트가 없을 때 팔을 살짝 내려 쉬기 (3강 §5)</li>
+          <li>틀려도 괜찮다 - 경연이 아니라 마음으로 올리는 찬양 (3강 §5)</li></ul></div>
+      </div>
+    </section>
+
+    <section class="sec">
+      <h3><span class="no">5</span>흔한 실수 → 이렇게 고친다 (통합)</h3>
+      <table class="tbl">
+        <tr><th style="width:42%">✕ 흔한 실수</th><th>○ 강사의 교정</th></tr>
+        <tr><td>입을 크게 벌려야 좋은 소리가 난다고 생각한다 <small>(1강 §7)</small></td><td>훈련 전에 크게 벌리면 혀에 힘이 들어가 뒤 공간이 좁아진다. 세팅이 된 뒤에 벌리는 건 OK</td></tr>
+        <tr><td>크게·바람 많이 내야 큰 소리가 난다 <small>(1강 §7)</small></td><td>큰 소리는 관(공명)의 세팅에서 나온다. 좋은 소리는 바람이 거의 없다</td></tr>
+        <tr><td>올라가는 음을 툭 치듯 튕기고, 한 음 한 음 끊어 낸다 <small>(2강 §6, 3강 §6)</small></td><td>치는 것 자체가 연구개를 안 쓴 것. 어택 없이 연구개로 싹 올리고, 고무줄을 늘이듯 끈적하게(사이렌처럼) 이어서 부른다</td></tr>
+        <tr><td>목에 힘을 주어 눌러 붙인다 <small>(2강 §4)</small></td><td>성대가 강제로 붙어 다치고 아프다. 목에 힘이 없어야 하고 공기의 양과 속도만으로 자동 전환된다</td></tr>
+        <tr><td>너무 열심히 들어 올린다 → 후두가 같이 올라온다 <small>(3강 §6)</small></td><td>숨을 마신 뒤 ‘유지한다’고만 생각한다. 포물선을 그리듯, 바둥바둥 올라가지 않는다</td></tr>
+        <tr><td>삑사리가 날까 봐 힘으로 막는다 <small>(3강 §6)</small></td><td>삑사리가 낫다 - 불필요한 힘이 없다는 증거. 여기서 실패해야 는다, 겁내지 말 것</td></tr>
+        <tr><td>잘하다가 집중이 풀려 길이 틀어진다 <small>(2강 §6, 3강 §6)</small></td><td>한 프레이즈 쉬고 숨부터 다시 세팅. 클라이맥스 전에 악보에 ‘준비’ 메모</td></tr>
+      </table>
+    </section>
+
+    <section class="sec">
+      <h3><span class="no">6</span>연습 전 30초 통합 체크리스트</h3>
+      <ul class="chk">
+        <li>가슴을 열고 목을 일자로 세운다 <small>(1강)</small></li>
+        <li>등받이에서 떨어져 바르게 앉는다. 악보는 들고 눈동자로 본다 <small>(2·3강)</small></li>
+        <li>아랫배(단전)를 당기고 윗배·상체·어깨는 편안히 둔다 <small>(1·2·3강)</small></li>
+        <li>코로 천천히 깊게 마시며 혀뿌리·후두를 낮추고 연구개를 올려 ‘소리의 길’을 느낀다 <small>(1·3강)</small></li>
+        <li>코르크를 앞니 가운데에 꽉 깨물고 허밍, 목(성대 쪽)의 힘을 뺀다 <small>(2강)</small></li>
+        <li>코르크 허밍 후 혀를 평평하게 끝까지 내밀고 ‘아’를 낸다 <small>(3강)</small></li>
+        <li>소리는 만들지 않고 생소리로, 끊지 않고 위로 던지듯 잇는다 <small>(1·2·3강)</small></li>
+        <li>길이 틀어지면 한 프레이즈 쉬고 숨부터 다시 세팅한다. 물을 충분히 마신다 <small>(2·3강)</small></li>
+      </ul>
+    </section>
+    <div class="foot">※ 이 요약은 첨부된 1·2·3강 강의 자료(PDF)의 내용만 정리한 것입니다.</div>
+  </div>
+</main>
+
+<!-- =====================================================  1강  ===================================================== -->
+<div class="lecbg" id="bg1" style="display:none">
+<article class="lec" id="lec1" data-lec="1" data-label="1강">
+  <div class="lec-head"><span>‘시온찬양대 ‘2026 하모니클래스 1강</span><span>2026.09.13.</span></div>
+  <h2 class="lec-title">몸이 악기다 : 몸 세팅과 서포트 호흡</h2>
+  <p class="lec-sub">가슴·목·단전과 후두를 세팅해 ‘좋은 소리가 나는 악기’를 만드는 법</p>
+  <div class="keybox">
+    <div class="row"><div class="lb">오늘의 핵심</div><div class="tx">오늘의 노래는 몸이 악기다. 소리를 내기 전에 몸 세팅(가슴·목·단전)부터 한다 - 노래의 <b>70% 안팎</b>을 좌우한다.<br>소리는 힘이 아니라 ‘버티는 힘(서포트)’과 적은 공기로 낸다 - 편안한 소리 + 단전만 유지.</div></div>
+    <div class="row"><div class="lb">수업 흐름</div><div class="tx">몸 세팅 → 서포트 호흡 훈련(하루 100번) → 소리의 원리(소리 99% : 공기 1%) → 후두 낮추기<br>다음 시간 예고 : 코르크 마개로 소리 내기, 혀의 비밀 (연구개는 마지막 단계)</div></div>
+  </div>
+
+  <section class="sec"><h3><span class="no">1</span>몸이 악기다 : 튜닝 전에 악기부터 만든다</h3>
+    <div class="grid2">
+      <div class="card"><h4>악기 비유 : 몸 세팅이 70%</h4><ul>
+        <li>노래는 몸으로 하는 음악
+          <ul><li>몸이 악기. 소리 내기 전에 청소·튜닝부터</li></ul></li>
+        <li>튜닝 전에 악기를 먼저 만든다
+          <ul><li>좋은 소리가 날 수 있는 몸으로</li></ul></li>
+        <li>휘어지거나 부서진 피리는 소리가 안 난다
+          <ul><li>구부정하거나 휜 몸도 마찬가지</li></ul></li>
+        <li>몸 세팅이 70% 안팎
+          <ul><li>몸 세팅만 잘해도 최소 50~70%는 좋은 소리가 난다</li></ul></li></ul></div>
+      <div class="card"><h4>몸의 구조 : 길면 저음, 짧으면 고음</h4><ul>
+        <li>악기는 길면 저음, 짧으면 고음 (바이올린 첼로, 트럼펫 트롬본)</li>
+        <li>사람도 키·목이 길면 보통 저음 파트, 짧으면 고음 파트 (예외도 있다)</li>
+        <li>먼저 내 몸의 스피커가 어디인지 알아야 한다
+          <ul><li>스피커는 목·머리·입·배·가슴 등 여러 곳</li></ul></li>
+        <li>가장 중요한 메인 스피커 = <b>가슴</b></li></ul></div>
+    </div>
+  </section>
+
+  <section class="sec"><h3><span class="no">2</span>몸 세팅 3원칙 : 가슴 · 소리의 길 · 단전</h3>
+    <div class="s4">
+      <div class="it"><div class="k">1<small>가슴 열기<br>메인 스피커</small></div><div class="v">
+        <ul style="margin:0;padding-left:18px">
+        <li>가슴(가슴판)은 몸에서 가장 넓은 곳 → 노래할 때 가장 많이 울리는 곳. 저음~고음 모두 가슴이 울려야 한다 (특히 중저음)</li>
+        <li>찬양곡은 중·저음이 많아 무조건 가슴이 쓰여야 한다 → 가슴이 울려야 건강한 소리, 음정(피치)이 정확해진다</li>
+        <li>스피커를 살린다 = 가슴을 연다. 악보를 들어도 가슴을 열고 들면 시선이 자연스럽게 지휘자를 향한다</li></ul></div></div>
+      <div class="it"><div class="k">2<small>목 늘리기<br>소리의 길</small></div><div class="v">
+        <ul style="margin:0;padding-left:18px">
+        <li>성대~입·코까지가 ‘소리의 길(기도)’ → 이 길을 쫙 늘려야 소리가 잘 나온다</li>
+        <li>목을 일자로 세워 살짝 당긴다 (일자목·거북목 교정할 때 쓰는 힘과 같다). 턱은 살짝 당기고 너무 들지 않는다</li>
+        <li>시선을 너무 아래로 두면 몸이 쪼그라들어 소리가 안 난다</li></ul></div></div>
+      <div class="it"><div class="k">3<small>단전 당기기<br>서포트(지지)</small></div><div class="v">
+        <ul style="margin:0;padding-left:18px">
+        <li>위치 : 배꼽 아래, 배꼽과 생식기 사이(아랫배). 아랫배(단전)를 뒤쪽·대각선 위로 당긴다 - 윗배가 들어가는 게 아니다</li>
+        <li>서포트(이탈리아어 ‘아포지오’)는 지지하다·버티다. 노래하는 내내 유지. 편하게 부르되 몸은 계속 긴장</li>
+        <li>단전만 잘 당겨도 가슴이 열리고 목도 당겨져 나머지가 따라온다</li>
+        <li>현대인은 대부분 단전이 풀려 있다 - 처음엔 힘들어 나가떨어지기도 한다. 몇 달만 견디면 적응, 오히려 노래가 수월해진다</li></ul></div></div>
+    </div>
+    <div class="banner" style="margin-top:8px">‘휘어진 피리’처럼 구부정한 몸에서는 좋은 소리가 안 나온다. 몸 세팅만 잘해도 반 이상은 먹고 들어간다.</div>
+  </section>
+
+  <section class="sec"><h3><span class="no">3</span>서포트 감 잡기 : 단전 · 버티는 힘</h3>
+    <div class="grid2">
+      <div class="card"><h4>단전 감 잡기 - 3가지 방법</h4><ul>
+        <li><b>서서</b> : 아랫배를 당기면 자연스럽게 오리 엉덩이 같은 자세가 되고 허리·등에 힘이 들어간다 → 정상(좋은 힘)</li>
+        <li>한 다리를 직각으로 올리고 단전을 당긴다 - 균형 잡느라 다른 곳에 힘이 들어가니 반드시 뭔가를 잡고 한다</li>
+        <li><b>앉아서</b> : 서 있을 때보다 더 잘 느껴진다. 등받이에서 떨어져 살짝 걸터앉는다 (성가대 연습 자세)</li>
+        <li>서서든 앉아서든 일주일에 한 번은 빡세게, 연습 때는 악보를 위로 올려 자세를 유지</li></ul></div>
+      <div class="card"><h4>적응 과정 - 처음엔 힘든 게 정상</h4><ul>
+        <li>코어운동·등산을 하면 이 자세가 기본값 → 빨리 익힌다</li>
+        <li>3~5세 아이는 단전이 당겨진 기본 자세라 소리가 크고 시끄럽다</li>
+        <li>강사도 단전이 아예 안 당겨져 4~5개월 걸렸다. 익숙해지면 노래가 수월해진다</li>
+        <li>등·허리가 아픈 건 자세가 안 좋아서(등 근육이 척추를 못 잡아 줌)
+          <ul><li>이 자세는 건강에도 좋다고 한다 (강사 경험)</li></ul></li></ul></div>
+    </div>
+    <table class="tbl" style="margin-top:8px">
+      <tr><th style="width:18%">구분</th><th><span style="color:#ffb3aa">✕</span> 쥐어짜는 힘</th><th><span style="color:#a8e6c4">○</span> 버티는 힘 (서포트)</th></tr>
+      <tr><td class="rl">힘의 성격</td><td>강제로 쥐어짜는 어거지 힘</td><td>자세로 인해 느껴지는 자연스러운 텐션</td></tr>
+      <tr><td class="rl">앞쪽 (윗배·상체)</td><td>배를 일부러 부풀려 힘주기 → 악쓰는 소리</td><td>릴렉스. 아랫배(단전)만 유지</td></tr>
+      <tr><td class="rl">허리·등</td><td>허리에 억지로 힘 주기</td><td>자세 때문에 등·허리 근육이 자연스럽게 쓰임</td></tr>
+      <tr><td class="rl">‘배로 숨 쉬어라’</td><td>배를 부풀리는 것으로 오해 (= 힘을 주는 행동)</td><td>폐가 아랫배 양쪽에 있다고 상상하며 깊게 마시기 (말은 맞지만 오해하기 쉽다)</td></tr>
+    </table>
+  </section>
+
+  <section class="sec"><h3><span class="no">4</span>서포트 호흡 훈련 : 하루 100번</h3>
+    <div class="grid2">
+      <div class="card"><h4>호흡 훈련 4단계</h4>
+        <div class="s4">
+          <div class="it"><div class="k">1<small>자세</small></div><div class="v">가슴 열기·목 세우기·단전 당기기 세팅. 숨은 먼저 다 빼놓고 시작</div></div>
+          <div class="it"><div class="k">2<small>들이쉬기</small></div><div class="v">코로 천천히 깊게(꽃향기 맡듯, 10초 정도). 단전은 계속 당긴 채. 어깨가 올라가면 ✕</div></div>
+          <div class="it"><div class="k">3<small>내뱉기</small></div><div class="v">입으로 아주 조금씩 - 내 귀에만 들릴 정도(지하철에서 옆 사람이 모를 정도). 뱉는 동안도 단전 유지</div></div>
+          <div class="it"><div class="k">4<small>반복</small></div><div class="v">10번 = 1세트, 10세트 = 하루 100번. 한 번에 다 하지 말고 아침·점심·저녁 틈틈이</div></div>
+        </div></div>
+      <div class="card"><h4>점검 - 이럴 땐 이렇게</h4>
+        <table class="tbl" style="font-size:13.5px">
+          <tr><th>느낌</th><th>의미와 조치</th></tr>
+          <tr><td>소리가 불규칙<br>(세졌다 약했다 끊김)</td><td>서포트가 약함 → 일정하게 내뱉는 훈련</td></tr>
+          <tr><td>바람이 너무 세다·양이 많다</td><td>더 좁게·조금씩 (귀에만 들릴 정도)</td></tr>
+          <tr><td>자극이 안 온다<br>(어깨에 힘/시선이 아래)</td><td>세팅이 풀린 것 → 자세부터 다시 (어깨 내리고 시선 정면)</td></tr>
+          <tr><td>어지럽다</td><td>시간 제한 없음, ‘죽지 않을 정도’만. 폐활량은 사람마다 다르다</td></tr>
+        </table></div>
+    </div>
+    <div class="grid2" style="margin-top:8px">
+      <div class="card"><h4>왜 이 훈련인가</h4><ul>
+        <li>집에서는 소리를 내기 어렵고, 소리를 내면 목이 상하니 숨으로 훈련</li>
+        <li>서포팅 근육(단전) 훈련 - 하루 100번이면 빨리 좋아진다. 해 온 학생과 안 해 온 학생은 2주 후 크게 다르다</li>
+        <li>100번을 이어서 해도 30분이 안 걸린다(강사 경험). 이어 하면 숨이 차니 1~3세트씩 나눠서</li></ul></div>
+      <div class="card"><h4>심화(선택) - 3단 들이마시기</h4><ul>
+        <li>허리를 숙여 손을 허리에 얹고, 폐가 아랫배 양쪽에 있다고 생각</li>
+        <li>짧게 2번 + 길게 1번, 총 3번에 나눠 마신다 (어깨 ✕) → 5초 참았다가 천천히 내뱉는다</li>
+        <li>근육이 아프고 어지러운 걸 견디는 힘 = 지구력 (전공자용 안내)</li>
+        <li>마시고 참을 때 소리가 앞으로 쭉 나가는 느낌 = 소리의 길</li></ul></div>
+    </div>
+  </section>
+
+  <section class="sec"><h3><span class="no">5</span>소리의 원리 : 효율이 전부다</h3>
+    <div class="banner"><b>소리 99% : 공기 1%</b> &nbsp; 공기는 ‘빽빽하게’ 나간다고 생각한다</div>
+    <div class="grid2">
+      <div class="card"><h4>벨칸토 - 적은 에너지로 멀리</h4><ul>
+        <li>성악은 효율적인 운동
+          <ul><li>적은 에너지로 좋은 값을 낸다.</li><li>마이크 없던 시대에 멀리·오래 부르려고 만들어진 것이 벨칸토</li></ul></li>
+        <li>성대를 가지런히 정렬 → 바람이 좁게 나가 잘 붙고 울린다 = 효율적</li>
+        <li>소리가 커지는 건 관(공명 통로)의 세팅 덕분이지 바람이 아니다. 바람이 섞이면 울림이 안 난다</li>
+        <li>‘소리 반 공기 반’ 식 조언은 목이 상한다(나쁜 것)</li>
+        <li>대중가요 보컬 코치 유튜브는 공명이 없는 방식이라 성악 발성엔 도움이 안 된다</li></ul></div>
+      <div class="card"><h4>목이 아픈 이유 · 성대 보호</h4><ul>
+        <li>성대엔 통증이 없다 → 아픈 곳은 주변 근육
+          <ul><li>안 쓰던 근육을 쓰거나 힘이 들어가서</li></ul></li>
+        <li>좁게 붙은 성대에 센 바람이 갑자기 지나가면 성대가 붓고 → 성대결절</li>
+        <li>바람이 많이 지나가면 건조해져 따갑다
+          <ul><li>피부가 약하고 통증에 민감한 사람은 더 자주</li></ul></li>
+        <li>쇳소리·새소리
+          <ul><li>지지력이 약한 채 공기를 너무 많이 뽑을 때 나는 마찰음 → 과한 출력의 신호</li></ul></li>
+        <li>아픈 부위는 사람마다 다르다 - 강사는 연구개 쪽이 따갑다. 통점이 많거나 힘을 많이 줘도 목이 아프다</li></ul></div>
+    </div>
+  </section>
+
+  <section class="sec"><h3><span class="no">6</span>후두 낮추기 : 몸 다음의 두 번째 조건</h3>
+    <div class="grid2">
+      <div class="card"><h4>원리</h4><ul>
+        <li>후두가 떨어져야 가슴이 울린다. 남성은 필수(절대), 여성은 깊게 안 떨어져도 예쁜 소리가 난다</li>
+        <li>후두는 혀뿌리와 연결
+          <ul><li>혀를 내밀면 올라가고, 혀뿌리를 낮추면 후두가 떨어진다</li></ul></li>
+        <li>단전을 당기면 흉곽도 함께 열려 후두를 유지하는 힘이 된다. 어깨를 올리면 ✕</li>
+        <li>숨이 빠지면서 후두가 올라가기 쉽다
+          <ul><li>참는 듯이 뱉는다</li></ul></li></ul></div>
+      <div class="card"><h4>훈련법 - 숨으로 연습</h4>
+        <div class="steps">
+          <div class="s"><b>들이쉴 때</b>코로 마시며 혀뿌리·후두 ↓</div>
+          <div class="s"><b>내뱉을 때</b>내려간 위치를 유지한 채 뱉기</div>
+          <div class="s"><b>반복</b>뇌가 기억 → 소리 낼 때 덜 올라감</div>
+        </div>
+        <ul style="margin-top:8px">
+          <li>혀를 내밀었다가 안쪽으로 당겨 혀뿌리 내리는 감을 잡는다</li>
+          <li>한 번에 깊게 안 떨어진다 - 조금만 내려가도 성공</li>
+          <li>손등을 후두에 살짝 얹어 확인(누르면 ✕)</li></ul></div>
+      <div class="card"><h4>생소리 · 두성</h4><ul>
+        <li>만들지 말고 가진 소리, 생소리로 편하게
+          <ul><li>단, 후두가 낮아진 생소리 (듣기엔 생소리처럼 안 들린다)</li></ul></li>
+        <li>성악을 모창하면 힘이 어딘가 들어간다. 눌러서 내는 소리가 아니다</li>
+        <li>두성은 일부러 쓸 수 없다. 쓰려 하면 후두도 올라간다. 고음에서 유속이 빨라지며 자동으로 울림이 높아진다</li>
+        <li>고음에서 후두가 살짝 올라가는 건 괜찮지만 쑥 올라가면 풀린 것</li></ul></div>
+      <div class="card"><h4>고음 · 파트 이야기</h4><ul>
+        <li>고음은 연습이 아니라 얻어지는 것
+          <ul><li>중저음에서 길·서포트를 잡으면 자동</li><li>안 되는 이유는 견디는 힘 부족</li></ul></li>
+        <li>저음이 먼저. ‘나이 들면 고음 난다’는 말은 중저음을 갈고닦았을 때만 성립</li>
+        <li>B♭까지는 훈련으로 가능, B·C는 성구 전환(별도 테크닉)</li>
+        <li><b>테너</b>는 후두가 올라가기 쉽고, <b>베이스</b>는 올라가면 안 된다(기본값)</li></ul></div>
+    </div>
+    <div class="card dark" style="margin-top:8px"><h4>스피커 비유</h4>
+      <p><b>가슴 = 메인 스피커</b> : 후두가 낮아져야 울린다. 저음~고음 모두 가슴이 쓰여야 건강한 소리</p>
+      <p><b>두성·비강 = 보조 스피커</b> : 음이 올라가며 유속이 빨라지면 생긴다. 있으면 조금 좋고, 없어도 문제 없다</p></div>
+  </section>
+
+  <section class="sec"><h3><span class="no">7</span>흔한 오해 → 이렇게 고친다</h3>
+    <table class="tbl">
+      <tr><th style="width:30%"><span style="color:#ffb3aa">✕</span> 흔한 오해</th><th><span style="color:#a8e6c4">○</span> 강사의 설명</th></tr>
+      <tr><td class="rl">입을 크게 벌려야 좋은 소리가 난다</td><td>훈련 전에 크게 벌리면 혀에 힘이 들어가 뒤 공간이 좁아지고 공명관이 찌그러진다. 세팅이 된 뒤에 벌리는 건 OK. 원리는 하품(후두↓, 연구개↑) - 세팅한 채로 하품한다</td></tr>
+      <tr><td class="rl">연구개부터 들어 소리를 바꾼다</td><td>안 내던 소리라 바뀐 듯 느껴져도 편법이라 금방 한계. 후두가 불안정한 채 들면 말짱 도루묵. 연구개는 마지막 단계 - 일반인은 신경 안 써도 된다 (1차 시점 안내)</td></tr>
+      <tr><td class="rl">노래할 때도 크게 들이마신다</td><td>크게 마시는 건 연습용(서포트 느낌 훈련). 프로는 마시는 제스처조차 안 보인다. 세팅이 되어 있으면 이미 들어와 있다. 노래할 땐 가사·감정·연기에 집중</td></tr>
+      <tr><td class="rl">낮은 소리를 만들어서 누른다</td><td>누르는 소리가 아니라 생소리. 후두가 낮아진 상태에서 가진 소리로 편하게. 누르는 것도 과정 중 하나일 뿐</td></tr>
+      <tr><td class="rl">크게·바람 많이 내야 큰 소리</td><td>큰 소리는 관(공명)의 세팅에서 나온다. 바람을 많이 보내려는 제스처를 하면 몸이 쥐어짜진다. 좋은 소리는 바람이 거의 없다</td></tr>
+    </table>
+  </section>
+
+  <section class="sec"><h3><span class="no">8</span>연습 루틴 · 요령 · 준비물</h3>
+    <div class="grid2">
+      <div class="card"><h4>연습 루틴</h4><ul>
+        <li>한 번에 바뀌지 않는다
+          <ul><li>쌓이고 쌓여야 체감. 꾸준히 한두 달이면 만족감</li></ul></li>
+        <li>호흡 100번(10×10)을 매일
+          <ul><li>아침·점심·저녁 틈틈이</li></ul></li>
+        <li>몸 세팅 → 호흡 → 후두 유지를 함께 확인</li>
+        <li>남이 하는 걸 관찰하면 내 것이 이해된다</li></ul></div>
+      <div class="card"><h4>박자 · 숨 요령</h4><ul>
+        <li>박자·엇박은 센스·감각
+          <ul><li>계산하면 오히려 느려지니 눈치껏</li></ul></li>
+        <li>지휘를 보되 속으로 카운팅(손가락으로도)</li>
+        <li>악보에 숨 쉴 곳(몇째 마디 몇째 박)을 마킹
+          <ul><li>보고 쉬는 게 생각해서 쉬는 것보다 빠르다</li></ul></li></ul></div>
+      <div class="card"><h4>몸 관리</h4><ul>
+        <li>살이 찌면 울림통이 지방으로 채워져 울림·지구력이 떨어진다 (마른데 울림통이 좋은 사람도 있다)</li>
+        <li>노래는 에너지를 쓰지만 칼로리 소모는 적어 살찌기 쉽다 → 운동이 도움</li>
+        <li>노래 전엔 든든히 식사(사람마다 다름)</li>
+        <li>3~4일 쉬면 되찾는 데 평균 1주일 → 매일 연습</li></ul></div>
+      <div class="card"><h4>다음 시간 준비물</h4><ul>
+        <li>나무 코르크 마개(와인 마개)
+          <ul><li>앞니로 물 수 있는 약 3~4cm, 크면 가위로 자른다</li></ul></li>
+        <li>플라스틱·지우개 등 인공 소재는 부서지고 몸에 해로울 수 있어 비추천</li>
+        <li>쓰고 나면 씻어 말려 비닐백에 보관</li>
+        <li>다음 시간 : 소리 내기, 혀의 비밀</li></ul></div>
+    </div>
+  </section>
+
+  <section class="sec"><h3><span class="no">✓</span>연습 전 30초 셀프 체크리스트</h3>
+    <ul class="chk">
+      <li>가슴을 열고 목을 일자로 세운다. <small>(앉을 땐 등받이에서 떨어진다)</small></li>
+      <li>아랫배(단전)를 당기고 윗배·어깨는 편안히 둔다.</li>
+      <li>코로 천천히 깊게 마시며 단전을 유지한다. <small>(어깨 ✕)</small></li>
+      <li>마시면서 혀뿌리·후두를 낮춘다.</li>
+      <li>귀에만 들릴 만큼 조금씩 내뱉는다. 단전·후두는 유지한다.</li>
+      <li>10번 × 10세트, 하루 100번을 틈틈이 한다.</li>
+      <li>소리는 만들지 않고 생소리로 편하게.</li>
+      <li>3~4일 쉬면 감이 풀린다 - 매일 한다. 목에 힘이 들어가면 멈춘다.</li>
+    </ul>
+  </section>
+
+  <div class="pnav noprint"><a class="pbtn" href="#/">← 메인으로</a><a class="pbtn" href="#/2">2강 보기 →</a></div>
+</article>
+</div>
+
+<!-- =====================================================  2강  ===================================================== -->
+<div class="lecbg" id="bg2" style="display:none">
+<article class="lec" id="lec2" data-lec="2" data-label="2강">
+  <div class="lec-head"><span>‘시온찬양대 ‘2026 하모니클래스 2강</span><span>2026.09.27.</span></div>
+  <h2 class="lec-title">연구개(軟口蓋) 훈련과 성구 전환</h2>
+  <p class="lec-sub">코르크 마개 허밍으로 ‘소리의 길’을 찾는 법</p>
+  <div class="keybox">
+    <div class="row"><div class="lb">오늘의 핵심</div><div class="tx">코르크 마개를 물고 허밍해 연구개를 들어 올린 ‘소리의 길’을 찾고, 그 길로 노래한다.<br>목의 힘은 버리고, 자세(악기)와 공기(호흡)만으로 소리를 조절한다.</div></div>
+    <div class="row"><div class="lb">1차 복습</div><div class="tx">몸 세팅 3원칙(가슴·목·단전) → 후두 먼저 낮추기 → 코로 들이쉬는 하루 100회 호흡 훈련.<br>“전공자도 며칠 쉬면 힘들다 - 호흡법은 평소에 매일”</div></div>
+  </div>
+
+  <section class="sec"><h3><span class="no">1</span>코르크 마개 : 준비와 무는 법</h3>
+    <p style="margin:0 0 4px;color:#4a5068;font-size:13.5px">* 코르크 크기는 와인병 코르크보다 작은 것. 약 3cm 이하</p>
+    <div class="grid2">
+      <div class="card"><h4>준비 : 코르크 무는 법</h4><ul>
+        <li>정품은 조금 더 길다 → 잘라서 쓰는 것이 원래 방법. 작을수록 더 좋다(노래할 때 입을 크게 벌릴 필요가 없기 때문)</li>
+        <li>앞니 가운데에 딱 물리도록 조금 안쪽으로 넣는다. 넓은 면을 위·아래 중 편한 쪽으로</li>
+        <li>‘앙’ 하고 꽉 문 상태에서 허밍을 시작한다</li>
+        <li>관리 - 쓰고 나면 씻어서 잘 말린 뒤 비닐 팩에 보관</li></ul></div>
+      <div class="card"><h4>이런 반응은 ‘정상’입니다</h4><ul>
+        <li>침이 흐르는 것이 정상. 침이 안 나오면 오히려 잘못하고 있는 것 (강사도 침이 흘러서 휴지를 대고 연습)</li>
+        <li>중간에 빼서 침을 삼키고 다시 물어도 된다</li>
+        <li>턱이 아프다 → 소리 낼수록 세게 물게 된 것. 세게 무는 게 좋은 것이고, 그래서 이 도구를 쓴다</li>
+        <li>물고 가사를 부르면 발음은 부정확할 수밖에 : 신경 쓰지 말 것</li></ul></div>
+    </div>
+  </section>
+
+  <section class="sec"><h3><span class="no">2</span>코르크 허밍 : 방법과 느낌 체크</h3>
+    <div class="grid2">
+      <div class="card"><h4>허밍 4단계</h4>
+        <div class="s4">
+          <div class="it"><div class="k">1<small>자세</small></div><div class="v">바른 자세 + 단전(아랫배) 당기기. 소파에 등을 기대지 말고 앞으로 나와 앉는다</div></div>
+          <div class="it"><div class="k">2<small>물기</small></div><div class="v">코르크를 앞니로 ‘앙’ 꽉 문 상태 유지</div></div>
+          <div class="it"><div class="k">3<small>허밍</small></div><div class="v">앞으로 좁게 내는 허밍. <span class="x1">✕</span> 소리가 위로 띄워진다는 생각 - 꽉 찬 소리가 아니라 뿌옇게 퍼진 소리, 대신 단전은 당긴다</div></div>
+          <div class="it"><div class="k">4<small>상행</small></div><div class="v">‘도레미파솔’ 음을 올리며 반복. 허밍에는 정해진 모음이 없다 - 편한 소리를 찾아가면 된다</div></div>
+        </div></div>
+      <div class="card"><h4>느낌 체크 - 이럴 땐 이렇게</h4>
+        <table class="tbl" style="font-size:13.5px">
+          <tr><th>느낌</th><th>의미와 조치</th></tr>
+          <tr><td>목(성대 쪽)에 힘이 들어간다</td><td>덜 물었거나 자세가 무너진 것 - 더 꽉 물고 자세 교정</td></tr>
+          <tr><td>음이 오르며 위쪽이 막힌다</td><td>물면서 소리를 퍼뜨린다</td></tr>
+          <tr><td>아랫배(단전)에 힘이 들어간다</td><td>좋은 신호 - 바른 자세를 잡으려 노력한 결과</td></tr>
+          <tr><td>목구멍이 간질간질·떨린다</td><td>아직 힘이 부족하지만 자극되고 있는 것. 힘이 생기면 싹 올라간다</td></tr>
+        </table></div>
+    </div>
+  </section>
+
+  <section class="sec"><h3><span class="no">3</span>연구개(軟口蓋) : 왜, 어떻게 들어 올리나</h3>
+    <div class="grid2">
+      <div class="card"><h4>원리 - 입안 천장의 ‘층고’</h4><ul>
+        <li>노래할 때 입안 천장(연구개)이 높아야 한다
+          <ul><li>경구개도 함께 올라간다는 생각으로</li></ul></li>
+        <li>순서가 중요
+          <ul><li>후두가 먼저 내려간(1차 방법) 상태에서 천장을 높인다</li><li>후두가 같이 올라가면 안 된다</li></ul></li>
+        <li>가장 좋은 구조 = 하품할 때
+          <ul><li>하품할 땐 기지개도 함께 켜듯, 노래할 때도 몸을 편다</li></ul></li>
+        <li>허밍하면 혀가 입천장에 붙어 연구개를 같이 당겨 준다
+          <ul><li>허밍할 때 연구개가 가장 많이 올라간다</li></ul></li>
+        <li>연구개는 신경 쓰지 않으면 금세 내려온다
+          <ul><li>전공자도 계속 의식한다</li></ul></li></ul></div>
+      <div class="card"><h4>훈련법 - ‘응 → 아’ 전환</h4>
+        <div class="steps">
+          <div class="s"><b>응</b>허밍으로 연구개 느끼기</div>
+          <div class="s"><b>아</b>혀만 내리고 연구개는 싹 올림</div>
+          <div class="s"><b>반복</b>붙였다 뗐다 민첩하게</div>
+        </div>
+        <ul style="margin-top:8px">
+          <li>소리를 크게 낼 필요 없다
+            <ul><li>목적은 연구개 ‘자극’. 거친 소리 ×, 맑고 까랑까랑한 소리</li></ul></li>
+          <li>음이 올라갈수록 얇고 가볍고 투명하게(가성처럼)
+            <ul><li>그래야 성구 전환이 된다</li></ul></li>
+          <li>저음에서도 연구개를 계속 들고 포지션을 위에 둔다</li>
+          <li>목 쪽 힘은 무조건 버린다
+            <ul><li>코르크를 무는 이유가 바로 이것</li></ul></li></ul></div>
+    </div>
+  </section>
+
+  <section class="sec"><h3><span class="no">4</span>성구 전환(聲區轉換) - 소리가 얇아지는 건 당연하다</h3>
+    <div class="grid2">
+      <div class="card"><h4>원리 - 바이올린 줄에 비유하면</h4><ul>
+        <li>바이올린은 한 줄로 모든 음을 내지 않는다
+          <ul><li>굵기가 다른 4줄을 쓴다</li><li>성대도 음역에 따라 쓰는 방식이 바뀐다</li></ul></li>
+        <li>성대는 옆에서 보면 생각보다 깊다
+          <ul><li>저음에서는 전체가 붙어 울리고, 고음으로 갈수록 아래쪽이 떨어지며 윗부분만 붙는다 → 성구 전환</li></ul></li>
+        <li>그래서 고음에서 점점 얇고 가벼워지는 느낌
+          <ul><li>가성으로 넘어갈 듯한 느낌은 당연하고 좋은 것. 피하면 안 된다</li></ul></li>
+        <li>가성은 성대 위의 가성대(假聲帶)라는 별도 구조를 닫아서 내는 소리이며, 성구 전환을 돕기도 한다</li></ul></div>
+      <div class="card"><h4>성대 옆모습(단순화)</h4>
+        <div class="sfig">
+          <figure>
+            <svg width="120" height="130" viewBox="0 0 120 130" role="img" aria-label="저음에서 성대 전체가 붙어 울리는 모습">
+              <rect x="6" y="6" width="40" height="118" fill="#2b3a69"/><rect x="74" y="6" width="40" height="118" fill="#2b3a69"/>
+              <rect x="46" y="6" width="28" height="118" fill="#b8923a"/>
+            </svg>
+            <figcaption><b>저음</b><br>깊게 전체가 붙어 울림</figcaption>
+          </figure>
+          <figure>
+            <svg width="120" height="130" viewBox="0 0 120 130" role="img" aria-label="고음에서 윗부분만 붙어 울리는 모습">
+              <rect x="6" y="6" width="40" height="118" fill="#2b3a69"/><rect x="74" y="6" width="40" height="118" fill="#2b3a69"/>
+              <rect x="46" y="6" width="28" height="44" fill="#b8923a"/>
+            </svg>
+            <figcaption><b>고음</b><br>아래는 떨어지고 윗부분만</figcaption>
+          </figure>
+        </div>
+        <p style="text-align:center;margin:6px 0 0;font-size:13px"><span style="color:#b8923a">■</span> 금색 = 붙어서 울리는 부분</p></div>
+    </div>
+    <div class="grid2" style="margin-top:8px">
+      <div class="card bad"><p><span class="x1">✕ 금지</span> - 얇아지는 게 소리를 안 내는 것 같아 <b>목에 힘을 주어 눌러 붙이면</b> 성대가 강제로 붙어 다치고 아프다</p></div>
+      <div class="card good"><p><span class="o1">○ 정답</span> - 목에 아무 힘이 없어야 한다. <b>공기의 양과 속도</b>만으로 성대는 자동으로 전환된다. 코르크를 물면 그 느낌이 나는 이유 = 힘이 빠졌기 때문</p></div>
+    </div>
+  </section>
+
+  <section class="sec"><h3><span class="no">5</span>자세는 ‘악기’, 연주자는 ‘공기’만 조절한다</h3>
+    <div class="grid3">
+      <div class="card"><h4>몸 = 악기 몸통</h4><p>줄을 잡아 주는 악기대. 자세가 바로 서야 줄(성대)이 울릴 준비가 된다</p></div>
+      <div class="card"><h4>성대 = 줄</h4><p>자세가 갖춰지면 저절로 울릴 준비가 된 상태가 된다</p></div>
+      <div class="card dark"><h4>연주자 = 공기 조절</h4><p>공기의 양으로 음높이·세기·음색이 바뀐다 → 그래서 호흡 훈련이 중요</p></div>
+    </div>
+    <div class="grid2" style="margin-top:8px">
+      <div class="card"><h4>자세 체크 - 강사 지적 사항</h4><ul>
+        <li>‘위로 올라가는 느낌’을 모르겠다면 자세가 어딘가 풀린 것
+          <ul><li>자세를 바로 하고 코르크를 물면 위가 저절로 느껴진다</li></ul></li>
+        <li>악보를 들고 볼 것
+          <ul><li>시선이 밑으로 가면 몸이 굽어 힘을 못 받는다</li></ul></li>
+        <li>등받이에 기대지 말고 앞으로 나와 앉는다 (일어서서 해도 좋다)</li>
+        <li>단전을 당기면 근육이 굳고 아플 수 있다
+          <ul><li>근육 통증은 괜찮지만 척추 통증은 안 된다</li></ul></li>
+        <li>호흡이 위로 뜨면 후두도 함께 올라간다
+          <ul><li>포지션은 위, 호흡과 후두는 아래</li></ul></li></ul></div>
+      <div class="card"><h4>공명 · 블렌딩 · 고음의 원리</h4><ul>
+        <li>관이 짧은 악기는 빽빽거리고 멀리 못 간다
+          <ul><li>천장이 높아져 관이 길어지면 공명이 잘 되어 볼륨과 무관하게 더 멀리 간다</li></ul></li>
+        <li>가까이선 작고 답답하게 느껴져도 견뎌야 한다
+          <ul><li>공명의 압력이 느껴지면 더 큰 만족으로 바뀐다</li></ul></li>
+        <li>누구 소리인지 모르게 하나로 섞인다(블렌딩)
+          <ul><li>합창의 필수 기술. 음정이 안 맞는 건 근육이 게을러서</li></ul></li>
+        <li>고음 = 연구개를 당긴 채 공기 속도(유속)를 빠르게
+          <ul><li>호스 끝을 살짝 잡으면 물이 세게 나가는 원리</li></ul></li></ul></div>
+    </div>
+  </section>
+
+  <section class="sec"><h3><span class="no">6</span>노래에 적용할 때 흔한 실수 → 이렇게 고친다</h3>
+    <p style="margin:0 0 4px;color:#4a5068;font-size:13.5px">* 연습곡 : 은혜 아니면</p>
+    <table class="tbl">
+      <tr><th style="width:40%"><span style="color:#ffb3aa">✕</span> 흔한 실수</th><th><span style="color:#a8e6c4">○</span> 강사의 교정</th></tr>
+      <tr><td>‘은혜’처럼 올라가는 음을 툭 치듯 튕겨 낸다<br><small>* 갑자기 높아지는 부분에서의 지적사항임</small></td><td>치는 것 자체가 연구개를 안 쓴 것. 연구개만 당기면 스무스하게 올라간다</td></tr>
+      <tr><td>한 음 한 음 뚝뚝 끊어 낸다 (주저앉는 소리)</td><td>고무줄을 늘이듯 끈적하게 잇는다. 사이렌처럼. 끊는 건 쉽게 부르려는 ‘게으름’ - 고음이 절대 안 난다</td></tr>
+      <tr><td>이어 부르면 소리가 부들부들 떨려 피한다</td><td>떨림은 훈련되고 있다는 증거. 힘이 달리는 걸 피하지 말 것</td></tr>
+      <tr><td>‘으’처럼 연구개가 내려가기 쉬운 한국어 발음에 끌려간다</td><td>연구개를 들어 놓고 그 자리에 발음한다고 생각한다</td></tr>
+      <tr><td>고음을 강하게 쳐서 천박하게 연다. 가사를 과장한다</td><td>연구개를 더 당겨 고급스럽게 연다. ‘이제 나 사는 것 아니요’, ‘오직 예수’는 핵심 단어를 살려 품위 있게</td></tr>
+      <tr><td>잘하다가 집중이 풀려 소리가 퍼진다 (주저앉는다)</td><td>습관 때문에 갑자기 풀린다 → 끝까지 집중력 유지. 본능·습관을 집중력으로 이긴다</td></tr>
+      <tr><td>습관적으로 목에 힘 · ‘나 하나쯤이야’</td><td>‘나 하나라도’ 열심히 - 근거 있는 자신감으로</td></tr>
+    </table>
+  </section>
+
+  <section class="sec"><h3><span class="no">7</span>관리 · 주의 · 매일 연습 루틴</h3>
+    <div class="grid3">
+      <div class="card"><h4>관리 · 주의</h4><ul>
+        <li>연구개를 오래 쓰면 공기 자극으로 목이 빨리 건조
+          <ul><li>방치하면 따갑고 감기로 전환</li><li>수분 섭취 필수</li></ul></li>
+        <li>건조함을 못 느낀다면 연구개를 안 쓰고 있는 것</li>
+        <li>연구개가 얼얼·따끈하면 연습이 잘된 것</li>
+        <li>계속 쓰면 감각이 무뎌진다
+          <ul><li>쉬었다 하기</li></ul></li></ul></div>
+      <div class="card"><h4>소리의 모양 · 테너 조언</h4><ul>
+        <li>소리의 길을 입체로 상상
+          <ul><li>위아래로 긴 유연한 원기둥</li><li>최소 명치까지 함께 느껴야 후두가 안 뜬다</li></ul></li>
+        <li>테너는 가장 예민·소모가 큰 파트
+          <ul><li>성구 전환 직전 음역이라 힘든 게 당연</li></ul></li>
+        <li>후두가 뜨기 쉬워 고음 따로 연습
+          <ul><li>잘못된 사항임</li><li>중음 길 완성이 먼저</li></ul></li></ul></div>
+      <div class="card"><h4>매일 연습 루틴</h4><ul>
+        <li>코르크 물고 허밍 연결
+          <ul><li>‘이·오’ 모음을 같은 위치에서 바꿔 보기</li></ul></li>
+        <li>안 되면 ‘응랑랑랑’만이라도 계속 자극</li>
+        <li>차 안 출퇴근 시간 활용</li>
+        <li>코로 숨 쉬기를 2주 매일 하면 숨이 저절로 들어온다</li>
+        <li>노래는 계속 써야 안 늙는다</li></ul></div>
+    </div>
+  </section>
+
+  <section class="sec"><h3><span class="no">✓</span>연습 전 30초 셀프 체크리스트</h3>
+    <ul class="chk">
+      <li>등받이에서 떨어져 바르게 앉는다. <small>(악보는 들고, 고개 숙이지 않도록)</small></li>
+      <li>단전(아랫배)을 당긴다.</li>
+      <li>코르크를 앞니 가운데에 꽉 깨문다.</li>
+      <li>목(성대 쪽)의 힘을 뺀다.</li>
+      <li>허밍 소리가 위로 뜨고 연구개가 느껴진다.</li>
+      <li>저음에서도 포지션을 위에 둔다.</li>
+      <li>음을 끊지 않고 고무줄처럼 늘이는 느낌이다.</li>
+      <li>물을 충분히 마신다.</li>
+    </ul>
+  </section>
+
+  <div class="pnav noprint"><a class="pbtn" href="#/1">← 1강 보기</a><a class="pbtn" href="#/">메인으로</a><a class="pbtn" href="#/3">3강 보기 →</a></div>
+</article>
+</div>
+
+<!-- =====================================================  3강  ===================================================== -->
+<div class="lecbg" id="bg3" style="display:none">
+<article class="lec" id="lec3" data-lec="3" data-label="3강">
+  <div class="lec-head"><span>‘시온찬양대 ‘2026 하모니클래스 3강</span><span>2026.10.04.</span></div>
+  <h2 class="lec-title">혀 릴렉스와 소리의 길 완성</h2>
+  <p class="lec-sub">혀를 내밀고 노래해 연구개 ‘소리의 길’을 지키는 법</p>
+  <div class="keybox">
+    <div class="row"><div class="lb">오늘의 핵심</div><div class="tx">숨 쉴 때 이미 ‘소리의 길’을 열어 두고, 혀를 내밀어 혀의 힘을 빼면 그 길로 공명이 생긴다.<br>노래는 힘이 아니라 준비(호흡)와 공기의 속도로 한다 - 내 귀에 어색하게 들려야 정상.</div></div>
+    <div class="row"><div class="lb">2강 복습</div><div class="tx">코르크 허밍으로 연구개 들기 → ‘응→아’ 전환. 성구 전환은 힘이 아닌 공기로, 자세는 악기.<br>“자기 귀에 진하게 들릴수록 눌린 소리” → 이번 시간의 출발점</div></div>
+  </div>
+
+  <section class="sec"><h3><span class="no">1</span>연습 전 준비 : 호흡이 먼저다</h3>
+    <p style="margin:0 0 4px;color:#4a5068;font-size:13.5px">* 대기 시간에 호흡 5~10회</p>
+    <div class="grid2">
+      <div class="card"><h4>준비 : 소리 내기 전에</h4><ul>
+        <li>대기 시간에 호흡 5~10회를 먼저 한다
+          <ul><li>소리부터 내지 말고 호흡을 먼저 뚫어 놓고 노래한다</li><li>훈련이라서 반복할수록 ‘커넥션’이 생긴다</li></ul></li>
+        <li>코르크를 늘 챙겨 다닌다
+          <ul><li>운전하는 사람은 차 안에서 물고 소리 내기 좋다</li></ul></li>
+        <li>연습 순서 : 호흡 → 혀 스트레칭 → 혀 내밀고 소리 → 포지션 찾기 → 노래
+          <ul><li>이 순서를 지키면 포지션을 금방 찾아간다</li></ul></li></ul></div>
+      <div class="card"><h4>왜 코르크가 음정에 도움이 되나</h4><ul>
+        <li>합창의 화음은 음정(피치)이 핵심이다
+          <ul><li>피치가 낮아지는 것은 위 공간(연구개)이 낮기 때문</li><li>피치는 시간이 해결하지 않는다 → 훈련으로 올린다</li></ul></li>
+        <li>물면 입 안쪽 공간에 집중하게 되고, 턱이 고정되어 공간이 낮아지지 않는다</li>
+        <li>살짝 고정되는 느낌으로 젠틀하게 문다
+          <ul><li>너무 세게 물면 다른 곳에 힘이 들어간다</li><li>감이 안 오면 처음에는 조금 세게 물어도 된다</li></ul></li></ul></div>
+    </div>
+  </section>
+
+  <section class="sec"><h3><span class="no">2</span>소리의 길 : 숨 쉴 때 이미 찾아 놓는다</h3>
+    <div class="grid2">
+      <div class="card"><h4>소리의 길 찾기 4단계</h4>
+        <div class="s4">
+          <div class="it"><div class="k">1<small>자세</small></div><div class="v">바른 자세로 앉아 코르크를 가볍게 문다. 등받이에 기대지 않는다</div></div>
+          <div class="it"><div class="k">2<small>들이쉬기</small></div><div class="v">코로 마신다. 하프 하듯 연구개가 싹 올라간다고 생각한다</div></div>
+          <div class="it"><div class="k">3<small>길 느끼기</small></div><div class="v">숨이 들어오는 길(코→뒤쪽 연구개)이 ‘소리의 길’. 안 느껴지면 소리를 낼 수 없다</div></div>
+          <div class="it"><div class="k">4<small>소리 내기</small></div><div class="v">그 길 그대로 소리를 낸다. 숨 쉬는 길 = 소리 나가는 길</div></div>
+        </div></div>
+      <div class="card"><h4>느낌 체크 - 이럴 땐 이렇게</h4>
+        <table class="tbl" style="font-size:13.5px">
+          <tr><th>느낌</th><th>의미와 조치</th></tr>
+          <tr><td>길이 안 느껴진다</td><td>준비 부족·자세 풀림 → 자세를 펴고 코로 다시 들이쉰다</td></tr>
+          <tr><td>음정이 낮고 납작하다</td><td>위 공간이 낮은 것 → 숨 쉴 때 이미 올려 둔다</td></tr>
+          <tr><td>길이 한 번 틀어졌다</td><td>복구가 안 된다 → 한 프레이즈 쉬고 숨부터 다시 세팅</td></tr>
+          <tr><td>소리가 뒤집힌다 (크랙)</td><td>공간은 작은데 바람만 센 것 → 연구개 들기 + 후두 안정</td></tr>
+        </table></div>
+    </div>
+  </section>
+
+  <section class="sec"><h3><span class="no">3</span>모음과 연구개 : ‘우’에서 ‘아’로 갈 때 왜 무너지나</h3>
+    <div class="grid2">
+      <div class="card"><h4>원리 : 모음마다 천장 높이가 다르다</h4><ul>
+        <li>가장 낮은 모음 = ‘아’, 가장 높은 모음 = ‘우’
+          <ul><li>‘우’→‘아’에서 연구개가 내려와 음량이 떨어지고 색깔이 변한다</li></ul></li>
+        <li>‘아’일수록 더 높게 : 낮은 모음일수록 천장을 더 올린다</li>
+        <li>연습은 ‘우’로 하면 쉽다 - 한글은 ‘으’처럼 낮은 위치의 발음이 많아 습관에 끌려가기 쉽다</li></ul></div>
+      <div class="card"><h4>훈련법 : ‘우 → 아’ 전환</h4>
+        <div class="steps">
+          <div class="s"><b>우</b>천장을 가장 높게 확인</div>
+          <div class="s"><b>아</b>천장은 유지</div>
+          <div class="s"><b>반복</b>낮은 음에서도 유지</div>
+        </div>
+        <ul style="margin-top:8px">
+          <li>이(윗니·아랫니)가 보이게, 입술을 뒤집듯 (특히 ‘우’)</li>
+          <li>소리 크기보다 포지션 - 위로 보낸다</li></ul></div>
+    </div>
+  </section>
+
+  <section class="sec"><h3><span class="no">4</span>혀 릴렉스 : 혀를 꺼내고 소리 낸다</h3>
+    <div class="grid2">
+      <div class="card"><h4>원리 - 혀뿌리 힘이 공명을 막는다</h4><ul>
+        <li>한국 사람은 혀에 힘이 매우 강하다
+          <ul><li>한글은 소리를 입 앞쪽 낮은 위치에서 정확히 내는 말 → 혀가 무거워진다</li><li>이탈리아어는 말할 때부터 포지션이 위에 있다 → 오페라가 발달</li></ul></li>
+        <li>혀뿌리 힘이 공명을 방해한다
+          <ul><li>혀가 말려 들어가면 계속 힘이 들어간다 → 혀를 내밀면 힘을 줄 수 없다</li></ul></li>
+        <li>혀를 내밀면 후두가 같이 올라와 발음이 ‘애’로 바뀐다
+          <ul><li>자세를 바르게 하고 ‘소리의 길’ 위에서 낸다</li></ul></li>
+        <li>노래에서는 허하고 애매한 발음이 좋다
+          <ul><li>정확한 발음을 하면 안 된다 → 공명이 생기고 멀리 간다</li></ul></li>
+        <li>혀가 뾰족하게 나오고 둔하면 설소대(혀 밑 줄)가 긴 경우도 있다. 설소대가 길면 노래하는 게 어렵다.
+          <ul><li>전공할 게 아니면 짧게 하는 시술까지는 필요 없다 → 혀 릴렉스에 신경</li></ul></li></ul></div>
+      <div class="card"><h4>혀 내밀고 소리 내기 4단계</h4>
+        <div class="s4">
+          <div class="it"><div class="k">1<small>거울</small></div><div class="v">거울을 보며 바른 자세로 앉는다. 기대지 않는다</div></div>
+          <div class="it"><div class="k">2<small>내밀기</small></div><div class="v">아랫입술을 살짝 덮듯 내민다. ‘혀가 아랫입술을 대신한다’고 생각. 뾰족하지 않게 평평하게</div></div>
+          <div class="it"><div class="k">3<small>소리</small></div><div class="v">‘아’로 가볍게 낸다. 진한 소리 ×. 바람의 속도로 커지는 것이지 힘이 아니다</div></div>
+          <div class="it"><div class="k">4<small>가사</small></div><div class="v">가사를 붙여 느낌만 불러 본다 (발음 정확하지 않아도 OK) → 그다음 평소처럼 노래</div></div>
+        </div>
+        <ul style="margin-top:8px"><li>고음일수록 더 내민다 (혀가 싹 들어가려 한다)</li></ul></div>
+    </div>
+    <div class="grid2" style="margin-top:8px">
+      <div class="card bad"><p><span class="x1">✕ 금지</span> : 혀를 내밀고도 힘을 주거나, 대충 내밀어 혀가 부들부들 떨리는 것. 혀가 아무것도 못 하도록 끝까지 내밀어야 한다</p></div>
+      <div class="card good"><p><span class="o1">○ 정답</span> : 처음엔 혀가 아프고 어색하다(= 스트레칭). 익숙해지면 소리가 구름처럼 부드럽고 포지션이 올라간다. 강사도 발성 연습 때 혀 빼기를 꼭 한다</p></div>
+    </div>
+  </section>
+
+  <section class="sec"><h3><span class="no">5</span>단전과 자세 : 의지로 하는 건 ‘단전’ 하나뿐</h3>
+    <div class="grid3">
+      <div class="card"><h4>상체 = 릴렉스</h4><p>어깨가 올라가면 오히려 더 내린다. 단전 위쪽은 모두 힘을 뺀다</p></div>
+      <div class="card dark"><h4>단전 = 당긴다</h4><p>아랫배를 계속 잡아 준다. 고음일수록 필요한 근육은 알아서 쓰인다</p></div>
+      <div class="card"><h4>나머지 = 맡긴다</h4><p>목·턱·혀는 아무것도 하지 않는다. 단전을 당기면 숙이려 해도 안 숙여진다</p></div>
+    </div>
+    <div class="grid2" style="margin-top:8px">
+      <div class="card"><h4>악보 · 자세 체크 - 강사 요령</h4><ul>
+        <li>서서 부를 땐 팔을 쭉 펴지 않는다
+          <ul><li>살짝 굽히고 어깨 힘을 뺀다</li></ul></li>
+        <li>악보는 한 손으로 받쳐 구부러지지 않게 든다
+          <ul><li>고개를 숙이지 말고 눈동자만 움직여 악보와 지휘를 번갈아 본다</li></ul></li>
+        <li>악보를 내려다보며 허리가 굽으면 소리가 무거워진다
+          <ul><li>자세를 펴고 소리의 길을 다시 생각한다</li></ul></li>
+        <li>외워서 부르면 가장 좋다
+          <ul><li>한 번 보고 네 마디쯤은 외우기</li></ul></li>
+        <li>틀려도 괜찮다
+          <ul><li>경연이 아니라 마음으로 올리는 찬양</li></ul></li>
+        <li>힘든 날은 한 손을 배에 살짝 올려 두기, 자기 파트가 없을 때 팔을 살짝 내려 쉬기</li></ul></div>
+      <div class="card"><h4>크랙 · 고음 · 공명의 원리</h4><ul>
+        <li>크랙(소리 뒤집힘)의 원인
+          <ul><li>공간은 작은데 바람(압)이 세다</li><li>릴렉스는 됐지만 밸런스가 안 맞아 숨의 양·속도만 많은 것 (물줄기가 옆으로 튄다)</li><li>해결 = 연구개 들기 + 후두 고정 : 숨 쉴 때 낮아진 후두가 어떤 경우에도 올라가지 않아야 한다</li></ul></li>
+        <li>고음은 단전을 당기고 상체는 편안하게
+          <ul><li>목은 편하고 몸이 일한다 (가수도 몸이 힘들다)</li></ul></li>
+        <li>고음은 쭉 뻗어야 한다
+          <ul><li>편하기만 하면 소리가 약하거나 불안할 수 있다</li></ul></li>
+        <li>수련은 서서히가 아니라 어느 순간 갑자기 느낌이 온다</li></ul></div>
+    </div>
+  </section>
+
+  <section class="sec"><h3><span class="no">6</span>노래에 적용할 때 흔한 실수 → 이렇게 고친다</h3>
+    <p style="margin:0 0 4px;color:#4a5068;font-size:13.5px">* 연습곡 : 은혜 아니면 · 이제 나 사는 것 아니요 · 동행</p>
+    <table class="tbl">
+      <tr><th style="width:40%"><span style="color:#ffb3aa">✕</span> 흔한 실수</th><th>Solution</th></tr>
+      <tr><td>올라가는 음을 툭 치듯 튕기고, 음을 끊어 낸다<br>(‘은혜 아니면’, ‘나서지 못하는’)</td><td>치는 것 자체가 연구개를 안 쓴 것 - 어택 없이 속 근육(연구개)으로 싹 올리고, 끊지 않고 이어서 부른다</td></tr>
+      <tr><td>너무 열심히 들어 올린다 → 후두가 같이 올라와 숨이 짧고 소리가 부들부들</td><td>숨을 마신 뒤 ‘유지한다’고만 생각한다. 포물선을 그리듯 - 바둥바둥 올라가지 않는다</td></tr>
+      <tr><td>‘놀라운 사랑’을 소리 내려 하고 입이 옆으로 찢어진다</td><td>소리를 위로 그냥 던져 버린다 - 입이 찢어지면 반대로 ‘서’처럼 모아서 내 본다</td></tr>
+      <tr><td>강조(테누토·악센트)를 눌러서 한다</td><td>강조는 더 위로 띄운다 → 공명이 더 살아난다 (‘십자가의 그 사랑’)</td></tr>
+      <tr><td>포르테를 세게 하려다 주저앉는다</td><td>위(하늘·주님)로 찌르듯 낸다. 길을 닦아 놓고 같은 방향으로 더 보낸다 (호스 물줄기 원리)</td></tr>
+      <tr><td>옥타브 도약(‘동행하시니’)에서 공명을 버린다</td><td>소리를 다 버리지 말고 공명은 계속 유지한 채 도약한다</td></tr>
+      <tr><td>삑사리가 날까 봐 힘으로 막는다</td><td>삑사리가 낫다 - 불필요한 힘이 없다는 증거. 여기서 실패해야 는다, 겁내지 말 것</td></tr>
+      <tr><td>테너 고음(‘주와 함께 살리라’)에서 연구개 감각이 없어진다</td><td>소리가 이미 앞에 나와 있으니 앞에서 열면서 올라간다</td></tr>
+      <tr><td>잘하다가 집중이 풀려 길이 틀어진다 (본능·습관)</td><td>한 프레이즈 쉬고 숨부터 다시 세팅. 클라이맥스 전에 악보에 ‘준비’ 메모</td></tr>
+    </table>
+  </section>
+
+  <section class="sec"><h3><span class="no">7</span>관리 · 주의 · 매일 연습 루틴</h3>
+    <div class="grid3">
+      <div class="card"><h4>관리 · 주의</h4><ul>
+        <li>혀 내밀기는 처음에 혀가 아프다 → 스트레칭</li>
+        <li>자기 귀를 믿지 말 것
+          <ul><li>내 귀에 진하게·쨍하게 들리면 납작하고 눌린 소리</li><li>남이 듣는 내 소리와 완전히 다르다</li></ul></li>
+        <li>어색하고 피곤한 게 정상
+          <ul><li>듣는 사람에게는 좋은 소리</li></ul></li></ul></div>
+      <div class="card"><h4>소리의 모양 · 조언</h4><ul>
+        <li>짓눌린 소리는 음정이 맞아도 듣기 힘들다
+          <ul><li>공명 위치의 소리는 멀리 가고 블렌딩이 잘 된다</li></ul></li>
+        <li>CCM은 릴렉스 해 놓고 가사만 붙이면 쉽다</li>
+        <li>쉬는 구간이 없는 곡은 시작 준비가 중요
+          <ul><li>예) ‘은혜 아니면’</li></ul></li></ul></div>
+      <div class="card"><h4>매일 연습 루틴</h4><ul>
+        <li>호흡 → 혀 스트레칭 → 혀 내밀고 ‘아’ → 포지션 → 노래</li>
+        <li>혀 내밀고 가사를 느낌만 불러 본 뒤 평소처럼 노래</li>
+        <li>코르크 허밍 + 거울로 자세 점검</li>
+        <li>차 안 출퇴근 시간 활용</li></ul></div>
+    </div>
+  </section>
+
+  <section class="sec"><h3><span class="no">✓</span>연습 전 30초 셀프 체크리스트</h3>
+    <ul class="chk">
+      <li>등받이에서 떨어져 바르게 앉는다. <small>(악보는 들고, 눈동자로 본다)</small></li>
+      <li>단전(아랫배)을 당기고 상체·어깨는 편안히 둔다.</li>
+      <li>코로 들이쉬며 연구개를 올려 ‘소리의 길’을 느낀다.</li>
+      <li>코르크 허밍 후 혀를 평평하게 끝까지 내밀고 ‘아’를 낸다.</li>
+      <li>목과 혀의 힘을 뺀다.</li>
+      <li>내 귀에 진하게 들리면 눌린 소리 - 어색해야 정상이다.</li>
+      <li>소리를 끊지 않고 위로 던지듯 잇는다.</li>
+      <li>길이 틀어지면 한 프레이즈 쉬고 숨부터 다시 세팅한다. 물을 충분히 마신다.</li>
+    </ul>
+  </section>
+
+  <div class="pnav noprint"><a class="pbtn" href="#/2">← 2강 보기</a><a class="pbtn" href="#/">메인으로 →</a></div>
+</article>
+</div>
+
+<!-- 용어 팝업 -->
+<div id="pop" role="dialog" aria-modal="true" aria-labelledby="pt">
+  <div class="box">
+    <button class="cl" type="button" id="pcl" aria-label="닫기">×</button>
+    <h4 id="pt"></h4><div class="hj" id="ph"></div>
+    <p id="pd"></p>
+    <div class="lec-ref" id="pl"></div>
+    <a class="lk" id="pk" href="#" target="_blank" rel="noopener noreferrer">참고 웹페이지 보기 ↗</a>
+  </div>
+</div>
+
+<div class="copy">(C)<span class="cy">2026</span>. YOON HYUNCHUL,&nbsp; ALL RIGHT RESERVED.</div>
+
+<script>
+(function(){
+  /* ---------- 저작권 연도: 열람(제작) 시점 기준 실시간 ---------- */
+  var YR=new Date().getFullYear();
+  document.querySelectorAll('.cy').forEach(function(e){e.textContent=YR;});
+  /* 인쇄 시 모든 쪽 하단 우측에 저작권 표기 (연도 실시간) */
+  var ps=document.createElement('style');
+  ps.textContent='@page{@bottom-right{content:"(C)'+YR+'. YOON HYUNCHUL,  ALL RIGHT RESERVED.";font-size:8.5pt;color:#444;font-family:"Noto Sans KR","Malgun Gothic",sans-serif}}';
+  document.head.appendChild(ps);
+
+  /* ---------- 용어 사전 ---------- */
+  var W='https://ko.wikipedia.org/w/index.php?search=';
+  var G=[
+   {k:'단전',hj:'丹田',d:'배꼽 아래 아랫배 부위. 강의에서는 ‘서포트(지지)’를 만드는 자리로, 아랫배를 뒤쪽·대각선 위로 당긴다(윗배가 들어가는 게 아님). 노래하는 내내 유지한다.',r:'1강 §2·§3, 3강 §5',q:'단전'},
+   {k:'서포트',a:['서포팅','서포트(지지)'],hj:'support · appoggio(아포지오)',d:'지지하다·버티다는 뜻(이탈리아어 ‘아포지오’). 배를 쥐어짜는 힘이 아니라 자세로 인해 느껴지는 자연스러운 텐션으로, 편하게 부르되 단전은 계속 긴장을 유지하는 것이다.',r:'1강 §2·§3',l:'https://en.wikipedia.org/w/index.php?search=Appoggio'},
+   {k:'아포지오',hj:'appoggio',d:'‘서포트’의 이탈리아어. 지지하다·버티다는 뜻으로, 노래하는 내내 아랫배(단전)를 유지하는 것을 말한다.',r:'1강 §2',l:'https://en.wikipedia.org/w/index.php?search=Appoggio'},
+   {k:'벨칸토',hj:'bel canto',d:'이탈리아어로 ‘아름다운 노래’라는 뜻의 창법 전통. 강의에서는 마이크 없던 시대에 적은 에너지로 멀리·오래 부르려고 만들어진 효율적인 발성으로 설명한다.',r:'1강 §5',q:'벨칸토'},
+   {k:'후두',hj:'喉頭 · larynx',d:'목 앞쪽에 있는 성대를 담고 있는 기관. 혀뿌리와 연결되어 있어 혀뿌리를 낮추면 함께 내려간다. 남성은 후두를 낮추는 것이 필수이며, 숨이 빠질 때 올라가기 쉬우므로 계속 낮게 유지한다.',r:'1강 §6, 2강 §3, 3강 §5',q:'후두'},
+   {k:'연구개',hj:'軟口蓋 · soft palate',d:'입천장 뒤쪽의 말랑한 부분. 노래할 때 이 ‘입안 천장’을 높이면 소리의 길이 길어져 공명이 잘 된다. 하품할 때 가장 높이 올라가고, 신경 쓰지 않으면 금세 내려온다.',r:'2강 §3, 3강 §2·§3',q:'연구개'},
+   {k:'경구개',hj:'硬口蓋 · hard palate',d:'입천장 앞쪽의 단단한 부분. 강의에서는 연구개를 올릴 때 경구개도 함께 올라간다는 생각을 하라고 안내한다.',r:'2강 §3',q:'경구개'},
+   {k:'성구 전환',hj:'聲區轉換 · register transition',d:'음역(성구)이 바뀌면서 성대가 쓰이는 방식이 달라지는 것. 저음에서는 성대 전체가 붙어 울리고, 고음으로 갈수록 아래쪽이 떨어지며 윗부분만 붙는다. 목에 힘을 주지 않고 공기의 양과 속도로 자동 전환되게 한다.',r:'2강 §4',l:'https://en.wikipedia.org/w/index.php?search=Vocal+register'},
+   {k:'성대결절',hj:'vocal nodules',d:'좁게 붙은 성대에 센 바람이 갑자기 지나가 성대가 붓는 것으로 강의에서 설명한다. 바람을 많이 보내려는 과한 출력이 원인이므로 적은 공기로 효율적으로 내는 것이 중요하다.',r:'1강 §5',q:'성대결절'},
+   {k:'성대',hj:'聲帶 · vocal folds',d:'후두 안에서 공기가 지나갈 때 진동해 소리를 만드는 조직. 강의에서는 악기의 ‘줄’에 비유하며, 성대 자체에는 통증이 없어 아픈 곳은 주변 근육이라고 설명한다.',r:'1강 §5, 2강 §4·§5',q:'성대'},
+   {k:'가성대',a:['가성대(假聲帶)'],hj:'假聲帶 · vestibular fold',d:'진짜 성대 위쪽에 있는 별도의 구조. 강의에서는 가성은 이 가성대를 닫아서 내는 소리이며 성구 전환을 돕기도 한다고 설명한다.',r:'2강 §4',l:'https://en.wikipedia.org/w/index.php?search=Vestibular+fold'},
+   {k:'가성',hj:'假聲 · falsetto',d:'진성(보통의 소리)과 구별되는 얇고 가벼운 소리. 강의에서는 고음에서 가성으로 넘어갈 듯한 느낌은 당연하고 좋은 것이며 피하면 안 된다고 한다.',r:'2강 §3·§4',q:'가성'},
+   {k:'두성',hj:'頭聲 · head voice',d:'음이 높아질 때 머리 쪽으로 울리는 소리. 강의에서는 일부러 쓸 수 없고, 고음에서 유속이 빨라지며 자동으로 생기는 ‘보조 스피커’라고 설명한다.',r:'1강 §6',l:'https://en.wikipedia.org/w/index.php?search=Head+voice'},
+   {k:'허밍',hj:'humming',d:'입을 다문 채 코로 울리게 내는 소리. 강의에서는 허밍할 때 혀가 입천장에 붙어 연구개를 같이 당겨 주어 연구개가 가장 많이 올라간다고 설명한다.',r:'2강 §2·§3',q:'허밍'},
+   {k:'공명',hj:'共鳴 · resonance',d:'소리가 관(통로)에서 울려 커지고 멀리 가는 현상. 강의에서는 큰 소리는 바람이 아니라 관(공명 통로)의 세팅에서 나온다고 강조한다.',r:'1강 §5, 2강 §5',q:'공명'},
+   {k:'블렌딩',hj:'blending',d:'합창에서 누구 소리인지 모르게 하나로 섞이는 것. 강의에서는 합창의 필수 기술이며, 공명 위치의 소리는 블렌딩이 잘 된다고 한다.',r:'2강 §5, 3강 §7',q:'블렌딩 합창'},
+   {k:'피치',hj:'pitch',d:'음의 높낮이, 곧 음정. 강의에서는 합창 화음의 핵심이며, 피치가 낮아지는 것은 위 공간(연구개)이 낮기 때문이라고 설명한다.',r:'1강 §2, 3강 §1',q:'음높이'},
+   {k:'설소대',hj:'舌小帶 · frenulum',d:'혀 아래쪽 중앙에 있는 줄 모양의 조직. 강의에서는 설소대가 길면 노래하기 어려울 수 있으나 전공할 게 아니면 시술까지는 필요 없고 혀 릴렉스에 신경 쓰면 된다고 안내한다.',r:'3강 §4',q:'설소대'},
+   {k:'테누토',hj:'tenuto',d:'악보의 표현 기호로, 음을 충분히 길이를 살려 지속시키라는 뜻. 강의에서는 강조(테누토·악센트)를 눌러서 하지 말고 더 위로 띄워서 하라고 교정한다.',r:'3강 §6',q:'테누토'},
+   {k:'크랙',hj:'crack',d:'소리가 갑자기 뒤집히는 현상. 강의에서는 공간은 작은데 바람(압)만 센 것이 원인이며, 연구개 들기 + 후두 고정으로 해결한다고 설명한다.',r:'3강 §2·§5'},
+   {k:'생소리',hj:'',d:'만들거나 누르지 않고 내가 가진 소리 그대로 편하게 내는 소리. 단, 후두가 낮아진 상태의 생소리이며 듣기에는 생소리처럼 안 들릴 수 있다고 한다.',r:'1강 §6·§7'},
+   {k:'유속',hj:'공기의 속도',d:'공기가 흐르는 속도. 강의에서는 고음에서 유속이 빨라지며 두성이 자동으로 생기고, 호스 끝을 살짝 잡으면 물이 세게 나가는 원리와 같다고 비유한다.',r:'1강 §6, 2강 §5',q:'유속'},
+   {k:'소리의 길',hj:'기도(氣道)',d:'성대에서 입·코까지 이어지는 통로. 숨이 들어오는 길(코→뒤쪽 연구개)이 곧 소리가 나가는 길이며, 숨 쉴 때 이미 이 길을 열어 두는 것이 핵심이다.',r:'1강 §2, 3강 §2'},
+   {k:'포지션',hj:'position',d:'소리가 놓이는 위치감. 강의에서는 포지션은 위, 호흡과 후두는 아래에 둔다고 하며, 소리 크기보다 포지션을 위로 보내는 것이 중요하다고 한다.',r:'2강 §5, 3강 §3'},
+   {k:'프레이즈',hj:'phrase',d:'음악에서 하나의 의미 단위를 이루는 악구(구절). 강의에서는 길이 틀어지면 한 프레이즈 쉬고 숨부터 다시 세팅하라고 안내한다.',r:'3강 §2·§6',q:'악구'},
+   {k:'어택',hj:'attack',d:'음을 시작할 때 치듯이 내는 첫 소리. 강의에서는 어택 없이 연구개로 싹 올리고 끊지 않고 이어서 부르라고 교정한다.',r:'3강 §6'}
+  ];
+  var MAP={},PAT=[];
+  G.forEach(function(g){
+    g.l=g.l||(W+encodeURIComponent(g.q||g.k));
+    MAP[g.k]=g; PAT.push(g.k);
+    (g.a||[]).forEach(function(x){MAP[x]=g;PAT.push(x);});
+  });
+  PAT.sort(function(a,b){return b.length-a.length;});
+  var RX=new RegExp('('+PAT.map(function(s){return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');}).join('|')+')','g');
+
+  function textNodes(root,skip){
+    var out=[],w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:function(n){
+      var p=n.parentNode; if(!n.nodeValue.trim())return NodeFilter.FILTER_REJECT;
+      while(p&&p!==root){ if(p.nodeType===1&&(p.classList.contains('term')||p.tagName==='MARK'||p.tagName==='SVG'||p.tagName==='svg'||p.tagName==='H3'||p.tagName==='H2'||p.classList.contains('lec-head')||p.tagName==='SMALL'||p.classList.contains('term-src')))return NodeFilter.FILTER_REJECT; p=p.parentNode;}
+      return NodeFilter.FILTER_ACCEPT;}});
+    var n; while((n=w.nextNode()))out.push(n); return out;
+  }
+  function linkTerms(scope){
+    /* 섹션마다 같은 용어는 처음 한 번만 밑줄 처리해 가독성 유지 */
+    var secs=scope.querySelectorAll('.sec');
+    secs.forEach(function(sec){
+      var seen={};
+      textNodes(sec).forEach(function(n){
+        var t=n.nodeValue; RX.lastIndex=0; if(!RX.test(t))return; RX.lastIndex=0;
+        var frag=document.createDocumentFragment(),last=0,m;
+        while((m=RX.exec(t))){
+          var key=MAP[m[1]].k;
+          if(seen[key])continue; seen[key]=1;
+          if(m.index>last)frag.appendChild(document.createTextNode(t.slice(last,m.index)));
+          var s=document.createElement('span'); s.className='term'; s.setAttribute('data-k',key); s.setAttribute('role','button'); s.tabIndex=0; s.textContent=m[1]; frag.appendChild(s); last=m.index+m[1].length;
+        }
+        if(last===0)return;
+        if(last<t.length)frag.appendChild(document.createTextNode(t.slice(last)));
+        n.parentNode.replaceChild(frag,n);
+      });
+    });
+  }
+  /* 메인 요약의 ‘단전’ 표기 자리 */
+  document.querySelectorAll('.term-src').forEach(function(e){e.classList.remove('term-src');});
+
+  /* ---------- 팝업 ---------- */
+  var pop=document.getElementById('pop');
+  function openPop(key){
+    var g=MAP[key]; if(!g)return;
+    document.getElementById('pt').textContent=g.k;
+    document.getElementById('ph').textContent=g.hj||'';
+    document.getElementById('pd').textContent=g.d;
+    document.getElementById('pl').textContent='강의 근거 : '+g.r;
+    var a=document.getElementById('pk'); a.href=g.l;
+    pop.classList.add('on');
+  }
+  function closePop(){pop.classList.remove('on');}
+  document.addEventListener('click',function(e){
+    var t=e.target.closest&&e.target.closest('.term');
+    if(t){openPop(t.getAttribute('data-k'));return;}
+    if(e.target===pop||e.target.id==='pcl')closePop();
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape')closePop();
+    if((e.key==='Enter'||e.key===' ')&&e.target.classList&&e.target.classList.contains('term')){e.preventDefault();openPop(e.target.getAttribute('data-k'));}
+  });
+
+  /* ---------- 라우팅 ---------- */
+  var main=document.getElementById('mainpage');
+  var pendingFlash=null;
+  function go(h){
+    try{history.pushState(null,'','#/'+h);}catch(e){try{location.hash='#/'+h;}catch(e2){}}
+    route(h);
+  }
+  document.addEventListener('click',function(e){
+    var a=e.target.closest&&e.target.closest('a[href^="#/"]');
+    if(!a)return; e.preventDefault(); go(a.getAttribute('href').replace('#/',''));
+  });
+  window.addEventListener('popstate',function(){route();});
+  function route(h){
+    if(typeof h!=='string')h=(location.hash||'#/').replace('#/','');
+    if(['1','2','3'].indexOf(h)<0)h='';
+    main.style.display=h===''?'block':'none';
+    document.body.classList.toggle('onmain',h==='');
+    ['1','2','3'].forEach(function(n){
+      document.getElementById('bg'+n).style.display=(h===n)?'block':'none';
+      document.getElementById('lec'+n).style.display=(h===n)?'block':'none';
+    });
+    document.querySelectorAll('.nbtn[data-r]').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-r')===h);});
+    document.title=(h?h+'강 · ':'')+'시온찬양대 하모니클래스 2026';
+    clearMarks();
+    if(pendingFlash&&pendingFlash.lec===h){
+      var el=document.querySelector('[data-sid="'+pendingFlash.sid+'"]');
+      if(el){ markIn(el,pendingFlash.q); setTimeout(function(){el.scrollIntoView({behavior:'smooth',block:'center'});},60);}
+      pendingFlash=null;
+    } else window.scrollTo(0,0);
+  }
+  window.addEventListener('hashchange',route);
+
+  /* ---------- 검색 ---------- */
+  var IDX=[];
+  function ownText(el){var c=el.cloneNode(true);c.querySelectorAll('ul,ol').forEach(function(x){x.remove();});return c.textContent.replace(/\s+/g,' ').trim();}
+  function buildIndex(){
+    var sid=0;
+    document.querySelectorAll('.lec').forEach(function(L){
+      var lec=L.getAttribute('data-lec'),label=L.getAttribute('data-label');
+      L.querySelectorAll('.sec').forEach(function(S){
+        var h=S.querySelector(':scope>h3'); var title=h?h.textContent.replace(/\s+/g,' ').trim():'';
+        S.querySelectorAll('li,td,th,p,h4,.v,.s,.banner').forEach(function(el){
+          if(el.closest('.chk')&&el.tagName!=='LI')return;
+          var t=ownText(el); if(t.length<2)return;
+          el.setAttribute('data-sid',++sid);
+          IDX.push({sid:sid,lec:lec,label:label,sec:title,text:t});
+        });
+      });
+      L.querySelectorAll('.keybox .tx').forEach(function(el){
+        var t=ownText(el); el.setAttribute('data-sid',++sid);
+        IDX.push({sid:sid,lec:lec,label:label,sec:'오늘의 핵심',text:t});
+      });
+    });
+  }
+  function esc(s){return s.replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function hlHtml(text,q){
+    var i=text.toLowerCase().indexOf(q.toLowerCase());
+    var s=Math.max(0,i-26),e=Math.min(text.length,i+q.length+60);
+    var seg=text.slice(s,e);
+    var re=new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi');
+    return (s>0?'…':'')+esc(seg).replace(new RegExp(esc(q).replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi'),function(m){return '<mark>'+m+'</mark>';})+(e<text.length?'…':'');
+  }
+  var box=document.getElementById('q'),res=document.getElementById('results');
+  function doSearch(){
+    var q=box.value.trim(); res.innerHTML='';
+    if(q.length<1)return;
+    var hits=IDX.filter(function(x){return x.text.toLowerCase().indexOf(q.toLowerCase())>=0;});
+    if(!hits.length){res.innerHTML='<div class="nores">‘'+esc(q)+'’에 대한 검색 결과가 없습니다.</div>';return;}
+    var head=document.createElement('div');head.className='nores';head.textContent='검색 결과 '+hits.length+'건'+(hits.length>40?' (상위 40건 표시)':'');res.appendChild(head);
+    hits.slice(0,40).forEach(function(h){
+      var b=document.createElement('button');b.type='button';b.className='res';
+      b.innerHTML='<span class="tag">'+h.label+'</span><span class="sec">'+esc(h.sec)+'</span><span class="snip">'+hlHtml(h.text,q)+'</span>';
+      b.addEventListener('click',function(){pendingFlash={lec:h.lec,sid:h.sid,q:q};go(h.lec);});
+      res.appendChild(b);
+    });
+  }
+  var tmr;box.addEventListener('input',function(){clearTimeout(tmr);tmr=setTimeout(doSearch,120);});
+  document.getElementById('qx').addEventListener('click',function(){box.value='';res.innerHTML='';box.focus();});
+
+  function clearMarks(){
+    document.querySelectorAll('.lec mark.hl').forEach(function(m){var p=m.parentNode;p.replaceChild(document.createTextNode(m.textContent),m);p.normalize();});
+  }
+  function markIn(el,q){
+    var low=q.toLowerCase();
+    textNodes(el).concat(Array.prototype.slice.call(el.querySelectorAll('.term')).map(function(t){return t.firstChild;}).filter(Boolean)).forEach(function(n){
+      var t=n.nodeValue,i=t.toLowerCase().indexOf(low); if(i<0)return;
+      var frag=document.createDocumentFragment(),last=0;
+      while(i>=0){
+        if(i>last)frag.appendChild(document.createTextNode(t.slice(last,i)));
+        var m=document.createElement('mark');m.className='hl';m.textContent=t.slice(i,i+q.length);frag.appendChild(m);
+        last=i+q.length;i=t.toLowerCase().indexOf(low,last);
+      }
+      frag.appendChild(document.createTextNode(t.slice(last)));
+      n.parentNode.replaceChild(frag,n);
+    });
+  }
+
+  /* ---------- 시작 ---------- */
+  document.querySelectorAll('.lec').forEach(function(L){linkTerms(L);});
+  /* 메인 요약 본문에도 용어 밑줄 적용 */
+  linkTerms(document.querySelector('#mainpage .wrap'));
+  buildIndex();
+  route();
+})();
+</script>
+</body>
+</html>
