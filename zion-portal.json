@@ -1,6 +1,6 @@
 {
  "v": 1,
- "updated": "2026-10-31T23:45:45.308Z",
+ "updated": "2026-10-31T23:48:15.446Z",
  "hero": {
   "eyebrow": "NAMSEOUL GRACE CHURCH",
   "ko": "시온찬양대 포털",
@@ -72,7 +72,7 @@
      "id": "imvx1u9brpl",
      "title": "2026 하모니 클래스(남자)",
      "desc": "9~10월중 진행한 하모니클래스 남자파트 강의요약입니다. (강사 : 이재명 선생님)",
-     "url": "https://yangji-madang.github.io/nsgc/harmony_class.html#/2",
+     "url": "https://yangji-madang.github.io/nsgc/harmony_class.html",
      "icon": "music"
     }
    ]
