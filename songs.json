@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-01T09:42:37.988Z",
+ "updated": "2026-11-01T10:19:58.861Z",
  "settings": {
   "title": "2026년 시온찬양대 찬양곡목",
   "subLabel": "2026년 주일 찬양보기",
@@ -760,47 +760,17 @@
     {
      "part": "All",
      "type": "youtube",
-     "url": "https://buly.kr/DaRNsDY"
+     "url": "https://youtu.be/j4SFer95MBw?si=I6JJG2laSwButu7j"
     },
     {
      "part": "Sop",
      "type": "youtube",
-     "url": "https://buly.kr/1x2LRl"
-    },
-    {
-     "part": "Alt",
-     "type": "youtube",
-     "url": "https://buly.kr/B7cm8pr"
-    },
-    {
-     "part": "Ten",
-     "type": "youtube",
-     "url": "https://buly.kr/NmYJ69"
-    },
-    {
-     "part": "Bas",
-     "type": "youtube",
-     "url": "https://buly.kr/1y1N8Sz"
+     "url": "https://youtu.be/ae23r_22SC4?si=RXEFRHHWCB_Rwwp7"
     },
     {
      "part": "Sop",
      "type": "mp3",
      "url": "https://buly.kr/CB7K2ur"
-    },
-    {
-     "part": "Alt",
-     "type": "mp3",
-     "url": "https://buly.kr/D3h6wwc"
-    },
-    {
-     "part": "Ten",
-     "type": "mp3",
-     "url": "https://buly.kr/EzlZpxV"
-    },
-    {
-     "part": "Bas",
-     "type": "mp3",
-     "url": "https://buly.kr/6Xp4en8"
     },
     {
      "part": "Sop",
@@ -809,8 +779,28 @@
     },
     {
      "part": "Alt",
+     "type": "youtube",
+     "url": "https://youtu.be/xvaYlZNt5UE?si=vGnzGNl-Qioce9bl"
+    },
+    {
+     "part": "Alt",
+     "type": "mp3",
+     "url": "https://buly.kr/D3h6wwc"
+    },
+    {
+     "part": "Alt",
      "type": "mp4",
      "url": "https://naver.me/5kPMntBE"
+    },
+    {
+     "part": "Ten",
+     "type": "youtube",
+     "url": "https://youtu.be/1kGSsq1R6Mc?si=2Hg3sDKBOHtrWnC8"
+    },
+    {
+     "part": "Ten",
+     "type": "mp3",
+     "url": "https://buly.kr/EzlZpxV"
     },
     {
      "part": "Ten",
@@ -819,10 +809,21 @@
     },
     {
      "part": "Bas",
+     "type": "youtube",
+     "url": "https://youtu.be/43kZFnPqKPE?si=8o0svI8md7-eeY-F"
+    },
+    {
+     "part": "Bas",
+     "type": "mp3",
+     "url": "https://buly.kr/6Xp4en8"
+    },
+    {
+     "part": "Bas",
      "type": "mp4",
      "url": "https://naver.me/F93yXkHd"
     }
-   ]
+   ],
+   "manual": true
   },
   {
    "date": "2026-10-18",
@@ -1115,6 +1116,7 @@
      "url": "https://naver.me/xIFCpyt3"
     }
    ],
+   "note": "온누리교회의 합창 보기 https://www.youtube.com/watch?v=T6mUZK1OItw",
    "manual": true
   },
   {
