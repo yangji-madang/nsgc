@@ -137,6 +137,10 @@
   .title{font-size:15.5px; font-weight:700; line-height:1.3; margin:0; flex:1 1 auto; min-width:0; overflow-wrap:anywhere;}
   .meta{flex:none; font-size:15px; font-weight:600; color:var(--meta-ink); white-space:nowrap;}
 
+  .song-refs{display:flex; flex-wrap:wrap; align-items:baseline; gap:2px 8px; margin:-3px 0 7px; font-size:13px; line-height:1.4;}
+  .song-refs .ref-label{font-weight:800; color:var(--ink-soft);}
+  .song-refs a{color:var(--hl-ink); font-weight:700; text-decoration:underline; text-underline-offset:2px;}
+  .song-refs a::before{content:"▶ "; font-size:10px; text-decoration:none; display:inline-block; margin-right:2px;}
   .song-note{margin:-3px 0 7px; font-size:13px; font-weight:700; color:var(--season-ink); white-space:pre-line; line-height:1.45;}
   .part-note{font-size:13px; font-weight:700; color:var(--ink-soft); padding:5px 0;}
   .linklist{display:flex; flex-direction:column; gap:4px;}
@@ -2052,6 +2056,17 @@ function startApp(){
       if(metaText){ var me = document.createElement('span'); me.className = 'meta'; me.textContent = metaText; top.appendChild(me); }
       card.appendChild(top);
       if(song.note){ var nt = document.createElement('p'); nt.className = 'song-note'; nt.textContent = song.note; card.appendChild(nt); }
+      // 참고 영상: 파트와 무관하게, 표시 글자에 링크를 건 형태
+      var refs = (song.refs || []).filter(function(r){ return r && r.url; });
+      if(refs.length){
+        var rf = document.createElement('div'); rf.className = 'song-refs';
+        var rl = document.createElement('span'); rl.className = 'ref-label'; rl.textContent = '참고영상'; rf.appendChild(rl);
+        refs.forEach(function(r){
+          var a = document.createElement('a'); a.href = r.url; a.target = '_blank'; a.rel = 'noopener noreferrer';
+          a.textContent = r.label || '영상 보기'; rf.appendChild(a);
+        });
+        card.appendChild(rf);
+      }
 
       var ll = document.createElement('div'); ll.className = 'linklist';
 

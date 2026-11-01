@@ -93,6 +93,9 @@ tr.next td.date::after{content:" 이번 주일";font-size:11px;background:#ffff0
 .lt input.dup{border-color:var(--bad);background:var(--bad-bg)}
 .lt input.badurl{border-color:var(--warn);background:var(--warn-bg)}
 .ex{display:grid;grid-template-columns:90px 120px 1fr 1.6fr 30px;gap:5px;margin-bottom:4px;align-items:center}
+.rf{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr) 30px;gap:5px;margin-bottom:4px;align-items:center}
+.rf input{border:1px solid var(--line-strong);border-radius:7px;padding:4px 8px;min-width:0;width:100%;background:#fff;font-size:13px}
+.rf input.badurl{border-color:var(--warn);background:var(--warn-bg)}
 .dlg-foot{display:flex;gap:8px;justify-content:flex-end;margin-top:14px;flex-wrap:wrap}
 .dlg-foot .left{margin-right:auto}
 .hint{font-size:12px;color:var(--ink-faint)}
@@ -269,6 +272,12 @@ tr.next td.date::after{content:" 이번 주일";font-size:11px;background:#ffff0
       <p class="hint" id="keepInfo" hidden></p>
     </div>
 
+    <div class="sec">
+      <h3>참고 영상 <small>파트와 무관하게 이 날짜에 함께 볼 영상 · 보기 페이지에는 표시 글자에 링크가 걸립니다</small><button class="btn small" id="rfAdd" type="button" style="margin-left:auto">+ 추가</button></h3>
+      <div class="rf hint" style="margin-bottom:2px"><span>표시 글자</span><span>링크 URL</span><span></span></div>
+      <div id="rfList"></div>
+    </div>
+
     <p class="err" id="dlgErr" hidden></p>
     <div class="dlg-foot">
       <button class="btn danger left" id="dlgDel" type="button">이 곡 삭제</button>
@@ -343,6 +352,7 @@ function runChecks(songs){
       else seen[l.url]=lab;
       (byUrl[l.url]=byUrl[l.url]||[]).push({s,lab});
     });
+    (s.refs||[]).forEach(r=>{ if(!/^https?:\/\/\S+\.\S+/.test(r.url||'')) issues.push({date:s.date,level:'bad',msg:`주소 형식 오류 · 참고영상 「${r.label||''}」: ${r.url||'(빈 값)'}`}); });
     const sp=split(s);
     if(!sp.fullUrl){
       PARTS.forEach(([p])=>{
@@ -396,7 +406,7 @@ function renderList(){
     tr.innerHTML=`<td class="date">${md2(s.date)}${s.season?` <span class="season">(${esc(s.season)})</span>`:''}</td>
       <td class="title">${esc(s.title)}${s.note?`<span class="note">${esc(s.note).replace(/\n/g,'<br>')}</span>`:''}</td>
       <td class="book">${esc(s.book)}${s.page?' · p.'+esc(s.page):''}</td>
-      <td class="dotscol"><span class="dots">${dots}</span>${sp.ex.length?` <span class="badge info">+${sp.ex.length}</span>`:''}${sp.msV||sp.msA?' <span class="badge info">메시아</span>':''}</td>
+      <td class="dotscol"><span class="dots">${dots}</span>${sp.ex.length?` <span class="badge info">+${sp.ex.length}</span>`:''}${sp.msV||sp.msA?' <span class="badge info">메시아</span>':''}${(s.refs||[]).length?` <span class="badge info">참고 ${s.refs.length}</span>`:''}</td>
       <td>${st}${s.manual?' <span class="badge info" title="관리페이지에서 직접 수정한 곡 — 엑셀 올리기 때 기본 제외">직접수정</span>':''}</td>
       <td class="act"><button class="btn small" data-a="edit" data-i="${i}">편집</button> <button class="btn small copy" data-a="copy" data-i="${i}">복사</button></td>`;
     tb.appendChild(tr);
@@ -428,6 +438,15 @@ function renderChecks(){
 
 /* ---------- 편집 창 ---------- */
 let editing=null, isNew=false;
+function rfRow(r){
+  const d=document.createElement('div'); d.className='rf';
+  d.innerHTML=`<input class="l" placeholder="예: 2024 성가대 실황"><input class="u" placeholder="https://"><button class="btn small danger" type="button" title="삭제">×</button>`;
+  d.querySelector('.l').value=r.label||''; d.querySelector('.u').value=r.url||'';
+  const u=d.querySelector('.u'); const mark=()=>u.classList.toggle('badurl',!!u.value.trim()&&!/^https?:\/\//.test(u.value.trim()));
+  u.addEventListener('input',mark); mark();
+  d.querySelector('button').onclick=()=>d.remove();
+  $('#rfList').appendChild(d); return d;
+}
 function openDlg(song,asNew){
   editing=song; isNew=!!asNew||!DATA.songs.includes(song);
   $('#dlgTitle').textContent=isNew?'새 곡 추가':`${md(song.date)} 곡 편집`;
@@ -445,6 +464,7 @@ function openDlg(song,asNew){
   Object.entries(pn).forEach(([p,v])=>keep.push(`${PN[p]} 안내문 「${v}」`));
   $('#keepInfo').hidden=!keep.length;
   $('#keepInfo').textContent=keep.length?'그대로 유지되는 특수 항목: '+keep.join(' / '):'';
+  $('#rfList').innerHTML=''; (song.refs||[]).forEach(rfRow);
   $('#dlgDel').hidden=isNew; $('#dlgErr').hidden=true;
   $('#dlg').hidden=false; markGrid(); setTimeout(()=>(isNew?$('#fDate'):$('#fTitle')).focus(),30);
 }
@@ -454,6 +474,7 @@ function markGrid(){
   ins.forEach(i=>{const v=i.value.trim(); i.classList.toggle('dup',!!v&&cnt[v]>1); i.classList.toggle('badurl',!!v&&!/^https?:\/\//.test(v));});
 }
 $('#lt').addEventListener('input',markGrid);
+$('#rfAdd').onclick=()=>rfRow({label:'',url:''}).querySelector('.l').focus();
 function closeDlg(){$('#dlg').hidden=true;editing=null;}
 $('#dlgCancel').onclick=closeDlg;
 $('#dlg').addEventListener('click',e=>{if(e.target.id==='dlg')closeDlg();});
@@ -476,6 +497,11 @@ $('#dlgOk').onclick=()=>{
   const pn=clone(editing.partNotes||{});
   const s={date,season:$('#fSeason').value.trim(),book:$('#fBook').value.trim(),page:$('#fPage').value.trim(),title,links};
   const note=$('#fNote').value.replace(/\s+$/,''); if(note) s.note=note;
+  const refs=[]; let refErr='';
+  $$('#rfList .rf').forEach(r=>{const l=r.querySelector('.l').value.trim(), u=r.querySelector('.u').value.trim();
+    if(!l&&!u) return; if(!u){refErr=`참고 영상 「${l}」의 링크 URL을 넣어 주세요.`;return;} refs.push({label:l||'영상 보기',url:u});});
+  if(refErr) return err(refErr);
+  if(refs.length) s.refs=refs;
   if(Object.keys(pn).length) s.partNotes=pn;
   s.manual=true;
   if(isNew) DATA.songs.push(s); else Object.keys(editing).forEach(k=>delete editing[k]), Object.assign(editing,s);
@@ -530,6 +556,7 @@ function parseWorkbook(buf){
 function mergeExcel(oldS,xs){ // 관리페이지에서만 넣은 항목(추가 버튼·안내문)은 유지
   const s=clone(xs); if(!oldS) return s;
   const pn=oldS.partNotes||{};
+  if(oldS.refs&&oldS.refs.length) s.refs=clone(oldS.refs);
   if(Object.keys(pn).length){ s.partNotes=clone(pn); s.links=s.links.filter(l=>!pn[l.part]); }
   (oldS.links||[]).forEach(l=>{ if(l.name&&PN[l.part]&&!s.links.some(x=>x.url===l.url)) s.links.push(clone(l)); });
   return s;
