@@ -1,6 +1,6 @@
 {
  "v": 1,
- "updated": "2026-11-01T10:48:51.127Z",
+ "updated": "2026-11-01T10:51:21.488Z",
  "bookOrder": [
   "시온2",
   "시온3",
@@ -725,7 +725,8 @@
     },
     {
      "d": "2024-11-24",
-     "url": "https://www.youtube.com/watch?v=R2SzGw1mCdQ"
+     "url": "https://www.youtube.com/watch?v=R2SzGw1mCdQ",
+     "book": "시온6"
     },
     {
      "d": "2025-06-08",
