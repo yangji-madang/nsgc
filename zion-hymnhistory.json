@@ -1,6 +1,6 @@
 {
  "v": 1,
- "updated": "2026-11-01T10:51:28.078Z",
+ "updated": "2026-11-01T11:00:57.104Z",
  "bookOrder": [
   "시온2",
   "시온3",
@@ -378,7 +378,7 @@
   {
    "id": "s021",
    "book": "시온3",
-   "title": "시편23편",
+   "title": "시편23편(최덕신 곡)",
    "composer": "최덕신",
    "page": 51,
    "chk": false,
@@ -397,7 +397,8 @@
     },
     {
      "d": "2024-10-20",
-     "url": "https://www.youtube.com/watch?v=XY0GRyrmhMw"
+     "url": "https://www.youtube.com/watch?v=XY0GRyrmhMw",
+     "book": "시온6"
     },
     {
      "d": "2025-08-17",
@@ -1026,8 +1027,8 @@
   {
    "id": "s048",
    "book": "시온6",
-   "title": "시편 23",
-   "composer": "",
+   "title": "시편 23(노용진 곡)",
+   "composer": "노용진",
    "page": 32,
    "chk": false,
    "dates": []
