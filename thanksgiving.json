@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-25T05:41:06.307Z",
+ "updated": "2026-11-01T09:47:28.650Z",
  "settings": {
   "title": "2026년 시온찬양대 추수감사주일 찬양",
   "scheduleTitle": "연습일정",
@@ -40,47 +40,17 @@
     {
      "part": "All",
      "type": "youtube",
-     "url": "https://buly.kr/GP5bVgC"
+     "url": "https://youtu.be/yW7oT9lBHwI?si=CsBuGR-SU7Cl1jTL"
     },
     {
      "part": "Sop",
      "type": "youtube",
-     "url": "https://buly.kr/HHfOQ1r"
-    },
-    {
-     "part": "Alt",
-     "type": "youtube",
-     "url": "https://buly.kr/Gkv7TY5"
-    },
-    {
-     "part": "Ten",
-     "type": "youtube",
-     "url": "https://buly.kr/883zPdN"
-    },
-    {
-     "part": "Bas",
-     "type": "youtube",
-     "url": "https://buly.kr/1RHC8WI"
+     "url": "https://youtu.be/DvBXnAO7Aag?si=8R-QRaKmTAqEFsVQ"
     },
     {
      "part": "Sop",
      "type": "mp3",
      "url": "https://naver.me/FiPXhsd3"
-    },
-    {
-     "part": "Alt",
-     "type": "mp3",
-     "url": "https://naver.me/5RAxZqSf"
-    },
-    {
-     "part": "Ten",
-     "type": "mp3",
-     "url": "https://naver.me/5fduDyIJ"
-    },
-    {
-     "part": "Bas",
-     "type": "mp3",
-     "url": "https://naver.me/56XkwFxv"
     },
     {
      "part": "Sop",
@@ -89,13 +59,43 @@
     },
     {
      "part": "Alt",
+     "type": "youtube",
+     "url": "https://youtu.be/HqPSE3niQdY?si=Yb5-IBoKj9LyiovI"
+    },
+    {
+     "part": "Alt",
+     "type": "mp3",
+     "url": "https://naver.me/5RAxZqSf"
+    },
+    {
+     "part": "Alt",
      "type": "mp4",
      "url": "https://naver.me/FjmRpHxN"
     },
     {
      "part": "Ten",
+     "type": "youtube",
+     "url": "https://youtu.be/XbDp-tf3Dlw?si=dq2iXZmXjtSO6SZ6"
+    },
+    {
+     "part": "Ten",
+     "type": "mp3",
+     "url": "https://naver.me/5fduDyIJ"
+    },
+    {
+     "part": "Ten",
      "type": "mp4",
      "url": "https://naver.me/GXFbdlzC"
+    },
+    {
+     "part": "Bas",
+     "type": "youtube",
+     "url": "https://youtu.be/VpVP8zCA3h0?si=6syyYm63U4aR3yux"
+    },
+    {
+     "part": "Bas",
+     "type": "mp3",
+     "url": "https://naver.me/56XkwFxv"
     },
     {
      "part": "Bas",
