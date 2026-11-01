@@ -1,6 +1,6 @@
 {
  "v": 1,
- "updated": "2026-11-01T11:00:57.104Z",
+ "updated": "2026-11-01T11:05:35.827Z",
  "bookOrder": [
   "시온2",
   "시온3",
@@ -396,11 +396,6 @@
      "url": "https://www.youtube.com/watch?v=T5O0h-4TEwg"
     },
     {
-     "d": "2024-10-20",
-     "url": "https://www.youtube.com/watch?v=XY0GRyrmhMw",
-     "book": "시온6"
-    },
-    {
      "d": "2025-08-17",
      "url": "https://www.youtube.com/watch?v=fYaGgkbxlX4"
     },
@@ -726,8 +721,7 @@
     },
     {
      "d": "2024-11-24",
-     "url": "https://www.youtube.com/watch?v=R2SzGw1mCdQ",
-     "book": "시온6"
+     "url": "https://www.youtube.com/watch?v=R2SzGw1mCdQ"
     },
     {
      "d": "2025-06-08",
@@ -1031,7 +1025,12 @@
    "composer": "노용진",
    "page": 32,
    "chk": false,
-   "dates": []
+   "dates": [
+    {
+     "d": "2024-10-21",
+     "url": "https://www.youtube.com/watch?v=XY0GRyrmhMw"
+    }
+   ]
   },
   {
    "id": "s049",
