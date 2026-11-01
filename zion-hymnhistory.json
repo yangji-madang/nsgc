@@ -1,6 +1,6 @@
 {
  "v": 1,
- "updated": "2026-11-01T11:17:59.322Z",
+ "updated": "2026-11-01T11:19:20.692Z",
  "bookOrder": [
   "시온2",
   "시온3",
@@ -1338,16 +1338,7 @@
    "composer": "신상우",
    "page": 27,
    "chk": false,
-   "dates": [
-    {
-     "d": "2021-01-24",
-     "url": "https://www.youtube.com/watch?v=ifPf-ksBKFU"
-    },
-    {
-     "d": "2026-06-21",
-     "url": "https://youtu.be/fLnni0-4X-0?si=MTROS27XUqQ_xyOQ"
-    }
-   ]
+   "dates": []
   },
   {
    "id": "s075",
@@ -2996,7 +2987,16 @@
    "composer": "Arr. 조성원",
    "page": 26,
    "chk": false,
-   "dates": []
+   "dates": [
+    {
+     "d": "2021-01-24",
+     "url": "https://www.youtube.com/watch?v=ifPf-ksBKFU"
+    },
+    {
+     "d": "2026-06-21",
+     "url": "https://youtu.be/fLnni0-4X-0?si=MTROS27XUqQ_xyOQ"
+    }
+   ]
   },
   {
    "id": "s213",
