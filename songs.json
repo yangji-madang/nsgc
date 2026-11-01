@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-01T10:35:48.961Z",
+ "updated": "2026-11-01T10:38:14.681Z",
  "settings": {
   "title": "2026년 시온찬양대 찬양곡목",
   "subLabel": "2026년 주일 찬양보기",
@@ -1554,52 +1554,21 @@
    "book": "시온3",
    "page": "117",
    "title": "천사의 합창",
-   "note": "* 가사 다름. 음성 없음",
    "links": [
     {
      "part": "All",
      "type": "youtube",
-     "url": "https://buly.kr/CWwy0QE"
+     "url": "https://www.youtube.com/watch?v=Y0gMKNnpMck"
     },
     {
      "part": "Sop",
      "type": "youtube",
-     "url": "https://buly.kr/7FUEZxy"
-    },
-    {
-     "part": "Alt",
-     "type": "youtube",
-     "url": "https://buly.kr/1xAMZZ"
-    },
-    {
-     "part": "Ten",
-     "type": "youtube",
-     "url": "https://buly.kr/5fFPkhE"
-    },
-    {
-     "part": "Bas",
-     "type": "youtube",
-     "url": "https://buly.kr/2fgX4qP"
+     "url": "https://www.youtube.com/watch?v=mfQZjKPNN6o"
     },
     {
      "part": "Sop",
      "type": "mp3",
      "url": "https://naver.me/xuFxgYom"
-    },
-    {
-     "part": "Alt",
-     "type": "mp3",
-     "url": "https://naver.me/xgXhbCt1"
-    },
-    {
-     "part": "Ten",
-     "type": "mp3",
-     "url": "https://naver.me/FHOdDTXN"
-    },
-    {
-     "part": "Bas",
-     "type": "mp3",
-     "url": "https://naver.me/5l2FPuXT"
     },
     {
      "part": "Sop",
@@ -1608,8 +1577,28 @@
     },
     {
      "part": "Alt",
+     "type": "youtube",
+     "url": "https://www.youtube.com/watch?v=cVxZzTY5qpI"
+    },
+    {
+     "part": "Alt",
+     "type": "mp3",
+     "url": "https://naver.me/xgXhbCt1"
+    },
+    {
+     "part": "Alt",
      "type": "mp4",
      "url": "https://naver.me/5jX4kPDG"
+    },
+    {
+     "part": "Ten",
+     "type": "youtube",
+     "url": "https://www.youtube.com/watch?v=71cuDVqQiV0"
+    },
+    {
+     "part": "Ten",
+     "type": "mp3",
+     "url": "https://naver.me/FHOdDTXN"
     },
     {
      "part": "Ten",
@@ -1618,10 +1607,22 @@
     },
     {
      "part": "Bas",
+     "type": "youtube",
+     "url": "https://www.youtube.com/watch?v=ebCugRW8ugA"
+    },
+    {
+     "part": "Bas",
+     "type": "mp3",
+     "url": "https://naver.me/5l2FPuXT"
+    },
+    {
+     "part": "Bas",
      "type": "mp4",
      "url": "https://naver.me/GP2n0aVR"
     }
-   ]
+   ],
+   "note": "* 가사 다름. 음성 없음",
+   "manual": true
   },
   {
    "date": "2026-12-31",
@@ -1638,42 +1639,12 @@
     {
      "part": "Sop",
      "type": "youtube",
-     "url": "https://buly.kr/90dU2DW"
-    },
-    {
-     "part": "Alt",
-     "type": "youtube",
-     "url": "https://buly.kr/3YFzcvz"
-    },
-    {
-     "part": "Ten",
-     "type": "youtube",
-     "url": "https://buly.kr/D3guazZ"
-    },
-    {
-     "part": "Bas",
-     "type": "youtube",
-     "url": "https://buly.kr/E7BSTtG"
+     "url": "https://www.youtube.com/watch?v=tis6BGIk7ng"
     },
     {
      "part": "Sop",
      "type": "mp3",
      "url": "https://naver.me/xrzKOkcx"
-    },
-    {
-     "part": "Alt",
-     "type": "mp3",
-     "url": "https://naver.me/5imCGki7"
-    },
-    {
-     "part": "Ten",
-     "type": "mp3",
-     "url": "https://naver.me/5DZ6TM5W"
-    },
-    {
-     "part": "Bas",
-     "type": "mp3",
-     "url": "https://naver.me/xk9bYlMu"
     },
     {
      "part": "Sop",
@@ -1682,8 +1653,28 @@
     },
     {
      "part": "Alt",
+     "type": "youtube",
+     "url": "https://www.youtube.com/watch?v=BGVUkBsMqzM"
+    },
+    {
+     "part": "Alt",
+     "type": "mp3",
+     "url": "https://naver.me/5imCGki7"
+    },
+    {
+     "part": "Alt",
      "type": "mp4",
      "url": "https://naver.me/F4Wm7bbq"
+    },
+    {
+     "part": "Ten",
+     "type": "youtube",
+     "url": "https://www.youtube.com/watch?v=Bw0or6G8NVY"
+    },
+    {
+     "part": "Ten",
+     "type": "mp3",
+     "url": "https://naver.me/5DZ6TM5W"
     },
     {
      "part": "Ten",
@@ -1692,10 +1683,21 @@
     },
     {
      "part": "Bas",
+     "type": "youtube",
+     "url": "https://www.youtube.com/watch?v=P7JL-V_Ox90"
+    },
+    {
+     "part": "Bas",
+     "type": "mp3",
+     "url": "https://naver.me/xk9bYlMu"
+    },
+    {
+     "part": "Bas",
      "type": "mp4",
      "url": "https://naver.me/x0O9vlfC"
     }
-   ]
+   ],
+   "manual": true
   }
  ]
 }
