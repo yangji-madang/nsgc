@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-01T10:24:04.710Z",
+ "updated": "2026-11-01T10:29:36.495Z",
  "settings": {
   "title": "2026년 시온찬양대 찬양곡목",
   "subLabel": "2026년 주일 찬양보기",
@@ -1143,47 +1143,17 @@
     {
      "part": "All",
      "type": "youtube",
-     "url": "https://buly.kr/6teibH9"
+     "url": "https://www.youtube.com/watch?si=z6UteEXhGoVy84li&v=GKbcVBu-Jow&feature=youtu.be"
     },
     {
      "part": "Sop",
      "type": "youtube",
-     "url": "https://buly.kr/2Jr1CVd"
-    },
-    {
-     "part": "Alt",
-     "type": "youtube",
-     "url": "https://buly.kr/15RiENn"
-    },
-    {
-     "part": "Ten",
-     "type": "youtube",
-     "url": "https://buly.kr/A48MG2x"
-    },
-    {
-     "part": "Bas",
-     "type": "youtube",
-     "url": "https://buly.kr/2Jr168r"
+     "url": "https://www.youtube.com/watch?si=TAhZpGLpjCsjRGCK&v=5iJcQlz6OIw&feature=youtu.be"
     },
     {
      "part": "Sop",
      "type": "mp3",
      "url": "https://naver.me/xll7dAFb"
-    },
-    {
-     "part": "Alt",
-     "type": "mp3",
-     "url": "https://naver.me/GlRHsdyu"
-    },
-    {
-     "part": "Ten",
-     "type": "mp3",
-     "url": "https://naver.me/GLhPILq3"
-    },
-    {
-     "part": "Bas",
-     "type": "mp3",
-     "url": "https://naver.me/5Ol6vZHb"
     },
     {
      "part": "Sop",
@@ -1192,8 +1162,28 @@
     },
     {
      "part": "Alt",
+     "type": "youtube",
+     "url": "https://www.youtube.com/watch?si=sQr93wyFnycXn_gB&v=Hfjq2QhmTow&feature=youtu.be"
+    },
+    {
+     "part": "Alt",
+     "type": "mp3",
+     "url": "https://naver.me/GlRHsdyu"
+    },
+    {
+     "part": "Alt",
      "type": "mp4",
      "url": "https://naver.me/G7N9zg1y"
+    },
+    {
+     "part": "Ten",
+     "type": "youtube",
+     "url": "https://www.youtube.com/watch?v=MFPDysiWIVE"
+    },
+    {
+     "part": "Ten",
+     "type": "mp3",
+     "url": "https://naver.me/GLhPILq3"
     },
     {
      "part": "Ten",
@@ -1202,10 +1192,21 @@
     },
     {
      "part": "Bas",
+     "type": "youtube",
+     "url": "youtube.com/watch?si=fceQ1EElUCayd12w&v=NAtU31b6yfs&feature=youtu.be"
+    },
+    {
+     "part": "Bas",
+     "type": "mp3",
+     "url": "https://naver.me/5Ol6vZHb"
+    },
+    {
+     "part": "Bas",
      "type": "mp4",
      "url": "https://naver.me/FNtgKdx2"
     }
-   ]
+   ],
+   "manual": true
   },
   {
    "date": "2026-11-29",
