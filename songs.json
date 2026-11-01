@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-22T11:29:14.853Z",
+ "updated": "2026-11-01T09:42:37.988Z",
  "settings": {
   "title": "2026년 시온찬양대 찬양곡목",
   "subLabel": "2026년 주일 찬양보기",
@@ -24,42 +24,12 @@
     {
      "part": "Sop",
      "type": "youtube",
-     "url": "https://buly.kr/HSZmqPz"
-    },
-    {
-     "part": "Alt",
-     "type": "youtube",
-     "url": "https://buly.kr/G3Fizta"
-    },
-    {
-     "part": "Ten",
-     "type": "youtube",
-     "url": "https://buly.kr/5JPVA8N"
-    },
-    {
-     "part": "Bas",
-     "type": "youtube",
-     "url": "https://buly.kr/CWwZNaQ"
+     "url": "https://youtu.be/n1lO8b_SzaU?si=q_6prpO35dGKt10L"
     },
     {
      "part": "Sop",
      "type": "mp3",
      "url": "https://naver.me/G9U0viNW"
-    },
-    {
-     "part": "Alt",
-     "type": "mp3",
-     "url": "https://naver.me/GWWzUWlA"
-    },
-    {
-     "part": "Ten",
-     "type": "mp3",
-     "url": "https://naver.me/50Blz00z"
-    },
-    {
-     "part": "Bas",
-     "type": "mp3",
-     "url": "https://naver.me/5GcmZw7D"
     },
     {
      "part": "Sop",
@@ -68,8 +38,28 @@
     },
     {
      "part": "Alt",
+     "type": "youtube",
+     "url": "https://youtu.be/D4AhsV9QkdY?si=UUkqW9_-ANFYuJmZ"
+    },
+    {
+     "part": "Alt",
+     "type": "mp3",
+     "url": "https://naver.me/GWWzUWlA"
+    },
+    {
+     "part": "Alt",
      "type": "mp4",
      "url": "https://naver.me/GB3TN3Y9"
+    },
+    {
+     "part": "Ten",
+     "type": "youtube",
+     "url": "https://youtu.be/v7nW-GHxH04?si=n4cSXLkAfiIgBaNh"
+    },
+    {
+     "part": "Ten",
+     "type": "mp3",
+     "url": "https://naver.me/50Blz00z"
     },
     {
      "part": "Ten",
@@ -78,10 +68,21 @@
     },
     {
      "part": "Bas",
+     "type": "youtube",
+     "url": "https://youtu.be/Afvvq4M-SDg?si=JbreWLJMupFTejZE"
+    },
+    {
+     "part": "Bas",
+     "type": "mp3",
+     "url": "https://naver.me/5GcmZw7D"
+    },
+    {
+     "part": "Bas",
      "type": "mp4",
      "url": "https://naver.me/FoXaht92"
     }
-   ]
+   ],
+   "manual": true
   },
   {
    "date": "2026-08-09",
@@ -1051,47 +1052,17 @@
     {
      "part": "All",
      "type": "youtube",
-     "url": "https://buly.kr/5fFPnnl"
+     "url": "https://youtu.be/9LMPERry-U4?si=viPmVxWuHNoNyfco"
     },
     {
      "part": "Sop",
      "type": "youtube",
-     "url": "https://buly.kr/9MTKOwL"
-    },
-    {
-     "part": "Alt",
-     "type": "youtube",
-     "url": "https://buly.kr/jcCKy8"
-    },
-    {
-     "part": "Ten",
-     "type": "youtube",
-     "url": "https://buly.kr/6BzgkGT"
-    },
-    {
-     "part": "Bas",
-     "type": "youtube",
-     "url": "https://buly.kr/APxsHqi"
+     "url": "https://youtu.be/bFTJe3aLDt0?si=wEgZ5D7zZODGsLw9"
     },
     {
      "part": "Sop",
      "type": "mp3",
      "url": "https://naver.me/GB3cuheE"
-    },
-    {
-     "part": "Alt",
-     "type": "mp3",
-     "url": "https://naver.me/5Xc40mOY"
-    },
-    {
-     "part": "Ten",
-     "type": "mp3",
-     "url": "https://naver.me/5suXPkk4"
-    },
-    {
-     "part": "Bas",
-     "type": "mp3",
-     "url": "https://naver.me/5DZdXfqp"
     },
     {
      "part": "Sop",
@@ -1100,8 +1071,28 @@
     },
     {
      "part": "Alt",
+     "type": "youtube",
+     "url": "https://youtu.be/KHp-Ou940ys?si=LFEzA1jsa8lJl0uz"
+    },
+    {
+     "part": "Alt",
+     "type": "mp3",
+     "url": "https://naver.me/5Xc40mOY"
+    },
+    {
+     "part": "Alt",
      "type": "mp4",
      "url": "https://naver.me/Fto21qRv"
+    },
+    {
+     "part": "Ten",
+     "type": "youtube",
+     "url": "https://youtu.be/GoSri6le8eM?si=llvBUx7ssaBbx2y0"
+    },
+    {
+     "part": "Ten",
+     "type": "mp3",
+     "url": "https://naver.me/5suXPkk4"
     },
     {
      "part": "Ten",
@@ -1110,10 +1101,21 @@
     },
     {
      "part": "Bas",
+     "type": "youtube",
+     "url": "https://youtu.be/DyCsIKzVObU?si=z-0UqP2qregZQiam"
+    },
+    {
+     "part": "Bas",
+     "type": "mp3",
+     "url": "https://naver.me/5DZdXfqp"
+    },
+    {
+     "part": "Bas",
      "type": "mp4",
      "url": "https://naver.me/xIFCpyt3"
     }
-   ]
+   ],
+   "manual": true
   },
   {
    "date": "2026-11-15",
