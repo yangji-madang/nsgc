@@ -1,6 +1,6 @@
 {
  "v": 1,
- "updated": "2026-11-01T11:35:08.086Z",
+ "updated": "2026-11-01T11:54:20.176Z",
  "bookOrder": [
   "시온2",
   "시온3",
@@ -686,8 +686,8 @@
   {
    "id": "s034",
    "book": "시온4",
-   "title": "주의 은혜라",
-   "composer": "",
+   "title": "주의 은혜라(손정민 곡)",
+   "composer": "손정민",
    "page": 33,
    "chk": false,
    "dates": [
@@ -704,16 +704,12 @@
      "url": "https://youtu.be/N68nC3W9N7c?si=9C0d_m36d-d8r17a"
     },
     {
-     "d": "2024-11-24",
-     "url": "https://www.youtube.com/watch?v=R2SzGw1mCdQ"
-    },
-    {
      "d": "2025-06-08",
      "url": "https://www.youtube.com/watch?v=MYrRjkN_6-g"
     },
     {
-     "d": "2025-09-14",
-     "url": "https://www.youtube.com/watch?v=tD1nBRZoZxQ"
+     "d": "2026-05-31",
+     "url": "https://youtu.be/HC75QQ0JFOE?si=zS5lgPEcD0bHHP95"
     }
    ]
   },
@@ -1025,7 +1021,7 @@
   {
    "id": "s048",
    "book": "시온6",
-   "title": "시편 23(노용진 곡)",
+   "title": "시편23편(노용진 곡)",
    "composer": "노용진",
    "page": 32,
    "chk": false,
@@ -1127,8 +1123,8 @@
   {
    "id": "s053",
    "book": "시온6",
-   "title": "주의 은혜라 (마리아의 노래)",
-   "composer": "",
+   "title": "주의 은혜라-마리아의 노래(이율구 곡)",
+   "composer": "이율구",
    "page": 77,
    "chk": false,
    "dates": [
@@ -1141,8 +1137,12 @@
      "url": "https://www.youtube.com/watch?v=nBshGLDTbkE"
     },
     {
-     "d": "2026-05-31",
-     "url": "https://youtu.be/HC75QQ0JFOE?si=zS5lgPEcD0bHHP95"
+     "d": "2024-11-24",
+     "url": "https://www.youtube.com/watch?v=R2SzGw1mCdQ"
+    },
+    {
+     "d": "2025-09-14",
+     "url": "https://www.youtube.com/watch?v=tD1nBRZoZxQ"
     }
    ]
   },
@@ -3933,15 +3933,6 @@
      "url": "https://www.youtube.com/watch?v=yOKSu3eD7n4"
     }
    ]
-  },
-  {
-   "id": "s287",
-   "book": "확인불명",
-   "title": "주를 따르라",
-   "composer": "",
-   "page": "",
-   "chk": false,
-   "dates": []
   },
   {
    "id": "s288",
