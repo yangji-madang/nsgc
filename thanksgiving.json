@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-01T09:48:41.346Z",
+ "updated": "2026-11-01T10:08:09.873Z",
  "settings": {
   "title": "2026년 시온찬양대 추수감사주일 찬양",
   "scheduleTitle": "연습일정",
@@ -184,47 +184,17 @@
     {
      "part": "All",
      "type": "youtube",
-     "url": "https://buly.kr/EzlZgWo"
+     "url": "https://youtu.be/pAx5jcasGqo?si=mi2KVUANJpzol-xw"
     },
     {
      "part": "Sop",
      "type": "youtube",
-     "url": "https://buly.kr/7mEVTpy"
-    },
-    {
-     "part": "Alt",
-     "type": "youtube",
-     "url": "https://buly.kr/9MTKJ9H"
-    },
-    {
-     "part": "Ten",
-     "type": "youtube",
-     "url": "https://buly.kr/5UKejFN"
-    },
-    {
-     "part": "Bas",
-     "type": "youtube",
-     "url": "https://buly.kr/4bkrp8k"
+     "url": "https://youtu.be/9UZsRoE4s2c"
     },
     {
      "part": "Sop",
      "type": "mp3",
      "url": "https://naver.me/FSvjS3zb"
-    },
-    {
-     "part": "Alt",
-     "type": "mp3",
-     "url": "https://naver.me/F6Qhnwi5"
-    },
-    {
-     "part": "Ten",
-     "type": "mp3",
-     "url": "https://naver.me/xll7bZdE"
-    },
-    {
-     "part": "Bas",
-     "type": "mp3",
-     "url": "https://naver.me/GKIebdAb"
     },
     {
      "part": "Sop",
@@ -233,13 +203,43 @@
     },
     {
      "part": "Alt",
+     "type": "youtube",
+     "url": "https://youtu.be/V7hAKIQhYZE"
+    },
+    {
+     "part": "Alt",
+     "type": "mp3",
+     "url": "https://naver.me/F6Qhnwi5"
+    },
+    {
+     "part": "Alt",
      "type": "mp4",
      "url": "https://naver.me/Friy0DMc"
     },
     {
      "part": "Ten",
+     "type": "youtube",
+     "url": "https://youtu.be/ZVOaqiiC_AM"
+    },
+    {
+     "part": "Ten",
+     "type": "mp3",
+     "url": "https://naver.me/xll7bZdE"
+    },
+    {
+     "part": "Ten",
      "type": "mp4",
      "url": "https://naver.me/Gy3OpvHC"
+    },
+    {
+     "part": "Bas",
+     "type": "youtube",
+     "url": "https://youtu.be/L1b7P1-UbZ8"
+    },
+    {
+     "part": "Bas",
+     "type": "mp3",
+     "url": "https://naver.me/GKIebdAb"
     },
     {
      "part": "Bas",
@@ -256,47 +256,17 @@
     {
      "part": "All",
      "type": "youtube",
-     "url": "https://buly.kr/FhP7S33"
+     "url": "https://youtu.be/Q8hAmUxWB1M?si=bFQffvL1M6PzX2LF"
     },
     {
      "part": "Sop",
      "type": "youtube",
-     "url": "https://buly.kr/C0BCqvp"
-    },
-    {
-     "part": "Alt",
-     "type": "youtube",
-     "url": "https://buly.kr/BIWAvgT"
-    },
-    {
-     "part": "Ten",
-     "type": "youtube",
-     "url": "https://buly.kr/15QE2NG"
-    },
-    {
-     "part": "Bas",
-     "type": "youtube",
-     "url": "https://buly.kr/FhP7S5r"
+     "url": "https://youtu.be/j6OiI5b-eeQ?si=8qKABve8v3Gz7les"
     },
     {
      "part": "Sop",
      "type": "mp3",
      "url": "https://naver.me/I5wC51dW"
-    },
-    {
-     "part": "Alt",
-     "type": "mp3",
-     "url": "https://naver.me/xbKrAy8X"
-    },
-    {
-     "part": "Ten",
-     "type": "mp3",
-     "url": "https://naver.me/xPYK8sCJ"
-    },
-    {
-     "part": "Bas",
-     "type": "mp3",
-     "url": "https://naver.me/5Ol6QURm"
     },
     {
      "part": "Sop",
@@ -305,13 +275,43 @@
     },
     {
      "part": "Alt",
+     "type": "youtube",
+     "url": "https://youtu.be/jGuk3fKZgH4?si=rHQ0VromeIOmXoGe"
+    },
+    {
+     "part": "Alt",
+     "type": "mp3",
+     "url": "https://naver.me/xbKrAy8X"
+    },
+    {
+     "part": "Alt",
      "type": "mp4",
      "url": "https://naver.me/539SlN6D"
     },
     {
      "part": "Ten",
+     "type": "youtube",
+     "url": "https://youtu.be/iKfpTHoIoJw?si=Ad_BAxnxg3OQGGm3"
+    },
+    {
+     "part": "Ten",
+     "type": "mp3",
+     "url": "https://naver.me/xPYK8sCJ"
+    },
+    {
+     "part": "Ten",
      "type": "mp4",
      "url": "https://naver.me/FLEpygiE"
+    },
+    {
+     "part": "Bas",
+     "type": "youtube",
+     "url": "https://youtu.be/jSWHp26iSUI?si=FYnIivzyiq5Srhay"
+    },
+    {
+     "part": "Bas",
+     "type": "mp3",
+     "url": "https://naver.me/5Ol6QURm"
     },
     {
      "part": "Bas",
@@ -328,47 +328,17 @@
     {
      "part": "All",
      "type": "youtube",
-     "url": "https://buly.kr/DaRNsDY"
+     "url": "https://youtu.be/j4SFer95MBw?si=I6JJG2laSwButu7j"
     },
     {
      "part": "Sop",
      "type": "youtube",
-     "url": "https://buly.kr/1x2LRl"
-    },
-    {
-     "part": "Alt",
-     "type": "youtube",
-     "url": "https://buly.kr/B7cm8pr"
-    },
-    {
-     "part": "Ten",
-     "type": "youtube",
-     "url": "https://buly.kr/NmYJ69"
-    },
-    {
-     "part": "Bas",
-     "type": "youtube",
-     "url": "https://buly.kr/1y1N8Sz"
+     "url": "https://youtu.be/ae23r_22SC4?si=RXEFRHHWCB_Rwwp7"
     },
     {
      "part": "Sop",
      "type": "mp3",
      "url": "https://buly.kr/CB7K2ur"
-    },
-    {
-     "part": "Alt",
-     "type": "mp3",
-     "url": "https://buly.kr/D3h6wwc"
-    },
-    {
-     "part": "Ten",
-     "type": "mp3",
-     "url": "https://naver.me/GIIdW8xq"
-    },
-    {
-     "part": "Bas",
-     "type": "mp3",
-     "url": "https://buly.kr/6Xp4en8"
     },
     {
      "part": "Sop",
@@ -377,13 +347,43 @@
     },
     {
      "part": "Alt",
+     "type": "youtube",
+     "url": "https://youtu.be/xvaYlZNt5UE?si=vGnzGNl-Qioce9bl"
+    },
+    {
+     "part": "Alt",
+     "type": "mp3",
+     "url": "https://buly.kr/D3h6wwc"
+    },
+    {
+     "part": "Alt",
      "type": "mp4",
      "url": "https://naver.me/5kPMntBE"
     },
     {
      "part": "Ten",
+     "type": "youtube",
+     "url": "https://youtu.be/1kGSsq1R6Mc?si=2Hg3sDKBOHtrWnC8"
+    },
+    {
+     "part": "Ten",
+     "type": "mp3",
+     "url": "https://naver.me/GIIdW8xq"
+    },
+    {
+     "part": "Ten",
      "type": "mp4",
      "url": "https://naver.me/GfruJgtL"
+    },
+    {
+     "part": "Bas",
+     "type": "youtube",
+     "url": "https://youtu.be/43kZFnPqKPE?si=8o0svI8md7-eeY-F"
+    },
+    {
+     "part": "Bas",
+     "type": "mp3",
+     "url": "https://buly.kr/6Xp4en8"
     },
     {
      "part": "Bas",
@@ -400,47 +400,17 @@
     {
      "part": "All",
      "type": "youtube",
-     "url": "https://buly.kr/FLb5eIP"
+     "url": "https://youtu.be/UtCwRAUGPu0?si=j9fli2tfaBBb2NCC"
     },
     {
      "part": "Sop",
      "type": "youtube",
-     "url": "https://buly.kr/8eoINWV"
-    },
-    {
-     "part": "Alt",
-     "type": "youtube",
-     "url": "https://buly.kr/BpHw2CY"
-    },
-    {
-     "part": "Ten",
-     "type": "youtube",
-     "url": "https://buly.kr/6teiZNX"
-    },
-    {
-     "part": "Bas",
-     "type": "youtube",
-     "url": "https://buly.kr/4xaNmOl"
+     "url": "https://youtu.be/bVN2uDZ7gXc"
     },
     {
      "part": "Sop",
      "type": "mp3",
      "url": "https://naver.me/FM9zcKA1"
-    },
-    {
-     "part": "Alt",
-     "type": "mp3",
-     "url": "https://naver.me/FP87n9dZ"
-    },
-    {
-     "part": "Ten",
-     "type": "mp3",
-     "url": "https://naver.me/Friy7UTY"
-    },
-    {
-     "part": "Bas",
-     "type": "mp3",
-     "url": "https://naver.me/FWT46tkN"
     },
     {
      "part": "Sop",
@@ -449,13 +419,43 @@
     },
     {
      "part": "Alt",
+     "type": "youtube",
+     "url": "https://youtu.be/mvSSQCHPp8Y"
+    },
+    {
+     "part": "Alt",
+     "type": "mp3",
+     "url": "https://naver.me/FP87n9dZ"
+    },
+    {
+     "part": "Alt",
      "type": "mp4",
      "url": "https://naver.me/GbyoDLJL"
     },
     {
      "part": "Ten",
+     "type": "youtube",
+     "url": "https://youtu.be/LoemsH3oD9Q"
+    },
+    {
+     "part": "Ten",
+     "type": "mp3",
+     "url": "https://naver.me/Friy7UTY"
+    },
+    {
+     "part": "Ten",
      "type": "mp4",
      "url": "https://naver.me/x2YMjGuM"
+    },
+    {
+     "part": "Bas",
+     "type": "youtube",
+     "url": "https://youtu.be/16wj9y6sIbg"
+    },
+    {
+     "part": "Bas",
+     "type": "mp3",
+     "url": "https://naver.me/FWT46tkN"
     },
     {
      "part": "Bas",
