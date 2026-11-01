@@ -1,6 +1,6 @@
 {
  "v": 1,
- "updated": "2026-10-31T23:48:15.446Z",
+ "updated": "2026-11-01T08:55:50.835Z",
  "hero": {
   "eyebrow": "NAMSEOUL GRACE CHURCH",
   "ko": "시온찬양대 포털",
@@ -32,6 +32,13 @@
      "desc": "주일 찬양 영상 바로 보기",
      "url": "https://youtube.com/playlist?list=PLGf8Obfd0OaNlgdqO9u-beAlpkDgnm6vS&si=nNEZBZcAMJ9IrshT",
      "icon": "cal"
+    },
+    {
+     "id": "imvxlgbzq8k",
+     "title": "2025년 메시아 연주",
+     "desc": "'25.12.25. 성탄절 예배",
+     "url": "https://youtu.be/l5jQIYyV_lM?si=-SHvd8ZlgWn7TOmP",
+     "icon": "music"
     }
    ]
   },
@@ -71,9 +78,16 @@
     {
      "id": "imvx1u9brpl",
      "title": "2026 하모니 클래스(남자)",
-     "desc": "9~10월중 진행한 하모니클래스 남자파트 강의요약입니다. (강사 : 이재명 선생님)",
+     "desc": "하모니클래스 남자파트 강의",
      "url": "https://yangji-madang.github.io/nsgc/harmony_class.html",
      "icon": "music"
+    },
+    {
+     "id": "imvxlhnc3fh",
+     "title": "2025년 메시아 연주 뒷얘기",
+     "desc": "준비과정을 담았습니다.",
+     "url": "https://youtu.be/JVxyD1Uakjs?si=-8msSE3y0r6W8OQr",
+     "icon": "users"
     }
    ]
   },
