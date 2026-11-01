@@ -1,6 +1,6 @@
 {
  "v": 1,
- "updated": "2026-11-01T08:56:14.688Z",
+ "updated": "2026-11-01T08:58:56.415Z",
  "hero": {
   "eyebrow": "NAMSEOUL GRACE CHURCH",
   "ko": "시온찬양대 포털",
@@ -8,9 +8,9 @@
  },
  "view": [
   {
-   "id": "g1",
-   "name": "찬양",
-   "en": "PRAISE",
+   "id": "gmvxlkngtjq",
+   "name": "찬양 연습",
+   "en": "PRACTICE",
    "items": [
     {
      "id": "i1",
@@ -25,6 +25,20 @@
      "desc": "연습 일정과 파트별 연습 자료",
      "url": "https://yangji-madang.github.io/nsgc/2026_Zion_Thanksgiving.html",
      "icon": "leaf"
+    }
+   ]
+  },
+  {
+   "id": "g1",
+   "name": "찬양",
+   "en": "PRAISE",
+   "items": [
+    {
+     "id": "i4",
+     "title": "시온찬양 연대기",
+     "desc": "곡별 찬양일·횟수와 연도별 통계",
+     "url": "zion-hymnhistory.html",
+     "icon": "chart"
     },
     {
      "id": "i3",
@@ -47,13 +61,6 @@
    "name": "발자취",
    "en": "HISTORY",
    "items": [
-    {
-     "id": "i4",
-     "title": "시온찬양 연대기",
-     "desc": "곡별 찬양일·횟수와 연도별 통계",
-     "url": "zion-hymnhistory.html",
-     "icon": "chart"
-    },
     {
      "id": "i5",
      "title": "인원 및 출석 현황",
