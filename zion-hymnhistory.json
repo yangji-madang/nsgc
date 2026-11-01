@@ -1,6 +1,6 @@
 {
  "v": 1,
- "updated": "2026-11-01T11:19:20.692Z",
+ "updated": "2026-11-01T11:26:21.234Z",
  "bookOrder": [
   "시온2",
   "시온3",
@@ -3294,6 +3294,10 @@
     {
      "d": "2020-06-14",
      "url": "https://www.youtube.com/watch?v=D-i0ZVCsAWk"
+    },
+    {
+     "d": "2021-11-28",
+     "url": "https://www.youtube.com/watch?v=14VEBsaiUS0"
     }
    ]
   },
@@ -3457,7 +3461,7 @@
   {
    "id": "s250",
    "book": "중앙38",
-   "title": "곧 오소서 임마누엘",
+   "title": "곧 오소서 임마누엘(이형구 곡)",
    "composer": "이형구",
    "page": 173,
    "chk": false,
@@ -3937,12 +3941,7 @@
    "composer": "",
    "page": "",
    "chk": false,
-   "dates": [
-    {
-     "d": "2021-11-28",
-     "url": "https://www.youtube.com/watch?v=14VEBsaiUS0"
-    }
-   ]
+   "dates": []
   },
   {
    "id": "s288",
