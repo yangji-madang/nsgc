@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-01T10:29:36.495Z",
+ "updated": "2026-11-01T10:32:58.524Z",
  "settings": {
   "title": "2026년 시온찬양대 찬양곡목",
   "subLabel": "2026년 주일 찬양보기",
@@ -1193,7 +1193,7 @@
     {
      "part": "Bas",
      "type": "youtube",
-     "url": "youtube.com/watch?si=fceQ1EElUCayd12w&v=NAtU31b6yfs&feature=youtu.be"
+     "url": "https://www.youtube.com/watch?v=NAtU31b6yfs"
     },
     {
      "part": "Bas",
@@ -1214,52 +1214,21 @@
    "book": "메시아",
    "page": "15",
    "title": "주의 영광",
-   "note": "* 가사 다름. 음성 없음",
    "links": [
     {
      "part": "All",
      "type": "youtube",
-     "url": "https://buly.kr/9MTKKuh"
+     "url": "https://www.youtube.com/watch?v=h7BwEyTffNE"
     },
     {
      "part": "Sop",
      "type": "youtube",
-     "url": "https://buly.kr/NmgJKs"
-    },
-    {
-     "part": "Alt",
-     "type": "youtube",
-     "url": "https://buly.kr/E7BmozL"
-    },
-    {
-     "part": "Ten",
-     "type": "youtube",
-     "url": "https://buly.kr/FhQbeMd"
-    },
-    {
-     "part": "Bas",
-     "type": "youtube",
-     "url": "https://buly.kr/9tDbHT7"
+     "url": "https://www.youtube.com/watch?v=S8Zn3sHJeiU"
     },
     {
      "part": "Sop",
      "type": "mp3",
      "url": "https://naver.me/IIDzguRT"
-    },
-    {
-     "part": "Alt",
-     "type": "mp3",
-     "url": "https://naver.me/5Ol6vM6T"
-    },
-    {
-     "part": "Ten",
-     "type": "mp3",
-     "url": "https://naver.me/Gpr8DIVf"
-    },
-    {
-     "part": "Bas",
-     "type": "mp3",
-     "url": "https://naver.me/xWIhEVjs"
     },
     {
      "part": "Sop",
@@ -1268,13 +1237,43 @@
     },
     {
      "part": "Alt",
+     "type": "youtube",
+     "url": "https://www.youtube.com/watch?v=-_JuORQC9oY"
+    },
+    {
+     "part": "Alt",
+     "type": "mp3",
+     "url": "https://naver.me/5Ol6vM6T"
+    },
+    {
+     "part": "Alt",
      "type": "mp4",
      "url": "https://naver.me/5wrvXk65"
     },
     {
      "part": "Ten",
+     "type": "youtube",
+     "url": "https://www.youtube.com/watch?v=Sm03WLYRVEo"
+    },
+    {
+     "part": "Ten",
+     "type": "mp3",
+     "url": "https://naver.me/Gpr8DIVf"
+    },
+    {
+     "part": "Ten",
      "type": "mp4",
      "url": "https://naver.me/GtY7vHHL"
+    },
+    {
+     "part": "Bas",
+     "type": "youtube",
+     "url": "https://www.youtube.com/watch?v=Kl5ZnU4oD10"
+    },
+    {
+     "part": "Bas",
+     "type": "mp3",
+     "url": "https://naver.me/xWIhEVjs"
     },
     {
      "part": "Bas",
@@ -1293,7 +1292,9 @@
      "url": "https://naver.me/FsoM8EGF",
      "name": "합창 mp3"
     }
-   ]
+   ],
+   "note": "* 가사 다름. 음성 없음",
+   "manual": true
   },
   {
    "date": "2026-12-06",
@@ -1301,52 +1302,21 @@
    "book": "메시아",
    "page": "38",
    "title": "오 기쁜소식을",
-   "note": "* 가사 다름. 음성 없음",
    "links": [
     {
      "part": "All",
      "type": "youtube",
-     "url": "https://buly.kr/8pj3Usa"
+     "url": "https://www.youtube.com/watch?v=OsdS1C5Iowk"
     },
     {
      "part": "Sop",
      "type": "youtube",
-     "url": "https://buly.kr/1RHECMq"
-    },
-    {
-     "part": "Alt",
-     "type": "youtube",
-     "url": "https://buly.kr/3CQo6jQ"
-    },
-    {
-     "part": "Ten",
-     "type": "youtube",
-     "url": "https://buly.kr/Ga0OYaX"
-    },
-    {
-     "part": "Bas",
-     "type": "youtube",
-     "url": "https://buly.kr/9XO5Jvh"
+     "url": "https://www.youtube.com/watch?v=QmbLIgRXSMk"
     },
     {
      "part": "Sop",
      "type": "mp3",
      "url": "https://naver.me/xwoNG714"
-    },
-    {
-     "part": "Alt",
-     "type": "mp3",
-     "url": "https://naver.me/xJckQD4n"
-    },
-    {
-     "part": "Ten",
-     "type": "mp3",
-     "url": "https://naver.me/F7F0MpQi"
-    },
-    {
-     "part": "Bas",
-     "type": "mp3",
-     "url": "https://naver.me/54Keyhoe"
     },
     {
      "part": "Sop",
@@ -1355,13 +1325,43 @@
     },
     {
      "part": "Alt",
+     "type": "youtube",
+     "url": "https://www.youtube.com/watch?v=2vqzGNSCZos"
+    },
+    {
+     "part": "Alt",
+     "type": "mp3",
+     "url": "https://naver.me/xJckQD4n"
+    },
+    {
+     "part": "Alt",
      "type": "mp4",
      "url": "https://naver.me/5dhw2qAu"
     },
     {
      "part": "Ten",
+     "type": "youtube",
+     "url": "https://www.youtube.com/watch?v=AI5pL4xpyao"
+    },
+    {
+     "part": "Ten",
+     "type": "mp3",
+     "url": "https://naver.me/F7F0MpQi"
+    },
+    {
+     "part": "Ten",
      "type": "mp4",
      "url": "https://naver.me/5Z1bmdpF"
+    },
+    {
+     "part": "Bas",
+     "type": "youtube",
+     "url": "https://www.youtube.com/watch?v=Ml5Exc8i-MQ"
+    },
+    {
+     "part": "Bas",
+     "type": "mp3",
+     "url": "https://naver.me/54Keyhoe"
     },
     {
      "part": "Bas",
@@ -1380,7 +1380,9 @@
      "url": "https://naver.me/5jX4kQM3",
      "name": "합창 mp3"
     }
-   ]
+   ],
+   "note": "* 가사 다름. 음성 없음",
+   "manual": true
   },
   {
    "date": "2026-12-13",
