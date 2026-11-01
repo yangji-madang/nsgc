@@ -1,6 +1,6 @@
 {
  "v": 1,
- "updated": "2026-11-01T11:26:21.234Z",
+ "updated": "2026-11-01T11:34:31.933Z",
  "bookOrder": [
   "시온2",
   "시온3",
@@ -175,8 +175,8 @@
   {
    "id": "s013",
    "book": "시온2",
-   "title": "축복하노라",
-   "composer": "",
+   "title": "축복하노라(조은아.신상우)",
+   "composer": "조은아.신상우",
    "page": 94,
    "chk": false,
    "dates": [
@@ -191,18 +191,6 @@
     {
      "d": "2022-05-15",
      "url": "https://youtu.be/r3ql6VULyq4?si=pIS14fFyPlU6v0GT"
-    },
-    {
-     "d": "2023-08-06",
-     "url": "https://youtu.be/qsdeGZMM4Sg?si=cTBSKDRMemWUtZML"
-    },
-    {
-     "d": "2024-05-19",
-     "url": "https://www.youtube.com/watch?v=2bqtvrBbxr8"
-    },
-    {
-     "d": "2025-05-18",
-     "url": "https://www.youtube.com/watch?v=4iceWZ1vPxw"
     }
    ]
   },
@@ -833,11 +821,23 @@
   {
    "id": "s040",
    "book": "시온4",
-   "title": "축복하노라",
-   "composer": "",
+   "title": "축복하노라(조은아.신상우)",
+   "composer": "조은아.신상우",
    "page": 82,
    "chk": false,
    "dates": [
+    {
+     "d": "2023-08-06",
+     "url": "https://youtu.be/qsdeGZMM4Sg?si=cTBSKDRMemWUtZML"
+    },
+    {
+     "d": "2024-05-19",
+     "url": "https://www.youtube.com/watch?v=2bqtvrBbxr8"
+    },
+    {
+     "d": "2025-05-18",
+     "url": "https://www.youtube.com/watch?v=4iceWZ1vPxw"
+    },
     {
      "d": "2026-05-17",
      "url": "https://youtu.be/7UCxdNaEILk?si=ywaB2DNZbw7DIeXZ"
