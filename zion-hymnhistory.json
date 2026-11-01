@@ -1,6 +1,6 @@
 {
  "v": 1,
- "updated": "2026-11-01T11:14:00.888Z",
+ "updated": "2026-11-01T11:17:59.322Z",
  "bookOrder": [
   "시온2",
   "시온3",
@@ -2253,10 +2253,6 @@
    "chk": false,
    "dates": [
     {
-     "d": "2020-10-25",
-     "url": "https://www.youtube.com/watch?v=7Qwib5ALeMo"
-    },
-    {
      "d": "2021-12-19",
      "url": "https://www.youtube.com/watch?v=M_XXeXQKziE"
     }
@@ -3465,7 +3461,12 @@
    "composer": "이형구",
    "page": 173,
    "chk": false,
-   "dates": []
+   "dates": [
+    {
+     "d": "2020-10-25",
+     "url": "https://www.youtube.com/watch?v=7Qwib5ALeMo"
+    }
+   ]
   },
   {
    "id": "s251",
