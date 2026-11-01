@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-01T09:47:28.650Z",
+ "updated": "2026-11-01T09:48:41.346Z",
  "settings": {
   "title": "2026년 시온찬양대 추수감사주일 찬양",
   "scheduleTitle": "연습일정",
@@ -112,47 +112,17 @@
     {
      "part": "All",
      "type": "youtube",
-     "url": "https://buly.kr/H6kevGU"
+     "url": "https://youtu.be/SHwY4wdnBxk?si=mXlWOoNBuZ56yWkN"
     },
     {
      "part": "Sop",
      "type": "youtube",
-     "url": "https://buly.kr/Gkv8xSJ"
-    },
-    {
-     "part": "Alt",
-     "type": "youtube",
-     "url": "https://buly.kr/BIXeYB8"
-    },
-    {
-     "part": "Ten",
-     "type": "youtube",
-     "url": "https://buly.kr/FhQb4a7"
-    },
-    {
-     "part": "Bas",
-     "type": "youtube",
-     "url": "https://buly.kr/uWwgAW"
+     "url": "https://youtu.be/xTpTpmi2IlQ?si=jVGBG-62h9aoxXoR"
     },
     {
      "part": "Sop",
      "type": "mp3",
      "url": "https://1drv.ms/u/c/619d880fa7b6f451/IQB0S_jT8SxlRKTDReoEjKdFAUv0C-EN_KIU5MuanrSvsmM?e=tuOiaS"
-    },
-    {
-     "part": "Alt",
-     "type": "mp3",
-     "url": "https://1drv.ms/u/c/619d880fa7b6f451/IQCGH9-o6eotTa6PQSf9cGjXAQ0OadFn1B6k8Aczv2cbxdU?e=IqGiot"
-    },
-    {
-     "part": "Ten",
-     "type": "mp3",
-     "url": "https://1drv.ms/u/c/619d880fa7b6f451/IQBUFQCFSyrzSrM9svc4-myRAcDeqV3FbPai5HlAIYILqfo?e=03uwZB"
-    },
-    {
-     "part": "Bas",
-     "type": "mp3",
-     "url": "https://1drv.ms/u/c/619d880fa7b6f451/IQA7SM0XOQuAToHj6tNlVWS3AVUmWy-QS5uXMURfjtE4b0g?e=ucGYl7"
     },
     {
      "part": "Sop",
@@ -161,13 +131,43 @@
     },
     {
      "part": "Alt",
+     "type": "youtube",
+     "url": "https://youtu.be/v6RZFWKr8wY?si=O57CJR7gHK0-Pyze"
+    },
+    {
+     "part": "Alt",
+     "type": "mp3",
+     "url": "https://1drv.ms/u/c/619d880fa7b6f451/IQCGH9-o6eotTa6PQSf9cGjXAQ0OadFn1B6k8Aczv2cbxdU?e=IqGiot"
+    },
+    {
+     "part": "Alt",
      "type": "mp4",
      "url": "https://naver.me/xYNopnE3"
     },
     {
      "part": "Ten",
+     "type": "youtube",
+     "url": "https://youtu.be/0aF--07Ri-c?si=0L4udgbkznlrbSrs"
+    },
+    {
+     "part": "Ten",
+     "type": "mp3",
+     "url": "https://1drv.ms/u/c/619d880fa7b6f451/IQBUFQCFSyrzSrM9svc4-myRAcDeqV3FbPai5HlAIYILqfo?e=03uwZB"
+    },
+    {
+     "part": "Ten",
      "type": "mp4",
      "url": "https://naver.me/xZK7Vr2E"
+    },
+    {
+     "part": "Bas",
+     "type": "youtube",
+     "url": "https://youtu.be/Cqa68MMA__k?si=Jx4S_EH1jnnZM2or"
+    },
+    {
+     "part": "Bas",
+     "type": "mp3",
+     "url": "https://1drv.ms/u/c/619d880fa7b6f451/IQA7SM0XOQuAToHj6tNlVWS3AVUmWy-QS5uXMURfjtE4b0g?e=ucGYl7"
     },
     {
      "part": "Bas",
