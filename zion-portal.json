@@ -1,6 +1,6 @@
 {
  "v": 1,
- "updated": "2026-11-01T08:58:56.415Z",
+ "updated": "2026-11-01T09:01:30.743Z",
  "hero": {
   "eyebrow": "NAMSEOUL GRACE CHURCH",
   "ko": "시온찬양대 포털",
@@ -177,6 +177,6 @@
   "color": "#2a0f06",
   "size": 16,
   "align": "left",
-  "bold": false
+  "bold": true
  }
 }
