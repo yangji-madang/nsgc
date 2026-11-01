@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-01T10:32:58.524Z",
+ "updated": "2026-11-01T10:34:23.494Z",
  "settings": {
   "title": "2026년 시온찬양대 찬양곡목",
   "subLabel": "2026년 주일 찬양보기",
@@ -1390,52 +1390,21 @@
    "book": "시온7",
    "page": "3",
    "title": "왕 되신 주",
-   "note": "* 음성이 없습니다.",
    "links": [
     {
      "part": "All",
      "type": "youtube",
-     "url": "https://buly.kr/CsmTxq3"
+     "url": "https://www.youtube.com/watch?v=-UY0lNvgdEU"
     },
     {
      "part": "Sop",
      "type": "youtube",
-     "url": "https://buly.kr/3NLYznj"
-    },
-    {
-     "part": "Alt",
-     "type": "youtube",
-     "url": "https://buly.kr/AasdDGU"
-    },
-    {
-     "part": "Ten",
-     "type": "youtube",
-     "url": "https://buly.kr/614vi4Z"
-    },
-    {
-     "part": "Bas",
-     "type": "youtube",
-     "url": "https://buly.kr/uWxGQn"
+     "url": "https://www.youtube.com/watch?v=0vuijuANGD0"
     },
     {
      "part": "Sop",
      "type": "mp3",
      "url": "https://naver.me/FvTuHRa6"
-    },
-    {
-     "part": "Alt",
-     "type": "mp3",
-     "url": "https://naver.me/FriyZESF"
-    },
-    {
-     "part": "Ten",
-     "type": "mp3",
-     "url": "https://naver.me/51uTpxEA"
-    },
-    {
-     "part": "Bas",
-     "type": "mp3",
-     "url": "https://naver.me/5eDxW7sa"
     },
     {
      "part": "Sop",
@@ -1444,8 +1413,28 @@
     },
     {
      "part": "Alt",
+     "type": "youtube",
+     "url": "https://www.youtube.com/watch?v=fsVsAM4zZI8"
+    },
+    {
+     "part": "Alt",
+     "type": "mp3",
+     "url": "https://naver.me/FriyZESF"
+    },
+    {
+     "part": "Alt",
      "type": "mp4",
      "url": "https://naver.me/5B0ZBNbK"
+    },
+    {
+     "part": "Ten",
+     "type": "youtube",
+     "url": "https://www.youtube.com/watch?v=8_A9LWbAOfk"
+    },
+    {
+     "part": "Ten",
+     "type": "mp3",
+     "url": "https://naver.me/51uTpxEA"
     },
     {
      "part": "Ten",
@@ -1454,10 +1443,22 @@
     },
     {
      "part": "Bas",
+     "type": "youtube",
+     "url": "https://www.youtube.com/watch?v=amdqrvmqc1E"
+    },
+    {
+     "part": "Bas",
+     "type": "mp3",
+     "url": "https://naver.me/5eDxW7sa"
+    },
+    {
+     "part": "Bas",
      "type": "mp4",
      "url": "https://naver.me/Fc6sbpdV"
     }
-   ]
+   ],
+   "note": "* 음성이 없습니다.",
+   "manual": true
   },
   {
    "date": "2026-12-20",
