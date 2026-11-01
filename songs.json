@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-01T10:34:23.494Z",
+ "updated": "2026-11-01T10:35:48.961Z",
  "settings": {
   "title": "2026년 시온찬양대 찬양곡목",
   "subLabel": "2026년 주일 찬양보기",
@@ -1466,52 +1466,21 @@
    "book": "메시아",
    "page": "52",
    "title": "우리를 위해 나셨다",
-   "note": "* 가사 다름. 음성 없음",
    "links": [
     {
      "part": "All",
      "type": "youtube",
-     "url": "https://buly.kr/6XpCeax"
+     "url": "https://www.youtube.com/watch?v=g_GJL_b--m0"
     },
     {
      "part": "Sop",
      "type": "youtube",
-     "url": "https://buly.kr/HSaBTAR"
-    },
-    {
-     "part": "Alt",
-     "type": "youtube",
-     "url": "https://buly.kr/2Ulm5ql"
-    },
-    {
-     "part": "Ten",
-     "type": "youtube",
-     "url": "https://buly.kr/jcCHi9"
-    },
-    {
-     "part": "Bas",
-     "type": "youtube",
-     "url": "https://buly.kr/Edw3mAr"
+     "url": "https://www.youtube.com/watch?v=Kv6Y_s5f7R8"
     },
     {
      "part": "Sop",
      "type": "mp3",
      "url": "https://naver.me/xJckSP1V"
-    },
-    {
-     "part": "Alt",
-     "type": "mp3",
-     "url": "https://naver.me/FetyBanU"
-    },
-    {
-     "part": "Ten",
-     "type": "mp3",
-     "url": "https://naver.me/5K6zCAA5"
-    },
-    {
-     "part": "Bas",
-     "type": "mp3",
-     "url": "https://naver.me/xAfMHLZX"
     },
     {
      "part": "Sop",
@@ -1520,13 +1489,43 @@
     },
     {
      "part": "Alt",
+     "type": "youtube",
+     "url": "https://www.youtube.com/watch?v=1ZgZrxFmmng"
+    },
+    {
+     "part": "Alt",
+     "type": "mp3",
+     "url": "https://naver.me/FetyBanU"
+    },
+    {
+     "part": "Alt",
      "type": "mp4",
      "url": "https://naver.me/5Ol68B7f"
     },
     {
      "part": "Ten",
+     "type": "youtube",
+     "url": "https://www.youtube.com/watch?v=knjt8_4JsJY"
+    },
+    {
+     "part": "Ten",
+     "type": "mp3",
+     "url": "https://naver.me/5K6zCAA5"
+    },
+    {
+     "part": "Ten",
      "type": "mp4",
      "url": "https://naver.me/GHLSWX5O"
+    },
+    {
+     "part": "Bas",
+     "type": "youtube",
+     "url": "https://www.youtube.com/watch?v=NcM28qv3IB0"
+    },
+    {
+     "part": "Bas",
+     "type": "mp3",
+     "url": "https://naver.me/xAfMHLZX"
     },
     {
      "part": "Bas",
@@ -1545,7 +1544,9 @@
      "url": "https://naver.me/xD8PFtQ2",
      "name": "합창 mp3"
     }
-   ]
+   ],
+   "note": "* 가사 다름. 음성 없음",
+   "manual": true
   },
   {
    "date": "2026-12-27",
