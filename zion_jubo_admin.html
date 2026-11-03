@@ -79,7 +79,6 @@ table.et input{min-width:70px}
   <button data-act="import">파일 불러오기</button>
   <button data-act="loadpub">발행본 불러오기</button>
   <button data-act="reset">초기화</button>
-  <span class="wd">문지기 : 윤현철</span>
   <input type="file" id="fimport" accept="application/json,.json" hidden>
   <input type="file" id="fimg" accept="image/*" hidden>
   <input type="file" id="fnimg" accept="image/*" multiple hidden>
@@ -249,6 +248,10 @@ function N(p,mn,mx,st){return '<input type="number" data-p="'+p+'" data-t="num" 
 function C(p){return '<input type="color" data-p="'+p+'" data-t="text" value="'+esc(G(p)||'#000000')+'">';}
 function CK(p,l){return '<label><input type="checkbox" data-p="'+p+'" data-t="chk"'+(G(p)?' checked':'')+'> '+l+'</label>';}
 function R(p,mn,mx,st){return '<input type="range" data-p="'+p+'" data-t="num" min="'+mn+'" max="'+mx+'" step="'+st+'" value="'+G(p)+'"><span class="ro">'+G(p)+'</span>';}
+function RA(p,mn,mx,st){
+  var v=G(p);
+  return '<button type="button" class="s" data-act="rng" data-p="'+p+'" data-d="-'+st+'" title="'+st+' 줄이기">◀</button> <input type="range" data-p="'+p+'" data-t="num" min="'+mn+'" max="'+mx+'" step="'+st+'" value="'+v+'"> <button type="button" class="s" data-act="rng" data-p="'+p+'" data-d="'+st+'" title="'+st+' 늘리기">▶</button><span class="ro">'+v+'</span>';
+}
 function SEL(p,opts){return '<select data-p="'+p+'" data-t="text">'+opts.map(function(o){return '<option value="'+esc(o[0])+'"'+(G(p)===o[0]?' selected':'')+'>'+esc(o[1])+'</option>';}).join('')+'</select>';}
 function sty(k,name,al){
   return '<div class="row"><label>'+name+'</label>'+SEL('st.'+k+'.f',FONTS)+' 크기 '+N('st.'+k+'.s',9,60)+' '+C('st.'+k+'.c')+' '+CK('st.'+k+'.b','굵게')+(al?' <span style="display:inline-flex;gap:4px;align-items:center;font-size:12px;color:#555">정렬 '+AL('st.'+k+'.al',al)+'</span>':'')+'</div>';
@@ -527,7 +530,7 @@ function render(){
   h+='<details id="d-st"><summary>글꼴 · 색 서식</summary><div class="bd">'
    +sty('ti','제목','c')+sty('sp','특별주일(좌측)','l')+sty('dt','날짜(우측 상단)','r')+sty('vs','말씀')+sty('lb','항목명')+sty('tx','내용')
    +'<div class="row"><label>표 제목행 배경</label>'+C('st.thBg')+' <label>표 테두리</label>'+C('st.line')+'</div>'
-   +'<div class="row"><label>줄 간격</label>'+R('st.lh',0,50,5)+'<span style="font-size:12px">% 넓힘 (현재 줄 간격 기준, 최대 50%)</span></div>'
+   +'<div class="row"><label>줄 간격</label>'+RA('st.lh',0,50,5)+'<span style="font-size:12px">% 넓힘 (현재 줄 간격 기준, 최대 50%)</span></div>'
    +'<div class="sub">항목명 서식은 모든 항목명에, 내용 서식은 모든 내용에 동일하게 적용됩니다.</div></div></details>';
   D.sec.forEach(function(s,i){h+=secEd(s,i);});
   document.getElementById('ed').innerHTML=h;
@@ -558,7 +561,7 @@ function onInput(e){
   else if(el.dataset.t==='num')v=el.value===''?0:Number(el.value);
   else v=el.value;
   S(el.dataset.p,v);
-  if(el.type==='range'&&el.nextElementSibling)el.nextElementSibling.textContent=v;
+  if(el.type==='range'){var ro=el.nextElementSibling;if(ro&&!ro.classList.contains('ro'))ro=ro.nextElementSibling;if(ro&&ro.classList.contains('ro'))ro.textContent=v;}
   if(el.dataset.p.indexOf('att.')===0)updCalc();
   save();
   if(el.dataset.p==='attAuto'){render();if(D.attAuto)refreshAtt();}
@@ -612,6 +615,11 @@ document.addEventListener('click',function(e){
   else if(a==='archive'){archive(true);chg=false;}
   else if(a==='al'){S(b.dataset.p,b.dataset.v);}
   else if(a==='attreload'){refreshAtt(true);chg=false;}
+  else if(a==='rng'){
+    var ri=document.querySelector('input[type=range][data-p="'+b.dataset.p+'"]');
+    if(ri){var nv=Math.max(Number(ri.min),Math.min(Number(ri.max),Number(ri.value)+Number(b.dataset.d)));ri.value=nv;ri.dispatchEvent(new Event('input',{bubbles:true}));}
+    chg=false;
+  }
   else if(a==='bdfill'){var pi=document.getElementById('bdPw'),pw=(pi&&pi.value)||bdGetPw();if(pw)bdSetPw(pw,!!(document.getElementById('bdRem')||{}).checked);BDATA=null;bdRun(true);chg=false;}
   else if(a==='bdforget'){try{sessionStorage.removeItem(BDK);localStorage.removeItem(BDK);}catch(e){}BDATA=null;bdMsg('저장된 비밀번호를 지웠습니다.');var q=document.getElementById('bdPw');if(q)q.placeholder='생일 관리 비밀번호';chg=false;}
   else if(a==='kidadd'){D.kids.items.push({name:'',img:''});}
