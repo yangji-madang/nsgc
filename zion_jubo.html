@@ -357,9 +357,9 @@ function draw0(){
     if(sec.show===false)return;
     var inner='';
     if(sec.id==='att')inner=attSec();
-    else if(sec.id==='notice'||sec.id==='pray')inner=listSec(sec.id);
     else if(sec.id==='child')inner=kidsSec();
-    else inner=pairSec(sec.id);
+    else if(['order','time','event','staff'].indexOf(sec.id)>=0)inner=pairSec(sec.id);
+    else inner=listSec(sec.id);
     if(sec.id==='order'){
       var mm=(D.tb&&D.tb.order&&D.tb.order.memo)||'';
       if(mm.trim())inner+='<div class="memo" style="text-align:'+(AM[D.tb.order.mal||'l']||'left')+'">'+rich(mm).replace(/\n/g,'<br>')+'</div>';
