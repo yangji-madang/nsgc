@@ -35,6 +35,7 @@ table.lst th.noso{cursor:default}
 table.lst td{padding:5px 10px;border-bottom:1px solid #e8ecf2;white-space:pre;vertical-align:middle}
 table.lst tr:hover td{background:#f4f8ff}
 tr.gSinger td.cg{color:#1a56c4}
+td.nn{text-align:center;color:#678;font-variant-numeric:tabular-nums}
 td.dt{font-variant-numeric:tabular-nums}
 td.sun,td.wk0{color:#c62828;font-weight:700}
 td.wk6{color:#1565c0}
@@ -208,13 +209,13 @@ function hi(n,q){
 function fmtD(d){return d||'';}
 function renderList(){
   var a=filtered(),q=$('q').value;
-  $('th').innerHTML='<tr>'+COLS.map(function(c){return '<th data-k="'+c[0]+'">'+c[1]+'<span class="ar">'+(sort.k===c[0]?(sort.dir>0?'▲':'▼'):'')+'</span></th>';}).join('')+'<th class="noso">수정 · 삭제</th></tr>';
+  $('th').innerHTML='<tr><th class="noso nn">No</th>'+COLS.map(function(c){return '<th data-k="'+c[0]+'">'+c[1]+'<span class="ar">'+(sort.k===c[0]?(sort.dir>0?'▲':'▼'):'')+'</span></th>';}).join('')+'<th class="noso">수정 · 삭제</th></tr>';
   var h='';
-  a.forEach(function(x){
+  a.forEach(function(x,ix){
     var w=wk(x.d);
-    h+='<tr class="g'+esc(x.g)+'" data-id="'+x.id+'"><td class="cg">'+esc(x.g)+'</td><td>'+esc(x.p)+'</td><td>'+hi(x.n,q)+'</td><td>'+esc(x.r)+'</td><td class="dt">'+esc(fmtD(x.d))+'</td><td class="wk'+w+'">'+(w>=0?WD[w]:'')+'</td><td class="act"><button type="button" data-a="e">수정</button> <button type="button" class="d" data-a="d">삭제</button></td></tr>';
+    h+='<tr class="g'+esc(x.g)+'" data-id="'+x.id+'"><td class="nn">'+(ix+1)+'</td><td class="cg">'+esc(x.g)+'</td><td>'+esc(x.p)+'</td><td>'+hi(x.n,q)+'</td><td>'+esc(x.r)+'</td><td class="dt">'+esc(fmtD(x.d))+'</td><td class="wk'+w+'">'+(w>=0?WD[w]:'')+'</td><td class="act"><button type="button" data-a="e">수정</button> <button type="button" class="d" data-a="d">삭제</button></td></tr>';
   });
-  if(!a.length)h='<tr><td colspan="7" class="empty">조건에 맞는 사람이 없습니다.</td></tr>';
+  if(!a.length)h='<tr><td colspan="8" class="empty">조건에 맞는 사람이 없습니다.</td></tr>';
   $('tb').innerHTML=h;
   $('cnt').textContent='전체 '+D.length+'명 중 '+a.length+'명';
   setSh();
