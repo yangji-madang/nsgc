@@ -2126,8 +2126,10 @@ function startApp(){
     var h = document.createElement('span'); h.className = 'title'; h.style.whiteSpace = 'nowrap'; h.style.flex = 'none'; h.textContent = ref.title;
     var me = document.createElement('span'); me.className = 'meta'; me.textContent = [ref.book, ref.page ? 'p.' + ref.page : ''].filter(Boolean).join(' · ');
     m.appendChild(d); m.appendChild(h); m.appendChild(me);
+    var prevZoom = document.body.style.zoom; document.body.style.zoom = '';
     document.body.appendChild(m);
     var w = Math.ceil(m.getBoundingClientRect().width);
+    document.body.style.zoom = prevZoom;
     document.body.removeChild(m);
     var card = document.querySelector('.card'), main = document.querySelector('main');
     var extra = 48;
@@ -2136,9 +2138,21 @@ function startApp(){
       extra = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight) + parseFloat(cs.borderLeftWidth) + parseFloat(cs.borderRightWidth)
             + parseFloat(ms.paddingLeft) + parseFloat(ms.paddingRight);
     }
-    document.body.style.maxWidth = (w + extra + 4) + 'px';
+    var natural = w + extra + 4;
+    // 휴대폰: 폭 제한을 풀고, 이 기준 폭이 화면 폭에 꽉 차도록 전체를 확대·축소
+    var vw = document.documentElement.clientWidth || window.innerWidth;
+    if(vw <= 700){
+      var z = Math.max(0.8, Math.min(1.4, vw / natural));
+      document.body.style.maxWidth = 'none';
+      document.body.style.zoom = String(Math.round(z * 1000) / 1000);
+    } else {
+      document.body.style.zoom = '';
+      document.body.style.maxWidth = natural + 'px';
+    }
   }
   fitWidth();
+  var fitT;
+  window.addEventListener('resize', function(){ clearTimeout(fitT); fitT = setTimeout(function(){ document.body.style.zoom = ''; fitWidth(); }, 150); });
   if(document.fonts && document.fonts.ready){ document.fonts.ready.then(function(){ fitWidth(); goNext(); }); }
   if('scrollRestoration' in history) history.scrollRestoration = 'manual';
   requestAnimationFrame(function(){ requestAnimationFrame(goNext); });
