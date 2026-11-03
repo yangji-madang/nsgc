@@ -113,7 +113,7 @@ function def0(){return {
   ds:{f:'Do Hyeon',s:15,c:'#444444',b:true},
   lb:{f:'Do Hyeon',s:17,c:'#111111',b:false},
   tx:{f:'Noto Sans KR',s:13,c:'#222222',b:false},
-  thBg:'#dde7f3',line:'#e8e8e8'
+  thBg:'#dde7f3',line:'#e8e8e8',lh:0
  },
  sec:[
   {id:'order',label:'찬양·기도 순서',side:'',url:'',show:true},
@@ -470,9 +470,11 @@ function render(){
    +'<div class="row"><label>끝단 범위(px)</label>'+R('bg.zone',60,600,10)+'</div>'
    +'<div class="row"><label>내용 박스 불투명도</label>'+R('box',0,1,0.05)+'</div>'
    +'<div class="sub">가운데는 흰색으로 덮어 연하게, 위·아래 끝은 사진이 진하게 보입니다. 사진은 자동으로 축소·압축되어 저장됩니다.</div></div></details>';
+  if(D.st&&D.st.lh==null)D.st.lh=0;
   h+='<details id="d-st"><summary>글꼴 · 색 서식</summary><div class="bd">'
    +sty('ti','제목(가운데)')+sty('ds','날짜·특별주일')+sty('lb','항목명')+sty('tx','내용')
    +'<div class="row"><label>표 제목행 배경</label>'+C('st.thBg')+' <label>표 테두리</label>'+C('st.line')+'</div>'
+   +'<div class="row"><label>줄 간격</label>'+R('st.lh',0,50,5)+'<span style="font-size:12px">% 넓힘 (현재 줄 간격 기준, 최대 50%)</span></div>'
    +'<div class="sub">항목명 서식은 모든 항목명에, 내용 서식은 모든 내용에 동일하게 적용됩니다.</div></div></details>';
   D.sec.forEach(function(s,i){h+=secEd(s,i);});
   document.getElementById('ed').innerHTML=h;
