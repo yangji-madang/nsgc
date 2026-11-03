@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>시온찬양대 주보 관리</title>
-<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Do+Hyeon&family=Jua&family=Nanum+Gothic:wght@400;700;800&family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Do+Hyeon&family=Jua&family=Nanum+Gothic:wght@400;700;800&family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@400;500;700;900&family=Gowun+Batang:wght@400;700&family=Gowun+Dodum&family=Song+Myung&family=Gaegu:wght@400;700&family=Hi+Melody&family=Sunflower:wght@300;500;700&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#f3f5f8;font-family:'Noto Sans KR','Malgun Gothic',sans-serif;color:#222;font-size:14px}
@@ -98,7 +98,7 @@ table.et input{min-width:70px}
 <script>
 (function(){
 var KEY='zion_jubo_draft';
-var FONTS=[['Noto Sans KR','Noto Sans KR (고딕)'],['Nanum Gothic','나눔고딕'],['Nanum Myeongjo','나눔명조'],['Jua','주아체'],['Do Hyeon','도현체'],['Black Han Sans','블랙한산스'],['Malgun Gothic','맑은 고딕']];
+var FONTS=[['Noto Sans KR','Noto Sans KR (고딕)'],['Nanum Gothic','나눔고딕'],['Nanum Myeongjo','나눔명조'],['Jua','주아체'],['Do Hyeon','도현체'],['Black Han Sans','블랙한산스'],['Gowun Dodum','고운돋움'],['Gowun Batang','고운바탕'],['Song Myung','송명'],['Sunflower','해바라기'],['Gaegu','개구'],['Hi Melody','하이멜로디'],['Malgun Gothic','맑은 고딕'],['Batang','바탕'],['Dotum','돋움'],['Gulim','굴림']];
 var PARTS=[['sop','Sop.'],['alt','Alt.'],['ten','Ten.'],['bas','Bas.'],['orc','Orc.'],['cond','지휘·반주'],['sign','수어']];
 var SECNAME={order:'찬양·기도 순서',notice:'공지사항',pray:'중보기도',child:'후원아동',time:'찬양연습 시간·장소',event:'주요 행사',att:'출석 현황',staff:'담당자'};
 
@@ -163,6 +163,12 @@ function def0(){return {
 function def(){return migrate(def0());}
 function migrate(d){
   var f=def0();
+  d.st=d.st||f.st;
+  var cp=function(o){return JSON.parse(JSON.stringify(o));};
+  if(!d.st.sp)d.st.sp=Object.assign(cp(d.st.ds||f.st.ds),{al:'l'});
+  if(!d.st.dt)d.st.dt=Object.assign(cp(d.st.ds||f.st.ds),{al:'r'});
+  if(!d.st.vs)d.st.vs=Object.assign(cp(d.st.tx||f.st.tx),{b:true});
+  if(!d.st.ti.al)d.st.ti.al='c';
   d.tb=d.tb||{};
   ['order','time','event','staff'].forEach(function(k){
     var t=d.tb[k]=d.tb[k]||f.tb[k];
@@ -244,8 +250,8 @@ function C(p){return '<input type="color" data-p="'+p+'" data-t="text" value="'+
 function CK(p,l){return '<label><input type="checkbox" data-p="'+p+'" data-t="chk"'+(G(p)?' checked':'')+'> '+l+'</label>';}
 function R(p,mn,mx,st){return '<input type="range" data-p="'+p+'" data-t="num" min="'+mn+'" max="'+mx+'" step="'+st+'" value="'+G(p)+'"><span class="ro">'+G(p)+'</span>';}
 function SEL(p,opts){return '<select data-p="'+p+'" data-t="text">'+opts.map(function(o){return '<option value="'+esc(o[0])+'"'+(G(p)===o[0]?' selected':'')+'>'+esc(o[1])+'</option>';}).join('')+'</select>';}
-function sty(k,name){
-  return '<div class="row"><label>'+name+'</label>'+SEL('st.'+k+'.f',FONTS)+' 크기 '+N('st.'+k+'.s',9,60)+' '+C('st.'+k+'.c')+' '+CK('st.'+k+'.b','굵게')+'</div>';
+function sty(k,name,al){
+  return '<div class="row"><label>'+name+'</label>'+SEL('st.'+k+'.f',FONTS)+' 크기 '+N('st.'+k+'.s',9,60)+' '+C('st.'+k+'.c')+' '+CK('st.'+k+'.b','굵게')+(al?' <span style="display:inline-flex;gap:4px;align-items:center;font-size:12px;color:#555">정렬 '+AL('st.'+k+'.al',al)+'</span>':'')+'</div>';
 }
 
 /* ---------- 영역별 편집기 ---------- */
@@ -519,7 +525,7 @@ function render(){
    +'<div class="sub">가운데는 흰색으로 덮어 연하게, 위·아래 끝은 사진이 진하게 보입니다. 사진은 자동으로 축소·압축되어 저장됩니다.</div></div></details>';
   if(D.st&&D.st.lh==null)D.st.lh=0;
   h+='<details id="d-st"><summary>글꼴 · 색 서식</summary><div class="bd">'
-   +sty('ti','제목(가운데)')+sty('ds','날짜·특별주일')+sty('lb','항목명')+sty('tx','내용')
+   +sty('ti','제목','c')+sty('sp','특별주일(좌측)','l')+sty('dt','날짜(우측 상단)','r')+sty('vs','말씀')+sty('lb','항목명')+sty('tx','내용')
    +'<div class="row"><label>표 제목행 배경</label>'+C('st.thBg')+' <label>표 테두리</label>'+C('st.line')+'</div>'
    +'<div class="row"><label>줄 간격</label>'+R('st.lh',0,50,5)+'<span style="font-size:12px">% 넓힘 (현재 줄 간격 기준, 최대 50%)</span></div>'
    +'<div class="sub">항목명 서식은 모든 항목명에, 내용 서식은 모든 내용에 동일하게 적용됩니다.</div></div></details>';

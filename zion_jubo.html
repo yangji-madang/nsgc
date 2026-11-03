@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,viewport-fit=cover">
 <title>시온찬양대 주보</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Do+Hyeon&family=Jua&family=Nanum+Gothic:wght@400;700;800&family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Do+Hyeon&family=Jua&family=Nanum+Gothic:wght@400;700;800&family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@400;500;700;900&family=Gowun+Batang:wght@400;700&family=Gowun+Dodum&family=Song+Myung&family=Gaegu:wght@400;700&family=Hi+Melody&family=Sunflower:wght@300;500;700&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;max-width:100%;overflow-x:hidden}
@@ -36,6 +36,8 @@ html.ph table.tb.eq,html.ph table.tb.kids{table-layout:auto}
 .hd .l{flex:1 1 0;text-align:left}
 .hd .c{flex:0 0 auto;padding:0 6px}
 .hd .r{flex:1 1 0;text-align:right}
+.hd.tl .l,.hd.tl .r{flex:0 0 auto}
+.hd.tl .c{flex:1 1 auto}
 .verse{margin-top:4px;padding:3px 7px;border-radius:6px;text-align:center;line-height:calc(1.25*var(--lk,1));word-break:keep-all}
 .lb{display:flex;align-items:baseline;gap:8px;margin:0 0 2px;line-height:calc(1.25*var(--lk,1));font-weight:inherit}
 .lb .t{flex:0 0 auto;white-space:nowrap}
@@ -288,8 +290,10 @@ function draw0(){
     }else{ov.style.background='none';}
   }else{bgEl.style.backgroundImage='none';ov.style.background='none';}
 
-  var html='<div class="box"><div class="fit"><div class="hd"><span class="l" style="'+sx(s.ds)+'">'+esc(hd.special)+'</span><span class="c" style="'+sx(s.ti)+'">'+esc(hd.title)+'</span><span class="r" style="'+sx(s.ds)+'">'+esc(fmtDate(hd.date))+'</span></div></div>';
-  if((hd.verse||'').trim()){html+='<div class="verse" style="background:'+esc(hd.verseBg||'#ece8c8')+';'+sx(s.tx)+';font-weight:700;text-align:'+(AM[hd.vAl||'c']||'center')+'">'+rich(hd.verse.trim())+'</div>';}
+  var TA={l:'left',c:'center',r:'right'},al=function(k,d){return TA[(s[k]&&s[k].al)||d]||TA[d];};
+  var tal=(s.ti&&s.ti.al)||'c';
+  var html='<div class="box"><div class="fit"><div class="hd'+(tal==='c'?'':' tl')+'"><span class="l" style="'+sx(s.sp||s.ds)+';text-align:'+al('sp','l')+'">'+esc(hd.special)+'</span><span class="c" style="'+sx(s.ti)+';text-align:'+al('ti','c')+'">'+esc(hd.title)+'</span><span class="r" style="'+sx(s.dt||s.ds)+';text-align:'+al('dt','r')+'">'+esc(fmtDate(hd.date))+'</span></div></div>';
+  if((hd.verse||'').trim()){html+='<div class="verse" style="background:'+esc(hd.verseBg||'#ece8c8')+';'+(s.vs?sx(s.vs):sx(s.tx)+';font-weight:700')+';text-align:'+(AM[hd.vAl||'c']||'center')+'">'+rich(hd.verse.trim())+'</div>';}
   html+='</div>';
 
   var sideStyle=sx(s.tx).replace(/font-size:[\d.]+px/,'font-size:'+Math.max(10,(s.tx&&s.tx.s||13)-1)+'px');
