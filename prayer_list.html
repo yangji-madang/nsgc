@@ -35,6 +35,9 @@ td{padding:3px 4px;border-bottom:1px solid #e8ecf2;vertical-align:middle}
 tr.pSop td{background:#fff5f7}tr.pAlt td{background:#fff9ec}tr.pTen td{background:#f0f8ff}tr.pBas td{background:#f1f8f1}
 tr.pOther td{background:#fff}
 td.no{text-align:center;color:#667;font-size:13px}
+td.dcell{text-align:center;font-weight:700;font-size:13px;color:#1a2f52;position:relative;white-space:nowrap}
+td.dcell.first{text-decoration:underline dotted;cursor:pointer;color:#1a56c4}
+td.dcell input.dpk{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;padding:0;border:0}
 td.hd{text-align:center;cursor:grab;color:#889;font-size:16px;user-select:none}
 td select,td input{width:100%;border:1px solid transparent;background:transparent;padding:6px 6px;font-size:15px;font-family:inherit;border-radius:6px;color:#111;font-weight:500}
 td select:hover,td input:hover{border-color:#c9d1de;background:#fff}
@@ -50,9 +53,9 @@ tr.drag{opacity:.45}
 .empty{text-align:center;padding:30px;color:#667}
 .toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:#222;color:#fff;padding:8px 14px;border-radius:20px;font-size:13px;opacity:0;transition:.25s;pointer-events:none;z-index:50;max-width:92%}
 .toast.on{opacity:.92}
-.c1{width:34px}.c2{width:32px}.c3{width:74px}.c5{width:78px}.c6{width:136px}
+.c1{width:34px}.c2{width:32px}.c2d{width:58px}.c3{width:74px}.c5{width:78px}.c6{width:136px}
 .dx{display:none}
-@media(max-width:560px){body{font-size:14px}.c1{width:24px}.c2{width:26px}.c3{width:58px}.c5{width:70px}.c6{width:108px}
+@media(max-width:560px){body{font-size:14px}.c1{width:24px}.c2{width:26px}.c2d{width:50px}.c3{width:58px}.c5{width:70px}.c6{width:108px}
 td select,td input{padding:6px 2px;font-size:14px}td select{padding-left:0;padding-right:0}td.act button{padding:4px 5px;font-size:12px}td.act{letter-spacing:0}
 .dt{display:none}.dx{display:inline}.wrap{padding:8px 6px 90px}}
 </style>
@@ -74,13 +77,13 @@ td select,td input{padding:6px 2px;font-size:14px}td select{padding-left:0;paddi
   </div></details>
   <div class="sum" id="sum"></div>
   <table>
-    <colgroup><col class="c1"><col class="c2"><col class="c3"><col><col class="c5"><col class="c6"></colgroup>
-    <thead><tr><th></th><th>순</th><th>파트</th><th>이름</th><th>직분</th><th>순서 · 삭제</th></tr></thead>
+    <colgroup><col class="c1"><col class="c2"><col class="c2d"><col class="c3"><col><col class="c5"><col class="c6"></colgroup>
+    <thead><tr><th></th><th>순</th><th>날짜</th><th>파트</th><th>이름</th><th>직분</th><th>순서 · 삭제</th></tr></thead>
     <tbody id="tb"></tbody>
   </table>
 </div>
 <div class="toast" id="toast"></div>
-<datalist id="dlRank"><option value="집사"><option value="권사"><option value="장로"><option value="목사"><option value="전도사"><option value="성도"></datalist>
+<datalist id="dlRank"><option value="집사"><option value="권사"><option value="자매"><option value="형제"><option value="선생"></datalist>
 <script>
 (function(){
 var REPO='yangji-madang/nsgc',FPATH='prayer_list.json',BRANCH='main',TK='choir-gh-token-v1',KEY='prayer_list_draft';
@@ -90,13 +93,18 @@ var SEED='Sop|강경원|집사;Sop|강지인|집사;Sop|권   미|집사;Sop|김
 +'Ten|김세준|집사;Ten|김현철|집사;Ten|엄기호|집사;Ten|이수행|집사;Ten|정은석|집사;Ten|정지우|집사;'
 +'Bas|권남회|집사;Bas|김규철|집사;Bas|윤여훈|집사;Bas|윤현철|집사;Bas|이명헌|집사;Bas|이병재|집사;Bas|정운채|집사;Bas|정윤택|집사;Bas|조경식|집사;Bas|조성수|집사;Bas|한명민|집사';
 function seed(){return SEED.split(';').map(function(x){var a=x.split('|');return {p:a[0],n:a[1],r:a[2]};});}
-var D=null,BASE=null,lastAdded=-1;
+var D=null,BASE=null,lastAdded=-1,START='',SKEY='prayer_list_start';
+function iso(ms){return new Date(ms).toISOString().slice(0,10);}
+function toSun(v){var m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(v||'');if(!m)return '';var t=Date.UTC(+m[1],+m[2]-1,+m[3]),w=new Date(t).getUTCDay();return iso(t+((7-w)%7)*86400000);}
+function defStart(){return toSun(new Date().toLocaleDateString('sv-SE',{timeZone:'Asia/Seoul'}));}
+function dateAt(i){var m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(START);if(!m)return '';return iso(Date.UTC(+m[1],+m[2]-1,+m[3])+7*86400000*i);}
+function md(v){var m=/^\d{4}-(\d{2})-(\d{2})$/.exec(v);return m?(+m[1])+'/'+(+m[2]):'';}
 function $(id){return document.getElementById(id);}
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
-function canon(d){return JSON.stringify(d.map(function(x){return [x.p,x.n,x.r];}));}
+function canon(d,st){return JSON.stringify([st==null?START:st,d.map(function(x){return [x.p,x.n,x.r];})]);}
 function toast(t,ms){var el=$('toast');el.textContent=t;el.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(function(){el.classList.remove('on');},ms||2200);}
 function norm(a){return (Array.isArray(a)?a:[]).filter(function(x){return x&&typeof x==='object';}).map(function(x){return {p:String(x.p==null?'':x.p),n:String(x.n==null?'':x.n),r:String(x.r==null?'':x.r)};});}
-function save(){try{localStorage.setItem(KEY,JSON.stringify(D));}catch(e){}updDirty();summary();}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(D));localStorage.setItem(SKEY,START);}catch(e){}updDirty();summary();}
 function updDirty(){var ok=BASE!==null&&BASE===canon(D);$('dirty').textContent=ok?'반영됨':'● 아직 반영 안 됨';$('dirty').className='dirty'+(ok?' ok':'');}
 function summary(){
   var c={};D.forEach(function(x){c[x.p]=(c[x.p]||0)+1;});
@@ -109,12 +117,13 @@ function summary(){
 function pcls(p){return PARTS.indexOf(p)>=0?'p'+p:'pOther';}
 function render(){
   var tb=$('tb'),h='';
-  if(!D.length)h='<tr><td colspan="6" class="empty">등록된 사람이 없습니다. 오른쪽 위 “+ 사람 추가”를 눌러 주세요.</td></tr>';
+  if(!D.length)h='<tr><td colspan="7" class="empty">등록된 사람이 없습니다. 오른쪽 위 “+ 사람 추가”를 눌러 주세요.</td></tr>';
   D.forEach(function(x,i){
     var opts=PARTS.slice();if(opts.indexOf(x.p)<0)opts.push(x.p);
     h+='<tr class="'+pcls(x.p)+'" data-i="'+i+'">'
      +'<td class="hd" title="끌어서 순서 변경">☰</td>'
      +'<td class="no">'+(i+1)+'</td>'
+     +'<td class="dcell'+(i===0?' first':'')+'" title="'+dateAt(i)+(i===0?' · 눌러서 첫 날짜 변경':'')+'">'+md(dateAt(i))+(i===0?'<input type="date" class="dpk" id="startDate" value="'+START+'">':'')+'</td>'
      +'<td><select data-f="p">'+opts.map(function(o){return '<option'+(o===x.p?' selected':'')+'>'+esc(o)+'</option>';}).join('')+'</select></td>'
      +'<td><input class="nm" data-f="n" value="'+esc(x.n)+'" placeholder="이름" autocomplete="off"></td>'
      +'<td><input data-f="r" list="dlRank" value="'+esc(x.r)+'" placeholder="직분" autocomplete="off"></td>'
@@ -142,6 +151,13 @@ document.addEventListener('input',function(e){
   var x=D[+tr.dataset.i];x[el.dataset.f]=el.value;
   if(el.dataset.f==='p')tr.className=pcls(x.p);
   save();
+});
+document.addEventListener('click',function(e){var el=e.target;if(el&&el.id==='startDate'&&el.showPicker){try{el.showPicker();}catch(x){}}});
+document.addEventListener('change',function(e){
+  var el=e.target;if(!el||el.id!=='startDate')return;
+  var v=toSun(el.value);if(!v){el.value=START;return;}
+  if(v!==el.value)toast('일요일로 맞춰 '+md(v)+'(일)로 설정했습니다.',3000);
+  START=v;render();save();
 });
 /* 끌어서 순서 변경 */
 var dragI=-1;
@@ -186,12 +202,12 @@ $('bPub').onclick=async function(){
   try{
     var cur=await ghGet(tok);
     var day=new Date().toLocaleDateString('sv-SE',{timeZone:'Asia/Seoul'});
-    var body={message:'기도순서 갱신 '+day,content:b64(JSON.stringify({v:1,updated:new Date().toISOString(),people:D})),branch:BRANCH};
+    var body={message:'기도순서 갱신 '+day,content:b64(JSON.stringify({v:1,updated:new Date().toISOString(),people:D,start:START})),branch:BRANCH};
     if(cur)body.sha=cur.sha;
     var p=await fetch('https://api.github.com/repos/'+REPO+'/contents/'+FPATH,{method:'PUT',headers:{Authorization:'Bearer '+tok,Accept:'application/vnd.github+json','Content-Type':'application/json'},body:JSON.stringify(body)});
     if(!p.ok)throw new Error('저장 실패 '+p.status);
     try{if($('tokSave').checked)localStorage.setItem(TK,tok);}catch(e){}
-    BASE=canon(D);updDirty();toast('반영했습니다. (prayer_list.json)',4000);
+    BASE=canon(D,START);updDirty();toast('반영했습니다. (prayer_list.json)',4000);
   }catch(e){toast('반영하지 못했습니다 ('+e.message+'). 토큰 권한(Contents 읽기·쓰기)을 확인해 주세요.',6000);}
   finally{btn.disabled=false;btn.textContent=old;}
 };
@@ -210,12 +226,15 @@ window.addEventListener('beforeunload',function(e){if(D&&(BASE===null||BASE!==ca
 (function(){
   var raw=null;try{raw=localStorage.getItem(KEY);}catch(e){}
   var dr=null;if(raw){try{dr=norm(JSON.parse(raw));}catch(e){}}
+  try{START=toSun(localStorage.getItem(SKEY)||'');}catch(e){}
+  if(!START)START=defStart();
   D=(dr&&dr.length)?dr:seed();
   setTop();render();updDirty();
   fetch('prayer_list.json?'+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).catch(function(){return null;}).then(function(j){
     var pub=j&&norm(j.people);
-    if(pub&&pub.length){BASE=canon(pub);if(!dr||!dr.length){D=pub;render();}}
-    else BASE=canon(seed());
+    var ps=j&&toSun(j.start);
+    if(pub&&pub.length){BASE=canon(pub,ps||START);if(!dr||!dr.length){D=pub;if(ps)START=ps;render();}}
+    else BASE=canon(seed(),START);
     updDirty();setTop();
   });
 })();
