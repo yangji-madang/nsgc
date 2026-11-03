@@ -256,7 +256,7 @@ function listSec(id){
 }
 function attSec(){
   var a=D.att||{};var c=calc(a);var g=function(k){return a[k]||[0,0];};
-  var heads=['파트','Sop.','Alt.','Ten.','Bas.','Singer 합','Orc.','지휘·반주','수어','총계'];
+  var heads=['파트','SOP.','ALT.','TEN.','BAS.','SINGER 합','ORC.','지휘·반주','수어','총계'];
   var PD=function(a,b){return a+'/<span class="dn">'+b+'</span>';};
   var P=function(x){return PD(n(x[0]),n(x[1]));};
   var vals=[P(g('sop')),P(g('alt')),P(g('ten')),P(g('bas')),PD(c.sg[0],c.sg[1]),P(g('orc')),P(g('cond')),P(g('sign')),PD(c.tt[0],c.tt[1])];
