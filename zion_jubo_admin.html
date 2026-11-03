@@ -248,7 +248,7 @@ function sty(k,name){
 }
 
 /* ---------- 영역별 편집기 ---------- */
-var ORDUNDO=null,SHT=null,PEOPLE=null,SONGS=null,AUXMSG='';
+var ORDUNDO=null,SHT=null,PEOPLE=null,PALL=null,PSTART='',SONGS=null,AUXMSG='';
 function parseMD(x){var m=/(\d{1,2})\s*[\/.\-]\s*(\d{1,2})/.exec(String(x||''));return m?[+m[1],+m[2]]:null;}
 function isoMs(d){var m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(d||'');return m?Date.UTC(+m[1],+m[2]-1,+m[3]):null;}
 function pnm(x){return String(x||'').replace(/\s+/g,'');}
@@ -267,9 +267,11 @@ function songLink(s){
 function loadAux(){
   var g=function(u){return fetch(u+'?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).catch(function(){return null;});};
   return Promise.all([g('prayer_list.json'),g('songs.json')]).then(function(r){
+    PALL=r[0]&&Array.isArray(r[0].people)?r[0].people:null;
+    PSTART=(r[0]&&/^\d{4}-\d{2}-\d{2}$/.test(r[0].start||''))?r[0].start:'';
     PEOPLE=r[0]&&Array.isArray(r[0].people)?r[0].people.filter(function(x){return x&&pnm(x.n);}):null;
     SONGS=r[1]&&Array.isArray(r[1].songs)?r[1].songs:null;
-    AUXMSG='기도 명단 '+(PEOPLE?PEOPLE.length+'명':'불러오기 실패')+' · 찬양곡 '+(SONGS?SONGS.length+'곡':'불러오기 실패');
+    AUXMSG='기도 명단 '+(PEOPLE?PEOPLE.length+'명'+(PSTART?' (기도순서 페이지 날짜 기준)':''):'불러오기 실패')+' · 찬양곡 '+(SONGS?SONGS.length+'곡':'불러오기 실패');
     var m=document.getElementById('auxMsg');if(m)m.textContent=AUXMSG;
   });
 }
@@ -296,7 +298,10 @@ function autoFill(shift){
     var r=[];for(var j=0;j<c;j++)r.push('');
     r[0]=(d.getUTCMonth()+1)+'/'+d.getUTCDate();
     if(sg){r[1]=songText(sg);if(c>3)r[3]=songLink(sg);}
-    r[2]=pFull(PEOPLE[(+t.ps+i)%N]);
+    if(PSTART&&PALL&&PALL.length){
+      var wk=Math.round((Date.UTC(+iso.slice(0,4),+iso.slice(5,7)-1,+iso.slice(8,10))-isoMs(PSTART))/(7*86400000)),q=PALL[((wk%PALL.length)+PALL.length)%PALL.length];
+      r[2]=pnm(q.n)?pFull(q):'';
+    }else r[2]=pFull(PEOPLE[(+t.ps+i)%N]);
     out.push(r);
   }
   ORDUNDO=snap;t.rows=out;t.d0=dt;return n;
@@ -330,8 +335,8 @@ function tblEd(k){
   h+='</table></div><div class="row"><button class="s" data-act="addrow" data-k="'+k+'">+ 행 추가</button></div>';
   if(k==='order'){
     h+='<div class="row">'+CK('tb.order.auto','주보 날짜를 바꾸면 자동 입력')+' <button class="s" data-act="ordfill">지금 자동 채우기</button>'+(ORDUNDO?' <button class="s" data-act="ordundo">되돌리기</button>':'')+'</div>'
-     +'<div class="row"><label>첫 주일 기도자</label><select id="psSel">'+((PEOPLE||[]).map(function(x,i){return '<option value="'+i+'"'+(+D.tb.order.ps===i?' selected':'')+'>'+esc(pFull(x))+'</option>';}).join(''))+'</select><span class="rth" id="auxMsg">'+esc(AUXMSG)+'</span></div>'
-     +'<div class="rth">첫 주일 = 상단 날짜 · 찬양곡명은 찬양곡목(songs.json)의 해당 주일 곡(책명·page)과 합창 링크, 기도자는 기도순서 명단(prayer_list.json)에서 첫 주일 기도자부터 순서대로 입력됩니다. 입력 후에도 직접 수정할 수 있습니다.</div>';
+     +(PSTART?'':'<div class="row"><label>첫 주일 기도자</label><select id="psSel">'+((PEOPLE||[]).map(function(x,i){return '<option value="'+i+'"'+(+D.tb.order.ps===i?' selected':'')+'>'+esc(pFull(x))+'</option>';}).join(''))+'</select><span class="rth" id="auxMsg">'+esc(AUXMSG)+'</span></div>')+(PSTART?'<div class="rth" id="auxMsg">'+esc(AUXMSG)+'</div>':'')
+     +'<div class="rth">첫 주일 = 상단 날짜 · 찬양곡명은 찬양곡목(songs.json)의 해당 주일 곡(책명·page)과 합창 링크, 기도자는 기도순서 페이지(prayer_list)에서 그 주일 날짜에 지정된 사람이 입력됩니다. 입력 후에도 직접 수정할 수 있습니다.</div>';
   }
   if(k==='order')h+='<div class="sub">표 아래 글 (비우면 표시되지 않음)</div>'+RT('tb.order.memo','찬양·기도 순서 표 아래에 표시할 글',2)+'<div class="alr"><label>표 아래 글 정렬</label>'+AL('tb.order.mal','l')+'</div>';
   return h;
@@ -724,9 +729,16 @@ function loadPub(){
   render();
   save();
   refreshAtt();
-  loadAux().then(function(){render();});
+  var auxP=loadAux();
+  function syncOrder(){
+    if(!D||D.tb.order.auto===false||!PEOPLE||!SONGS||isoMs(D.hd.date)==null)return;
+    var t0=isoMs(D.hd.date),ok=D.tb.order.rows.every(function(r,i){var d=new Date(t0+7*86400000*i);return String(r[0]).trim()===(d.getUTCMonth()+1)+'/'+d.getUTCDate();});
+    if(ok)return;
+    var n=autoFill(false);if(n>0){render();save();toast('찬양·기도 순서를 상단 날짜('+D.hd.date+') 기준으로 자동 입력했습니다. (되돌리기 가능)',4500);}
+  }
+  auxP.then(function(){render();syncOrder();});
   loadPublished().then(function(j){
-    if(j){BASE=canon(merged(j));if(!raw){D=merged(j);render();save();refreshAtt();}}
+    if(j){BASE=canon(merged(j));if(!raw){D=merged(j);render();save();refreshAtt();auxP.then(syncOrder);}}
     updDirty();
   });
 })();

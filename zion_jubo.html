@@ -19,6 +19,7 @@ html:not(.ph) .page{max-width:900px}
 .sv[disabled]{opacity:.6}
 .page.cap{min-height:0!important}
 html.ph,html.ph body{overflow-x:visible;max-width:none}
+html.ph .page{min-height:0}
 html.ph .page.nat{width:max-content!important;min-width:0!important}
 html.ph .page.nat table.tb{width:auto!important}
 html.ph .verse,html.ph .lb .side,html.ph ul.ls li,html.ph .memo,html.ph .bday .bx,html.ph table.tb td,html.ph table.tb th{overflow-wrap:normal;word-break:keep-all;white-space:nowrap}
@@ -327,24 +328,19 @@ function fit(){
   var ws=document.querySelectorAll('.fit');
   if(document.documentElement.className==='ph'){
     var pg=document.querySelector('.page');
-    pg.style.width='';pg.classList.add('nat');
+    pg.style.width='';pg.style.zoom='';pg.classList.add('nat');
     for(var q=0;q<ws.length;q++){
       var w0=ws[q],i0=w0.firstElementChild;if(!i0)continue;
       i0.classList.remove('w');i0.style.transform='';i0.style.width='';w0.style.height='';
       if(i0.classList.contains('kids'))eqw(i0,'td.kn');
       else if(i0.classList.contains('eq'))eqw(i0,'td');
     }
+    pg.style.zoom='';
     var nat=pg.offsetWidth;
     pg.classList.remove('nat');
-    var mob=/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent),dw=Math.max(280,mob?(window.screen.width||360):window.innerWidth);
-    var vm=document.querySelector('meta[name=viewport]'),W=Math.min(nat,1090);
-    if(nat>dw+1){
-      pg.style.width=nat+'px';
-      if(vm){var sc0=Math.min(1,dw/W).toFixed(3);vm.setAttribute('content','width='+W+',initial-scale='+sc0+',minimum-scale='+sc0+',maximum-scale=6,user-scalable=yes');}
-    }else{
-      pg.style.width='';
-      if(vm)vm.setAttribute('content','width=device-width,initial-scale=1,minimum-scale=1,viewport-fit=cover');
-    }
+    var avail=document.documentElement.clientWidth,sc=Math.min(1,avail/nat);
+    if(sc<0.999){pg.style.width=nat+'px';pg.style.zoom=sc.toFixed(4);}
+    else{pg.style.width='';pg.style.zoom='';}
     return;
   }
   document.querySelector('.page').style.width='';
@@ -361,12 +357,12 @@ function fname(){var d=String((D&&D.hd&&D.hd.date)||'').replace(/\D/g,'');
   if(d.length>=8)d=d.slice(2,8);else if(d.length<6){var t=new Date();d=String(t.getFullYear()).slice(2)+('0'+(t.getMonth()+1)).slice(-2)+('0'+t.getDate()).slice(-2);}else d=d.slice(0,6);
   return '주보-'+d+'.png';}
 function doCapture(){
-  var pg=document.querySelector('.page');
-  pg.classList.add('cap');
+  var pg=document.querySelector('.page'),z0=pg.style.zoom;
+  pg.style.zoom='';pg.classList.add('cap');
   var sc=Math.max(2,Math.min(3,window.devicePixelRatio||2));
   return new Promise(function(r){setTimeout(r,60);}).then(function(){
     return window.html2canvas(pg,{scale:sc,useCORS:true,backgroundColor:'#ffffff',scrollX:0,scrollY:-window.scrollY,width:pg.offsetWidth,height:pg.offsetHeight,windowWidth:Math.max(document.documentElement.clientWidth,pg.offsetWidth)});
-  }).then(function(c){pg.classList.remove('cap');return c;},function(e){pg.classList.remove('cap');throw e;});
+  }).then(function(c){pg.classList.remove('cap');pg.style.zoom=z0;return c;},function(e){pg.classList.remove('cap');pg.style.zoom=z0;throw e;});
 }
 window.juboCapture=function(){
   if(!window.html2canvas)return Promise.reject(new Error('html2canvas 없음'));
