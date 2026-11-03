@@ -364,7 +364,8 @@ function draw0(){
       var mm=(D.tb&&D.tb.order&&D.tb.order.memo)||'';
       if(mm.trim())inner+='<div class="memo" style="text-align:'+(AM[D.tb.order.mal||'l']||'left')+'">'+rich(mm).replace(/\n/g,'<br>')+'</div>';
     }
-    if(!inner)return;
+    var known=['order','time','event','staff','att','child','notice','pray'].indexOf(sec.id)>=0;
+    if(!inner&&(known||!((sec.label||'').trim()||(sec.side||'').trim())))return;
     var side='';
     if((sec.side||'').trim()){
       var u=url(sec.url);
