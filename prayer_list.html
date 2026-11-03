@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>기도순서 관리</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f3f5f8;font-family:'Noto Sans KR','Malgun Gothic',sans-serif;color:#222;font-size:15px}
+.top{position:sticky;top:0;z-index:30;background:#1f3a5f;color:#fff;padding:8px 12px;display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center}
+.top b{font-size:16px;margin-right:auto}
+.top a,.top button{background:#fff;color:#1f3a5f;border:0;border-radius:6px;padding:6px 10px;font-size:13px;font-weight:700;cursor:pointer;text-decoration:none;font-family:inherit}
+.top button.pub{background:#2e7d32;color:#fff}
+.top button:disabled{opacity:.6}
+.wd{margin-left:auto;font-size:12px;color:rgba(255,255,255,.6);font-weight:500;white-space:nowrap}
+.dirty{font-size:12px;padding:3px 9px;border-radius:12px;background:#fff3cd;color:#7a5b00;font-weight:700}
+.dirty.ok{background:#e1f3e3;color:#1b5e20}
+.wrap{max-width:760px;margin:0 auto;padding:10px 10px 90px}
+.gh{margin:0 0 8px}
+.gh summary{cursor:pointer;font-size:13px;color:#335}
+.ghb{background:#fff;border:1px solid #dde3ec;border-radius:8px;padding:8px 10px;margin-top:6px;display:flex;flex-direction:column;gap:6px}
+.ghb input[type=password]{flex:1;min-width:0;padding:6px 8px;border:1px solid #c9d1de;border-radius:6px;font-size:14px}
+.ghb .r{display:flex;gap:8px;align-items:center}
+.ghb button{padding:5px 10px;border:1px solid #c9d1de;border-radius:6px;background:#f7f9fc;cursor:pointer;font-family:inherit}
+.sum{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:4px 0 8px;font-size:13px}
+.sum span{background:#fff;border:1px solid #dde3ec;border-radius:12px;padding:2px 10px;font-weight:700}
+.sum .add{margin-left:auto;background:#1f3a5f;color:#fff;border:0;border-radius:6px;padding:7px 12px;font-weight:700;cursor:pointer;font-family:inherit;font-size:14px}
+.sum .sub{border:1px solid #c9d1de;background:#fff;color:#1f3a5f;border-radius:6px;padding:6px 10px;font-weight:700;cursor:pointer;font-family:inherit;font-size:13px}
+table{width:100%;border-collapse:separate;border-spacing:0;background:#fff;border:1px solid #cfd6e2;border-radius:8px;table-layout:fixed}
+thead th{position:sticky;top:var(--th,48px);z-index:20;background:#dde7f3;color:#1a2f52;font-size:14px;padding:8px 4px;border-bottom:2px solid #9fb5d6;text-align:center}
+thead th:first-child{border-top-left-radius:7px}
+thead th:last-child{border-top-right-radius:7px}
+td{padding:3px 4px;border-bottom:1px solid #e8ecf2;vertical-align:middle}
+tr.pSop td{background:#fff5f7}tr.pAlt td{background:#fff9ec}tr.pTen td{background:#f0f8ff}tr.pBas td{background:#f1f8f1}
+tr.pOther td{background:#fff}
+td.no{text-align:center;color:#667;font-size:13px}
+td.hd{text-align:center;cursor:grab;color:#889;font-size:16px;user-select:none}
+td select,td input{width:100%;border:1px solid transparent;background:transparent;padding:6px 6px;font-size:15px;font-family:inherit;border-radius:6px;color:#111;font-weight:500}
+td select:hover,td input:hover{border-color:#c9d1de;background:#fff}
+td select:focus,td input:focus{outline:2px solid #4a7bd0;background:#fff}
+td input.nm{white-space:pre}
+td.act{white-space:nowrap;text-align:center}
+td.act button{border:1px solid #c9d1de;background:#fff;border-radius:6px;padding:4px 7px;font-size:13px;cursor:pointer;font-family:inherit;color:#1f3a5f;font-weight:700}
+td.act button.d{color:#b3261e}
+td.act button:disabled{opacity:.35;cursor:default}
+tr.over-t td{box-shadow:inset 0 3px 0 #1f3a5f}
+tr.over-b td{box-shadow:inset 0 -3px 0 #1f3a5f}
+tr.drag{opacity:.45}
+.empty{text-align:center;padding:30px;color:#667}
+.toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:#222;color:#fff;padding:8px 14px;border-radius:20px;font-size:13px;opacity:0;transition:.25s;pointer-events:none;z-index:50;max-width:92%}
+.toast.on{opacity:.92}
+.c1{width:34px}.c2{width:32px}.c3{width:74px}.c5{width:78px}.c6{width:136px}
+.dx{display:none}
+@media(max-width:560px){body{font-size:14px}.c1{width:24px}.c2{width:26px}.c3{width:58px}.c5{width:70px}.c6{width:108px}
+td select,td input{padding:6px 2px;font-size:14px}td select{padding-left:0;padding-right:0}td.act button{padding:4px 5px;font-size:12px}td.act{letter-spacing:0}
+.dt{display:none}.dx{display:inline}.wrap{padding:8px 6px 90px}}
+</style>
+</head>
+<body>
+<div class="top" id="top">
+  <b>기도순서 관리</b>
+  <span class="dirty" id="dirty">확인 중…</span>
+  <a href="zion-portal.html" target="_blank" rel="noopener">시온포털 보기 ↗</a>
+  <button type="button" id="bCsv">엑셀(CSV) 저장</button>
+  <button type="button" class="pub" id="bPub">반영하기</button>
+  <span class="wd">문지기 : 윤현철</span>
+</div>
+<div class="wrap">
+  <details class="gh" id="dgh"><summary>GitHub 연결 (반영하기에 필요)</summary><div class="ghb">
+    <div class="r"><input type="password" id="tok" autocomplete="off" placeholder="github_pat_… (Contents 읽기·쓰기 권한)"><button type="button" id="tokTest">연결 확인</button></div>
+    <label><input type="checkbox" id="tokSave"> 이 기기에 기억 (다른 관리페이지와 같은 토큰을 함께 사용)</label>
+    <div id="tokMsg" style="font-size:12px;color:#555"></div>
+  </div></details>
+  <div class="sum" id="sum"></div>
+  <table>
+    <colgroup><col class="c1"><col class="c2"><col class="c3"><col><col class="c5"><col class="c6"></colgroup>
+    <thead><tr><th></th><th>순</th><th>파트</th><th>이름</th><th>직분</th><th>순서 · 삭제</th></tr></thead>
+    <tbody id="tb"></tbody>
+  </table>
+</div>
+<div class="toast" id="toast"></div>
+<datalist id="dlRank"><option value="집사"><option value="권사"><option value="장로"><option value="목사"><option value="전도사"><option value="성도"></datalist>
+<script>
+(function(){
+var REPO='yangji-madang/nsgc',FPATH='prayer_list.json',BRANCH='main',TK='choir-gh-token-v1',KEY='prayer_list_draft';
+var PARTS=['Sop','Alt','Ten','Bas'];
+var SEED='Sop|강경원|집사;Sop|강지인|집사;Sop|권   미|집사;Sop|김   숙|권사;Sop|김순영|권사;Sop|김영미|집사;Sop|김정숙|집사;Sop|김정현|집사;Sop|송정은|집사;Sop|이명자|집사;Sop|임은경|권사;Sop|전인숙|집사;Sop|정현주|집사;Sop|조연주|집사;Sop|최금옥|권사;Sop|최지선S|집사;Sop|함영자|집사;'
++'Alt|강민주|집사;Alt|강정원|집사;Alt|김경희|권사;Alt|김용주|집사;Alt|서희정|권사;Alt|안   옥|집사;Alt|염선영|집사;Alt|윤수진|집사;Alt|이미현|집사;Alt|이순란|집사;Alt|임순남|집사;Alt|전미숙|권사;Alt|정진규|집사;Alt|최복순|권사;Alt|홍찬의|집사;'
++'Ten|김세준|집사;Ten|김현철|집사;Ten|엄기호|집사;Ten|이수행|집사;Ten|정은석|집사;Ten|정지우|집사;'
++'Bas|권남회|집사;Bas|김규철|집사;Bas|윤여훈|집사;Bas|윤현철|집사;Bas|이명헌|집사;Bas|이병재|집사;Bas|정운채|집사;Bas|정윤택|집사;Bas|조경식|집사;Bas|조성수|집사;Bas|한명민|집사';
+function seed(){return SEED.split(';').map(function(x){var a=x.split('|');return {p:a[0],n:a[1],r:a[2]};});}
+var D=null,BASE=null,lastAdded=-1;
+function $(id){return document.getElementById(id);}
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function canon(d){return JSON.stringify(d.map(function(x){return [x.p,x.n,x.r];}));}
+function toast(t,ms){var el=$('toast');el.textContent=t;el.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(function(){el.classList.remove('on');},ms||2200);}
+function norm(a){return (Array.isArray(a)?a:[]).filter(function(x){return x&&typeof x==='object';}).map(function(x){return {p:String(x.p==null?'':x.p),n:String(x.n==null?'':x.n),r:String(x.r==null?'':x.r)};});}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(D));}catch(e){}updDirty();summary();}
+function updDirty(){var ok=BASE!==null&&BASE===canon(D);$('dirty').textContent=ok?'반영됨':'● 아직 반영 안 됨';$('dirty').className='dirty'+(ok?' ok':'');}
+function summary(){
+  var c={};D.forEach(function(x){c[x.p]=(c[x.p]||0)+1;});
+  var h=PARTS.map(function(p){return '<span>'+p+' '+(c[p]||0)+'</span>';}).join('');
+  var oth=D.length-PARTS.reduce(function(s,p){return s+(c[p]||0);},0);
+  if(oth>0)h+='<span>기타 '+oth+'</span>';
+  h+='<span>총 '+D.length+'명</span><button type="button" class="add" id="bAdd">+ 사람 추가</button>';
+  $('sum').innerHTML=h;
+}
+function pcls(p){return PARTS.indexOf(p)>=0?'p'+p:'pOther';}
+function render(){
+  var tb=$('tb'),h='';
+  if(!D.length)h='<tr><td colspan="6" class="empty">등록된 사람이 없습니다. 오른쪽 위 “+ 사람 추가”를 눌러 주세요.</td></tr>';
+  D.forEach(function(x,i){
+    var opts=PARTS.slice();if(opts.indexOf(x.p)<0)opts.push(x.p);
+    h+='<tr class="'+pcls(x.p)+'" data-i="'+i+'">'
+     +'<td class="hd" title="끌어서 순서 변경">☰</td>'
+     +'<td class="no">'+(i+1)+'</td>'
+     +'<td><select data-f="p">'+opts.map(function(o){return '<option'+(o===x.p?' selected':'')+'>'+esc(o)+'</option>';}).join('')+'</select></td>'
+     +'<td><input class="nm" data-f="n" value="'+esc(x.n)+'" placeholder="이름" autocomplete="off"></td>'
+     +'<td><input data-f="r" list="dlRank" value="'+esc(x.r)+'" placeholder="직분" autocomplete="off"></td>'
+     +'<td class="act"><button type="button" data-a="up"'+(i===0?' disabled':'')+' title="위로">↑</button> <button type="button" data-a="dn"'+(i===D.length-1?' disabled':'')+' title="아래로">↓</button> <button type="button" data-a="ins" title="이 아래에 사람 추가">＋</button> <button type="button" class="d" data-a="del" title="삭제"><span class="dt">삭제</span><span class="dx">✕</span></button></td>'
+     +'</tr>';
+  });
+  tb.innerHTML=h;summary();
+  if(lastAdded>=0){var el=tb.querySelector('tr[data-i="'+lastAdded+'"] input.nm');if(el){el.focus();el.scrollIntoView({block:'center'});}lastAdded=-1;}
+}
+function mv(i,d){var j=i+d;if(j<0||j>=D.length)return;var t=D[i];D[i]=D[j];D[j]=t;}
+function addAt(i){var p=D[i]?D[i].p:(D.length?D[D.length-1].p:'Sop'),r=D[i]?D[i].r:'집사';D.splice(i+1,0,{p:p,n:'',r:r});lastAdded=i+1;}
+document.addEventListener('click',function(e){
+  var b=e.target.closest('button');if(!b)return;
+  if(b.id==='bAdd'){addAt(D.length-1);render();save();return;}
+  var tr=b.closest('tr[data-i]');if(!tr||!b.dataset.a)return;
+  var i=+tr.dataset.i,a=b.dataset.a;
+  if(a==='up')mv(i,-1);
+  else if(a==='dn')mv(i,1);
+  else if(a==='ins')addAt(i);
+  else if(a==='del'){var nm=(D[i].n||'').replace(/\s+/g,' ').trim()||'이 항목';if(!confirm(nm+' 님을 삭제할까요?'))return;D.splice(i,1);}
+  render();save();
+});
+document.addEventListener('input',function(e){
+  var el=e.target,tr=el.closest&&el.closest('tr[data-i]');if(!tr||!el.dataset.f)return;
+  var x=D[+tr.dataset.i];x[el.dataset.f]=el.value;
+  if(el.dataset.f==='p')tr.className=pcls(x.p);
+  save();
+});
+/* 끌어서 순서 변경 */
+var dragI=-1;
+document.addEventListener('mousedown',function(e){var h=e.target.closest&&e.target.closest('td.hd');if(h)h.parentNode.draggable=true;});
+document.addEventListener('dragstart',function(e){var tr=e.target.closest&&e.target.closest('tr[data-i]');if(!tr||!tr.draggable)return;dragI=+tr.dataset.i;tr.classList.add('drag');try{e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain',String(dragI));}catch(x){}});
+document.addEventListener('dragend',function(){dragI=-1;[].forEach.call(document.querySelectorAll('#tb tr'),function(t){t.draggable=false;t.classList.remove('drag','over-t','over-b');});});
+document.addEventListener('dragover',function(e){
+  var tr=e.target.closest&&e.target.closest('tr[data-i]');if(!tr||dragI<0)return;e.preventDefault();
+  var r=tr.getBoundingClientRect(),top=e.clientY<r.top+r.height/2;
+  [].forEach.call(document.querySelectorAll('#tb tr'),function(t){t.classList.remove('over-t','over-b');});
+  tr.classList.add(top?'over-t':'over-b');
+});
+document.addEventListener('drop',function(e){
+  var tr=e.target.closest&&e.target.closest('tr[data-i]');if(!tr||dragI<0)return;e.preventDefault();
+  var r=tr.getBoundingClientRect(),top=e.clientY<r.top+r.height/2,to=+tr.dataset.i+(top?0:1),from=dragI;
+  dragI=-1;if(to===from||to===from+1){render();return;}
+  var it=D.splice(from,1)[0];if(from<to)to--;D.splice(to,0,it);render();save();
+});
+/* 틀고정: 머리글이 상단 바 바로 아래에 붙도록 */
+function setTop(){document.documentElement.style.setProperty('--th',$('top').offsetHeight+'px');}
+window.addEventListener('resize',setTop);
+/* CSV */
+function csv(){
+  var q=function(s){s=String(s);return /[",\n]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s;};
+  var t='﻿파트,이름,직분\r\n'+D.map(function(x){return [q(x.p),q(x.n),q(x.r)].join(',');}).join('\r\n');
+  var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:'text/csv;charset=utf-8'}));a.download='기도순서.csv';
+  document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href);},2000);
+}
+$('bCsv').onclick=csv;
+/* GitHub */
+function getTok(){var t=$('tok').value.trim();if(t)return t;try{return localStorage.getItem(TK)||'';}catch(e){return '';}}
+function b64(x){return btoa(unescape(encodeURIComponent(x)));}
+function unb64(x){return decodeURIComponent(escape(atob(x.replace(/\n/g,''))));}
+function ghGet(tok){
+  return fetch('https://api.github.com/repos/'+REPO+'/contents/'+FPATH+'?ref='+BRANCH+'&t='+Date.now(),{headers:{Authorization:'Bearer '+tok,Accept:'application/vnd.github+json'},cache:'no-store'})
+   .then(function(r){if(r.status===404)return null;if(!r.ok)throw new Error('조회 실패 '+r.status);return r.json();});
+}
+$('bPub').onclick=async function(){
+  var tok=getTok();
+  if(!tok){$('dgh').open=true;toast('GitHub 토큰을 먼저 입력해 주세요.');return;}
+  var btn=this,old=btn.textContent;btn.disabled=true;btn.textContent='반영 중…';
+  try{
+    var cur=await ghGet(tok);
+    var day=new Date().toLocaleDateString('sv-SE',{timeZone:'Asia/Seoul'});
+    var body={message:'기도순서 갱신 '+day,content:b64(JSON.stringify({v:1,updated:new Date().toISOString(),people:D})),branch:BRANCH};
+    if(cur)body.sha=cur.sha;
+    var p=await fetch('https://api.github.com/repos/'+REPO+'/contents/'+FPATH,{method:'PUT',headers:{Authorization:'Bearer '+tok,Accept:'application/vnd.github+json','Content-Type':'application/json'},body:JSON.stringify(body)});
+    if(!p.ok)throw new Error('저장 실패 '+p.status);
+    try{if($('tokSave').checked)localStorage.setItem(TK,tok);}catch(e){}
+    BASE=canon(D);updDirty();toast('반영했습니다. (prayer_list.json)',4000);
+  }catch(e){toast('반영하지 못했습니다 ('+e.message+'). 토큰 권한(Contents 읽기·쓰기)을 확인해 주세요.',6000);}
+  finally{btn.disabled=false;btn.textContent=old;}
+};
+try{$('tok').value=localStorage.getItem(TK)||'';$('tokSave').checked=!!localStorage.getItem(TK);}catch(e){}
+$('tokSave').onchange=function(){try{var t=$('tok').value.trim();if(this.checked&&t)localStorage.setItem(TK,t);else localStorage.removeItem(TK);}catch(e){}};
+$('tokTest').onclick=function(){
+  var t=getTok(),m=$('tokMsg');if(!t){m.textContent='토큰을 입력하세요.';return;}
+  m.textContent='확인 중…';
+  fetch('https://api.github.com/repos/'+REPO,{headers:{Authorization:'Bearer '+t,Accept:'application/vnd.github+json'}})
+   .then(function(r){if(!r.ok)throw new Error(r.status);return r.json();})
+   .then(function(j){m.textContent=(j.permissions&&j.permissions.push)?'✅ 연결됨 (쓰기 가능)':'⚠️ 연결됐지만 쓰기 권한이 없습니다';})
+   .catch(function(x){m.textContent='❌ 연결 실패 ('+x.message+') — 토큰을 확인하세요';});
+};
+window.addEventListener('beforeunload',function(e){if(D&&(BASE===null||BASE!==canon(D))){e.preventDefault();e.returnValue='';}});
+/* 시작 : 임시저장 > 발행본(prayer_list.json) > 엑셀 원본 */
+(function(){
+  var raw=null;try{raw=localStorage.getItem(KEY);}catch(e){}
+  var dr=null;if(raw){try{dr=norm(JSON.parse(raw));}catch(e){}}
+  D=(dr&&dr.length)?dr:seed();
+  setTop();render();updDirty();
+  fetch('prayer_list.json?'+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).catch(function(){return null;}).then(function(j){
+    var pub=j&&norm(j.people);
+    if(pub&&pub.length){BASE=canon(pub);if(!dr||!dr.length){D=pub;render();}}
+    else BASE=canon(seed());
+    updDirty();setTop();
+  });
+})();
+})();
+</script>
+</body>
+</html>
