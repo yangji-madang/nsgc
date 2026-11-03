@@ -203,6 +203,7 @@ function migrate(d){
     t.cols.forEach(function(_,j){if(!t.al[j])t.al[j]=DEFAL[k][j]||'c';});
   });
   ['notice','pray'].forEach(function(k){var L=d.ls[k];if(!L.a1)L.a1='l';if(!L.a2)L.a2='l';if(!L.a3)L.a3='l';if(L.bd==null)L.bd='';if(!Array.isArray(L.ex))L.ex=[];});
+  if(!d.tbx||typeof d.tbx!=='object')d.tbx={};if(!d.tbxN)d.tbxN=0;
   if(d.ls.notice.bdAuto==null)d.ls.notice.bdAuto=true;
   d.hd=d.hd||f.hd;if(!d.hd.vAl)d.hd.vAl='c';
   d.sec.forEach(function(x){if(!x.sal)x.sal='r';});
@@ -394,17 +395,33 @@ async function bdRun(manual){
   if((D.ls.notice.bd||'')!==r.text){D.ls.notice.bd=r.text;render();save();}
   bdMsg(r.n?('주보 날짜('+dt+') 주간 생일자 '+r.n+'명을 입력했습니다.'):'주보 날짜('+dt+') 주간에는 생일자가 없습니다.');
 }
+function tbDef(){return {r:[['',''],['','']],bd:'#999999',bw:1,bg:'#ffffff',nbg:false,al:'c',fs:13,b:false,fc:'#222222',hdr:true,hbg:'#dde7f3',fw:true};}
+var MKR=/^\s*\[\[표:([A-Za-z0-9_]+)\]\]\s*$/;
+function tbIds(p){var o=[];String(G(p)||'').split('\n').forEach(function(l){var m=MKR.exec(l);if(m&&D.tbx&&D.tbx[m[1]]&&o.indexOf(m[1])<0)o.push(m[1]);});return o;}
+function tbEd(id,p){
+  var T=D.tbx[id],q='tbx.'+id,bt=function(a,l,c){return '<button class="s'+(c?' '+c:'')+'" type="button" data-act="'+a+'" data-id="'+id+'" data-tp="'+p+'">'+l+'</button> ';};
+  var h='<div style="border:1px solid #b9c2d0;border-radius:6px;padding:6px 8px;margin:6px 0;background:#fafbfd"><div class="sub" style="margin-top:0">표 · 본문의 <b>[[표:'+id+']]</b> 줄 위치에 표시됩니다 (줄을 옮기면 표 위치가 바뀝니다)</div><div class="tw"><table class="et">';
+  T.r.forEach(function(row,i){h+='<tr>'+row.map(function(_,j){return '<td><input type="text" data-p="'+q+'.r.'+i+'.'+j+'" data-t="text" value="'+esc(row[j])+'" style="width:92px"></td>';}).join('')+'</tr>';});
+  h+='</table></div><div class="row">'+bt('tbr+','+ 행')+bt('tbr-','− 행')+bt('tbc+','+ 열')+bt('tbc-','− 열')+'</div>'
+   +'<div class="row"><label>테두리</label>'+C(q+'.bd')+' 두께 '+N(q+'.bw',0,6)+'px <label>셀 바탕</label>'+C(q+'.bg')+' '+CK(q+'.nbg','바탕 없음')+'</div>'
+   +'<div class="row"><label>글자</label>크기 '+N(q+'.fs',8,40)+' '+C(q+'.fc')+' '+CK(q+'.b','굵게')+' <span class="alr" style="display:inline-flex;gap:4px;align-items:center;font-size:12px">정렬 '+AL(q+'.al','c')+'</span></div>'
+   +'<div class="row">'+CK(q+'.hdr','첫 행을 제목행으로')+' '+C(q+'.hbg')+' '+CK(q+'.fw','가로 꽉 채움')+' '+bt('tbdel','표 삭제','d')+'</div></div>';
+  return h;
+}
+function TX(p,ph,rows){
+  return RT(p,ph,rows)+'<div class="row"><button class="s" type="button" data-act="tbadd" data-tp="'+p+'">▦ 표 삽입 (커서 위치에)</button><span class="rth" style="margin:0">표는 여러 개 넣을 수 있고, 글과 섞어 쓸 수 있습니다.</span></div>'+tbIds(p).map(function(id){return tbEd(id,p);}).join('');
+}
 function listEd(k){
-  var h='<div class="sub">일반 내용 (줄바꿈으로 여러 개 입력 · 한 줄이 한 항목)</div>'+RT('ls.'+k+'.t1','일반 공지를 줄바꿈으로 입력',6)+'<div class="alr"><label>일반 내용 정렬</label>'+AL('ls.'+k+'.a1','l')+'</div>'
+  var h='<div class="sub">일반 내용 (줄바꿈으로 여러 개 입력 · 한 줄이 한 항목)</div>'+TX('ls.'+k+'.t1','일반 공지를 줄바꿈으로 입력',6)+'<div class="alr"><label>일반 내용 정렬</label>'+AL('ls.'+k+'.a1','l')+'</div>'
    +(k==='notice'?'<div class="sub">생일을 축하합니다 (비우면 이 줄은 표시되지 않음)</div>'+RT('ls.notice.bd','예: 조경식 집사님(18, 주일)',2)+'<div class="alr"><label>생일 줄 정렬</label>'+AL('ls.notice.a3','l')+'</div>'
    +'<div class="row">'+CK('ls.notice.bdAuto','생일자 자동 입력 (주보 날짜가 속한 주 일~토, birth.html 명단 기준)')+'</div>'
    +'<div class="row"><label>명단 비밀번호</label><input type="password" id="bdPw" autocomplete="off" style="width:150px" placeholder="'+(bdGetPw()?'저장됨':'생일 관리 비밀번호')+'"> <label style="min-width:0"><input type="checkbox" id="bdRem"'+(bdRemembered()?' checked':'')+'> 이 기기에 기억</label> <button class="s" type="button" data-act="bdfill">생일자 불러오기</button> <button class="s" type="button" data-act="bdforget">비밀번호 지우기</button></div>'
    +'<div class="rth" id="bdMsg">'+esc(BDMSG)+'</div>':'')
-   +'<div class="sub">구별 내용 (줄바꿈 가능 · 비우면 표시 안 됨)</div>'+RT('ls.'+k+'.t2','일반 내용과 구별되는 내용',6)+'<div class="alr"><label>구별 내용 정렬</label>'+AL('ls.'+k+'.a2','l')+'</div>'
+   +'<div class="sub">구별 내용 (줄바꿈 가능 · 비우면 표시 안 됨)</div>'+TX('ls.'+k+'.t2','일반 내용과 구별되는 내용',6)+'<div class="alr"><label>구별 내용 정렬</label>'+AL('ls.'+k+'.a2','l')+'</div>'
    +'<div class="row"><label>구별 색상</label>'+C('ls.'+k+'.c2')+'</div>';
   (D.ls[k].ex||[]).forEach(function(e,i){
     var q='ls.'+k+'.ex.'+i;
-    h+='<div class="sub">구별 내용 '+(i+2)+'</div>'+RT(q+'.t','추가 구별 내용 (줄바꿈 가능 · 비우면 표시 안 됨)',4)
+    h+='<div class="sub">구별 내용 '+(i+2)+'</div>'+TX(q+'.t','추가 구별 내용 (줄바꿈 가능 · 비우면 표시 안 됨)',4)
      +'<div class="alr"><label>정렬</label>'+AL(q+'.a','l')+'</div>'
      +'<div class="row"><label>색상</label>'+C(q+'.c')+' <button class="s" type="button" data-act="exup" data-k="'+k+'" data-i="'+i+'">↑</button> <button class="s" type="button" data-act="exdn" data-k="'+k+'" data-i="'+i+'">↓</button> <button class="s d" type="button" data-act="exdel" data-k="'+k+'" data-i="'+i+'">삭제</button></div>';
   });
@@ -622,6 +639,26 @@ document.addEventListener('click',function(e){
   else if(a==='archive'){archive(true);chg=false;}
   else if(a==='al'){S(b.dataset.p,b.dataset.v);}
   else if(a==='attreload'){refreshAtt(true);chg=false;}
+  else if(a==='tbadd'){
+    var tp=b.dataset.tp,ta=document.querySelector('textarea[data-p="'+tp+'"]'),id,v=String(G(tp)||'');
+    do{id='t'+(++D.tbxN);}while(D.tbx[id]);
+    D.tbx[id]=tbDef();
+    var pos=ta&&ta.selectionStart!=null?Math.min(ta.selectionStart,v.length):v.length;
+    var ins=(pos>0&&v.charAt(pos-1)!=='\n'?'\n':'')+'[['+'표:'+id+']]'+(pos<v.length&&v.charAt(pos)!=='\n'?'\n':'');
+    S(tp,v.slice(0,pos)+ins+v.slice(pos));
+  }
+  else if(a==='tbdel'){
+    var tp2=b.dataset.tp,id2=b.dataset.id;
+    S(tp2,String(G(tp2)||'').split('\n').filter(function(l){var m=MKR.exec(l);return !(m&&m[1]===id2);}).join('\n'));
+    delete D.tbx[id2];
+  }
+  else if(a==='tbr+'||a==='tbr-'||a==='tbc+'||a==='tbc-'){
+    var T=D.tbx[b.dataset.id];
+    if(a==='tbr+'){T.r.push(T.r[0].map(function(){return '';}));}
+    else if(a==='tbr-'){if(T.r.length>1)T.r.pop();}
+    else if(a==='tbc+'){T.r.forEach(function(r){r.push('');});}
+    else{if(T.r[0].length>1)T.r.forEach(function(r){r.pop();});}
+  }
   else if(a==='exadd'){var L=D.ls[k];L.ex=L.ex||[];L.ex.push({t:'',c:L.c2||'#1a56c4',a:'l'});}
   else if(a==='exdel'){D.ls[k].ex.splice(i,1);}
   else if(a==='exup'){mv(D.ls[k].ex,i,-1);}
