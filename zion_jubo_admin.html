@@ -191,6 +191,7 @@ function migrate(d){
   if(!d.kids.al)d.kids.al='l';
   if(d.tb.event&&(d.tb.event.bw==null||d.tb.event.bw===''))d.tb.event.bw=1;
   if(d.tb.order.memo==null)d.tb.order.memo='';
+  if(d.tb.order.auto==null)d.tb.order.auto=true;
   if(!d.tb.order.mal)d.tb.order.mal='l';
   ['order','time','event','staff'].forEach(function(k){
     var t=d.tb[k];if(!Array.isArray(t.al))t.al=[];
@@ -247,22 +248,63 @@ function sty(k,name){
 }
 
 /* ---------- 영역별 편집기 ---------- */
-var ORDUNDO=null,SHT=null;
+var ORDUNDO=null,SHT=null,PEOPLE=null,SONGS=null,AUXMSG='';
 function parseMD(x){var m=/(\d{1,2})\s*[\/.\-]\s*(\d{1,2})/.exec(String(x||''));return m?[+m[1],+m[2]]:null;}
-function shiftOrder(){
-  var dt=/^(\d{4})-(\d{2})-(\d{2})$/.exec(D.hd.date||'');if(!dt)return 0;
-  var jy=+dt[1],jm=+dt[2],base=Date.UTC(jy,jm-1,+dt[3]),t=D.tb.order,rows=t.rows,c=t.cols.length+(t.link!=null?1:0);
-  function rt(r){var md=parseMD(r[0]);if(!md)return null;var y=jy;if(md[0]<jm-6)y++;else if(md[0]>jm+6)y--;return Date.UTC(y,md[0]-1,md[1]);}
-  var keep=[],gone=0,last=base;
-  rows.forEach(function(r){var tm=rt(r);if(tm!=null&&tm<=base)gone++;else{keep.push(r);if(tm!=null&&tm>last)last=tm;}});
-  if(!gone)return 0;
-  ORDUNDO=JSON.parse(JSON.stringify(rows));
-  while(keep.length<rows.length){
-    last+=7*86400000;var d=new Date(last),r=[];
-    for(var x=0;x<c;x++)r.push('');
-    r[0]=(d.getUTCMonth()+1)+'/'+d.getUTCDate();keep.push(r);
+function isoMs(d){var m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(d||'');return m?Date.UTC(+m[1],+m[2]-1,+m[3]):null;}
+function pnm(x){return String(x||'').replace(/\s+/g,'');}
+function pFull(x){return pnm(x.n)+(String(x.r||'').trim()?' '+String(x.r).trim():'');}
+function songText(s){
+  var bk=String(s.book||'').replace(/\s*\(.*?\)\s*/g,'').trim(),pg=String(s.page||'').trim();
+  var ti=String(s.title||'').replace(/^\s*\d+\s*\.\s*/,'').trim();
+  var ref=bk?(pg?bk+' p.'+pg:bk+' 전체'):(pg?'p.'+pg:'');
+  if(/^全\s*曲$/.test(ti)||!ti)ti=s.season?String(s.season).trim()+'주일':'전곡';
+  return ref?ti+'('+ref+')':ti;
+}
+function songLink(s){
+  var L=(s.links||[]).filter(function(l){return l&&l.part==='All'&&l.url;});
+  var y=L.filter(function(l){return l.type==='youtube';})[0]||L[0];return y?y.url:'';
+}
+function loadAux(){
+  var g=function(u){return fetch(u+'?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).catch(function(){return null;});};
+  return Promise.all([g('prayer_list.json'),g('songs.json')]).then(function(r){
+    PEOPLE=r[0]&&Array.isArray(r[0].people)?r[0].people.filter(function(x){return x&&pnm(x.n);}):null;
+    SONGS=r[1]&&Array.isArray(r[1].songs)?r[1].songs:null;
+    AUXMSG='기도 명단 '+(PEOPLE?PEOPLE.length+'명':'불러오기 실패')+' · 찬양곡 '+(SONGS?SONGS.length+'곡':'불러오기 실패');
+    var m=document.getElementById('auxMsg');if(m)m.textContent=AUXMSG;
+  });
+}
+/* 상단 날짜를 첫 주일로 하여 주일·찬양곡명(합창 링크)·기도자를 자동 입력 */
+function autoFill(shift){
+  var dt=D.hd.date,t0=isoMs(dt);if(t0==null)return -1;
+  if(!PEOPLE||!PEOPLE.length||!SONGS)return -2;
+  var t=D.tb.order,rows=t.rows,n=rows.length,c=t.cols.length+(t.link!=null?1:0),N=PEOPLE.length;
+  var snap=JSON.stringify({rows:rows,ps:t.ps,d0:t.d0});
+  if(t.ps==null||isNaN(+t.ps)){
+    var f=pnm(rows[0]&&rows[0][2]).replace(/(집사|권사|장로|목사|전도사|성도)$/,'');
+    var ix=-1;PEOPLE.forEach(function(x,i){if(ix<0&&pnm(x.n)===f)ix=i;});
+    t.ps=ix>=0?ix:0;
   }
-  t.rows=keep;return gone;
+  if(shift){
+    var d0=isoMs(t.d0);
+    if(d0==null&&rows[0]){var md=parseMD(rows[0][0]);if(md){var y=+dt.slice(0,4),best=null;[y-1,y,y+1].forEach(function(yy){var v=Date.UTC(yy,md[0]-1,md[1]);if(best==null||Math.abs(v-t0)<Math.abs(best-t0))best=v;});d0=best;}}
+    if(d0!=null){var k=Math.round((t0-d0)/(7*86400000));t.ps=(((+t.ps+k)%N)+N)%N;}
+  }
+  var out=[];
+  for(var i=0;i<n;i++){
+    var d=new Date(t0+i*7*86400000),iso=d.toISOString().slice(0,10),sg=null;
+    SONGS.forEach(function(x){if(x.date===iso)sg=x;});
+    var r=[];for(var j=0;j<c;j++)r.push('');
+    r[0]=(d.getUTCMonth()+1)+'/'+d.getUTCDate();
+    if(sg){r[1]=songText(sg);if(c>3)r[3]=songLink(sg);}
+    r[2]=pFull(PEOPLE[(+t.ps+i)%N]);
+    out.push(r);
+  }
+  ORDUNDO=snap;t.rows=out;t.d0=dt;return n;
+}
+function autoMsg(r){
+  if(r===-1)toast('주보 날짜를 먼저 입력해 주세요.');
+  else if(r===-2)toast('기도 명단(prayer_list.json)이나 찬양곡(songs.json)을 아직 불러오지 못했습니다.');
+  else toast('상단 날짜를 첫 주일로 '+r+'주 분량의 찬양곡명·링크·기도자를 자동 입력했습니다.',3500);
 }
 function tblEd(k){
   var t=D.tb[k],c=t.cols.length,lk=t.link!=null,showHdr=(k==='order'),usePer=(k!=='staff'&&k!=='event');
@@ -285,7 +327,12 @@ function tblEd(k){
     if(lk)h+='<td>'+T('tb.'+k+'.rows.'+i+'.'+c,'https://...')+'</td>';
     h+='<td class="act" style="white-space:nowrap"><button class="s" data-act="rowup" data-k="'+k+'" data-i="'+i+'">↑</button> <button class="s" data-act="rowdn" data-k="'+k+'" data-i="'+i+'">↓</button> <button class="s d" data-act="delrow" data-k="'+k+'" data-i="'+i+'">삭제</button></td></tr>';
   });
-  h+='</table></div><div class="row"><button class="s" data-act="addrow" data-k="'+k+'">+ 행 추가</button>'+(k==='order'?' <button class="s" data-act="ordshift">상단 날짜 기준으로 정리</button>'+(ORDUNDO?' <button class="s" data-act="ordundo">정리 되돌리기</button>':'')+'<span class="rth">상단 날짜가 바뀌면 그 날짜 이전 주일은 자동으로 빠지고 이후 내용이 앞으로 이동합니다.</span>':'')+'</div>';
+  h+='</table></div><div class="row"><button class="s" data-act="addrow" data-k="'+k+'">+ 행 추가</button></div>';
+  if(k==='order'){
+    h+='<div class="row">'+CK('tb.order.auto','주보 날짜를 바꾸면 자동 입력')+' <button class="s" data-act="ordfill">지금 자동 채우기</button>'+(ORDUNDO?' <button class="s" data-act="ordundo">되돌리기</button>':'')+'</div>'
+     +'<div class="row"><label>첫 주일 기도자</label><select id="psSel">'+((PEOPLE||[]).map(function(x,i){return '<option value="'+i+'"'+(+D.tb.order.ps===i?' selected':'')+'>'+esc(pFull(x))+'</option>';}).join(''))+'</select><span class="rth" id="auxMsg">'+esc(AUXMSG)+'</span></div>'
+     +'<div class="rth">첫 주일 = 상단 날짜 · 찬양곡명은 찬양곡목(songs.json)의 해당 주일 곡(책명·page)과 합창 링크, 기도자는 기도순서 명단(prayer_list.json)에서 첫 주일 기도자부터 순서대로 입력됩니다. 입력 후에도 직접 수정할 수 있습니다.</div>';
+  }
   if(k==='order')h+='<div class="sub">표 아래 글 (비우면 표시되지 않음)</div>'+RT('tb.order.memo','찬양·기도 순서 표 아래에 표시할 글',2)+'<div class="alr"><label>표 아래 글 정렬</label>'+AL('tb.order.mal','l')+'</div>';
   return h;
 }
@@ -456,12 +503,13 @@ function onInput(e){
   save();
   if(el.dataset.p==='attAuto'){render();if(D.attAuto)refreshAtt();}
   if(el.dataset.p==='hd.date'&&D.attAuto)refreshAtt();
-  if(el.dataset.p==='hd.date'){clearTimeout(SHT);SHT=setTimeout(function(){var g=shiftOrder();if(g){render();save();toast('지난 주일 '+g+'개를 정리하고 이후 내용을 앞으로 이동했습니다.');}},1200);}
+  if(el.dataset.p==='hd.date'){clearTimeout(SHT);SHT=setTimeout(function(){if(D.tb.order.auto===false)return;var r=autoFill(true);if(r>0){render();save();}autoMsg(r);},1200);}
 }
 document.addEventListener('input',onInput);
 document.addEventListener('change',function(e){
   var el=e.target;
   if(el.type==='checkbox'&&el.dataset.p&&/\.show$/.test(el.dataset.p)){render();}
+  if(el.id==='psSel'){D.tb.order.ps=+el.value;var r=autoFill(false);if(r>0){render();save();}autoMsg(r);}
 });
 
 function rtApply(a,b){
@@ -497,8 +545,8 @@ document.addEventListener('click',function(e){
   else if(a==='imgup'){mv(D.ls.notice.imgs,i,-1);}
   else if(a==='imgdn'){mv(D.ls.notice.imgs,i,1);}
   else if(a==='imgdel'){D.ls.notice.imgs.splice(i,1);}
-  else if(a==='ordshift'){var g=shiftOrder();toast(g?'지난 주일 '+g+'개를 정리하고 이후 내용을 앞으로 이동했습니다.':'정리할 지난 주일이 없습니다.');}
-  else if(a==='ordundo'){if(ORDUNDO){D.tb.order.rows=ORDUNDO;ORDUNDO=null;toast('정리 전 상태로 되돌렸습니다.');}}
+  else if(a==='ordfill'){autoMsg(autoFill(false));}
+  else if(a==='ordundo'){if(ORDUNDO){var u=JSON.parse(ORDUNDO);D.tb.order.rows=u.rows;D.tb.order.ps=u.ps;D.tb.order.d0=u.d0;ORDUNDO=null;toast('자동 입력 전 상태로 되돌렸습니다.');}}
   else if(a==='archive'){archive(true);chg=false;}
   else if(a==='al'){S(b.dataset.p,b.dataset.v);}
   else if(a==='attreload'){refreshAtt(true);chg=false;}
@@ -676,6 +724,7 @@ function loadPub(){
   render();
   save();
   refreshAtt();
+  loadAux().then(function(){render();});
   loadPublished().then(function(j){
     if(j){BASE=canon(merged(j));if(!raw){D=merged(j);render();save();refreshAtt();}}
     updDirty();
