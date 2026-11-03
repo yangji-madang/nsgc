@@ -74,6 +74,7 @@ table.et input{min-width:70px}
   <a href="zion_jubo.html?preview=1" target="_blank">작성중 미리보기</a>
   <span class="dirty" id="dirty">확인 중…</span>
   <button class="pub" data-act="publish">반영하기</button>
+  <button data-act="archive">주보 이미지 보관</button>
   <button data-act="export">발행파일 저장</button>
   <button data-act="import">파일 불러오기</button>
   <button data-act="loadpub">발행본 불러오기</button>
@@ -181,6 +182,7 @@ function migrate(d){
         c2:(x[0]&&x[0].c2)||'#1a56c4',imgs:[]};
     }else if(!x){d.ls[k]=f.ls[k];}
     if(!d.ls[k].imgs)d.ls[k].imgs=[];
+    d.ls[k].imgs.forEach(function(m){if(!m.w)m.w=100;if(!m.al)m.al='c';});
   });
   if(!d.att)d.att=f.att;
   if(d.attAuto==null)d.attAuto=true;
@@ -245,6 +247,23 @@ function sty(k,name){
 }
 
 /* ---------- 영역별 편집기 ---------- */
+var ORDUNDO=null,SHT=null;
+function parseMD(x){var m=/(\d{1,2})\s*[\/.\-]\s*(\d{1,2})/.exec(String(x||''));return m?[+m[1],+m[2]]:null;}
+function shiftOrder(){
+  var dt=/^(\d{4})-(\d{2})-(\d{2})$/.exec(D.hd.date||'');if(!dt)return 0;
+  var jy=+dt[1],jm=+dt[2],base=Date.UTC(jy,jm-1,+dt[3]),t=D.tb.order,rows=t.rows,c=t.cols.length+(t.link!=null?1:0);
+  function rt(r){var md=parseMD(r[0]);if(!md)return null;var y=jy;if(md[0]<jm-6)y++;else if(md[0]>jm+6)y--;return Date.UTC(y,md[0]-1,md[1]);}
+  var keep=[],gone=0,last=base;
+  rows.forEach(function(r){var tm=rt(r);if(tm!=null&&tm<=base)gone++;else{keep.push(r);if(tm!=null&&tm>last)last=tm;}});
+  if(!gone)return 0;
+  ORDUNDO=JSON.parse(JSON.stringify(rows));
+  while(keep.length<rows.length){
+    last+=7*86400000;var d=new Date(last),r=[];
+    for(var x=0;x<c;x++)r.push('');
+    r[0]=(d.getUTCMonth()+1)+'/'+d.getUTCDate();keep.push(r);
+  }
+  t.rows=keep;return gone;
+}
 function tblEd(k){
   var t=D.tb[k],c=t.cols.length,lk=t.link!=null,showHdr=(k==='order'),usePer=(k!=='staff'&&k!=='event');
   var h='';
@@ -266,7 +285,7 @@ function tblEd(k){
     if(lk)h+='<td>'+T('tb.'+k+'.rows.'+i+'.'+c,'https://...')+'</td>';
     h+='<td class="act" style="white-space:nowrap"><button class="s" data-act="rowup" data-k="'+k+'" data-i="'+i+'">↑</button> <button class="s" data-act="rowdn" data-k="'+k+'" data-i="'+i+'">↓</button> <button class="s d" data-act="delrow" data-k="'+k+'" data-i="'+i+'">삭제</button></td></tr>';
   });
-  h+='</table></div><div class="row"><button class="s" data-act="addrow" data-k="'+k+'">+ 행 추가</button></div>';
+  h+='</table></div><div class="row"><button class="s" data-act="addrow" data-k="'+k+'">+ 행 추가</button>'+(k==='order'?' <button class="s" data-act="ordshift">상단 날짜 기준으로 정리</button>'+(ORDUNDO?' <button class="s" data-act="ordundo">정리 되돌리기</button>':'')+'<span class="rth">상단 날짜가 바뀌면 그 날짜 이전 주일은 자동으로 빠지고 이후 내용이 앞으로 이동합니다.</span>':'')+'</div>';
   if(k==='order')h+='<div class="sub">표 아래 글 (비우면 표시되지 않음)</div>'+RT('tb.order.memo','찬양·기도 순서 표 아래에 표시할 글',2)+'<div class="alr"><label>표 아래 글 정렬</label>'+AL('tb.order.mal','l')+'</div>';
   return h;
 }
@@ -276,9 +295,9 @@ function listEd(k){
    +'<div class="sub">구별 내용 (줄바꿈 가능 · 비우면 표시 안 됨)</div>'+RT('ls.'+k+'.t2','일반 내용과 구별되는 내용',6)+'<div class="alr"><label>구별 내용 정렬</label>'+AL('ls.'+k+'.a2','l')+'</div>'
    +'<div class="row"><label>구별 색상</label>'+C('ls.'+k+'.c2')+'</div>';
   if(k==='notice'){
-    h+='<div class="sub">이미지 삽입 (공지사항 맨 아래에 순서대로 표시)</div><div class="imgs">';
+    h+='<div class="sub">이미지 삽입 (공지사항 맨 아래에 순서대로 표시) · 크기는 가로세로 비율을 유지한 채 조정됩니다.</div><div class="imgs">';
     D.ls.notice.imgs.forEach(function(m,i){
-      h+='<div class="im"><img class="thumb" src="'+m.src+'"><button class="s" data-act="imgup" data-i="'+i+'">↑</button> <button class="s" data-act="imgdn" data-i="'+i+'">↓</button> <button class="s d" data-act="imgdel" data-i="'+i+'">삭제</button></div>';
+      h+='<div class="im"><img class="thumb" src="'+m.src+'"><div class="alr" style="margin:3px 0"><label>크기</label>'+R('ls.notice.imgs.'+i+'.w',10,100,5)+'<span style="font-size:12px">%</span></div><div class="alr" style="margin:3px 0"><label>위치</label>'+AL('ls.notice.imgs.'+i+'.al','c')+'</div><button class="s" data-act="imgup" data-i="'+i+'">↑</button> <button class="s" data-act="imgdn" data-i="'+i+'">↓</button> <button class="s d" data-act="imgdel" data-i="'+i+'">삭제</button></div>';
     });
     h+='</div><div class="row"><button class="s" data-act="addnimg">+ 이미지 추가</button></div>';
   }
@@ -422,7 +441,7 @@ function push(){
 }
 document.getElementById('frame').addEventListener('load',push);
 window.addEventListener('message',function(e){if(e.data&&e.data.juboReady)push();});
-function toast(t){var el=document.getElementById('toast');el.textContent=t;el.classList.add('on');setTimeout(function(){el.classList.remove('on');},1800);}
+var TTM=null;function toast(t,ms){var el=document.getElementById('toast');el.textContent=t;el.classList.add('on');clearTimeout(TTM);TTM=setTimeout(function(){el.classList.remove('on');},ms||2200);}
 
 /* ---------- 입력 이벤트 ---------- */
 function onInput(e){
@@ -437,6 +456,7 @@ function onInput(e){
   save();
   if(el.dataset.p==='attAuto'){render();if(D.attAuto)refreshAtt();}
   if(el.dataset.p==='hd.date'&&D.attAuto)refreshAtt();
+  if(el.dataset.p==='hd.date'){clearTimeout(SHT);SHT=setTimeout(function(){var g=shiftOrder();if(g){render();save();toast('지난 주일 '+g+'개를 정리하고 이후 내용을 앞으로 이동했습니다.');}},1200);}
 }
 document.addEventListener('input',onInput);
 document.addEventListener('change',function(e){
@@ -477,6 +497,9 @@ document.addEventListener('click',function(e){
   else if(a==='imgup'){mv(D.ls.notice.imgs,i,-1);}
   else if(a==='imgdn'){mv(D.ls.notice.imgs,i,1);}
   else if(a==='imgdel'){D.ls.notice.imgs.splice(i,1);}
+  else if(a==='ordshift'){var g=shiftOrder();toast(g?'지난 주일 '+g+'개를 정리하고 이후 내용을 앞으로 이동했습니다.':'정리할 지난 주일이 없습니다.');}
+  else if(a==='ordundo'){if(ORDUNDO){D.tb.order.rows=ORDUNDO;ORDUNDO=null;toast('정리 전 상태로 되돌렸습니다.');}}
+  else if(a==='archive'){archive(true);chg=false;}
   else if(a==='al'){S(b.dataset.p,b.dataset.v);}
   else if(a==='attreload'){refreshAtt(true);chg=false;}
   else if(a==='kidadd'){D.kids.items.push({name:'',img:''});}
@@ -523,7 +546,7 @@ document.getElementById('fimg').addEventListener('change',function(e){
 document.getElementById('fnimg').addEventListener('change',function(e){
   var fs=[].slice.call(e.target.files);e.target.value='';
   var p=Promise.resolve();
-  fs.forEach(function(f){p=p.then(function(){return readImg(f,900).then(function(src){D.ls.notice.imgs.push({src:src});});});});
+  fs.forEach(function(f){p=p.then(function(){return readImg(f,900).then(function(src){D.ls.notice.imgs.push({src:src,w:100,al:'c'});});});});
   p.then(function(){render();save();toast('이미지를 추가했습니다.');}).catch(function(){toast('이미지를 읽을 수 없습니다.');});
 });
 
@@ -558,6 +581,42 @@ function loadPublished(){
   });
 }
 function remember(tok){try{if(document.getElementById('tokSave').checked)localStorage.setItem(TK,tok);}catch(e){}}
+function archName(){var d=String(D.hd.date||'').replace(/\D/g,'').slice(2,8);return 'zion-jubo-'+d+'.png';}
+function capImg(){
+  return new Promise(function(res,rej){
+    var f=document.createElement('iframe');
+    f.style.cssText='position:fixed;left:-9999px;top:0;width:430px;height:900px;border:0;visibility:hidden';
+    f.src='zion_jubo.html?preview=1';
+    var done=false,to=setTimeout(function(){fin(new Error('시간 초과'));},40000);
+    function fin(err,c){if(done)return;done=true;clearTimeout(to);try{document.body.removeChild(f);}catch(e){}if(err)rej(err);else res(c);}
+    f.onload=function(){
+      try{f.contentWindow.postMessage({jubo:D},'*');}catch(e){}
+      var n=0,t=setInterval(function(){
+        var w=f.contentWindow;
+        if(w&&w.html2canvas&&w.juboCapture){clearInterval(t);w.juboCapture().then(function(c){var u=c.toDataURL('image/png');fin(null,u);}).catch(function(e){fin(e);});}
+        else if(++n>60){clearInterval(t);fin(new Error('이미지 모듈 로드 실패'));}
+      },300);
+    };
+    document.body.appendChild(f);
+  });
+}
+async function archive(manual,quiet){
+  var tok=getTok();
+  if(!tok){document.getElementById('d-gh').open=true;toast('GitHub 토큰을 먼저 입력해 주세요.');return false;}
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(D.hd.date||'')){toast('주보 날짜를 먼저 입력해 주세요.');return false;}
+  var name=archName();
+  if(manual)toast('이미지를 만드는 중…');
+  try{
+    var data=(await capImg()).split(',')[1];
+    var h={Authorization:'Bearer '+tok,Accept:'application/vnd.github+json'},url='https://api.github.com/repos/'+REPO+'/contents/'+name;
+    var g=await fetch(url+'?ref='+BRANCH+'&t='+Date.now(),{headers:h,cache:'no-store'}),sha=null;
+    if(g.ok){sha=(await g.json()).sha;}else if(g.status!==404)throw new Error('조회 실패 '+g.status);
+    var body={message:'주보 이미지 보관 '+name,content:data,branch:BRANCH};if(sha)body.sha=sha;
+    var p=await fetch(url,{method:'PUT',headers:{Authorization:h.Authorization,Accept:h.Accept,'Content-Type':'application/json'},body:JSON.stringify(body)});
+    if(!p.ok)throw new Error('저장 실패 '+p.status);
+    if(!quiet)toast('주보 이미지를 '+name+' 으로 보관했습니다.',4000);return true;
+  }catch(e){toast('이미지 보관에 실패했습니다 ('+e.message+'). 주보 내용은 반영되었습니다.',6000);return false;}
+}
 async function publish(){
   var tok=getTok();
   if(!tok){document.getElementById('d-gh').open=true;toast('GitHub 토큰을 먼저 입력해 주세요.');return;}
@@ -571,7 +630,9 @@ async function publish(){
     var p=await fetch('https://api.github.com/repos/'+REPO+'/contents/'+FPATH,{method:'PUT',headers:{Authorization:'Bearer '+tok,Accept:'application/vnd.github+json','Content-Type':'application/json'},body:JSON.stringify(body)});
     if(!p.ok)throw new Error('저장 실패 '+p.status);
     remember(tok);BASE=canon(D);updDirty();
-    toast('반영했습니다. 보기 페이지에는 1~2분 뒤 나타납니다.',5000);
+    toast('반영했습니다. 주보 이미지를 보관하는 중…',5000);
+    var ok=await archive(false,true);
+    if(ok)toast('반영했고 주보 이미지(zion-jubo-yymmdd.png)도 보관했습니다. 보기 페이지에는 1~2분 뒤 나타납니다.',6000);
   }catch(e){toast('반영하지 못했습니다 ('+e.message+'). 토큰 권한(Contents 읽기·쓰기)을 확인해 주세요.',6000);}
   finally{btn.disabled=false;btn.textContent=old;}
 }
