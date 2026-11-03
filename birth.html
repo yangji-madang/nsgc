@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>생일 관리</title>
+<meta name="robots" content="noindex,nofollow">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box}
-[hidden]{display:none!important}
 body{margin:0;background:#f3f5f8;font-family:'Noto Sans KR','Malgun Gothic',sans-serif;color:#222;font-size:14px}
 #stick{position:sticky;top:0;z-index:30;background:#f3f5f8;box-shadow:0 2px 6px rgba(0,0,0,.12)}
 .top{background:#1f3a5f;color:#fff;padding:7px 10px;display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center}
@@ -78,6 +78,14 @@ dialog .bt button.ok{background:#1f3a5f;color:#fff;border-color:#1f3a5f}
 .ghb input[type=password]{flex:1;min-width:0;padding:6px 8px;border:1px solid #c9d1de;border-radius:6px;font-size:14px}
 .ghb .r{display:flex;gap:8px;align-items:center}
 .ghb button{padding:5px 10px;border:1px solid #c9d1de;border-radius:6px;background:#f7f9fc;cursor:pointer;font-family:inherit}
+#lock{position:fixed;inset:0;z-index:100;background:#1f3a5f;display:flex;align-items:center;justify-content:center;padding:16px}
+#lock[hidden]{display:none}
+#lock form{background:#fff;border-radius:14px;padding:22px;width:min(94vw,360px);display:flex;flex-direction:column;gap:9px}
+#lock h2{margin:0;color:#1f3a5f}#lock p{margin:0;font-size:13px;color:#456;line-height:1.5}
+#lock input{padding:9px;border:1px solid #c9d1de;border-radius:6px;font-size:15px;font-family:inherit}
+#lock label{font-size:12px;color:#456;font-weight:700}
+#lock .ok{padding:10px;border:0;border-radius:8px;background:#1f3a5f;color:#fff;font-weight:700;font-size:15px;cursor:pointer;font-family:inherit}
+#lock #lMsg{min-height:18px;font-size:13px;color:#b3261e}#lock small{color:#889;text-align:right}
 .toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:#222;color:#fff;padding:8px 14px;border-radius:20px;font-size:13px;opacity:0;transition:.25s;pointer-events:none;z-index:60;max-width:92%}
 .toast.on{opacity:.92}
 @media(max-width:560px){body{font-size:13px}table.lst th,table.lst td{padding:5px 6px}.mgrid{grid-template-columns:1fr}table.cal td{height:58px}}
@@ -89,6 +97,8 @@ dialog .bt button.ok{background:#1f3a5f;color:#fff;border-color:#1f3a5f}
     <b>생일 관리</b>
     <span class="dirty" id="dirty">확인 중…</span>
     <a href="zion-portal.html" target="_blank" rel="noopener">시온포털 보기 ↗</a>
+    <button type="button" id="bPw">비밀번호 변경</button>
+    <button type="button" id="bLock">🔒 잠금</button>
     <button type="button" id="bCsv">엑셀(CSV) 저장</button>
     <button type="button" class="pub" id="bPub">반영하기</button>
     <span class="wd">문지기 : 윤현철</span>
@@ -131,13 +141,23 @@ dialog .bt button.ok{background:#1f3a5f;color:#fff;border-color:#1f3a5f}
   <div class="bt"><button type="button" id="dC">취소</button><button type="submit" class="ok" id="dOk">저장</button></div>
 </form></dialog>
 <datalist id="dlG"></datalist><datalist id="dlP"></datalist><datalist id="dlR"><option value="집사"><option value="권사"><option value="장로"><option value="자매"><option value="형제"><option value="선생"></datalist>
+<div id="lock" hidden><form id="lFrm" autocomplete="off"><h2 id="lT">잠금</h2><p id="lD"></p>
+<input type="password" id="lP" placeholder="비밀번호" autocomplete="current-password" required>
+<input type="password" id="lP2" placeholder="비밀번호 확인" autocomplete="new-password" hidden>
+<label id="lFl" hidden>기존 명단 불러오기 (JSON 또는 CSV, 선택)</label><input type="file" id="lF" accept=".json,.csv" hidden>
+<button type="submit" class="ok">확인</button><div id="lMsg"></div><small>문지기 : 윤현철</small></form></div>
 <div class="toast" id="toast"></div>
 <script>
 (function(){
-var REPO='yangji-madang/nsgc',FPATH='birth.json',BRANCH='main',TK='choir-gh-token-v1',KEY='birth_draft';
+var REPO='yangji-madang/nsgc',FPATH='birth.enc.json',BRANCH='main',TK='choir-gh-token-v1';
 var YEAR=2026,WD=['일','월','화','수','목','금','토'];
 var GORD=['Singer','지휘','반주','수어','Orc'],PORD=['Sop','Alt','Ten','Bas'];
-var SEED={"v": 1, "people": [{"g": "Singer", "p": "Sop", "n": "강경원", "r": "", "d": "2026-07-04"}, {"g": "Singer", "p": "Sop", "n": "강지인", "r": "", "d": "2026-08-05"}, {"g": "Singer", "p": "Sop", "n": "권   미", "r": "", "d": "2026-08-29"}, {"g": "Singer", "p": "Sop", "n": "김   숙", "r": "권사", "d": "2026-05-04"}, {"g": "Singer", "p": "Sop", "n": "김기경", "r": "", "d": "2026-10-17"}, {"g": "Singer", "p": "Sop", "n": "김순영", "r": "권사", "d": "2026-06-27"}, {"g": "Singer", "p": "Sop", "n": "김영미", "r": "", "d": "2026-07-26"}, {"g": "Singer", "p": "Sop", "n": "김정숙", "r": "", "d": "2026-12-29"}, {"g": "Singer", "p": "Sop", "n": "김정현", "r": "", "d": "2026-11-16"}, {"g": "Singer", "p": "Sop", "n": "송정은", "r": "", "d": "2026-06-29"}, {"g": "Singer", "p": "Sop", "n": "이명자", "r": "", "d": "2026-11-18"}, {"g": "Singer", "p": "Sop", "n": "임은경", "r": "권사", "d": "2026-04-26"}, {"g": "Singer", "p": "Sop", "n": "전인숙", "r": "", "d": "2026-05-13"}, {"g": "Singer", "p": "Sop", "n": "정현주", "r": "", "d": "2026-08-21"}, {"g": "Singer", "p": "Sop", "n": "조연주", "r": "", "d": "2026-07-25"}, {"g": "Singer", "p": "Sop", "n": "최금옥", "r": "권사", "d": "2026-02-17"}, {"g": "Singer", "p": "Sop", "n": "최지선S", "r": "", "d": "2026-07-16"}, {"g": "Singer", "p": "Sop", "n": "함영자", "r": "", "d": "2026-02-22"}, {"g": "Singer", "p": "Alt", "n": "강민주", "r": "", "d": "2026-01-27"}, {"g": "Singer", "p": "Alt", "n": "강정원", "r": "", "d": "2026-05-11"}, {"g": "Singer", "p": "Alt", "n": "김경희", "r": "권사", "d": "2026-01-06"}, {"g": "Singer", "p": "Alt", "n": "김용주", "r": "", "d": "2026-09-02"}, {"g": "Singer", "p": "Alt", "n": "박현자", "r": "", "d": "2026-04-15"}, {"g": "Singer", "p": "Alt", "n": "서희정", "r": "권사", "d": "2026-05-18"}, {"g": "Singer", "p": "Alt", "n": "안   옥", "r": "", "d": "2026-01-31"}, {"g": "Singer", "p": "Alt", "n": "염선영", "r": "", "d": "2026-04-12"}, {"g": "Singer", "p": "Alt", "n": "윤수진", "r": "", "d": "2026-02-19"}, {"g": "Singer", "p": "Alt", "n": "이미현", "r": "", "d": "2026-03-15"}, {"g": "Singer", "p": "Alt", "n": "이순란", "r": "", "d": "2026-03-24"}, {"g": "Singer", "p": "Alt", "n": "이영주", "r": "", "d": "2026-08-28"}, {"g": "Singer", "p": "Alt", "n": "임순남", "r": "", "d": "2026-12-02"}, {"g": "Singer", "p": "Alt", "n": "전미숙", "r": "권사", "d": "2026-10-25"}, {"g": "Singer", "p": "Alt", "n": "정진규", "r": "", "d": "2026-10-25"}, {"g": "Singer", "p": "Alt", "n": "최복순", "r": "권사", "d": "2026-12-31"}, {"g": "Singer", "p": "Alt", "n": "홍찬의", "r": "", "d": "2026-12-01"}, {"g": "Singer", "p": "Ten", "n": "김세준", "r": "", "d": "2026-10-07"}, {"g": "Singer", "p": "Ten", "n": "김현철", "r": "", "d": "2026-03-15"}, {"g": "Singer", "p": "Ten", "n": "서영철", "r": "장로", "d": "2026-03-05"}, {"g": "Singer", "p": "Ten", "n": "신용관", "r": "", "d": "2026-02-06"}, {"g": "Singer", "p": "Ten", "n": "엄기호", "r": "", "d": "2026-06-25"}, {"g": "Singer", "p": "Ten", "n": "이수행", "r": "", "d": "2026-01-15"}, {"g": "Singer", "p": "Ten", "n": "정은석", "r": "", "d": "2026-08-27"}, {"g": "Singer", "p": "Ten", "n": "정지우", "r": "", "d": "2026-01-13"}, {"g": "Singer", "p": "Bas", "n": "권남회", "r": "", "d": "2026-09-19"}, {"g": "Singer", "p": "Bas", "n": "김규철", "r": "", "d": "2026-11-08"}, {"g": "Singer", "p": "Bas", "n": "류방열", "r": "장로", "d": "2026-03-08"}, {"g": "Singer", "p": "Bas", "n": "성요길", "r": "장로", "d": "2026-03-17"}, {"g": "Singer", "p": "Bas", "n": "윤여훈", "r": "", "d": "2026-12-09"}, {"g": "Singer", "p": "Bas", "n": "윤현철", "r": "", "d": "2026-05-09"}, {"g": "Singer", "p": "Bas", "n": "이명헌", "r": "", "d": "2026-07-24"}, {"g": "Singer", "p": "Bas", "n": "이병재", "r": "", "d": "2026-07-31"}, {"g": "Singer", "p": "Bas", "n": "정운채", "r": "", "d": "2026-03-31"}, {"g": "Singer", "p": "Bas", "n": "정윤택", "r": "", "d": "2026-05-04"}, {"g": "Singer", "p": "Bas", "n": "조경식", "r": "", "d": "2026-10-18"}, {"g": "Singer", "p": "Bas", "n": "조성수", "r": "", "d": "2026-11-09"}, {"g": "Singer", "p": "Bas", "n": "한명민", "r": "", "d": "2026-05-13"}, {"g": "지휘", "p": "지휘", "n": "서승연", "r": "", "d": "2026-01-24"}, {"g": "반주", "p": "반주", "n": "진윤정", "r": "", "d": "2026-08-25"}, {"g": "수어", "p": "수어", "n": "원정옥", "r": "", "d": "2026-03-15"}, {"g": "수어", "p": "수어", "n": "이해옥", "r": "", "d": "2026-09-13"}, {"g": "Orc", "p": "바순", "n": "신정윤", "r": "", "d": "2026-08-08"}, {"g": "Orc", "p": "바순", "n": "한송희", "r": "", "d": "2026-01-06"}, {"g": "Orc", "p": "바이올린", "n": "김수현", "r": "", "d": "2026-11-13"}, {"g": "Orc", "p": "바이올린", "n": "김애린", "r": "", "d": "2026-05-24"}, {"g": "Orc", "p": "바이올린", "n": "김준희", "r": "", "d": "2026-03-01"}, {"g": "Orc", "p": "바이올린", "n": "박은혜", "r": "", "d": "2026-11-25"}, {"g": "Orc", "p": "바이올린", "n": "심윤종", "r": "", "d": "2026-01-25"}, {"g": "Orc", "p": "바이올린", "n": "양유정", "r": "", "d": "2026-07-17"}, {"g": "Orc", "p": "바이올린", "n": "오하정", "r": "", "d": "2026-07-14"}, {"g": "Orc", "p": "바이올린", "n": "최지선O", "r": "", "d": "2026-10-09"}, {"g": "Orc", "p": "바이올린", "n": "홍원준", "r": "", "d": "2026-07-07"}, {"g": "Orc", "p": "비올라", "n": "곽선애", "r": "", "d": "2026-08-09"}, {"g": "Orc", "p": "비올라", "n": "김성민", "r": "", "d": "2026-04-02"}, {"g": "Orc", "p": "오보에", "n": "이은애", "r": "", "d": "2026-09-02"}, {"g": "Orc", "p": "첼로", "n": "박태환", "r": "", "d": "2026-01-05"}, {"g": "Orc", "p": "첼로", "n": "김보미", "r": "", "d": "2026-07-04"}, {"g": "Orc", "p": "첼로", "n": "김준환", "r": "", "d": "2026-12-26"}, {"g": "Orc", "p": "첼로", "n": "김현재", "r": "", "d": "2026-05-30"}, {"g": "Orc", "p": "클라리넷", "n": "김봉준", "r": "", "d": "2026-07-15"}, {"g": "Orc", "p": "트럼펫", "n": "김남균", "r": "", "d": "2026-02-01"}, {"g": "Orc", "p": "트럼펫", "n": "김재영", "r": "", "d": "2026-10-13"}, {"g": "Orc", "p": "트럼펫", "n": "유재우", "r": "", "d": "2026-06-14"}, {"g": "Orc", "p": "플룻", "n": "김나형", "r": "", "d": "2026-09-26"}, {"g": "Orc", "p": "플룻", "n": "김대규", "r": "", "d": "2026-02-17"}]};
+var ENV=null,PW='',KDF=250000;
+function b2a(buf){var s='',u=new Uint8Array(buf);for(var i=0;i<u.length;i++)s+=String.fromCharCode(u[i]);return btoa(s);}
+function a2b(s){var b=atob(s),u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u;}
+function dkey(pw,salt,it){return crypto.subtle.importKey('raw',new TextEncoder().encode(pw),'PBKDF2',false,['deriveKey']).then(function(k){return crypto.subtle.deriveKey({name:'PBKDF2',salt:salt,iterations:it,hash:'SHA-256'},k,{name:'AES-GCM',length:256},false,['encrypt','decrypt']);});}
+async function encrypt(pw,obj){var salt=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12));var k=await dkey(pw,salt,KDF);var ct=await crypto.subtle.encrypt({name:'AES-GCM',iv:iv},k,new TextEncoder().encode(JSON.stringify(obj)));return {v:2,alg:'AES-256-GCM/PBKDF2-SHA256',iter:KDF,salt:b2a(salt),iv:b2a(iv),ct:b2a(ct)};}
+async function decrypt(pw,env){var k=await dkey(pw,a2b(env.salt),env.iter||KDF);var pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:a2b(env.iv)},k,a2b(env.ct));return JSON.parse(new TextDecoder().decode(pt));}
 var D=null,BASE=null,sort={k:'',dir:1},editId=null,nid=1,tab='list',calM=0;
 var COLS=[['g','구분'],['p','파트'],['n','이름'],['r','직분'],['d','날짜'],['w','요일']];
 function $(id){return document.getElementById(id);}
@@ -149,7 +169,7 @@ function ids(a){a.forEach(function(x){x.id=nid++;});return a;}
 function canon(a){return JSON.stringify(a.map(function(x){return [x.g,x.p,x.n,x.r,x.d];}));}
 function dm(d){var m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(d||'');return m?[+m[2],+m[3]]:[0,0];}
 function wk(d){var m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(d||'');return m?new Date(Date.UTC(+m[1],+m[2]-1,+m[3])).getUTCDay():-1;}
-function save(){try{localStorage.setItem(KEY,JSON.stringify(D.map(function(x){return {g:x.g,p:x.p,n:x.n,r:x.r,d:x.d};})));}catch(e){}updDirty();}
+function save(){updDirty();}
 function updDirty(){var ok=BASE!==null&&BASE===canon(D);$('dirty').textContent=ok?'반영됨':'● 아직 반영 안 됨';$('dirty').className='dirty'+(ok?' ok':'');}
 function setSh(){document.documentElement.style.setProperty('--sh',$('stick').offsetHeight+'px');}
 function grank(g){var i=GORD.indexOf(g);return i<0?99:i;}
@@ -316,12 +336,13 @@ $('bPub').onclick=async function(){
   try{
     var cur=await ghGet(tok),day=new Date().toLocaleDateString('sv-SE',{timeZone:'Asia/Seoul'});
     var people=D.map(function(x){return {g:x.g,p:x.p,n:x.n,r:x.r,d:x.d};});
-    var body={message:'생일명단 갱신 '+day,content:b64(JSON.stringify({v:1,updated:new Date().toISOString(),people:people})),branch:BRANCH};
+    var env=Object.assign(await encrypt(PW,{v:1,people:people}),{updated:new Date().toISOString()});
+    var body={message:'생일명단 갱신 '+day,content:b64(JSON.stringify(env)),branch:BRANCH};
     if(cur)body.sha=cur.sha;
     var p=await fetch('https://api.github.com/repos/'+REPO+'/contents/'+FPATH,{method:'PUT',headers:{Authorization:'Bearer '+tok,Accept:'application/vnd.github+json','Content-Type':'application/json'},body:JSON.stringify(body)});
     if(!p.ok)throw new Error('저장 실패 '+p.status);
     try{if($('tokSave').checked)localStorage.setItem(TK,tok);}catch(e){}
-    BASE=canon(D);updDirty();toast('반영했습니다. (birth.json)',4000);
+    BASE=canon(D);ENV=env;updDirty();toast('암호화하여 반영했습니다.',4000);
   }catch(e){toast('반영하지 못했습니다 ('+e.message+'). 토큰 권한(Contents 읽기·쓰기)을 확인해 주세요.',6000);}
   finally{btn.disabled=false;btn.textContent=old;}
 };
@@ -337,21 +358,59 @@ $('tokTest').onclick=function(){
 };
 $('dgh').addEventListener('toggle',setSh);
 window.addEventListener('resize',setSh);
-window.addEventListener('beforeunload',function(e){if(D&&(BASE===null||BASE!==canon(D))){e.preventDefault();e.returnValue='';}});
-/* ---------- 시작 : 임시저장 > 발행본(birth.json) > 엑셀 원본 ---------- */
-(function(){
-  var raw=null;try{raw=localStorage.getItem(KEY);}catch(e){}
-  var dr=null;if(raw){try{dr=norm(JSON.parse(raw));}catch(e){}}
-  D=ids((dr&&dr.length)?dr:norm(SEED.people));
-  var now=new Date();calM=now.getFullYear()===YEAR?now.getMonth()+1:0;
-  fillFilters();showTab('list');updDirty();
-  fetch('birth.json?'+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).catch(function(){return null;}).then(function(j){
-    var pub=j&&norm(j.people);
-    if(pub&&pub.length){BASE=canon(pub);if(!dr||!dr.length){D=ids(pub);refresh();}}
-    else BASE=canon(norm(SEED.people));
-    updDirty();setSh();
-  });
-})();
+/* ---------- 잠금 / 비밀번호 ---------- */
+function parseCsv(s){var rows=[],r=[],f='',q=false,i,c;s=s.replace(/^﻿/,'');
+  for(i=0;i<s.length;i++){c=s[i];
+    if(q){if(c==='"'){if(s[i+1]==='"'){f+='"';i++;}else q=false;}else f+=c;}
+    else if(c==='"')q=true;else if(c===','){r.push(f);f='';}
+    else if(c==='\n'||c==='\r'){if(c==='\r'&&s[i+1]==='\n')i++;r.push(f);f='';rows.push(r);r=[];}
+    else f+=c;}
+  if(f!==''||r.length){r.push(f);rows.push(r);}
+  return rows.filter(function(x){return x.join('').trim();});}
+function readFile(f){return new Promise(function(ok,no){var r=new FileReader();r.onload=function(){ok(String(r.result));};r.onerror=no;r.readAsText(f,'utf-8');});}
+async function importFile(f){
+  var s=await readFile(f);
+  if(/\.json$/i.test(f.name)){var j=JSON.parse(s);return norm(Array.isArray(j)?j:j.people);}
+  var rows=parseCsv(s);if(rows.length&&/구분/.test(rows[0][0]))rows.shift();
+  return norm(rows.map(function(c){return {g:c[0],p:c[1],n:c[2],r:c[3],d:c[4]};}));}
+var mode='';
+function showLock(m,msg){
+  mode=m;D=null;PW='';$('lock').hidden=false;
+  $('lT').textContent=m==='setup'?'처음 설정':'잠금';
+  $('lD').textContent=m==='setup'?'생일 명단은 암호화되어 저장됩니다. 사용할 비밀번호를 정하세요. (분실하면 복구할 수 없습니다)':'비밀번호를 입력하면 명단이 열립니다.';
+  $('lP2').hidden=$('lF').hidden=$('lFl').hidden=m!=='setup';
+  $('lP').value='';$('lP2').value='';$('lMsg').textContent=msg||'';
+  setTimeout(function(){$('lP').focus();},50);
+}
+$('lFrm').addEventListener('submit',async function(e){
+  e.preventDefault();var pw=$('lP').value,msg=$('lMsg');
+  if(!window.crypto||!crypto.subtle){msg.textContent='이 브라우저는 암호화를 지원하지 않습니다 (https 주소로 접속하세요).';return;}
+  msg.textContent='확인 중…';
+  try{
+    if(mode==='setup'){
+      if(pw.length<8){msg.textContent='비밀번호는 8자 이상으로 정해 주세요.';return;}
+      if(pw!==$('lP2').value){msg.textContent='비밀번호 확인이 일치하지 않습니다.';return;}
+      var list=[];if($('lF').files[0])list=await importFile($('lF').files[0]);
+      PW=pw;D=ids(list);BASE=null;
+    }else{
+      var data=await decrypt(pw,ENV);PW=pw;D=ids(norm(data.people));BASE=canon(D);
+    }
+  }catch(x){msg.textContent=mode==='setup'?'파일을 읽지 못했습니다. JSON 또는 CSV 파일인지 확인해 주세요.':'비밀번호가 맞지 않습니다.';return;}
+  $('lock').hidden=true;var now=new Date();calM=now.getFullYear()===YEAR?now.getMonth()+1:0;
+  fillFilters();showTab('list');updDirty();setSh();
+  if(mode==='setup')toast('명단을 불러왔습니다. 「반영하기」를 눌러야 암호화되어 저장됩니다.',5000);
+});
+$('bLock').onclick=function(){
+  if(D&&BASE!==canon(D)&&!confirm('반영하지 않은 변경이 있습니다. 잠그면 사라집니다. 잠글까요?'))return;
+  $('q').value='';$('cq').value='';$('tb').innerHTML='';$('vCal').innerHTML='';BASE=0;showLock(ENV?'unlock':'setup');};
+$('bPw').onclick=function(){
+  var a=prompt('새 비밀번호 (8자 이상)');if(a===null)return;
+  if(a.length<8){toast('8자 이상으로 정해 주세요.');return;}
+  if(prompt('새 비밀번호를 한 번 더 입력')!==a){toast('일치하지 않습니다.');return;}
+  PW=a;BASE=null;updDirty();toast('「반영하기」를 눌러야 새 비밀번호가 적용됩니다.',5000);};
+window.addEventListener('beforeunload',function(e){if(D&&BASE!==canon(D)){e.preventDefault();e.returnValue='';}});
+fetch('birth.enc.json?'+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).catch(function(){return null;}).then(function(env){
+  ENV=(env&&env.ct)?env:null;showLock(ENV?'unlock':'setup');});
 })();
 </script>
 </body>
