@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-01T10:38:14.681Z",
+ "updated": "2026-11-03T02:31:11.822Z",
  "settings": {
   "title": "2026년 시온찬양대 찬양곡목",
   "subLabel": "2026년 주일 찬양보기",
@@ -1114,6 +1114,12 @@
      "part": "Bas",
      "type": "mp4",
      "url": "https://naver.me/xIFCpyt3"
+    }
+   ],
+   "refs": [
+    {
+     "label": "온누리교회 합창 실",
+     "url": "https://www.youtube.com/watch?v=T6mUZK1OItw&list=RDMMT6mUZK1OItw&start_radio=1"
     }
    ],
    "manual": true
