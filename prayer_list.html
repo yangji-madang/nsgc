@@ -36,7 +36,7 @@ tr.pSop td{background:#fff5f7}tr.pAlt td{background:#fff9ec}tr.pTen td{backgroun
 tr.pOther td{background:#fff}
 td.no{text-align:center;color:#667;font-size:13px}
 td.dcell{text-align:center;font-weight:700;font-size:13px;color:#1a2f52;position:relative;white-space:nowrap}
-td.dcell.first{text-decoration:underline dotted;cursor:pointer;color:#1a56c4}
+td.dcell{text-decoration:underline dotted;cursor:pointer;color:#1a56c4}
 td.dcell input.dpk{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;padding:0;border:0}
 td.hd{text-align:center;cursor:grab;color:#889;font-size:16px;user-select:none}
 td select,td input{width:100%;border:1px solid transparent;background:transparent;padding:6px 6px;font-size:15px;font-family:inherit;border-radius:6px;color:#111;font-weight:500}
@@ -123,7 +123,7 @@ function render(){
     h+='<tr class="'+pcls(x.p)+'" data-i="'+i+'">'
      +'<td class="hd" title="끌어서 순서 변경">☰</td>'
      +'<td class="no">'+(i+1)+'</td>'
-     +'<td class="dcell'+(i===0?' first':'')+'" title="'+dateAt(i)+(i===0?' · 눌러서 첫 날짜 변경':'')+'">'+md(dateAt(i))+(i===0?'<input type="date" class="dpk" id="startDate" value="'+START+'">':'')+'</td>'
+     +'<td class="dcell" title="'+dateAt(i)+' · 눌러서 이 사람의 날짜 지정 (위·아래 날짜는 자동으로 맞춰집니다)">'+md(dateAt(i))+'<input type="date" class="dpk" data-i="'+i+'" value="'+dateAt(i)+'">'+'</td>'
      +'<td><select data-f="p">'+opts.map(function(o){return '<option'+(o===x.p?' selected':'')+'>'+esc(o)+'</option>';}).join('')+'</select></td>'
      +'<td><input class="nm" data-f="n" value="'+esc(x.n)+'" placeholder="이름" autocomplete="off"></td>'
      +'<td><input data-f="r" list="dlRank" value="'+esc(x.r)+'" placeholder="직분" autocomplete="off"></td>'
@@ -152,12 +152,15 @@ document.addEventListener('input',function(e){
   if(el.dataset.f==='p')tr.className=pcls(x.p);
   save();
 });
-document.addEventListener('click',function(e){var el=e.target;if(el&&el.id==='startDate'&&el.showPicker){try{el.showPicker();}catch(x){}}});
+document.addEventListener('click',function(e){var el=e.target;if(el&&el.classList&&el.classList.contains('dpk')&&el.showPicker){try{el.showPicker();}catch(x){}}});
 document.addEventListener('change',function(e){
-  var el=e.target;if(!el||el.id!=='startDate')return;
-  var v=toSun(el.value);if(!v){el.value=START;return;}
+  var el=e.target;if(!el||!el.classList||!el.classList.contains('dpk'))return;
+  var i=+el.dataset.i,v=toSun(el.value);
+  if(!v){el.value=dateAt(i);return;}
   if(v!==el.value)toast('일요일로 맞춰 '+md(v)+'(일)로 설정했습니다.',3000);
-  START=v;render();save();
+  var m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(v);
+  START=iso(Date.UTC(+m[1],+m[2]-1,+m[3])-7*86400000*i);
+  render();save();
 });
 /* 끌어서 순서 변경 */
 var dragI=-1;
