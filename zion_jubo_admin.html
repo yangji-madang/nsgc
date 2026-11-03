@@ -198,6 +198,7 @@ function migrate(d){
     t.cols.forEach(function(_,j){if(!t.al[j])t.al[j]=DEFAL[k][j]||'c';});
   });
   ['notice','pray'].forEach(function(k){var L=d.ls[k];if(!L.a1)L.a1='l';if(!L.a2)L.a2='l';if(!L.a3)L.a3='l';if(L.bd==null)L.bd='';});
+  if(d.ls.notice.bdAuto==null)d.ls.notice.bdAuto=true;
   d.hd=d.hd||f.hd;if(!d.hd.vAl)d.hd.vAl='c';
   d.sec.forEach(function(x){if(!x.sal)x.sal='r';});
   if(!d.sec.some(function(x){return x.id==='child';})){
@@ -341,9 +342,55 @@ function tblEd(k){
   if(k==='order')h+='<div class="sub">표 아래 글 (비우면 표시되지 않음)</div>'+RT('tb.order.memo','찬양·기도 순서 표 아래에 표시할 글',2)+'<div class="alr"><label>표 아래 글 정렬</label>'+AL('tb.order.mal','l')+'</div>';
   return h;
 }
+/* ---------- 생일자 자동 입력 (birth.html의 암호화 명단 birth.enc.json 사용) ---------- */
+var BDATA=null,BDMSG='',BDK='choir-birth-pw-v1',BT=null;
+function bdGetPw(){try{return sessionStorage.getItem(BDK)||localStorage.getItem(BDK)||'';}catch(e){return '';}}
+function bdRemembered(){try{return !!localStorage.getItem(BDK);}catch(e){return false;}}
+function bdSetPw(pw,rem){try{sessionStorage.setItem(BDK,pw);if(rem)localStorage.setItem(BDK,pw);else localStorage.removeItem(BDK);}catch(e){}}
+function bdMsg(x){BDMSG=x;var el=document.getElementById('bdMsg');if(el)el.textContent=x;}
+function bdA2b(s){var b=atob(s),u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u;}
+async function bdDecrypt(pw,env){
+  var k0=await crypto.subtle.importKey('raw',new TextEncoder().encode(pw),'PBKDF2',false,['deriveKey']);
+  var k=await crypto.subtle.deriveKey({name:'PBKDF2',salt:bdA2b(env.salt),iterations:env.iter||250000,hash:'SHA-256'},k0,{name:'AES-GCM',length:256},false,['decrypt']);
+  var pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:bdA2b(env.iv)},k,bdA2b(env.ct));
+  return JSON.parse(new TextDecoder().decode(pt));
+}
+async function bdLoad(force){
+  if(BDATA&&!force)return BDATA;
+  var pw=bdGetPw();if(!pw){bdMsg('생일 명단 비밀번호를 입력해 주세요.');return null;}
+  if(!window.crypto||!crypto.subtle){bdMsg('이 브라우저는 암호화를 지원하지 않습니다 (https 주소로 접속하세요).');return null;}
+  var r;try{r=await fetch('birth.enc.json?'+Date.now(),{cache:'no-store'});}catch(e){r=null;}
+  if(!r||!r.ok){bdMsg('생일 명단(birth.enc.json)이 아직 없습니다. 생일 관리 페이지에서 「반영하기」를 먼저 해 주세요.');return null;}
+  try{var data=await bdDecrypt(pw,await r.json());BDATA=(data.people||[]).filter(function(x){return x&&x.n&&/^\d{4}-\d{2}-\d{2}$/.test(x.d||'');});}
+  catch(e){BDATA=null;bdMsg('비밀번호가 맞지 않습니다.');return null;}
+  return BDATA;
+}
+function bdText(iso){
+  var t0=isoMs(iso);if(t0==null||!BDATA)return null;
+  var sun=t0-new Date(t0).getUTCDay()*86400000,out=[],cnt=0,WN=['주일','월요일','화요일','수요일','목요일','금요일','토요일'];
+  for(var i=0;i<7;i++){
+    var d=new Date(sun+i*86400000),m=d.getUTCMonth()+1,dd=d.getUTCDate();
+    var L=BDATA.filter(function(p){var x=/^\d{4}-(\d{2})-(\d{2})$/.exec(p.d);return +x[1]===m&&+x[2]===dd;});
+    if(!L.length)continue;
+    L.sort(function(a,b){return pnm(a.n).localeCompare(pnm(b.n),'ko');});
+    cnt+=L.length;
+    out.push(L.map(function(p){var r=String(p.r||'').trim();return pnm(p.n)+(r?' '+r:'');}).join('/')+'('+dd+'일, '+WN[d.getUTCDay()]+')');
+  }
+  return {text:out.join(', '),n:cnt};
+}
+async function bdRun(manual){
+  var dt=D.hd.date;if(isoMs(dt)==null){bdMsg('주보 날짜를 먼저 입력하세요.');return;}
+  var P=await bdLoad(manual);if(!P||D.hd.date!==dt)return;
+  var r=bdText(dt);if(!r)return;
+  if((D.ls.notice.bd||'')!==r.text){D.ls.notice.bd=r.text;render();save();}
+  bdMsg(r.n?('주보 날짜('+dt+') 주간 생일자 '+r.n+'명을 입력했습니다.'):'주보 날짜('+dt+') 주간에는 생일자가 없습니다.');
+}
 function listEd(k){
   var h='<div class="sub">일반 내용 (줄바꿈으로 여러 개 입력 · 한 줄이 한 항목)</div>'+RT('ls.'+k+'.t1','일반 공지를 줄바꿈으로 입력',6)+'<div class="alr"><label>일반 내용 정렬</label>'+AL('ls.'+k+'.a1','l')+'</div>'
-   +(k==='notice'?'<div class="sub">생일을 축하합니다 (비우면 이 줄은 표시되지 않음)</div>'+RT('ls.notice.bd','예: 조경식 집사님(18, 주일)',2)+'<div class="alr"><label>생일 줄 정렬</label>'+AL('ls.notice.a3','l')+'</div>':'')
+   +(k==='notice'?'<div class="sub">생일을 축하합니다 (비우면 이 줄은 표시되지 않음)</div>'+RT('ls.notice.bd','예: 조경식 집사님(18, 주일)',2)+'<div class="alr"><label>생일 줄 정렬</label>'+AL('ls.notice.a3','l')+'</div>'
+   +'<div class="row">'+CK('ls.notice.bdAuto','생일자 자동 입력 (주보 날짜가 속한 주 일~토, birth.html 명단 기준)')+'</div>'
+   +'<div class="row"><label>명단 비밀번호</label><input type="password" id="bdPw" autocomplete="off" style="width:150px" placeholder="'+(bdGetPw()?'저장됨':'생일 관리 비밀번호')+'"> <label style="min-width:0"><input type="checkbox" id="bdRem"'+(bdRemembered()?' checked':'')+'> 이 기기에 기억</label> <button class="s" type="button" data-act="bdfill">생일자 불러오기</button> <button class="s" type="button" data-act="bdforget">비밀번호 지우기</button></div>'
+   +'<div class="rth" id="bdMsg">'+esc(BDMSG)+'</div>':'')
    +'<div class="sub">구별 내용 (줄바꿈 가능 · 비우면 표시 안 됨)</div>'+RT('ls.'+k+'.t2','일반 내용과 구별되는 내용',6)+'<div class="alr"><label>구별 내용 정렬</label>'+AL('ls.'+k+'.a2','l')+'</div>'
    +'<div class="row"><label>구별 색상</label>'+C('ls.'+k+'.c2')+'</div>';
   if(k==='notice'){
@@ -510,6 +557,8 @@ function onInput(e){
   save();
   if(el.dataset.p==='attAuto'){render();if(D.attAuto)refreshAtt();}
   if(el.dataset.p==='hd.date'&&D.attAuto)refreshAtt();
+  if(el.dataset.p==='hd.date'&&D.ls.notice.bdAuto){clearTimeout(BT);BT=setTimeout(function(){bdRun(false);},1200);}
+  if(el.dataset.p==='ls.notice.bdAuto'&&D.ls.notice.bdAuto)bdRun(false);
   if(el.dataset.p==='hd.date'){clearTimeout(SHT);SHT=setTimeout(function(){if(D.tb.order.auto===false)return;var r=autoFill(true);if(r>0){render();save();}autoMsg(r);},1200);}
 }
 document.addEventListener('input',onInput);
@@ -557,6 +606,8 @@ document.addEventListener('click',function(e){
   else if(a==='archive'){archive(true);chg=false;}
   else if(a==='al'){S(b.dataset.p,b.dataset.v);}
   else if(a==='attreload'){refreshAtt(true);chg=false;}
+  else if(a==='bdfill'){var pi=document.getElementById('bdPw'),pw=(pi&&pi.value)||bdGetPw();if(pw)bdSetPw(pw,!!(document.getElementById('bdRem')||{}).checked);BDATA=null;bdRun(true);chg=false;}
+  else if(a==='bdforget'){try{sessionStorage.removeItem(BDK);localStorage.removeItem(BDK);}catch(e){}BDATA=null;bdMsg('저장된 비밀번호를 지웠습니다.');var q=document.getElementById('bdPw');if(q)q.placeholder='생일 관리 비밀번호';chg=false;}
   else if(a==='kidadd'){D.kids.items.push({name:'',img:''});}
   else if(a==='kiddel'){D.kids.items.splice(i,1);}
   else if(a==='kidup'){mv(D.kids.items,i,-1);}
@@ -739,8 +790,9 @@ function loadPub(){
     var n=autoFill(false);if(n>0){render();save();toast('찬양·기도 순서를 상단 날짜('+D.hd.date+') 기준으로 자동 입력했습니다. (되돌리기 가능)',4500);}
   }
   auxP.then(function(){render();syncOrder();});
+  if(D.ls.notice.bdAuto&&bdGetPw())bdRun(false);
   loadPublished().then(function(j){
-    if(j){BASE=canon(merged(j));if(!raw){D=merged(j);render();save();refreshAtt();auxP.then(syncOrder);}}
+    if(j){BASE=canon(merged(j));if(!raw){D=merged(j);render();save();refreshAtt();auxP.then(syncOrder);if(D.ls.notice.bdAuto&&bdGetPw())bdRun(false);}}
     updDirty();
   });
 })();
