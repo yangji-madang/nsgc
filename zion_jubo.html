@@ -264,8 +264,17 @@ function utbl(id,ta){
   var rows=T.r.map(function(row,ri){return '<tr>'+(row||[]).map(function(v,ci){
     var k=ri+','+ci;if(cov[k])return '';
     var m=anc[k],sp=m?(m.rs>1?' rowspan="'+m.rs+'"':'')+(m.cs>1?' colspan="'+m.cs+'"':''):'';
-    return '<td'+(T.hdr&&ri===0?' class="hr"':'')+sp+'>'+rich(String(v==null?'':v))+'</td>';}).join('')+'</tr>';}).join('');
-  return '<div class="fit"'+(ta?' style="text-align:'+ta+'"':'')+'><table class="ut'+(T.fw===false?'':' fw')+'" style="'+st+'">'+rows+'</table></div>';
+    var ca=(T.ca||{})[k],cs=ca&&AM[ca]?' style="text-align:'+AM[ca]+'"':'';
+    return '<td'+(T.hdr&&ri===0?' class="hr"':'')+sp+cs+'>'+rich(String(v==null?'':v))+'</td>';}).join('')+'</tr>';}).join('');
+  var nc=(T.r[0]||[]).length,W=[],any=false,sum=0,un=0,j;
+  for(j=0;j<nc;j++){var w=Number((T.w||[])[j])||0;W.push(w>0?Math.min(100,w):0);if(W[j]>0){any=true;sum+=W[j];}else un++;}
+  var cg='',tw='',twp='';
+  if(any){
+    var each=un?Math.max(5,(100-sum)/un):0,tot=sum+each*un;
+    cg='<colgroup>'+W.map(function(w){return '<col style="width:'+(((w>0?w:each)/tot)*100).toFixed(2)+'%">';}).join('')+'</colgroup>';
+    twp=Math.min(100,tot).toFixed(2)+'%';tw=';width:'+twp+';table-layout:fixed';
+  }
+  return '<div class="fit"'+(ta?' style="text-align:'+ta+'"':'')+'><table class="ut'+(any?'':(T.fw===false?'':' fw'))+'"'+(twp?' data-tw="'+twp+'"':'')+' style="'+st+tw+'">'+cg+rows+'</table></div>';
 }
 function l2html(raw,c,a){
   var tx=(raw||'').replace(/^\s*\n+/,'').replace(/\s+$/,'');if(!tx.trim())return '';
@@ -367,7 +376,7 @@ function draw0(){
   fit();
 }
 function measure(w,i){
-  i.style.transform='none';i.style.width=i.classList.contains('fc')?'auto':'100%';w.style.height='auto';
+  i.style.transform='none';i.style.width=i.dataset&&i.dataset.tw?i.dataset.tw:(i.classList.contains('fc')?'auto':'100%');w.style.height='auto';
   return [w.clientWidth,Math.max(i.getBoundingClientRect().width,i.scrollWidth)];
 }
 function eqw(t,sel){
@@ -390,6 +399,7 @@ function fit(){
     pg.style.zoom='';
     var nat=pg.offsetWidth;
     pg.classList.remove('nat');
+    for(var q2=0;q2<ws.length;q2++){var i2=ws[q2].firstElementChild;if(i2&&i2.dataset&&i2.dataset.tw)i2.style.width=i2.dataset.tw;}
     var avail=document.documentElement.clientWidth,sc=Math.min(1,avail/nat);
     if(sc<0.999){pg.style.width=nat+'px';pg.style.zoom=sc.toFixed(4);}
     else{pg.style.width='';pg.style.zoom='';}

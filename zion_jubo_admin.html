@@ -395,13 +395,14 @@ async function bdRun(manual){
   if((D.ls.notice.bd||'')!==r.text){D.ls.notice.bd=r.text;render();save();}
   bdMsg(r.n?('주보 날짜('+dt+') 주간 생일자 '+r.n+'명을 입력했습니다.'):'주보 날짜('+dt+') 주간에는 생일자가 없습니다.');
 }
-function tbDef(){return {r:[['',''],['','']],bd:'#999999',bw:1,bg:'#ffffff',nbg:false,al:'c',fs:13,b:false,fc:'#222222',hdr:true,hbg:'#dde7f3',fw:true};}
+function tbDef(){return {r:[['',''],['','']],w:['',''],ca:{},bd:'#999999',bw:1,bg:'#ffffff',nbg:false,al:'c',fs:13,b:false,fc:'#222222',hdr:true,hbg:'#dde7f3',fw:true};}
 var MKR=/^\s*\[\[표:([A-Za-z0-9_]+)\]\]\s*$/;
 function tbIds(p){var o=[];String(G(p)||'').split('\n').forEach(function(l){var m=MKR.exec(l);if(m&&D.tbx&&D.tbx[m[1]]&&o.indexOf(m[1])<0)o.push(m[1]);});return o;}
-var TSEL={id:'',r:-1,c:-1};
+var TSEL={id:'',r:-1,c:-1},CELLSZ={};
 function tbCov(T){var cov={},anc={};(T.m||[]).forEach(function(m){anc[m.r+','+m.c]=m;for(var i=0;i<m.rs;i++)for(var j=0;j<m.cs;j++)if(i||j)cov[(m.r+i)+','+(m.c+j)]=1;});return {cov:cov,anc:anc};}
 function tbFix(T){
   var R=T.r.length,C=T.r[0].length;
+  T.w=(T.w||[]).slice(0,C);T.ca=T.ca||{};Object.keys(T.ca).forEach(function(k){var s=k.split(',');if(+s[0]>=R||+s[1]>=C)delete T.ca[k];});
   T.m=(T.m||[]).filter(function(m){return m.r<R&&m.c<C;}).map(function(m){m.rs=Math.min(m.rs,R-m.r);m.cs=Math.min(m.cs,C-m.c);return m;}).filter(function(m){return m.rs>1||m.cs>1;});
 }
 function tbMerge(T,r,c,dir){
@@ -423,12 +424,22 @@ function tbMerge(T,r,c,dir){
 function tbEd(id,p){
   var T=D.tbx[id],q='tbx.'+id,bt=function(a,l,c){return '<button class="s'+(c?' '+c:'')+'" type="button" data-act="'+a+'" data-id="'+id+'" data-tp="'+p+'">'+l+'</button> ';};
   var h='<div style="border:1px solid #b9c2d0;border-radius:6px;padding:6px 8px;margin:6px 0;background:#fafbfd"><div class="sub" style="margin-top:0">표 · 본문의 <b>[[표:'+id+']]</b> 줄 위치에 표시됩니다 (줄을 옮기면 표 위치가 바뀝니다)</div><div class="tw"><table class="et">';
-  var cv=tbCov(T);
+  var cv=tbCov(T);T.w=T.w||[];T.ca=T.ca||{};
+  var nc=T.r[0].length,wr='<tr>';
+  for(var jj=0;jj<nc;jj++){wr+='<td style="text-align:center;background:#f3f6fb;white-space:nowrap"><button class="s" type="button" data-act="tbw-" data-id="'+id+'" data-c="'+jj+'" title="폭 줄이기">◀</button><input type="number" min="5" max="100" step="1" data-p="'+q+'.w.'+jj+'" data-t="num" value="'+esc(T.w[jj]||'')+'" placeholder="자동" style="width:46px;min-width:46px">%<button class="s" type="button" data-act="tbw+" data-id="'+id+'" data-c="'+jj+'" title="폭 늘리기">▶</button></td>';}
+  h+=wr+'</tr>';
   T.r.forEach(function(row,i){h+='<tr>'+row.map(function(_,j){
-    var k=i+','+j,m=cv.anc[k],sel=(TSEL.id===id&&TSEL.r===i&&TSEL.c===j);
+    var k=i+','+j,m=cv.anc[k],sel=(TSEL.id===id&&TSEL.r===i&&TSEL.c===j),ck=id+'|'+i+'|'+j,sz=CELLSZ[ck]||[],ca=T.ca[k];
     if(cv.cov[k])return '';
-    return '<td data-cell="'+id+'|'+i+'|'+j+'"'+(m?(m.rs>1?' rowspan="'+m.rs+'"':'')+(m.cs>1?' colspan="'+m.cs+'"':''):'')+(sel?' style="outline:2px solid #1a56c4"':'')+'><input type="text" data-cell="'+id+'|'+i+'|'+j+'" data-p="'+q+'.r.'+i+'.'+j+'" data-t="text" value="'+esc(row[j])+'" style="width:'+(m&&m.cs>1?(92*m.cs):92)+'px">'+(m?'<div style="font-size:10px;color:#1a56c4">병합 '+m.rs+'×'+m.cs+'</div>':'')+'</td>';}).join('')+'</tr>';});
-  h+='</table></div><div class="rth" style="margin:2px 0">칸을 클릭해 선택한 뒤 병합·분할 버튼을 누르세요. (병합은 선택한 칸을 오른쪽/아래로 한 칸씩 넓힙니다)</div><div class="row">'+bt('tbr+','+ 행')+bt('tbr-','− 행')+bt('tbc+','+ 열')+bt('tbc-','− 열')+' <span style="color:#aaa">|</span> '+bt('tbmr','→ 오른쪽 병합')+bt('tbmd','↓ 아래 병합')+bt('tbsp','분할')+'</div>'
+    return '<td data-cell="'+ck+'"'+(m?(m.rs>1?' rowspan="'+m.rs+'"':'')+(m.cs>1?' colspan="'+m.cs+'"':''):'')+(sel?' style="outline:2px solid #1a56c4"':'')+'><textarea data-cell="'+ck+'" data-p="'+q+'.r.'+i+'.'+j+'" data-t="text" style="resize:both;overflow:auto;white-space:pre-wrap;min-width:90px;min-height:44px;width:'+(sz[0]||(m&&m.cs>1?(100*m.cs)+'px':'110px'))+';height:'+(sz[1]||'52px')+';text-align:'+({l:'left',c:'center',r:'right'}[ca]||'left')+'">'+esc(row[j])+'</textarea>'+(m?'<div style="font-size:10px;color:#1a56c4">병합 '+m.rs+'×'+m.cs+'</div>':'')+'</td>';}).join('')+'</tr>';});
+  var ab=function(l,v){return '<button class="s" type="button" data-act="tbca" data-v="'+v+'" data-id="'+id+'">'+l+'</button> ';};
+  h+='</table></div><div class="rth" style="margin:2px 0">칸을 클릭해 선택한 뒤 아래 버튼을 쓰세요. 칸 안에서 Enter로 줄바꿈(입력한 그대로 표시)하고, 칸 모서리를 끌어 칸 크기를 키울 수 있습니다. 위쪽 ◀ ▶ 와 숫자는 열 폭(%)입니다 (비우면 자동, 양끝 열 포함).</div>'
+   +'<div class="rt" style="margin:3px 0">선택한 칸: <b class="tsl" data-id="'+id+'">'+(TSEL.id===id&&TSEL.r>=0?(TSEL.r+1)+'행 '+(TSEL.c+1)+'열':'없음')+'</b> '
+   +'<button class="s" type="button" data-act="rtb" data-tpsel="1" data-id="'+id+'"><b>B</b></button><button class="s" type="button" data-act="rtu" data-tpsel="1" data-id="'+id+'"><u>U</u></button>'
+   +'<input type="color" value="#d11a1a" title="글자색"><button class="s" type="button" data-act="rtc" data-tpsel="1" data-id="'+id+'">색</button>'
+   +'<button class="s" type="button" data-act="rta" data-tpsel="1" data-id="'+id+'">링크</button><button class="s" type="button" data-act="rtx" data-tpsel="1" data-id="'+id+'">서식 제거</button>'
+   +' <span style="color:#aaa">|</span> 칸 정렬 '+ab('좌측','l')+ab('중앙','c')+ab('우측','r')+ab('표 기본','')+'</div>'
+   +'<div class="row">'+bt('tbr+','+ 행')+bt('tbr-','− 행')+bt('tbc+','+ 열')+bt('tbc-','− 열')+' <span style="color:#aaa">|</span> '+bt('tbmr','→ 오른쪽 병합')+bt('tbmd','↓ 아래 병합')+bt('tbsp','분할')+'</div>'
    +'<div class="row"><label>테두리</label>'+C(q+'.bd')+' 두께 '+N(q+'.bw',0,6)+'px <label>셀 바탕</label>'+C(q+'.bg')+' '+CK(q+'.nbg','바탕 없음')+'</div>'
    +'<div class="row"><label>글자</label>크기 '+N(q+'.fs',8,40)+' '+C(q+'.fc')+' '+CK(q+'.b','굵게')+' <span class="alr" style="display:inline-flex;gap:4px;align-items:center;font-size:12px">정렬 '+AL(q+'.al','c')+'</span></div>'
    +'<div class="row">'+CK(q+'.hdr','첫 행을 제목행으로')+' '+C(q+'.hbg')+' '+CK(q+'.fw','가로 꽉 채움')+' '+bt('tbdel','표 삭제','d')+'</div></div>';
@@ -608,8 +619,11 @@ var TTM=null;function toast(t,ms){var el=document.getElementById('toast');el.tex
 document.addEventListener('focusin',function(e){
   var c=e.target&&e.target.dataset&&e.target.dataset.cell;if(!c)return;
   var s=c.split('|');TSEL={id:s[0],r:+s[1],c:+s[2]};
+  document.querySelectorAll('.tsl').forEach(function(l){l.textContent=(l.dataset.id===s[0])?((+s[1]+1)+'행 '+(+s[2]+1)+'열'):'없음';});
   document.querySelectorAll('td[data-cell]').forEach(function(td){td.style.outline=(td.dataset.cell===c)?'2px solid #1a56c4':'';});
 });
+function saveCellSz(){document.querySelectorAll('textarea[data-cell]').forEach(function(x){if(x.style.width&&x.style.height)CELLSZ[x.dataset.cell]=[x.style.width,x.style.height];});}
+document.addEventListener('mouseup',saveCellSz);document.addEventListener('touchend',saveCellSz);
 function onInput(e){
   var el=e.target;if(!el.dataset||!el.dataset.p)return;
   var v;
@@ -660,7 +674,13 @@ document.addEventListener('click',function(e){
   else if(a==='delrow'){D.tb[k].rows.splice(i,1);}
   else if(a==='rowup'){mv(D.tb[k].rows,i,-1);}
   else if(a==='rowdn'){mv(D.tb[k].rows,i,1);}
-  else if(a==='rtb'||a==='rtu'||a==='rtc'||a==='rta'||a==='rtx'){rtApply(a,b);chg=false;}
+  else if(a==='rtb'||a==='rtu'||a==='rtc'||a==='rta'||a==='rtx'){
+    if(b.dataset.tpsel!=null){
+      if(TSEL.id!==b.dataset.id||TSEL.r<0)toast('먼저 표 안의 칸을 클릭해 선택하세요.');
+      else{b.dataset.tp='tbx.'+TSEL.id+'.r.'+TSEL.r+'.'+TSEL.c;rtApply(a,b);}
+    }else rtApply(a,b);
+    chg=false;
+  }
   else if(a==='secup'){mv(D.sec,i,-1);}
   else if(a==='secdn'){mv(D.sec,i,1);}
   else if(a==='imgup'){mv(D.ls.notice.imgs,i,-1);}
@@ -688,9 +708,19 @@ document.addEventListener('click',function(e){
     var T=D.tbx[b.dataset.id];
     if(a==='tbr+'){T.r.push(T.r[0].map(function(){return '';}));}
     else if(a==='tbr-'){if(T.r.length>1)T.r.pop();}
-    else if(a==='tbc+'){T.r.forEach(function(r){r.push('');});}
+    else if(a==='tbc+'){T.r.forEach(function(r){r.push('');});T.w=T.w||[];}
     else{if(T.r[0].length>1)T.r.forEach(function(r){r.pop();});}
     tbFix(T);
+  }
+  else if(a==='tbw-'||a==='tbw+'){
+    var Tw=D.tbx[b.dataset.id],cj=+b.dataset.c;Tw.w=Tw.w||[];
+    var cur=Number(Tw.w[cj])||Math.round(100/Tw.r[0].length);
+    Tw.w[cj]=Math.max(5,Math.min(100,cur+(a==='tbw+'?5:-5)));
+  }
+  else if(a==='tbca'){
+    var Ta=D.tbx[b.dataset.id];Ta.ca=Ta.ca||{};
+    if(TSEL.id!==b.dataset.id||TSEL.r<0){toast('먼저 표 안의 칸을 클릭해 선택하세요.');chg=false;}
+    else{var kk=TSEL.r+','+TSEL.c;if(b.dataset.v)Ta.ca[kk]=b.dataset.v;else delete Ta.ca[kk];}
   }
   else if(a==='tbmr'||a==='tbmd'||a==='tbsp'){
     var T2=D.tbx[b.dataset.id];
