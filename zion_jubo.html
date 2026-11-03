@@ -244,6 +244,12 @@ function listSec(id){
   if(id==='notice'&&bd)h+='<div class="bday"><span class="bt"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="8" width="12" height="6" rx="1.2" fill="#f06292"/><path d="M2 10.6c1.5 1.3 2.5 1.3 4 0s2.5-1.3 4 0 2.5 1.3 4 0" fill="none" stroke="#fff" stroke-width="1.2"/><rect x="7.2" y="4.6" width="1.6" height="3.4" fill="#ffca28"/><path d="M8 1.2c1 1 1 1.9 0 2.8-1-.9-1-1.8 0-2.8z" fill="#ff7043"/></svg>생일을 축하합니다</span><span class="bx" style="text-align:'+(AM[L.a3||'l']||'left')+'">'+rich(bd).replace(/\n/g,'<br>')+'</span></div>';
   var t2=(L.t2||'').replace(/^\s*\n+/,'').replace(/\s+$/,'');
   if(t2.trim()){var c=L.c2||'#1a56c4';h+='<div class="l2" style="color:'+esc(c)+';border-color:'+esc(c)+';background:'+esc(c)+'14;text-align:'+(AM[L.a2||'l']||'left')+'">'+rich(t2)+'</div>';}
+  (L.ex||[]).forEach(function(e){
+    var tx=((e&&e.t)||'').replace(/^\s*\n+/,'').replace(/\s+$/,'');
+    if(!tx.trim())return;
+    var c2=e.c||'#1a56c4';
+    h+='<div class="l2" style="color:'+esc(c2)+';border-color:'+esc(c2)+';background:'+esc(c2)+'14;text-align:'+(AM[e.a||'l']||'left')+'">'+rich(tx)+'</div>';
+  });
   var ims=(L.imgs||[]).filter(function(m){return m&&m.src;});
   if(ims.length)h+='<div class="ims">'+ims.map(function(m){return '<img src="'+esc(m.src)+'" alt="" style="'+imgSt(m)+'">';}).join('')+'</div>';
   return h;

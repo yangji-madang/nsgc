@@ -202,7 +202,7 @@ function migrate(d){
     var t=d.tb[k];if(!Array.isArray(t.al))t.al=[];
     t.cols.forEach(function(_,j){if(!t.al[j])t.al[j]=DEFAL[k][j]||'c';});
   });
-  ['notice','pray'].forEach(function(k){var L=d.ls[k];if(!L.a1)L.a1='l';if(!L.a2)L.a2='l';if(!L.a3)L.a3='l';if(L.bd==null)L.bd='';});
+  ['notice','pray'].forEach(function(k){var L=d.ls[k];if(!L.a1)L.a1='l';if(!L.a2)L.a2='l';if(!L.a3)L.a3='l';if(L.bd==null)L.bd='';if(!Array.isArray(L.ex))L.ex=[];});
   if(d.ls.notice.bdAuto==null)d.ls.notice.bdAuto=true;
   d.hd=d.hd||f.hd;if(!d.hd.vAl)d.hd.vAl='c';
   d.sec.forEach(function(x){if(!x.sal)x.sal='r';});
@@ -402,6 +402,13 @@ function listEd(k){
    +'<div class="rth" id="bdMsg">'+esc(BDMSG)+'</div>':'')
    +'<div class="sub">구별 내용 (줄바꿈 가능 · 비우면 표시 안 됨)</div>'+RT('ls.'+k+'.t2','일반 내용과 구별되는 내용',6)+'<div class="alr"><label>구별 내용 정렬</label>'+AL('ls.'+k+'.a2','l')+'</div>'
    +'<div class="row"><label>구별 색상</label>'+C('ls.'+k+'.c2')+'</div>';
+  (D.ls[k].ex||[]).forEach(function(e,i){
+    var q='ls.'+k+'.ex.'+i;
+    h+='<div class="sub">구별 내용 '+(i+2)+'</div>'+RT(q+'.t','추가 구별 내용 (줄바꿈 가능 · 비우면 표시 안 됨)',4)
+     +'<div class="alr"><label>정렬</label>'+AL(q+'.a','l')+'</div>'
+     +'<div class="row"><label>색상</label>'+C(q+'.c')+' <button class="s" type="button" data-act="exup" data-k="'+k+'" data-i="'+i+'">↑</button> <button class="s" type="button" data-act="exdn" data-k="'+k+'" data-i="'+i+'">↓</button> <button class="s d" type="button" data-act="exdel" data-k="'+k+'" data-i="'+i+'">삭제</button></div>';
+  });
+  h+='<div class="row"><button class="s" type="button" data-act="exadd" data-k="'+k+'">+ 구별 내용 추가</button></div>';
   if(k==='notice'){
     h+='<div class="sub">이미지 삽입 (공지사항 맨 아래에 순서대로 표시) · 크기는 가로세로 비율을 유지한 채 조정됩니다.</div><div class="imgs">';
     D.ls.notice.imgs.forEach(function(m,i){
@@ -615,6 +622,10 @@ document.addEventListener('click',function(e){
   else if(a==='archive'){archive(true);chg=false;}
   else if(a==='al'){S(b.dataset.p,b.dataset.v);}
   else if(a==='attreload'){refreshAtt(true);chg=false;}
+  else if(a==='exadd'){var L=D.ls[k];L.ex=L.ex||[];L.ex.push({t:'',c:L.c2||'#1a56c4',a:'l'});}
+  else if(a==='exdel'){D.ls[k].ex.splice(i,1);}
+  else if(a==='exup'){mv(D.ls[k].ex,i,-1);}
+  else if(a==='exdn'){mv(D.ls[k].ex,i,1);}
   else if(a==='rng'){
     var ri=document.querySelector('input[type=range][data-p="'+b.dataset.p+'"]');
     if(ri){var nv=Math.max(Number(ri.min),Math.min(Number(ri.max),Number(ri.value)+Number(b.dataset.d)));ri.value=nv;ri.dispatchEvent(new Event('input',{bubbles:true}));}
