@@ -373,7 +373,7 @@ async function bdLoad(force){
 }
 function bdText(iso){
   var t0=isoMs(iso);if(t0==null||!BDATA)return null;
-  var sun=t0-new Date(t0).getUTCDay()*86400000,out=[],cnt=0,WN=['주일','월요일','화요일','수요일','목요일','금요일','토요일'];
+  var sun=t0-new Date(t0).getUTCDay()*86400000,out=[],cnt=0,WN=['주일','월','화','수','목','금','토'];
   for(var i=0;i<7;i++){
     var d=new Date(sun+i*86400000),m=d.getUTCMonth()+1,dd=d.getUTCDate();
     var L=BDATA.filter(function(p){var x=/^\d{4}-(\d{2})-(\d{2})$/.exec(p.d);return +x[1]===m&&+x[2]===dd;});
