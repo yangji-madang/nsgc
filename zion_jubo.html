@@ -371,6 +371,12 @@ function draw0(){
   var sideStyle=sx(s.tx).replace(/font-size:[\d.]+px/,'font-size:'+Math.max(10,(s.tx&&s.tx.s||13)-1)+'px');
   (D.sec||[]).forEach(function(sec){
     if(sec.show===false)return;
+    if(sec.type==='simple'){
+      if(!String(sec.text||'').trim())return;
+      var ss=sec.st||{};
+      html+='<section class="box"><div style="'+sx(ss)+';text-align:'+(AM[ss.al||'l']||'left')+';white-space:pre-wrap;word-break:keep-all;overflow-wrap:anywhere">'+rich(sec.text)+'</div></section>';
+      return;
+    }
     var inner='';
     if(sec.id==='att')inner=attSec();
     else if(sec.id==='child')inner=kidsSec();

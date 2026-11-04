@@ -99,7 +99,8 @@ table.et input{min-width:70px}
 var KEY='zion_jubo_draft';
 var FONTS=[['Noto Sans KR','Noto Sans KR (고딕)'],['Nanum Gothic','나눔고딕'],['Nanum Myeongjo','나눔명조'],['Jua','주아체'],['Do Hyeon','도현체'],['Black Han Sans','블랙한산스'],['Gowun Dodum','고운돋움'],['Gowun Batang','고운바탕'],['Song Myung','송명'],['Sunflower','해바라기'],['Gaegu','개구'],['Hi Melody','하이멜로디'],['Malgun Gothic','맑은 고딕'],['Batang','바탕'],['Dotum','돋움'],['Gulim','굴림']];
 var PARTS=[['sop','SOP.'],['alt','ALT.'],['ten','TEN.'],['bas','BAS.'],['orc','ORC.'],['cond','지휘·반주'],['sign','수어']];
-function isCust(id){return !SECNAME[id];}
+function isCust(id){return !SECNAME[id]&&!/^s\d+$/.test(id);}
+function isSimple(s){return !!s&&s.type==='simple';}
 function blankLs(){return {t1:'',a1:'l',t2:'',a2:'l',c2:'#1a56c4',a3:'l',bd:'',ex:[],imgs:[]};}
 var SECNAME={order:'찬양·기도 순서',notice:'공지사항',pray:'중보기도',child:'후원아동',time:'찬양연습 시간·장소',event:'주요 행사',att:'출석 현황',staff:'담당자'};
 
@@ -573,6 +574,14 @@ function kidsEd(){
 }
 function secEd(sec,i){
   var b='sec.'+i;
+  if(isSimple(sec)){
+    if(!sec.st)sec.st={f:'Noto Sans KR',s:13,c:'#222222',b:false,al:'l'};
+    return '<details id="d-'+sec.id+'"><summary>[단순 항목] '+esc(String(sec.text||'').replace(/\s+/g,' ').trim().slice(0,20)||'(빈 글)')+(sec.show===false?' (숨김)':'')+'</summary><div class="bd">'
+     +'<div class="row"><button class="s" data-act="secup" data-i="'+i+'">영역 ↑</button><button class="s" data-act="secdn" data-i="'+i+'">영역 ↓</button> '+CK(b+'.show','보기 페이지에 표시')+' <button class="s d" data-act="secdel" data-i="'+i+'">이 항목 삭제</button></div>'
+     +'<div class="sub">글 입력 (입력한 그대로 줄바꿈·띄어쓰기 표시)</div>'+RT(b+'.text','표시할 글을 입력하세요',4)
+     +'<div class="row"><label>이 항목 글꼴</label>'+SEL(b+'.st.f',FONTS)+' 크기 '+N(b+'.st.s',9,60)+' '+C(b+'.st.c')+' '+CK(b+'.st.b','굵게')+' <span style="display:inline-flex;gap:4px;align-items:center;font-size:12px;color:#555">정렬 '+AL(b+'.st.al','l')+'</span></div>'
+     +'<div class="sub">일부 글자에만 링크: 글자를 드래그로 선택한 뒤 [링크] 버튼을 누르세요.</div></div></details>';
+  }
   var h='<details id="d-'+sec.id+'"><summary>'+esc(SECNAME[sec.id]||sec.label||'새 항목')+(sec.show===false?' (숨김)':'')+'</summary><div class="bd">'
    +'<div class="row"><button class="s" data-act="secup" data-i="'+i+'">영역 ↑</button><button class="s" data-act="secdn" data-i="'+i+'">영역 ↓</button> '+CK(b+'.show','보기 페이지에 표시')+(isCust(sec.id)?' <button class="s d" data-act="secdel" data-i="'+i+'">이 항목 삭제</button>':'')+'</div>'
    +'<div class="sec-head"><div><div class="sub">항목명</div>'+T(b+'.label')+'</div>'
@@ -611,8 +620,8 @@ function render(){
    +'<div class="row"><label>줄 간격</label>'+RA('st.lh',0,50,5)+'<span style="font-size:12px">% 넓힘 (현재 줄 간격 기준, 최대 50%)</span></div>'
    +'<div class="sub">항목명 서식은 모든 항목명에, 내용 서식은 모든 내용에 동일하게 적용됩니다.</div></div></details>';
   h+='<details id="d-ord"><summary>항목 순서 · 추가 (항목 단위로 위아래 이동)</summary><div class="bd">'
-   +D.sec.map(function(s,i){return '<div class="row"><span style="min-width:130px;font-weight:700">'+(i+1)+'. '+esc(SECNAME[s.id]||s.label||'새 항목')+(s.show===false?' <small style="color:#999">(숨김)</small>':'')+'</span><button class="s" type="button" data-act="secup" data-i="'+i+'">↑</button><button class="s" type="button" data-act="secdn" data-i="'+i+'">↓</button>'+(isCust(s.id)?'<button class="s d" type="button" data-act="secdel" data-i="'+i+'">삭제</button>':'')+'</div>';}).join('')
-   +'<div class="row"><button class="s" type="button" data-act="secadd">+ 항목 추가 (항목명 + 일반·구별 내용)</button></div>'
+   +D.sec.map(function(s,i){return '<div class="row"><span style="min-width:130px;font-weight:700">'+(i+1)+'. '+esc(isSimple(s)?'[단순] '+(String(s.text||'').replace(/\s+/g,' ').trim().slice(0,14)||'(빈 글)'):(SECNAME[s.id]||s.label||'새 항목'))+(s.show===false?' <small style="color:#999">(숨김)</small>':'')+'</span><button class="s" type="button" data-act="secup" data-i="'+i+'">↑</button><button class="s" type="button" data-act="secdn" data-i="'+i+'">↓</button>'+(isCust(s.id)?'<button class="s d" type="button" data-act="secdel" data-i="'+i+'">삭제</button>':'')+'</div>';}).join('')
+   +'<div class="row"><button class="s" type="button" data-act="secadd">+ 항목 추가 (항목명 + 일반·구별 내용)</button> <button class="s" type="button" data-act="secadds">+ 단순 항목 추가 (글 입력줄)</button></div>'
    +'<div class="sub">추가한 항목은 아래 영역 목록에서 항목명과 일반·구별 내용(표 포함)을 입력합니다.</div></div></details>';
   D.sec.forEach(function(s,i){h+=secEd(s,i);});
   document.getElementById('ed').innerHTML=h;
@@ -750,13 +759,19 @@ document.addEventListener('click',function(e){
       if(T2.m.length===before){toast('선택한 칸은 병합된 칸이 아닙니다.');chg=false;}
     }else{var er=tbMerge(T2,TSEL.r,TSEL.c,a==='tbmr'?'r':'d');if(er){toast(er);chg=false;}}
   }
+  else if(a==='secadds'){
+    D.simN=D.simN||0;var sid;do{sid='s'+(++D.simN);}while(D.sec.some(function(s){return s.id===sid;}));
+    var bs=D.st&&D.st.tx||{};
+    D.sec.push({id:sid,type:'simple',label:'단순 항목',text:'',show:true,st:{f:bs.f||'Noto Sans KR',s:bs.s||13,c:bs.c||'#222222',b:false,al:'l'}});
+    setTimeout(function(){var d=document.getElementById('d-'+sid);if(d){d.open=true;d.scrollIntoView({block:'center'});}},50);
+  }
   else if(a==='secadd'){
     D.secN=D.secN||0;var nid;do{nid='c'+(++D.secN);}while(D.ls[nid]||D.sec.some(function(s){return s.id===nid;}));
     D.ls[nid]=blankLs();D.sec.push({id:nid,label:'새 항목',side:'',url:'',show:true,sal:'r'});
     setTimeout(function(){var d=document.getElementById('d-'+nid);if(d){d.open=true;d.scrollIntoView({block:'center'});}},50);
   }
   else if(a==='secdel'){
-    var sd=D.sec[i];if(sd&&isCust(sd.id)){if(!confirm('"'+(sd.label||'새 항목')+'" 항목을 삭제할까요?')){chg=false;}else{delete D.ls[sd.id];D.sec.splice(i,1);}}else chg=false;
+    var sd=D.sec[i];if(sd&&(isCust(sd.id)||isSimple(sd))){if(!confirm('"'+(isSimple(sd)?'단순 항목':(sd.label||'새 항목'))+'" 항목을 삭제할까요?')){chg=false;}else{delete D.ls[sd.id];D.sec.splice(i,1);}}else chg=false;
   }
   else if(a==='exadd'){var L=D.ls[k];L.ex=L.ex||[];L.ex.push({t:'',c:L.c2||'#1a56c4',a:'l'});}
   else if(a==='exdel'){var Lq=D.ls[k];var od=ordOf(Lq,k);Lq.ex.splice(i,1);Lq.ord=od.filter(function(x){return x!=='e'+i;}).map(function(x){return (x.charAt(0)==='e'&&x!=='e'&&+x.slice(1)>i)?'e'+(+x.slice(1)-1):x;});}
