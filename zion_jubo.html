@@ -30,6 +30,8 @@ html.ph table.tb.eq,html.ph table.tb.kids{table-layout:auto}
 .in{position:relative;padding:5px 5px 12px}
 .box{background:rgba(255,255,255,var(--bx,.5));border-radius:7px;padding:4px 7px;margin:0 0 4px}
 .fit{overflow:hidden;width:100%}
+.ml{white-space:pre-wrap}
+table.tb .ml{white-space:pre-wrap}
 .hd{display:flex;align-items:flex-end;white-space:pre;width:100%}
 .hd .l,.hd .r{line-height:calc(1.1*var(--lk,1))}
 .hd .c{line-height:calc(1.15*var(--lk,1))}
@@ -174,7 +176,7 @@ function cell(v,u,cls,st){
   var raw=String(v==null?'':v),s=raw,e=raw.trim(),uu=url(u),c=cls||'';
   var sa=st?' style="'+st+'"':'';
   if(e&&uu)return '<td class="'+c+'"'+sa+'><a class="lk" href="'+esc(uu)+'" target="_blank" rel="noopener">'+esc(s)+'</a></td>';
-  return '<td class="'+c+(e.length<=9?' nw':'')+'"'+sa+'>'+rich(s)+'</td>';
+  return '<td class="'+c+(raw.indexOf('\n')>=0?' ml':(e.length<=9?' nw':''))+'"'+sa+'>'+rich(s)+'</td>';
 }
 function pairSec(id){
   var t=D.tb&&D.tb[id];if(!t)return '';
@@ -204,7 +206,7 @@ function pairSec(id){
   };
   var head='';
   if(t.hdr){
-    var hs=function(sp){return cols.map(function(h,j){return '<th class="'+((j===0&&sp)?'sp':'')+' nw">'+esc(h)+'</th>';}).join('');};
+    var hs=function(sp){return cols.map(function(h,j){return '<th class="'+((j===0&&sp)?'sp':'')+(String(h).indexOf('\n')>=0?' ml':' nw')+'">'+esc(h)+'</th>';}).join('');};
     head='<tr>'+hs(false)+(two?hs(true):'')+'</tr>';
   }
   var body='';
@@ -296,8 +298,8 @@ function listSec(id){
   B.t1=function(){
     var h='',buf=[];
     var flush=function(){
-      var ls=buf.filter(function(s){return s.trim();});
-      if(ls.length)h+='<ul class="ls'+((L.a1||'l')!=='l'?' nm':'')+'" style="text-align:'+(AM[L.a1||'l']||'left')+'">'+ls.map(function(s){return '<li>'+rich(s)+'</li>';}).join('')+'</ul>';
+      var ls=buf.slice();while(ls.length&&!ls[0].trim())ls.shift();while(ls.length&&!ls[ls.length-1].trim())ls.pop();
+      if(ls.length)h+='<ul class="ls'+((L.a1||'l')!=='l'?' nm':'')+'" style="text-align:'+(AM[L.a1||'l']||'left')+'">'+ls.map(function(s){return '<li>'+(s.trim()?rich(s):'&nbsp;')+'</li>';}).join('')+'</ul>';
       buf=[];
     };
     (L.t1||'').split('\n').map(function(s){return s.replace(/\r$/,'');}).forEach(function(s){var m=MK.exec(s);if(m){flush();h+=utbl(m[1],AM[L.a1||'l']);}else buf.push(s);});

@@ -232,7 +232,12 @@ function calc(a){
 }
 
 /* ---------- 입력 요소 ---------- */
-function T(p,ph){return '<input type="text" data-p="'+p+'" data-t="text" value="'+esc(G(p))+'" placeholder="'+esc(ph||'')+'">';}
+function T(p,ph){
+  if(/^https?:/.test(ph||''))return '<input type="text" data-p="'+p+'" data-t="text" value="'+esc(G(p))+'" placeholder="'+esc(ph||'')+'">';
+  var v=String(G(p)==null?'':G(p));
+  return '<textarea class="t1r" data-p="'+p+'" data-t="text" rows="'+Math.min(8,Math.max(1,v.split('\n').length))+'" placeholder="'+esc(ph||'')+'" style="min-height:30px">'+esc(v)+'</textarea>';
+}
+document.addEventListener('input',function(e){var x=e.target;if(x&&x.classList&&x.classList.contains('t1r'))x.rows=Math.min(8,Math.max(1,x.value.split('\n').length));});
 function TA(p,ph,rows){return '<textarea data-p="'+p+'" data-t="text" rows="'+(rows||2)+'" placeholder="'+esc(ph||'')+'">'+esc(G(p))+'</textarea>';}
 function RT(p,ph,rows){
   return '<div class="rt"><button type="button" class="s" data-act="rtb" data-tp="'+p+'"><b>B</b> 굵게</button>'
