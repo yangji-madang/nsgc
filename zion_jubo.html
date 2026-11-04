@@ -255,7 +255,8 @@ function mapleBg(a){
 function hdBg(){
   var h=(D&&D.hd)||{};if(h.mpl===false)return '';
   var a=(h.mpa==null?60:Math.max(0,Math.min(100,Number(h.mpa)||0)))/100;
-  return 'background-image:'+mapleBg((0.35+0.65*a).toFixed(2)).replace(/"/g,"'")+',linear-gradient(100deg,rgba(255,196,140,'+(0.55*a).toFixed(2)+') 0%,rgba(255,236,214,'+(0.40*a).toFixed(2)+') 50%,rgba(255,196,140,'+(0.55*a).toFixed(2)+') 100%);background-size:cover,100% 100%;background-repeat:no-repeat;background-position:center';
+  var vc=(0.92-0.45*a).toFixed(2),ve=(0.45-0.45*a).toFixed(2);
+  return "background-image:linear-gradient(90deg,rgba(255,255,255,"+ve+") 0%,rgba(255,255,255,"+vc+") 24%,rgba(255,255,255,"+vc+") 76%,rgba(255,255,255,"+ve+") 100%),url('zion_jubo_bg.jpg');background-size:100% 100%,cover;background-repeat:no-repeat;background-position:center";
 }
 function utbl(id,ta){
   var T=(D.tbx||{})[id];if(!T||!Array.isArray(T.r))return '';

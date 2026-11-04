@@ -608,7 +608,7 @@ function render(){
    +'<div class="row"><label>날짜</label><input type="date" data-p="hd.date" data-t="text" value="'+esc(D.hd.date)+'"></div>'
    +'<div class="row"><label>말씀 띠</label></div>'+RT('hd.verse','제목 아래 말씀 (비우면 표시 안 됨)',2)+'<div class="alr"><label>말씀 정렬</label>'+AL('hd.vAl','c')+'</div>'
    +'<div class="row"><label>말씀 배경색</label>'+C('hd.verseBg')+'</div>'
-   +'<div class="row">'+CK('hd.mpl','상단 제목영역 가을 단풍 배경 (그라데이션)')+' <label style="min-width:0">진하기</label>'+RA('hd.mpa',0,100,10)+'</div></div></details>';
+   +'<div class="row">'+CK('hd.mpl','상단 제목영역 가을 단풍 사진 배경')+' <label style="min-width:0">진하기</label>'+RA('hd.mpa',0,100,10)+'</div></div></details>';
   h+='<details id="d-bg"><summary>배경 사진</summary><div class="bd">'
    +'<div class="row">'+(D.bg.img?'<img class="thumb" src="'+D.bg.img+'">':'<span style="color:#888">등록된 배경 없음</span>')
    +'<button class="s" data-act="pickimg">사진 선택</button>'+(D.bg.img?'<button class="s d" data-act="clearimg">배경 제거</button>':'')+'</div>'
