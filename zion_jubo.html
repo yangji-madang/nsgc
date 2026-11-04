@@ -456,12 +456,22 @@ window.juboCapture=function(){
   var p=(D&&D.attAuto!==false)?attSrc().catch(function(){}):Promise.resolve();
   return p.then(function(){return document.fonts&&document.fonts.ready;}).then(function(){return new Promise(function(r){setTimeout(r,500);});}).then(function(){fit();return doCapture();});
 };
+function showImg(c){
+  var o=document.getElementById('imgov');if(o)o.remove();
+  o=document.createElement('div');o.id='imgov';
+  o.style.cssText='position:fixed;left:0;top:0;right:0;bottom:0;z-index:99999;background:#222;overflow:auto;-webkit-overflow-scrolling:touch';
+  o.innerHTML='<div style="position:sticky;top:0;z-index:1;background:#111;color:#fff;padding:10px 12px;font:700 15px/1.4 sans-serif;display:flex;gap:10px;align-items:center"><span style="flex:1">아래 이미지를 <u>길게 눌러</u> \'이미지 저장\'을 선택하세요</span><button type="button" id="imgovx" style="font:700 14px sans-serif;padding:7px 14px;border:0;border-radius:6px;background:#fff;color:#111">닫기</button></div><img alt="주보" style="display:block;width:100%;height:auto;background:#fff;-webkit-touch-callout:default;-webkit-user-select:auto;user-select:auto">';
+  o.querySelector('img').src=c.toDataURL('image/png');
+  document.body.appendChild(o);
+  document.getElementById('imgovx').onclick=function(){o.remove();};
+}
 function saveImg(){
   var b=document.getElementById('sv');
   if(!window.html2canvas){alert('이미지 저장 모듈을 불러오지 못했습니다. 인터넷 연결을 확인해 주세요.');return;}
   b.disabled=true;b.textContent='저장 중…';b.style.display='none';
   doCapture().then(function(c){
     b.style.display='';b.disabled=false;b.textContent='🖼 이미지 저장';
+    if(/KAKAOTALK|NAVER\(inapp|FBAN|FBAV|Instagram|; ?wv\)/i.test(navigator.userAgent)){showImg(c);return;}
     c.toBlob(function(bl){
       var a=document.createElement('a');a.href=URL.createObjectURL(bl);a.download=fname();
       document.body.appendChild(a);a.click();document.body.removeChild(a);
