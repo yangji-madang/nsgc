@@ -286,16 +286,18 @@ function l2html(raw,c,a){
   tx.split('\n').forEach(function(l){var m=MK.exec(l);if(m){flush();inner+=utbl(m[1]);}else buf.push(l);});flush();
   return '<div class="l2" style="color:'+esc(c)+';border-color:'+esc(c)+';background:'+esc(c)+'14;text-align:'+(AM[a||'l']||'left')+'">'+inner+'</div>';
 }
+var MAINS=['order','time','event','staff','att','child'];
 function ordOf(L,id){
-  var all=['t1'];if(id==='notice')all.push('bd');all.push('t2');
+  var all=MAINS.indexOf(id)>=0?['main','t1']:['t1'];if(id==='notice')all.push('bd');all.push('t2');
   (L.ex||[]).forEach(function(_,i){all.push('e'+i);});all.push('im');
   var o=(Array.isArray(L.ord)?L.ord:[]).filter(function(x,i,a){return all.indexOf(x)>=0&&a.indexOf(x)===i;});
   all.forEach(function(x){if(o.indexOf(x)<0)o.push(x);});
   return o;
 }
-function listSec(id){
+function listSec(id,main){
   var L=norm(D.ls&&D.ls[id]);
   var B={};
+  B.main=function(){return main||'';};
   B.t1=function(){
     var h='',buf=[];
     var flush=function(){
@@ -381,14 +383,15 @@ function draw0(){
       return;
     }
     var inner='';
-    if(sec.id==='att')inner=attSec();
-    else if(sec.id==='child')inner=kidsSec();
-    else if(['order','time','event','staff'].indexOf(sec.id)>=0)inner=pairSec(sec.id);
-    else inner=listSec(sec.id);
+    var mainH='';
+    if(sec.id==='att')mainH=attSec();
+    else if(sec.id==='child')mainH=kidsSec();
+    else if(['order','time','event','staff'].indexOf(sec.id)>=0)mainH=pairSec(sec.id);
     if(sec.id==='order'){
       var mm=(D.tb&&D.tb.order&&D.tb.order.memo)||'';
-      if(mm.trim())inner+='<div class="memo" style="text-align:'+(AM[D.tb.order.mal||'l']||'left')+'">'+rich(mm).replace(/\n/g,'<br>')+'</div>';
+      if(mm.trim())mainH+='<div class="memo" style="text-align:'+(AM[D.tb.order.mal||'l']||'left')+'">'+rich(mm).replace(/\n/g,'<br>')+'</div>';
     }
+    inner=listSec(sec.id,mainH);
     var known=['order','time','event','staff','att','child','notice','pray'].indexOf(sec.id)>=0;
     if(!inner&&(known||!((sec.label||'').trim()||(sec.side||'').trim())))return;
     var side='';
