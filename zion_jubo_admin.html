@@ -569,9 +569,9 @@ function kidsEd(){
   var K=D.kids;
   var h='<div class="row"><label>한 줄 아동 수</label>'+N('kids.per',1,6)+'<span class="rth">사진과 이름이 한 쌍으로 표시되며, 한 줄에 이 수만큼 놓입니다.</span></div><div class="alr"><label>이름 정렬</label>'+AL('kids.al','l')+'</div><div class="imgs">';
   K.items.forEach(function(k,i){
-    h+='<div class="im" style="width:200px">'+(k.img?'<img class="thumb" src="'+k.img+'">':'<div class="thumb" style="display:flex;align-items:center;justify-content:center;color:#999;font-size:11px">사진 없음</div>')
+    h+='<div class="im" style="width:270px">'+(k.img?'<img class="thumb" src="'+k.img+'">':'<div class="thumb" style="display:flex;align-items:center;justify-content:center;color:#999;font-size:11px">사진 없음</div>')
      +'<div style="margin:4px 0"><button class="s" data-act="kidimg" data-i="'+i+'">사진 선택</button>'+(k.img?' <button class="s d" data-act="kidimgdel" data-i="'+i+'">사진 삭제</button>':'')+'</div>'
-     +TA('kids.items.'+i+'.name','이름 (줄바꿈 가능)',2)
+     +RT('kids.items.'+i+'.name','이름 (줄바꿈 가능)',2)
      +'<div style="margin-top:4px"><button class="s" data-act="kidup" data-i="'+i+'">↑</button> <button class="s" data-act="kiddn" data-i="'+i+'">↓</button> <button class="s d" data-act="kiddel" data-i="'+i+'">삭제</button></div></div>';
   });
   h+='</div><div class="row"><button class="s" data-act="kidadd">+ 아동 추가</button></div>';
