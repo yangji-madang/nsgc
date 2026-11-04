@@ -1,6 +1,6 @@
 {
  "v": 1,
- "updated": "2026-11-04T23:10:38.017Z",
+ "updated": "2026-11-04T23:13:37.380Z",
  "bookOrder": [
   "시온2",
   "시온3",
@@ -1320,7 +1320,12 @@
    "composer": "손경민",
    "page": 11,
    "chk": false,
-   "dates": []
+   "dates": [
+    {
+     "d": "2026-11-01",
+     "url": "https://youtu.be/tPP3iIbmlXI?si=lnhoNbjStc7LKqvb"
+    }
+   ]
   },
   {
    "id": "s073",
