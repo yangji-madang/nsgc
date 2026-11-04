@@ -283,23 +283,39 @@ function l2html(raw,c,a){
   tx.split('\n').forEach(function(l){var m=MK.exec(l);if(m){flush();inner+=utbl(m[1]);}else buf.push(l);});flush();
   return '<div class="l2" style="color:'+esc(c)+';border-color:'+esc(c)+';background:'+esc(c)+'14;text-align:'+(AM[a||'l']||'left')+'">'+inner+'</div>';
 }
+function ordOf(L,id){
+  var all=['t1'];if(id==='notice')all.push('bd');all.push('t2');
+  (L.ex||[]).forEach(function(_,i){all.push('e'+i);});all.push('im');
+  var o=(Array.isArray(L.ord)?L.ord:[]).filter(function(x,i,a){return all.indexOf(x)>=0&&a.indexOf(x)===i;});
+  all.forEach(function(x){if(o.indexOf(x)<0)o.push(x);});
+  return o;
+}
 function listSec(id){
   var L=norm(D.ls&&D.ls[id]);
-  var h='',buf=[];
-  var flush=function(){
-    var ls=buf.filter(function(s){return s.trim();});
-    if(ls.length)h+='<ul class="ls'+((L.a1||'l')!=='l'?' nm':'')+'" style="text-align:'+(AM[L.a1||'l']||'left')+'">'+ls.map(function(s){return '<li>'+rich(s)+'</li>';}).join('')+'</ul>';
-    buf=[];
+  var B={};
+  B.t1=function(){
+    var h='',buf=[];
+    var flush=function(){
+      var ls=buf.filter(function(s){return s.trim();});
+      if(ls.length)h+='<ul class="ls'+((L.a1||'l')!=='l'?' nm':'')+'" style="text-align:'+(AM[L.a1||'l']||'left')+'">'+ls.map(function(s){return '<li>'+rich(s)+'</li>';}).join('')+'</ul>';
+      buf=[];
+    };
+    (L.t1||'').split('\n').map(function(s){return s.replace(/\r$/,'');}).forEach(function(s){var m=MK.exec(s);if(m){flush();h+=utbl(m[1],AM[L.a1||'l']);}else buf.push(s);});
+    flush();return h;
   };
-  (L.t1||'').split('\n').map(function(s){return s.replace(/\r$/,'');}).forEach(function(s){var m=MK.exec(s);if(m){flush();h+=utbl(m[1],AM[L.a1||'l']);}else buf.push(s);});
-  flush();
-  var bd=L.bd||'';if(!bd.trim())bd='';
-  if(id==='notice'&&bd)h+='<div class="bday"><span class="bt"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="8" width="12" height="6" rx="1.2" fill="#f06292"/><path d="M2 10.6c1.5 1.3 2.5 1.3 4 0s2.5-1.3 4 0 2.5 1.3 4 0" fill="none" stroke="#fff" stroke-width="1.2"/><rect x="7.2" y="4.6" width="1.6" height="3.4" fill="#ffca28"/><path d="M8 1.2c1 1 1 1.9 0 2.8-1-.9-1-1.8 0-2.8z" fill="#ff7043"/></svg>생일을 축하합니다</span><span class="bx" style="text-align:'+(AM[L.a3||'l']||'left')+'">'+rich(bd).replace(/\n/g,'<br>')+'</span></div>';
-  h+=l2html(L.t2,L.c2,L.a2);
-  (L.ex||[]).forEach(function(e){if(e)h+=l2html(e.t,e.c,e.a);});
-  var ims=(L.imgs||[]).filter(function(m){return m&&m.src;});
-  if(ims.length)h+='<div class="ims">'+ims.map(function(m){return '<img src="'+esc(m.src)+'" alt="" style="'+imgSt(m)+'">';}).join('')+'</div>';
-  return h;
+  B.bd=function(){
+    var bd=L.bd||'';if(!bd.trim())return '';
+    return '<div class="bday"><span class="bt"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="8" width="12" height="6" rx="1.2" fill="#f06292"/><path d="M2 10.6c1.5 1.3 2.5 1.3 4 0s2.5-1.3 4 0 2.5 1.3 4 0" fill="none" stroke="#fff" stroke-width="1.2"/><rect x="7.2" y="4.6" width="1.6" height="3.4" fill="#ffca28"/><path d="M8 1.2c1 1 1 1.9 0 2.8-1-.9-1-1.8 0-2.8z" fill="#ff7043"/></svg>생일을 축하합니다</span><span class="bx" style="text-align:'+(AM[L.a3||'l']||'left')+'">'+rich(bd).replace(/\n/g,'<br>')+'</span></div>';
+  };
+  B.t2=function(){return l2html(L.t2,L.c2,L.a2);};
+  B.im=function(){
+    var ims=(L.imgs||[]).filter(function(m){return m&&m.src;});
+    return ims.length?'<div class="ims">'+ims.map(function(m){return '<img src="'+esc(m.src)+'" alt="" style="'+imgSt(m)+'">';}).join('')+'</div>':'';
+  };
+  return ordOf(L,id).map(function(x){
+    if(x.charAt(0)==='e'&&x!=='e'){var e=(L.ex||[])[+x.slice(1)];return e?l2html(e.t,e.c,e.a):'';}
+    return (B[x]||function(){return '';})();
+  }).join('');
 }
 function attSec(){
   var a=D.att||{};var c=calc(a);var g=function(k){return a[k]||[0,0];};
@@ -371,7 +387,7 @@ function draw0(){
       var u=url(sec.url);
       side='<span class="side" style="'+sideStyle+';text-align:'+(AM[sec.sal||'r']||'right')+'">'+(u?'<a href="'+esc(u)+'" target="_blank" rel="noopener">'+esc(sec.side)+'</a>':esc(sec.side))+'</span>';
     }
-    html+='<section class="box" style="'+sx(s.tx)+'"><h2 class="lb" style="margin-top:0;'+sx(s.lb)+'"><span class="t">▣ '+esc(sec.label)+'</span>'+side+'</h2>'+inner+'</section>';
+    html+='<section class="box" style="'+sx(s.tx)+'"><h2 class="lb" style="margin-top:0;'+sx(s.lb)+'"><span class="t">▣ '+(url(sec.turl)?'<a href="'+esc(url(sec.turl))+'" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">'+esc(sec.label)+'</a>':esc(sec.label))+'</span>'+side+'</h2>'+inner+'</section>';
   });
   document.getElementById('app').innerHTML=html;
   fit();

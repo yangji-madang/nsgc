@@ -451,8 +451,21 @@ function tbEd(id,p){
 function TX(p,ph,rows){
   return RT(p,ph,rows)+'<div class="row"><button class="s" type="button" data-act="tbadd" data-tp="'+p+'">▦ 표 삽입 (커서 위치에)</button><span class="rth" style="margin:0">표는 여러 개 넣을 수 있고, 글과 섞어 쓸 수 있습니다.</span></div>'+tbIds(p).map(function(id){return tbEd(id,p);}).join('');
 }
+function ordOf(L,id){
+  var all=['t1'];if(id==='notice')all.push('bd');all.push('t2');
+  (L.ex||[]).forEach(function(_,i){all.push('e'+i);});all.push('im');
+  var o=(Array.isArray(L.ord)?L.ord:[]).filter(function(x,i,a){return all.indexOf(x)>=0&&a.indexOf(x)===i;});
+  all.forEach(function(x){if(o.indexOf(x)<0)o.push(x);});
+  return o;
+}
+function ordLbl(x){return x==='t1'?'일반 내용':x==='bd'?'생일을 축하합니다':x==='t2'?'구별 내용':x==='im'?'이미지':'구별 내용 '+(+x.slice(1)+2);}
+function ordEd(k){
+  var o=ordOf(D.ls[k],k);
+  return '<div class="sub">블록 표시 순서 (위에서 아래로 주보에 표시됩니다)</div><div class="row" style="flex-direction:column;align-items:stretch;gap:4px">'
+   +o.map(function(x,i){return '<div style="display:flex;gap:6px;align-items:center"><span style="min-width:130px;font-size:13px">'+(i+1)+'. '+ordLbl(x)+'</span><button class="s" type="button" data-act="ordup" data-k="'+k+'" data-t="'+x+'"'+(i===0?' disabled':'')+'>↑</button><button class="s" type="button" data-act="orddn" data-k="'+k+'" data-t="'+x+'"'+(i===o.length-1?' disabled':'')+'>↓</button></div>';}).join('')+'</div>';
+}
 function listEd(k){
-  var h='<div class="sub">일반 내용 (줄바꿈으로 여러 개 입력 · 한 줄이 한 항목)</div>'+TX('ls.'+k+'.t1','일반 공지를 줄바꿈으로 입력',6)+'<div class="alr"><label>일반 내용 정렬</label>'+AL('ls.'+k+'.a1','l')+'</div>'
+  var h=ordEd(k)+'<div class="sub">일반 내용 (줄바꿈으로 여러 개 입력 · 한 줄이 한 항목)</div>'+TX('ls.'+k+'.t1','일반 공지를 줄바꿈으로 입력',6)+'<div class="alr"><label>일반 내용 정렬</label>'+AL('ls.'+k+'.a1','l')+'</div>'
    +(k==='notice'?'<div class="sub">생일을 축하합니다 (비우면 이 줄은 표시되지 않음)</div>'+RT('ls.notice.bd','예: 조경식 집사님(18, 주일)',2)+'<div class="alr"><label>생일 줄 정렬</label>'+AL('ls.notice.a3','l')+'</div>'
    +'<div class="row">'+CK('ls.notice.bdAuto','생일자 자동 입력 (주보 날짜가 속한 주 일~토, birth.html 명단 기준)')+'</div>'
    +'<div class="row"><label>명단 비밀번호</label><input type="password" id="bdPw" autocomplete="off" style="width:150px" placeholder="'+(bdGetPw()?'저장됨':'생일 관리 비밀번호')+'"> <label style="min-width:0"><input type="checkbox" id="bdRem"'+(bdRemembered()?' checked':'')+'> 이 기기에 기억</label> <button class="s" type="button" data-act="bdfill">생일자 불러오기</button> <button class="s" type="button" data-act="bdforget">비밀번호 지우기</button></div>'
@@ -564,7 +577,7 @@ function secEd(sec,i){
    +'<div class="row"><button class="s" data-act="secup" data-i="'+i+'">영역 ↑</button><button class="s" data-act="secdn" data-i="'+i+'">영역 ↓</button> '+CK(b+'.show','보기 페이지에 표시')+(isCust(sec.id)?' <button class="s d" data-act="secdel" data-i="'+i+'">이 항목 삭제</button>':'')+'</div>'
    +'<div class="sec-head"><div><div class="sub">항목명</div>'+T(b+'.label')+'</div>'
    +'<div><div class="sub">항목명 옆 글 (비우면 공란)</div>'+T(b+'.side','예: ※ 안내 문구')+'</div></div>'
-   +'<div class="alr"><label>옆 글 정렬</label>'+AL(b+'.sal','r')+'</div><div class="sub">항목명 옆 글 링크 URL (선택)</div>'+T(b+'.url','https://...');
+   +'<div class="alr"><label>옆 글 정렬</label>'+AL(b+'.sal','r')+'</div><div class="sub">항목명 옆 글 링크 URL (선택)</div>'+T(b+'.url','https://...')+'<div class="sub">항목명(제목) 링크 URL (선택 · 입력하면 항목명을 눌러 이동)</div>'+T(b+'.turl','https://...');
   if(sec.id==='notice'||sec.id==='pray'||isCust(sec.id))h+=listEd(sec.id);
   else if(sec.id==='att')h+=attEd();
   else if(sec.id==='child')h+=kidsEd();
@@ -746,7 +759,8 @@ document.addEventListener('click',function(e){
     var sd=D.sec[i];if(sd&&isCust(sd.id)){if(!confirm('"'+(sd.label||'새 항목')+'" 항목을 삭제할까요?')){chg=false;}else{delete D.ls[sd.id];D.sec.splice(i,1);}}else chg=false;
   }
   else if(a==='exadd'){var L=D.ls[k];L.ex=L.ex||[];L.ex.push({t:'',c:L.c2||'#1a56c4',a:'l'});}
-  else if(a==='exdel'){D.ls[k].ex.splice(i,1);}
+  else if(a==='exdel'){var Lq=D.ls[k];var od=ordOf(Lq,k);Lq.ex.splice(i,1);Lq.ord=od.filter(function(x){return x!=='e'+i;}).map(function(x){return (x.charAt(0)==='e'&&x!=='e'&&+x.slice(1)>i)?'e'+(+x.slice(1)-1):x;});}
+  else if(a==='ordup'||a==='orddn'){var Lo=D.ls[k];var oo=ordOf(Lo,k);var pi=oo.indexOf(b.dataset.t);var qi=pi+(a==='ordup'?-1:1);if(pi>=0&&qi>=0&&qi<oo.length){var tmp=oo[pi];oo[pi]=oo[qi];oo[qi]=tmp;Lo.ord=oo;}}
   else if(a==='exup'){mv(D.ls[k].ex,i,-1);}
   else if(a==='exdn'){mv(D.ls[k].ex,i,1);}
   else if(a==='rng'){
