@@ -1,6 +1,6 @@
 {
  "v": 1,
- "updated": "2026-11-03T23:23:48.858Z",
+ "updated": "2026-11-04T01:08:29.026Z",
  "hero": {
   "eyebrow": "NAMSEOUL GRACE CHURCH",
   "ko": "시온찬양대 포털",
@@ -25,6 +25,21 @@
      "desc": "연습 일정과 파트별 연습 자료",
      "url": "https://yangji-madang.github.io/nsgc/2026_Zion_Thanksgiving.html",
      "icon": "leaf"
+    }
+   ]
+  },
+  {
+   "id": "g3",
+   "name": "소식",
+   "en": "NEWS",
+   "items": [
+    {
+     "id": "i6",
+     "title": "시온찬양대 주보",
+     "desc": "이번 주 소식을 한 장으로",
+     "url": "zion_jubo.html",
+     "icon": "paper",
+     "hide": false
     }
    ]
   },
@@ -95,21 +110,6 @@
      "desc": "준비과정을 담았습니다.",
      "url": "https://youtu.be/JVxyD1Uakjs?si=-8msSE3y0r6W8OQr",
      "icon": "users"
-    }
-   ]
-  },
-  {
-   "id": "g3",
-   "name": "소식",
-   "en": "NEWS",
-   "items": [
-    {
-     "id": "i6",
-     "title": "시온찬양대 주보",
-     "desc": "이번 주 소식을 한 장으로",
-     "url": "zion_jubo.html",
-     "icon": "paper",
-     "hide": true
     }
    ]
   }
