@@ -2139,11 +2139,37 @@ function startApp(){
             + parseFloat(ms.paddingLeft) + parseFloat(ms.paddingRight);
     }
     var natural = w + extra + 4;
-    // 휴대폰: 폭 제한을 풀고, 이 기준 폭이 화면 폭에 꽉 차도록 전체를 확대·축소
     var vw = document.documentElement.clientWidth || window.innerWidth;
     if(vw <= 700){
-      var z = Math.max(0.8, Math.min(1.4, vw / natural));
-      document.body.style.maxWidth = 'none';
+      // 휴대폰: 폭 제한 없이 화면을 꽉 채우고, 줄바꿈되면 안 되는 줄(파트 버튼 줄·검색 버튼 줄)이
+      // 화면 폭에 딱 맞을 때까지 전체를 확대(축소는 하지 않음 — 기기 글자 크기 설정 존중)
+      document.body.style.zoom = ''; document.body.style.maxWidth = 'none';
+      var W = function(el){ return el ? el.getBoundingClientRect().width : 0; };
+      var G = function(el){ var g = parseFloat(getComputedStyle(el).columnGap); return isNaN(g) ? 0 : g; };
+      var PX = function(el){ if(!el) return 0; var s = getComputedStyle(el); return parseFloat(s.paddingLeft) + parseFloat(s.paddingRight) + parseFloat(s.borderLeftWidth) + parseFloat(s.borderRightWidth); };
+      var cardEl = document.querySelector('.card'), mainEl = document.querySelector('main');
+      var need = 0;
+      document.querySelectorAll('.linkrow').forEach(function(r){
+        var pg = r.querySelector('.pill-group'); if(!pg) return;
+        var s = W(r.querySelector('.part-tag')) + G(r), k = pg.children;
+        for(var i = 0; i < k.length; i++){ s += W(k[i]) + (i ? G(pg) : 0); }
+        need = Math.max(need, s + PX(cardEl) + PX(mainEl));
+      });
+      var fb = document.querySelector('.filterbar'), fp = document.querySelector('.filter-panel');
+      document.querySelectorAll('.chip-group').forEach(function(gp){
+        var s = 0, kids = gp.children;
+        for(var i = 0; i < kids.length; i++){
+          var c = kids[i], cw;
+          if(c.classList.contains('chips')){
+            if(c.id === 'bookChips') continue;           // 책명 버튼은 원래 두 줄
+            cw = 0; for(var j = 0; j < c.children.length; j++){ cw += W(c.children[j]) + (j ? G(c) : 0); }
+          } else cw = W(c);
+          s += cw + (i ? G(gp) : 0);
+        }
+        need = Math.max(need, s + PX(fp) + PX(fb));
+      });
+      need = Math.ceil(need) + 6;
+      var z = need ? Math.max(1, Math.min(1.35, vw / need)) : 1;
       document.body.style.zoom = String(Math.round(z * 1000) / 1000);
     } else {
       document.body.style.zoom = '';
