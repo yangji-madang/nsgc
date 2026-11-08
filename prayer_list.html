@@ -65,6 +65,7 @@ td select,td input{padding:6px 2px;font-size:14px}td select{padding-left:0;paddi
   <b>기도순서 관리</b>
   <span class="dirty" id="dirty">확인 중…</span>
   <a href="zion-portal.html" target="_blank" rel="noopener">시온포털 보기 ↗</a>
+  <button type="button" id="bImp" title="엑셀(xlsx)·CSV·JSON 명단으로 교체">엑셀 불러오기</button><input type="file" id="fImp" accept=".xlsx,.xls,.csv,.json" hidden>
   <button type="button" id="bCsv">엑셀(CSV) 저장</button>
   <button type="button" class="pub" id="bPub">반영하기</button>
   <span class="wd">문지기 : 윤현철</span>
@@ -190,6 +191,56 @@ function csv(){
   document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href);},2000);
 }
 $('bCsv').onclick=csv;
+/* 엑셀 불러오기 (xlsx·xls·csv·json) : 열 순서 파트·이름·직분, 제목행이 있으면 열 이름으로 자동 인식 */
+function parseCsv(s){var rows=[],r=[],f='',q=false,i,c;s=s.replace(/^﻿/,'');
+  for(i=0;i<s.length;i++){c=s[i];
+    if(q){if(c==='"'){if(s[i+1]==='"'){f+='"';i++;}else q=false;}else f+=c;}
+    else if(c==='"')q=true;else if(c===','){r.push(f);f='';}
+    else if(c==='\n'||c==='\r'){if(c==='\r'&&s[i+1]==='\n')i++;r.push(f);f='';rows.push(r);r=[];}
+    else f+=c;}
+  if(f!==''||r.length){r.push(f);rows.push(r);}
+  return rows.filter(function(x){return x.join('').trim();});}
+function readFile(f){return new Promise(function(ok,no){var r=new FileReader();r.onload=function(){ok(String(r.result));};r.onerror=no;r.readAsText(f,'utf-8');});}
+
+function loadXlsx(){return new Promise(function(ok,no){if(window.XLSX)return ok();var s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';s.onload=ok;s.onerror=function(){no(new Error('엑셀 변환 도구를 불러오지 못했습니다'));};document.head.appendChild(s);});}
+function partOf(v){
+  var s=String(v||'').trim(),l=s.toLowerCase();
+  var M={sop:'Sop',soprano:'Sop','소프라노':'Sop','소':'Sop',alt:'Alt',alto:'Alt','알토':'Alt','알':'Alt',ten:'Ten',tenor:'Ten','테너':'Ten','테':'Ten',bas:'Bas',bass:'Bas','베이스':'Bas','베':'Bas'};
+  return M[l]||s;
+}
+function rowsToList(rows){
+  rows=rows.filter(function(r){return r&&r.some(function(c){return String(c==null?'':c).trim();});});
+  var ip=0,inm=1,ir=2;
+  if(rows.length){
+    var h=rows[0].map(function(c){return String(c==null?'':c).replace(/\s+/g,'');}),a=h.indexOf('파트'),b=h.indexOf('이름'),c=h.indexOf('직분');
+    if(a>=0||b>=0||c>=0||h.indexOf('구분')>=0){
+      if(a>=0)ip=a;else if(h.indexOf('구분')===0&&b>=0)ip=Math.max(0,b-1);
+      if(b>=0)inm=b;if(c>=0)ir=c;else ir=inm+1;
+      rows=rows.slice(1);
+    }
+  }
+  return rows.filter(function(r){return String(r[inm]==null?'':r[inm]).trim();}).map(function(r){return {p:partOf(r[ip]),n:String(r[inm]),r:String(r[ir]==null?'':r[ir]).trim()};});
+}
+async function importFile(f){
+  if(/\.xlsx?$/i.test(f.name)){
+    await loadXlsx();var wb=XLSX.read(await f.arrayBuffer(),{type:'array'}),ws=wb.Sheets[wb.SheetNames[0]];
+    return rowsToList(XLSX.utils.sheet_to_json(ws,{header:1,raw:true,defval:''}));
+  }
+  var s=await readFile(f);
+  if(/\.json$/i.test(f.name)){var j=JSON.parse(s);return norm(Array.isArray(j)?j:j.people);}
+  return rowsToList(parseCsv(s));
+}
+$('bImp').onclick=function(){$('fImp').click();};
+$('fImp').addEventListener('change',async function(){
+  var f=this.files[0];this.value='';if(!f)return;
+  try{
+    var list=await importFile(f);
+    if(!list.length){toast('불러올 명단이 없습니다. 열 순서(파트·이름·직분)를 확인해 주세요.',5000);return;}
+    var bad=list.filter(function(x){return PARTS.indexOf(x.p)<0;}).length;
+    if(!confirm('현재 명단 '+D.length+'명을 지우고, 파일의 '+list.length+'명으로 교체합니다.'+(bad?'\n(파트가 Sop·Alt·Ten·Bas가 아닌 사람 '+bad+'명)':'')+'\n순서는 파일의 순서 그대로 적용됩니다.\n교체한 뒤 「반영하기」를 눌러야 저장됩니다. 진행할까요?'))return;
+    D=list;lastAdded=-1;save();render();toast(list.length+'명으로 교체했습니다. 「반영하기」를 눌러 저장하세요.',6000);
+  }catch(x){toast('파일을 읽지 못했습니다 ('+(x&&x.message||x)+')',6000);}
+});
 /* GitHub */
 function getTok(){var t=$('tok').value.trim();if(t)return t;try{return localStorage.getItem(TK)||'';}catch(e){return '';}}
 function b64(x){return btoa(unescape(encodeURIComponent(x)));}
