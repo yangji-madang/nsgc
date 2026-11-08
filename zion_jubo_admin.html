@@ -970,8 +970,15 @@ function loadPub(){
   function syncOrder(){
     if(!D||D.tb.order.auto===false||!PEOPLE||!SONGS||isoMs(D.hd.date)==null)return;
     var t0=isoMs(D.hd.date),ok=D.tb.order.rows.every(function(r,i){var d=new Date(t0+7*86400000*i);return String(r[0]).trim()===(d.getUTCMonth()+1)+'/'+d.getUTCDate();});
+    if(ok&&PSTART&&PALL&&PALL.length){
+      ok=D.tb.order.rows.every(function(r,i){
+        var d=new Date(t0+7*86400000*i),iso=d.toISOString().slice(0,10);
+        var wk=Math.round((Date.UTC(+iso.slice(0,4),+iso.slice(5,7)-1,+iso.slice(8,10))-isoMs(PSTART))/(7*86400000)),q=PALL[((wk%PALL.length)+PALL.length)%PALL.length];
+        return String(r[2]||'').trim()===(pnm(q.n)?pFull(q):'');
+      });
+    }
     if(ok)return;
-    var n=autoFill(false);if(n>0){render();save();toast('찬양·기도 순서를 상단 날짜('+D.hd.date+') 기준으로 자동 입력했습니다. (되돌리기 가능)',4500);}
+    var n=autoFill(false);if(n>0){render();save();toast('찬양·기도 순서를 상단 날짜('+D.hd.date+')와 최신 기도 명단 기준으로 자동 갱신했습니다. (되돌리기 가능)',5500);}
   }
   auxP.then(function(){render();syncOrder();});
   if(D.ls.notice.bdAuto&&bdGetPw())bdRun(false);
