@@ -43,6 +43,7 @@ button.s.d{color:#b3261e;border-color:#e3b3b0}
 .top button.pub:disabled{opacity:.6}
 .dirty{font-size:12px;padding:3px 9px;border-radius:12px;background:#fff3cd;color:#7a5b00;font-weight:700}
 .dirty.ok{background:#e1f3e3;color:#1b5e20}
+.top .sv{background:#1565c0;color:#fff;border-color:#1565c0;font-weight:700}
 .gh{max-width:1200px;margin:8px auto 0;padding:0 10px}
 .ghb{padding:8px 12px 12px;font-size:13px;line-height:1.6}
 .ghb .row input[type=password]{flex:1;min-width:200px;border:1px solid #c7cdd8;border-radius:5px;padding:5px 7px;font-size:13px}
@@ -72,11 +73,14 @@ table.et input{min-width:70px}
   <b>시온찬양대 주보 관리</b>
   <a class="pri" href="zion_jubo.html" target="_blank">보기 페이지(발행본)</a>
   <a href="zion_jubo.html?preview=1" target="_blank">작성중 미리보기</a>
-  <span class="dirty" id="dirty">확인 중…</span>
-  <button class="pub" data-act="publish">반영하기</button>
+  <span class="dirty" id="dirtysv" title="관리자 작업본이 GitHub에 저장되었는지">확인 중…</span>
+  <button class="sv" data-act="savedraft" title="수정 중인 내용을 저장합니다 (외부에는 공개되지 않음)">저장</button>
+  <span class="dirty" id="dirty" title="보기 페이지(외부 공개)와 같은지">확인 중…</span>
+  <button class="pub" data-act="publish" title="보기 페이지에 공식 발행합니다 (외부 공개)">발행</button>
   <button data-act="archive">주보 이미지 보관</button>
   <button data-act="export">발행파일 저장</button>
   <button data-act="import">파일 불러오기</button>
+  <button data-act="loaddraft">저장본 불러오기</button>
   <button data-act="loadpub">발행본 불러오기</button>
   <button data-act="reset">초기화</button>
   <input type="file" id="fimport" accept="application/json,.json" hidden>
@@ -84,14 +88,14 @@ table.et input{min-width:70px}
   <input type="file" id="fnimg" accept="image/*" multiple hidden>
   <input type="file" id="fkid" accept="image/*" hidden>
 </div>
-<div class="hint">① 수정한 내용은 이 브라우저에 자동 저장되며, <b>보기 페이지에는 아직 반영되지 않습니다.</b> ② 완성되면 상단 <b>반영하기</b>를 누르면 바로 GitHub에 저장됩니다. 보기 페이지는 1~2분 뒤 바뀝니다. (오른쪽 미리보기는 작성 중인 내용입니다.)</div>
-<div class="gh"><details id="d-gh"><summary>GitHub 연결 (반영하기에 필요)</summary><div class="ghb">
+<div class="hint">① 수정 중에는 이 브라우저에 임시로 자동 보관됩니다. ② 상단 <b>[저장]</b>은 관리자 작업본만 GitHub에 저장하며 <b>외부에는 공개되지 않습니다</b>(다른 기기에서도 이어서 작업 가능). ③ 금요일 공식 공개는 <b>[발행]</b>을 눌러야 하며, 보기 페이지는 1~2분 뒤 바뀝니다. (오른쪽 미리보기는 작성 중인 내용입니다.)</div>
+<div class="gh"><details id="d-gh"><summary>GitHub 연결 ([저장]·[발행]에 필요)</summary><div class="ghb">
   <div class="row"><label for="tok">토큰</label><input type="password" id="tok" autocomplete="off" placeholder="github_pat_… (Contents 읽기·쓰기 권한)"> <button class="s" id="tokTest" type="button">연결 확인</button></div>
   <label style="display:flex;gap:6px;align-items:center"><input type="checkbox" id="tokSave"> 이 기기에 기억 (곡목·출석 관리페이지와 같은 토큰을 함께 사용)</label>
   <div id="tokMsg" class="rth"></div></div></details></div>
 <div class="wrap">
   <div id="ed"></div>
-  <div class="pv"><div class="cap">미리보기 (휴대폰 폭 · 작성 중, 아직 반영 전)</div><iframe id="frame" src="zion_jubo.html?preview=1"></iframe></div>
+  <div class="pv"><div class="cap">미리보기 (휴대폰 폭 · 작성 중, 미공개)</div><iframe id="frame" src="zion_jubo.html?preview=1"></iframe></div>
 </div>
 <div class="toast" id="toast"></div>
 <script>
@@ -799,6 +803,8 @@ document.addEventListener('click',function(e){
   else if(a==='kidimgdel'){D.kids.items[i].img='';}
   else if(a==='kidimg'){window._kid=i;document.getElementById('fkid').click();chg=false;}
   else if(a==='publish'){publish();chg=false;}
+  else if(a==='savedraft'){saveDraft();chg=false;}
+  else if(a==='loaddraft'){loadDraft().then(function(j){if(!j){toast('저장된 작업본이 없습니다. 먼저 [저장]을 눌러 주세요.');return;}if(canon(D)!==canon(merged(j))&&!confirm('저장본으로 현재 작성 내용을 바꿉니다. 저장하지 않은 수정은 사라집니다. 진행할까요?'))return;adopt(j);markSynced();updDirty();toast('저장본을 불러왔습니다.');});chg=false;}
   else if(a==='addnimg'){window._imgk=k;document.getElementById('fnimg').click();chg=false;}
   else if(a==='pickimg'){document.getElementById('fimg').click();chg=false;}
   else if(a==='clearimg'){D.bg.img='';}
@@ -845,21 +851,23 @@ document.getElementById('fkid').addEventListener('change',function(e){
   readImg(f,320).then(function(src){D.kids.items[window._kid].img=src;render();save();toast('사진을 적용했습니다.');}).catch(function(){toast('이미지를 읽을 수 없습니다.');});
 });
 
-/* ---------- 반영(GitHub 저장) ---------- */
+/* ---------- 저장(작업본) · 발행(공식 공개) ---------- */
 var REPO='yangji-madang/nsgc',FPATH='zion_jubo_data.json',BRANCH='main',TK='choir-gh-token-v1';
-var BASE=null;
+var BASE=null,BASESV=null,DRAFTP='zion_jubo_draft.json',SYNCKEY='zion_jubo_synced';
 function canon(o){return JSON.stringify(o,function(k,v){if(v&&typeof v==='object'&&!Array.isArray(v)){var r={};Object.keys(v).sort().forEach(function(x){r[x]=v[x];});return r;}return v;});}
 function updDirty(){
   var el=document.getElementById('dirty');if(!el)return;
-  var ok=BASE!==null&&BASE===canon(D);
-  el.textContent=ok?'반영됨':'● 아직 반영 안 됨';
+  var c=canon(D),ok=BASE!==null&&BASE===c;
+  el.textContent=ok?'발행본과 동일':'● 발행 대기 (미공개)';
   el.className='dirty'+(ok?' ok':'');
+  var sv=document.getElementById('dirtysv');
+  if(sv){var s=BASESV!==null&&BASESV===c;sv.textContent=s?'저장됨':'● 저장 안 됨';sv.className='dirty'+(s?' ok':'');}
 }
 function getTok(){var t=document.getElementById('tok').value.trim();if(t)return t;try{return localStorage.getItem(TK)||'';}catch(e){return '';}}
 function b64(x){return btoa(unescape(encodeURIComponent(x)));}
 function unb64(x){return decodeURIComponent(escape(atob(x.replace(/\n/g,''))));}
-function ghGet(tok){
-  return fetch('https://api.github.com/repos/'+REPO+'/contents/'+FPATH+'?ref='+BRANCH+'&t='+Date.now(),{headers:{Authorization:'Bearer '+tok,Accept:'application/vnd.github+json'},cache:'no-store'})
+function ghGet(tok,path){
+  return fetch('https://api.github.com/repos/'+REPO+'/contents/'+(path||FPATH)+'?ref='+BRANCH+'&t='+Date.now(),{headers:{Authorization:'Bearer '+tok,Accept:'application/vnd.github+json'},cache:'no-store'})
    .then(function(r){if(r.status===404)return null;if(!r.ok)throw new Error('조회 실패 '+r.status);return r.json();});
 }
 function loadPublished(){
@@ -905,26 +913,54 @@ async function archive(manual,quiet){
     var p=await fetch(url,{method:'PUT',headers:{Authorization:h.Authorization,Accept:h.Accept,'Content-Type':'application/json'},body:JSON.stringify(body)});
     if(!p.ok)throw new Error('저장 실패 '+p.status);
     if(!quiet)toast('주보 이미지를 '+name+' 으로 보관했습니다.',4000);return true;
-  }catch(e){toast('이미지 보관에 실패했습니다 ('+e.message+'). 주보 내용은 반영되었습니다.',6000);return false;}
+  }catch(e){toast('이미지 보관에 실패했습니다 ('+e.message+'). 주보 내용은 발행되었습니다.',6000);return false;}
+}
+async function putFile(tok,path,obj,msg){
+  var cur=await ghGet(tok,path);
+  var body={message:msg,content:b64(JSON.stringify(obj)),branch:BRANCH};
+  if(cur)body.sha=cur.sha;
+  var p=await fetch('https://api.github.com/repos/'+REPO+'/contents/'+path,{method:'PUT',headers:{Authorization:'Bearer '+tok,Accept:'application/vnd.github+json','Content-Type':'application/json'},body:JSON.stringify(body)});
+  if(!p.ok)throw new Error('저장 실패 '+p.status);
+}
+function markSynced(){try{localStorage.setItem(SYNCKEY,canon(D));}catch(e){}BASESV=canon(D);}
+function nowKst(){return new Date().toLocaleString('sv-SE',{timeZone:'Asia/Seoul'}).slice(0,16);}
+async function saveDraft(){
+  var tok=getTok();
+  if(!tok){document.getElementById('d-gh').open=true;toast('GitHub 토큰을 먼저 입력해 주세요.');return;}
+  var btn=document.querySelector('[data-act=savedraft]'),old=btn.textContent;
+  btn.disabled=true;btn.textContent='저장 중…';
+  try{
+    await putFile(tok,DRAFTP,D,'주보 작업 저장 '+nowKst());
+    remember(tok);markSynced();updDirty();
+    toast('작업본을 저장했습니다. 아직 외부에는 공개되지 않았습니다. (공개하려면 [발행])',5000);
+  }catch(e){toast('저장하지 못했습니다 ('+e.message+'). 토큰 권한(Contents 읽기·쓰기)을 확인해 주세요.',6000);}
+  finally{btn.disabled=false;btn.textContent=old;}
 }
 async function publish(){
   var tok=getTok();
   if(!tok){document.getElementById('d-gh').open=true;toast('GitHub 토큰을 먼저 입력해 주세요.');return;}
+  if(!confirm('공식 발행합니다.\n보기 페이지(외부 공개)가 지금 작성 내용으로 바뀌고 주보 이미지가 보관됩니다.\n진행할까요?'))return;
   var btn=document.querySelector('[data-act=publish]'),old=btn.textContent;
-  btn.disabled=true;btn.textContent='반영 중…';
+  btn.disabled=true;btn.textContent='발행 중…';
   try{
-    var cur=await ghGet(tok);
     var day=new Date().toLocaleDateString('sv-SE',{timeZone:'Asia/Seoul'});
-    var body={message:'주보 갱신 '+day,content:b64(JSON.stringify(D)),branch:BRANCH};
-    if(cur)body.sha=cur.sha;
-    var p=await fetch('https://api.github.com/repos/'+REPO+'/contents/'+FPATH,{method:'PUT',headers:{Authorization:'Bearer '+tok,Accept:'application/vnd.github+json','Content-Type':'application/json'},body:JSON.stringify(body)});
-    if(!p.ok)throw new Error('저장 실패 '+p.status);
+    await putFile(tok,FPATH,D,'주보 갱신 '+day);
     remember(tok);BASE=canon(D);updDirty();
-    toast('반영했습니다. 주보 이미지를 보관하는 중…',5000);
+    try{await putFile(tok,DRAFTP,D,'주보 작업 저장(발행 시) '+nowKst());markSynced();}catch(e){}
+    updDirty();
+    toast('발행했습니다. 주보 이미지를 보관하는 중…',5000);
     var ok=await archive(false,true);
-    if(ok)toast('반영했고 주보 이미지(zion-jubo-yymmdd.png)도 보관했습니다. 보기 페이지에는 1~2분 뒤 나타납니다.',6000);
-  }catch(e){toast('반영하지 못했습니다 ('+e.message+'). 토큰 권한(Contents 읽기·쓰기)을 확인해 주세요.',6000);}
+    if(ok)toast('발행했고 주보 이미지(zion-jubo-yymmdd.png)도 보관했습니다. 보기 페이지에는 1~2분 뒤 나타납니다.',6000);
+  }catch(e){toast('발행하지 못했습니다 ('+e.message+'). 토큰 권한(Contents 읽기·쓰기)을 확인해 주세요.',6000);}
   finally{btn.disabled=false;btn.textContent=old;}
+}
+function loadDraft(){
+  var tok=getTok();
+  var viaApi=tok?ghGet(tok,DRAFTP).then(function(g){return g&&g.content?JSON.parse(unb64(g.content)):null;}).catch(function(){return null;}):Promise.resolve(null);
+  return viaApi.then(function(j){
+    if(j)return j;
+    return fetch(DRAFTP+'?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).catch(function(){return null;});
+  });
 }
 try{document.getElementById('tok').value=localStorage.getItem(TK)||'';document.getElementById('tokSave').checked=!!localStorage.getItem(TK);}catch(e){}
 document.getElementById('tokSave').onchange=function(){try{var t=document.getElementById('tok').value.trim();if(this.checked&&t)localStorage.setItem(TK,t);else localStorage.removeItem(TK);}catch(e){}};
@@ -937,7 +973,7 @@ document.getElementById('tokTest').onclick=function(){
    .then(function(j){m.textContent=(j.permissions&&j.permissions.push)?'✅ 연결됨 (쓰기 가능)':'⚠️ 연결됐지만 쓰기 권한이 없습니다';})
    .catch(function(e){m.textContent='❌ 연결 실패 ('+e.message+') — 토큰을 확인하세요';});
 };
-window.addEventListener('beforeunload',function(e){if(BASE===null||BASE!==canon(D)){e.preventDefault();e.returnValue='';}});
+window.addEventListener('beforeunload',function(e){if(BASESV===null||BASESV!==canon(D)){e.preventDefault();e.returnValue='';}});
 
 /* ---------- 파일 입출력 ---------- */
 function exportJson(){
@@ -982,8 +1018,24 @@ function loadPub(){
   }
   auxP.then(function(){render();syncOrder();});
   if(D.ls.notice.bdAuto&&bdGetPw())bdRun(false);
-  loadPublished().then(function(j){
-    if(j){BASE=canon(merged(j));if(!raw){D=merged(j);render();save();refreshAtt();auxP.then(syncOrder);if(D.ls.notice.bdAuto&&bdGetPw())bdRun(false);}}
+  Promise.all([loadPublished(),loadDraft()]).then(function(r){
+    var j=r[0],sv=r[1],changed=false,synced=null;
+    try{synced=localStorage.getItem(SYNCKEY);}catch(e){}
+    if(j)BASE=canon(merged(j));
+    var lc=canon(D);
+    if(sv){
+      var sc=canon(merged(sv));
+      if(raw){
+        if(sc===lc)BASESV=sc;
+        else if(synced===sc)BASESV=sc;
+        else if(lc===synced||confirm('다른 곳에서 저장한 작업본이 있습니다.\n저장본을 불러올까요?\n(취소하면 이 브라우저의 작성 내용을 유지합니다)')){D=merged(sv);BASESV=sc;changed=true;try{localStorage.setItem(SYNCKEY,sc);}catch(e){}}
+        else BASESV=sc;
+      }else{D=merged(sv);BASESV=sc;changed=true;try{localStorage.setItem(SYNCKEY,sc);}catch(e){}}
+    }else if(j){
+      if(!raw){D=merged(j);changed=true;}
+      BASESV=(canon(D)===BASE)?BASE:null;
+    }
+    if(changed){render();save();refreshAtt();auxP.then(syncOrder);if(D.ls.notice.bdAuto&&bdGetPw())bdRun(false);}
     updDirty();
   });
 })();
