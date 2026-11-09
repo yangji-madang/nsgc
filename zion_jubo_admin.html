@@ -76,6 +76,7 @@ table.et input{min-width:70px}
   <span class="dirty" id="dirtysv" title="관리자 작업본이 GitHub에 저장되었는지">확인 중…</span>
   <button class="sv" data-act="savedraft" title="수정 중인 내용을 저장합니다 (외부에는 공개되지 않음)">저장</button>
   <span class="dirty" id="dirty" title="보기 페이지(외부 공개)와 같은지">확인 중…</span>
+  <span class="dirty" id="dirtyord" title="기도순서 페이지의 명단·시작일 기준으로 계산한 기도자와 주보가 같은지" style="display:none"></span>
   <button class="pub" data-act="publish" title="보기 페이지에 공식 발행합니다 (외부 공개)">발행</button>
   <button data-act="archive">주보 이미지 보관</button>
   <button data-act="export">발행파일 저장</button>
@@ -862,6 +863,31 @@ function updDirty(){
   el.className='dirty'+(ok?' ok':'');
   var sv=document.getElementById('dirtysv');
   if(sv){var s=BASESV!==null&&BASESV===c;sv.textContent=s?'저장됨':'● 저장 안 됨';sv.className='dirty'+(s?' ok':'');}
+  var po=document.getElementById('dirtyord');
+  if(po){
+    var m=ordMismatch(D),mb=(BASE!==null&&!m)?ordMismatch(JSON.parse(BASE)):0;
+    if(m===null){po.style.display='none';}
+    else{
+      po.style.display='';
+      if(m>0){po.textContent='⚠ 기도순서가 명단과 다름 ('+m+'주)';po.className='dirty';po.title='기도순서 페이지 명단 기준과 다릅니다. 순서 표의 [자동 채우기]를 눌러 갱신하세요.';}
+      else if(mb>0){po.textContent='⚠ 발행본 기도순서가 명단과 다름 ('+mb+'주)';po.className='dirty';po.title='현재 작업본은 명단과 같지만 공개된 주보는 다릅니다. [발행]을 눌러야 보기 페이지에 반영됩니다.';}
+      else{po.textContent='기도순서 명단과 일치';po.className='dirty ok';po.title='기도순서 페이지 명단 기준과 같습니다.';}
+    }
+  }
+}
+/* 기도순서 명단(prayer_list.json) 기준과 다른 주 수. 비교 불가면 null */
+function ordMismatch(d){
+  try{
+    if(!d||!d.tb||!d.tb.order||!PSTART||!PALL||!PALL.length)return null;
+    var t0=isoMs(d.hd.date);if(t0==null)return null;
+    var n=0;
+    d.tb.order.rows.forEach(function(r,i){
+      var iso=new Date(t0+7*86400000*i).toISOString().slice(0,10);
+      var wk=Math.round((Date.UTC(+iso.slice(0,4),+iso.slice(5,7)-1,+iso.slice(8,10))-isoMs(PSTART))/(7*86400000)),q=PALL[((wk%PALL.length)+PALL.length)%PALL.length];
+      if(String(r[2]||'').trim()!==(pnm(q.n)?pFull(q):''))n++;
+    });
+    return n;
+  }catch(e){return null;}
 }
 function getTok(){var t=document.getElementById('tok').value.trim();if(t)return t;try{return localStorage.getItem(TK)||'';}catch(e){return '';}}
 function b64(x){return btoa(unescape(encodeURIComponent(x)));}
@@ -1016,7 +1042,7 @@ function loadPub(){
     if(ok)return;
     var n=autoFill(false);if(n>0){render();save();toast('찬양·기도 순서를 상단 날짜('+D.hd.date+')와 최신 기도 명단 기준으로 자동 갱신했습니다. (되돌리기 가능)',5500);}
   }
-  auxP.then(function(){render();syncOrder();});
+  auxP.then(function(){render();syncOrder();updDirty();});
   if(D.ls.notice.bdAuto&&bdGetPw())bdRun(false);
   Promise.all([loadPublished(),loadDraft()]).then(function(r){
     var j=r[0],sv=r[1],changed=false,synced=null;
