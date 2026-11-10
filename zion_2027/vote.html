@@ -41,6 +41,8 @@ const FONTS = {
 };
 
 const POS_KEYS = ['d', 'm', 'f'];
+const ABBR = { '소프라노': 'Sop.', '알토': 'Alt.', '테너': 'Ten.', '베이스': 'Bas.', '오케스트라': 'Orc.', '오케': 'Orc.' };
+function partAbbr(p) { return ABBR[String(p).trim()] || p; }
 function posLabels(c) { const a = (c && Array.isArray(c.pos)) ? c.pos : []; return POS_KEYS.map((k, i) => String(a[i] || DEFAULT_CFG.pos[i])); }
 function nomOf(v) { const n = v && v.nominees; const o = {}; POS_KEYS.forEach((k) => { o[k] = []; }); if (Array.isArray(n)) o.d = n.slice(); else if (isObj(n)) POS_KEYS.forEach((k) => { if (Array.isArray(n[k])) o[k] = n[k]; }); return o; }
 
@@ -130,10 +132,10 @@ function copyright() { return '(C)' + new Date().getFullYear() + '. YOON HYUNCHU
   .vcard.closed{opacity:.6}
   .fld{display:flex;flex-direction:column;gap:6px}
   .lab .sub{font-size:14px;font-weight:400;color:#44506a}
-  .radios{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-  .pill{position:relative;display:block;cursor:pointer}
+  .radios{display:flex;flex-wrap:wrap;gap:6px}
+  .pill{position:relative;display:block;cursor:pointer;flex:none}
   .pill input{position:absolute;opacity:0}
-  .pill span{display:block;text-align:center;padding:9px 6px;border:2px solid #12284c;border-radius:999px;font-size:18px;font-weight:700;color:#12284c;background:#fff}
+  .pill span{display:block;text-align:center;padding:7px 12px;border:2px solid #12284c;border-radius:999px;font-size:17px;white-space:nowrap;font-weight:700;color:#12284c;background:#fff}
   .pill input:checked+span{background:#12284c;color:#fff;border-color:#b8913a}
   .pill input:focus-visible+span{outline:3px solid #b8913a;outline-offset:2px}
   .vcard input[type=text]{font-family:inherit;font-size:19px;padding:10px 12px;border:1.5px solid #8f9db8;border-radius:8px;color:#1b1f2a;min-width:0;box-sizing:border-box;width:100%}
@@ -141,8 +143,9 @@ function copyright() { return '(C)' + new Date().getFullYear() + '. YOON HYUNCHU
   .nrow .no{width:26px;height:26px;border-radius:50%;background:#12284c;color:#fff;font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none}
   .nrow input{flex:1}
   .nrow .del{flex:none;width:44px;height:44px;border:1.5px solid #b42318;border-radius:8px;background:#fff;color:#b42318;display:flex;align-items:center;justify-content:center;padding:0;cursor:pointer}
-  .pgrp{display:flex;flex-direction:column;gap:6px;border:1.5px solid #c9d3e6;border-radius:10px;padding:10px;background:#f7f9fd}
-  .ptitle{font-weight:700;border-left:5px solid #b8913a;padding-left:8px}
+  .prow{display:flex;align-items:center;gap:8px;border:1.5px solid #c9d3e6;border-radius:10px;padding:8px 10px;background:#f7f9fd}
+  .ptitle{font-weight:700;border-left:5px solid #b8913a;padding-left:8px;flex:none;width:6.2em}
+  .prow input{flex:1}
   .addnom{font-family:inherit;font-size:17px;font-weight:700;color:#7a5a12;background:#fbf5e3;border:2px dashed #b8913a;border-radius:8px;padding:10px;min-height:44px;cursor:pointer}
   .vsubmit{font-family:inherit;border:2px solid #b8913a;border-radius:10px;padding:13px;min-height:52px;cursor:pointer;width:100%}
   .vhint{font-size:14px;line-height:1.45;color:#38445e}
@@ -275,6 +278,7 @@ function mockRpc(name, a) {
         seen.push(k); clean[pk].push(v);
         if (clean[pk].length >= 20) break;
       }
+      if (clean[pk].length > 1) return { ok: false, error: 'MULTI_NOMINEE' };
       total += clean[pk].length;
     }
     if (!total) return { ok: false, error: 'NO_NOMINEE' };
@@ -330,7 +334,7 @@ let uidSeq = 0;
 function buildVoter(root, o) {
   const c = o.cfg, S = c.styles;
   const uid = ++uidSeq;
-  const parts = (c.parts && c.parts.length) ? c.parts : ['소프라노', '알토', '테너', '베이스'];
+  const parts = (c.parts && c.parts.length) ? c.parts : ['소프라노', '알토', '테너', '베이스', '오케스트라'];
   const delSvg = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg>';
   const PL = posLabels(c);
   root.classList.toggle('preview', !!o.preview);
@@ -341,11 +345,11 @@ function buildVoter(root, o) {
     '<div class="vnotice" style="' + stl(S.notice) + '">' + esc(c.notice) + '</div>' +
     '<form class="vcard" autocomplete="off" novalidate>' +
     '<div class="fld"><div class="lab" style="' + stl(S.label) + '">' + esc(c.labels.part) + ' <span class="sub">(하나 선택)</span></div><div class="radios">' +
-    parts.map((p) => '<label class="pill"><input type="radio" name="part' + uid + '" value="' + esc(p) + '"><span>' + esc(p) + '</span></label>').join('') +
+    parts.map((p) => '<label class="pill"><input type="radio" name="part' + uid + '" value="' + esc(p) + '" aria-label="' + esc(p) + '"><span title="' + esc(p) + '">' + esc(partAbbr(p)) + '</span></label>').join('') +
     '</div></div>' +
     '<div class="fld"><label class="lab" for="nm' + uid + '" style="' + stl(S.label) + '">' + esc(c.labels.name) + ' <span class="sub">(직접 입력)</span></label><input type="text" id="nm' + uid + '" class="nm" maxlength="20" placeholder="본인 이름을 입력하세요"></div>' +
-    '<div class="fld"><div class="lab" style="' + stl(S.label) + '">' + esc(c.labels.nom) + ' <span class="sub">(직책마다 여러 명 입력 가능 · 비워도 됩니다)</span></div>' +
-    POS_KEYS.map((k, i) => '<div class="pgrp" data-k="' + k + '"><div class="ptitle" style="' + stl(S.label) + '">' + esc(PL[i]) + '</div><div class="noms" style="display:flex;flex-direction:column;gap:6px"></div><button type="button" class="addnom">＋ ' + esc(PL[i]) + ' 입력칸 추가</button></div>').join('') + '</div>' +
+    '<div class="fld"><div class="lab" style="' + stl(S.label) + '">' + esc(c.labels.nom) + ' <span class="sub">(직책마다 1명 · 비워도 됩니다)</span></div>' +
+    POS_KEYS.map((k, i) => '<div class="prow" data-k="' + k + '"><label class="ptitle" for="nom' + k + uid + '" style="' + stl(S.label) + '">' + esc(PL[i]) + '</label><input type="text" id="nom' + k + uid + '" maxlength="20" autocomplete="off" placeholder="추천할 대원 이름 1명"></div>').join('') + '</div>' +
     '<button type="submit" class="vsubmit" style="' + stl(S.button) + 'background:' + safeColor(S.button.bg, '#12284c') + '">' + esc(c.btn) + '</button>' +
     '<div class="vhint">같은 파트·이름으로 다시 제출하면 기존 내용이 새 내용으로 바뀝니다. 새로 접속하면 이전에 입력한 내용은 화면에 표시되지 않습니다.</div>' +
     '</form>' +
@@ -354,32 +358,9 @@ function buildVoter(root, o) {
     '</div></div>';
   root.querySelector('.vbg').style.cssText += bgCss(c.bg);
   const form = root.querySelector('.vcard');
-  const MAXN = 10;
-  const groups = POS_KEYS.map((k, gi) => {
-    const g = root.querySelector('.pgrp[data-k="' + k + '"]');
-    const box = g.querySelector('.noms');
-    const renum = () => Array.prototype.forEach.call(box.children, (r, i) => { r.querySelector('.no').textContent = i + 1; r.querySelector('input').setAttribute('aria-label', PL[gi] + ' 추천인 ' + (i + 1)); });
-    const addRow = (v) => {
-      if (box.children.length >= MAXN) return;
-      const d = document.createElement('div');
-      d.className = 'nrow';
-      d.innerHTML = '<span class="no"></span><input type="text" maxlength="20" placeholder="' + esc(PL[gi]) + ' 추천할 대원 이름"><button type="button" class="del" aria-label="삭제">' + delSvg + '</button>';
-      d.querySelector('input').value = v || '';
-      d.querySelector('.del').onclick = () => {
-        if (box.children.length <= 1) d.querySelector('input').value = '';
-        else { d.remove(); renum(); }
-      };
-      box.appendChild(d);
-      renum();
-    };
-    const reset = () => { box.innerHTML = ''; addRow(''); };
-    reset();
-    g.querySelector('.addnom').onclick = () => {
-      if (box.children.length >= MAXN) { notice('안내', PL[gi] + ' 추천인 입력칸은 최대 ' + MAXN + '개까지 추가할 수 있습니다.'); return; }
-      addRow('');
-      box.lastChild.querySelector('input').focus();
-    };
-    return { k: k, box: box, reset: reset };
+  const groups = POS_KEYS.map((k) => {
+    const inp = root.querySelector('.prow[data-k="' + k + '"] input');
+    return { k: k, input: inp, reset: () => { inp.value = ''; } };
   });
   function resetRows() { groups.forEach((g) => g.reset()); }
   form.addEventListener('submit', async (e) => {
@@ -389,7 +370,7 @@ function buildVoter(root, o) {
     const part = chk ? chk.value : '';
     const name = form.querySelector('.nm').value.trim();
     const noms = {}; let cnt = 0;
-    groups.forEach((g) => { noms[g.k] = Array.prototype.map.call(g.box.querySelectorAll('input'), (i) => i.value.trim()).filter((v) => v); cnt += noms[g.k].length; });
+    groups.forEach((g) => { const v = g.input.value.trim(); noms[g.k] = v ? [v] : []; cnt += noms[g.k].length; });
     if (!part) { notice('입력 확인', '소속 파트를 선택해 주세요.'); return; }
     if (!name) { notice('입력 확인', '이름을 입력해 주세요.'); return; }
     if (!cnt) { notice('입력 확인', '추천하실 분의 이름을 한 직책 이상에 1명 이상 입력해 주세요.'); return; }
@@ -401,7 +382,8 @@ function buildVoter(root, o) {
       notice('투표 완료', (r.updated ? '기존 내용이 새 내용으로 수정되었습니다.' : '투표가 저장되었습니다.') + '<br>저장 시각: ' + esc(fmtKST(r.time)));
       form.reset(); resetRows();
     } else {
-      const m = { CLOSED: '투표가 종료되어 제출할 수 없습니다.', NOT_STARTED: '아직 투표 시작 전입니다.', BAD_PART: '소속 파트를 다시 선택해 주세요.', BAD_NAME: '이름은 1~20자로 입력해 주세요.', NO_NOMINEE: '추천하실 분의 이름을 한 직책 이상에 1명 이상 입력해 주세요.', BAD_NOMINEE: '추천인 이름은 1~20자로 입력해 주세요.', NETWORK: '네트워크 연결을 확인한 뒤 다시 시도해 주세요.' };
+      const m = { CLOSED: '투표가 종료되어 제출할 수 없습니다.', NOT_STARTED: '아직 투표 시작 전입니다.', BAD_PART: '소속 파트를 다시 선택해 주세요.', BAD_NAME: '이름은 1~20자로 입력해 주세요.', MULTI_NOMINEE: '직책마다 추천할 수 있는 분은 1명입니다.',
+    NO_NOMINEE: '추천하실 분의 이름을 한 직책 이상에 1명 이상 입력해 주세요.', BAD_NOMINEE: '추천인 이름은 1~20자로 입력해 주세요.', NETWORK: '네트워크 연결을 확인한 뒤 다시 시도해 주세요.' };
       notice('제출하지 못했습니다', esc((r && m[r.error]) || '잠시 후 다시 시도해 주세요.'));
     }
   });
