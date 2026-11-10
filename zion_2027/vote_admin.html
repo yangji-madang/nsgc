@@ -359,7 +359,7 @@ function mockRpc(name, a) {
     const nk = norm(nm);
     const ex = d.votes.find((v) => v.part === part && v.key === nk);
     const t = iso(now);
-    if (ex) { ex.name = nm; ex.nominees = clean; ex.time = t; } else d.votes.push({ part: part, name: nm, key: nk, nominees: clean, time: t });
+    if (ex) { ex.name = nm; ex.nominees = clean; ex.time = t; } else d.votes.push({ id: d.seq++, part: part, name: nm, key: nk, nominees: clean, time: t });
     dbSave();
     return { ok: true, updated: !!ex, time: t };
   }
@@ -367,7 +367,7 @@ function mockRpc(name, a) {
   if (name === 'admin_get_all') {
     return { ok: true, now: iso(Date.now()), config: d.config, start_at: iso(d.start), end_at: iso(d.end),
       roster: d.roster.map((r) => ({ id: r.id, part: r.part, name: r.name })),
-      votes: d.votes.map((v) => ({ part: v.part, name: v.name, nominees: v.nominees, time: v.time })) };
+      votes: d.votes.map((v) => ({ id: v.id || (v.id = d.seq++), part: v.part, name: v.name, nominees: v.nominees, time: v.time })) };
   }
   if (name === 'admin_set_roster') {
     if (a.p_mode === 'replace') d.roster = [];
@@ -381,6 +381,21 @@ function mockRpc(name, a) {
     });
     mockParts(d); dbSave();
     return { ok: true, added: n };
+  }
+  if (name === 'admin_fix_vote') {
+    const v = d.votes.find((x) => x.id === a.p_id);
+    if (!v) return { ok: false, error: 'NOT_FOUND' };
+    const rm = d.roster.find((x) => x.part === String(a.p_part || '').trim() && norm(x.name) === norm(a.p_name));
+    if (!rm) return { ok: false, error: 'NOT_IN_ROSTER' };
+    const k = norm(rm.name), o = d.votes.find((x) => x !== v && x.part === rm.part && norm(x.name) === k);
+    let merged = false;
+    if (o) {
+      merged = true;
+      if (Date.parse(o.time) >= Date.parse(v.time)) { d.votes = d.votes.filter((x) => x !== v); dbSave(); return { ok: true, merged: true, kept: 'existing' }; }
+      d.votes = d.votes.filter((x) => x !== o);
+    }
+    v.part = rm.part; v.name = rm.name; v.key = k; dbSave();
+    return { ok: true, merged: merged, kept: 'fixed' };
   }
   if (name === 'admin_delete_member') { d.roster = d.roster.filter((r) => r.id !== a.p_id); mockParts(d); dbSave(); return { ok: true }; }
   if (name === 'admin_set_period') {
@@ -633,7 +648,7 @@ function buildVoter(root, o) {
     votes.forEach((v) => {
       const k = v.part + '|' + norm(v.name);
       if (rIdx.has(k)) voted.set(k, v);
-      else unmatched.push({ part: v.part, name: v.name, time: v.time, reason: nameIdx.has(norm(v.name)) ? '파트 불일치 (명단: ' + Array.from(new Set(nameIdx.get(norm(v.name)))).join(', ') + ')' : '명단에 없음' });
+      else unmatched.push({ id: v.id, part: v.part, name: v.name, time: v.time, reason: nameIdx.has(norm(v.name)) ? '파트 불일치 (명단: ' + Array.from(new Set(nameIdx.get(norm(v.name)))).join(', ') + ')' : '명단에 없음' });
     });
     const parts = [];
     roster.forEach((r) => { if (parts.indexOf(r.part) < 0) parts.push(r.part); });
@@ -727,9 +742,9 @@ function buildVoter(root, o) {
       '<label for="f2" class="note">파트</label><select id="f2" data-f="f2">' + partOpts + '</select>' +
       '<button type="button" class="btn sm" data-act="reload">새로고침</button><button type="button" class="btn sm" data-act="print">인쇄</button><button type="button" class="btn sm pri" data-act="csv">CSV 내려받기</button></span></div>' +
       '<div class="g2">' + mtab(mem.slice(0, half)) + mtab(mem.slice(half)) + '</div></section>' +
-      '<section class="card"><h2 style="border-left-color:#b42318">⑤ 명단 대조 불일치 입력</h2><table class="tb"><thead><tr><th>입력 파트</th><th>입력 이름</th><th>사유</th><th>최종투표시간</th></tr></thead><tbody>' +
-      (A.unmatched.map((u) => '<tr><td>' + esc(u.part) + '</td><td class="b">' + esc(u.name) + '</td><td class="l">' + esc(u.reason) + '</td><td>' + esc(fmtKST(u.time)) + '</td></tr>').join('') || '<tr><td colspan="4">불일치 입력이 없습니다.</td></tr>') +
-      '</tbody></table><div class="note">명단과 맞지 않는 입력도 투표는 그대로 저장되며, 이 표에서 확인할 수 있습니다.</div></section>';
+      '<section class="card"><h2 style="border-left-color:#b42318">⑤ 명단 대조 불일치 입력</h2><table class="tb"><thead><tr><th>입력 파트</th><th>입력 이름</th><th>사유</th><th>최종투표시간</th><th class="noprint">수정</th></tr></thead><tbody>' +
+      (A.unmatched.map((u) => '<tr><td>' + esc(u.part) + '</td><td class="b">' + esc(u.name) + '</td><td class="l">' + esc(u.reason) + '</td><td>' + esc(fmtKST(u.time)) + '</td><td class="noprint"><button type="button" class="btn sm pri" data-act="vfix" data-id="' + u.id + '">명단 대원으로 수정</button></td></tr>').join('') || '<tr><td colspan="5">불일치 입력이 없습니다.</td></tr>') +
+      '</tbody></table><div class="note">명단과 맞지 않는 입력도 투표는 그대로 저장되며, 「명단 대원으로 수정」으로 올바른 대원에 연결하면 투표 여부에 반영됩니다. 추천 내용은 그대로 유지됩니다.</div></section>';
   }
   function download(name, text) {
     const b = new Blob(['﻿' + text], { type: 'text/csv;charset=utf-8' });
@@ -937,6 +952,25 @@ function buildVoter(root, o) {
     else if (a === 'csv') exportCsv();
     else if (a === 'rpreview') rosterPreview();
     else if (a === 'rtemplate') download('zion_2027_roster_template.csv', '파트,이름\n소프라노,홍길동\n알토,김영희\n테너,이철수\n베이스,박민수\n');
+    else if (a === 'vfix') {
+      const vid = Number(b.getAttribute('data-id')), v = D.votes.find((x) => x.id === vid);
+      if (!v) return;
+      const same = D.roster.filter((r) => norm(r.name) === norm(v.name));
+      const sel = same.length ? same[0].id : '';
+      const votedKeys = new Set(D.votes.filter((x) => x.id !== vid).map((x) => x.part + '|' + norm(x.name)));
+      const parts = [];
+      D.roster.forEach((r) => { if (parts.indexOf(r.part) < 0) parts.push(r.part); });
+      const opts = '<option value="">대원을 선택하세요</option>' + parts.map((p) => '<optgroup label="' + esc(p) + '">' + D.roster.filter((r) => r.part === p).map((r) => '<option value="' + r.id + '"' + (r.id === sel ? ' selected' : '') + '>' + esc(r.name) + (votedKeys.has(r.part + '|' + norm(r.name)) ? ' (이미 투표함)' : '') + '</option>').join('') + '</optgroup>').join('');
+      modal('명단 대원으로 수정', '입력된 내용: <b>' + esc(v.part) + ' ' + esc(v.name) + '</b><br>올바른 대원을 선택하면 이 투표의 파트·이름이 명단과 같게 바뀝니다.<br><select id="fixsel" style="margin:8px 0;font-size:17px;padding:8px;width:100%">' + opts + '</select><div class="note">추천 내용은 그대로 유지됩니다. 선택한 대원이 이미 투표했다면 나중에 제출한 투표만 남습니다.</div>',
+        [{ t: '취소' }, { t: '수정 적용', cls: 'pri', fn: async () => {
+          const dlg = document.querySelector('.dlg'), rid = Number(dlg.querySelector('#fixsel').value), m = D.roster.find((r) => r.id === rid);
+          if (!m) { notice('입력 확인', '명단 대원을 선택해 주세요.'); return false; }
+          const r = await adminRpc('admin_fix_vote', { p_id: vid, p_part: m.part, p_name: m.name });
+          if (!r || !r.ok) { notice('오류', '수정하지 못했습니다.' + (LAST_ERR ? '<br><small>' + esc(LAST_ERR) + '</small>' : '')); return false; }
+          await loadAll(); renderPanel();
+          notice('수정 완료', esc(m.part + ' ' + m.name) + ' 대원의 투표로 연결했습니다.' + (r.merged ? (r.kept === 'existing' ? '<br>이미 같은 대원의 더 나중 투표가 있어 이 투표는 정리되었습니다.' : '<br>같은 대원의 이전 투표는 이 투표로 대체되었습니다.') : ''));
+        } }]);
+    }
     else if (a === 'rdel') {
       const id = Number(b.getAttribute('data-id')), nm = b.getAttribute('data-nm');
       modal('대원 삭제', esc(nm) + ' 님을 명단에서 삭제할까요?<br><span class="note">이미 제출된 투표는 그대로 유지됩니다.</span>', [{ t: '취소' }, { t: '삭제', cls: 'dng', fn: async () => {

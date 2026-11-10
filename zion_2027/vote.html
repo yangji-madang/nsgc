@@ -287,7 +287,7 @@ function mockRpc(name, a) {
     const nk = norm(nm);
     const ex = d.votes.find((v) => v.part === part && v.key === nk);
     const t = iso(now);
-    if (ex) { ex.name = nm; ex.nominees = clean; ex.time = t; } else d.votes.push({ part: part, name: nm, key: nk, nominees: clean, time: t });
+    if (ex) { ex.name = nm; ex.nominees = clean; ex.time = t; } else d.votes.push({ id: d.seq++, part: part, name: nm, key: nk, nominees: clean, time: t });
     dbSave();
     return { ok: true, updated: !!ex, time: t };
   }
@@ -295,7 +295,7 @@ function mockRpc(name, a) {
   if (name === 'admin_get_all') {
     return { ok: true, now: iso(Date.now()), config: d.config, start_at: iso(d.start), end_at: iso(d.end),
       roster: d.roster.map((r) => ({ id: r.id, part: r.part, name: r.name })),
-      votes: d.votes.map((v) => ({ part: v.part, name: v.name, nominees: v.nominees, time: v.time })) };
+      votes: d.votes.map((v) => ({ id: v.id || (v.id = d.seq++), part: v.part, name: v.name, nominees: v.nominees, time: v.time })) };
   }
   if (name === 'admin_set_roster') {
     if (a.p_mode === 'replace') d.roster = [];
@@ -309,6 +309,21 @@ function mockRpc(name, a) {
     });
     mockParts(d); dbSave();
     return { ok: true, added: n };
+  }
+  if (name === 'admin_fix_vote') {
+    const v = d.votes.find((x) => x.id === a.p_id);
+    if (!v) return { ok: false, error: 'NOT_FOUND' };
+    const rm = d.roster.find((x) => x.part === String(a.p_part || '').trim() && norm(x.name) === norm(a.p_name));
+    if (!rm) return { ok: false, error: 'NOT_IN_ROSTER' };
+    const k = norm(rm.name), o = d.votes.find((x) => x !== v && x.part === rm.part && norm(x.name) === k);
+    let merged = false;
+    if (o) {
+      merged = true;
+      if (Date.parse(o.time) >= Date.parse(v.time)) { d.votes = d.votes.filter((x) => x !== v); dbSave(); return { ok: true, merged: true, kept: 'existing' }; }
+      d.votes = d.votes.filter((x) => x !== o);
+    }
+    v.part = rm.part; v.name = rm.name; v.key = k; dbSave();
+    return { ok: true, merged: merged, kept: 'fixed' };
   }
   if (name === 'admin_delete_member') { d.roster = d.roster.filter((r) => r.id !== a.p_id); mockParts(d); dbSave(); return { ok: true }; }
   if (name === 'admin_set_period') {
