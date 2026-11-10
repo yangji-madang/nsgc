@@ -55,14 +55,20 @@ const DEFAULT_CFG = {
   btn: '투표 제출',
   hint: '같은 파트·이름으로 다시 제출하면 기존 내용이 새 내용으로 바뀝니다. 새로 접속하면 이전에 입력한 내용은 화면에 표시되지 않습니다.',
   styles: {
-    title:  { font: '맑은 고딕', size: 32, color: '#ffffff', align: 'center', bold: true },
-    notice: { font: '맑은 고딕', size: 17, color: '#f6efd9', align: 'center', bold: false },
-    label:  { font: '맑은 고딕', size: 18, color: '#12284c', align: 'left', bold: true },
-    button: { font: '맑은 고딕', size: 21, color: '#ffffff', align: 'center', bold: true, bg: '#12284c' },
-    hint:   { font: '맑은 고딕', size: 14, color: '#38445e', align: 'left', bold: false },
-    footer: { font: '맑은 고딕', size: 15, color: '#e9edf5', align: 'center', bold: false }
+    title:  { font: '맑은 고딕', size: 32, color: '#5a1f08', align: 'center', bold: true },
+    notice: { font: '맑은 고딕', size: 17, color: '#4a2a10', align: 'center', bold: false },
+    label:  { font: '맑은 고딕', size: 18, color: '#6b2a0a', align: 'left', bold: true },
+    button: { font: '맑은 고딕', size: 21, color: '#ffffff', align: 'center', bold: true, bg: '#9a3b12' },
+    hint:   { font: '맑은 고딕', size: 14, color: '#5a4636', align: 'left', bold: false },
+    footer: { font: '맑은 고딕', size: 15, color: '#4a2a10', align: 'center', bold: false }
   },
-  bg: { img: '', c1: '#12284c', c2: '#2c5190', dir: 160, op: 85 },
+  bg: { img: '', c1: '#fbe3b0', c2: '#eda265', dir: 160, op: 85 },
+  al: {
+    s1: '임원별 피추천인 현황 · 득표수 / 득표율', s2: '피추천인별 득표 현황 (직책 통합)', s3: '파트별 투표 참여 인원 · 투표율',
+    s4: '대원별 투표 여부 · 최종투표시간 (대원명단 대비)', s5: '명단 대조 불일치 입력', s6: '명단에 없는 피추천인 → 명단 대원으로 연결',
+    no: 'No', nom: '피추천인', cnt: '득표수', rate: '득표율', tot: '총 추천수', bar: '직책별 득표',
+    part: '파트', enr: '재적', share: '전체 대원 중 비중', vtr: '투표자수', prate: '파트투표율', name: '이름', time: '최종투표시간', all: '전체'
+  },
   parts: []
 };
 
@@ -125,33 +131,33 @@ function copyright() { return '(C)' + new Date().getFullYear() + '. YOON HYUNCHU
   .preview .vbg{min-height:0}
   .vwrap{width:100%;max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:10px;flex:1}
   .vstat{background:#fff6e6;color:#14633a;border-radius:10px;padding:6px 10px;text-align:center}
-  .vstat.before{background:#fbf5e3;color:#5c430b}
+  .vstat.before{background:#fff1d6;color:#5c430b}
   .vstat.closed{background:#fde8e6;color:#8a1a11}
-  .vstat .vs1{font-size:16px;font-weight:700;color:#d10000;text-decoration:underline;text-underline-offset:3px}.vstat .vs2{font-size:14px;font-weight:700}
+  .vstat .vs1,.vstat .vs2{font-size:1em;line-height:1.35}.vstat .vs1{font-weight:700;color:#d10000;text-decoration:underline;text-underline-offset:3px}.vstat .vs2{font-weight:700}
   .vtitle{margin:4px 0 0;line-height:1.25}
   .vnotice,.vfoot{line-height:1.45;white-space:pre-line}
-  .vcard{background:rgba(255,255,255,.97);border-radius:12px;border-top:4px solid #b8913a;padding:14px;display:flex;flex-direction:column;gap:14px}
+  .vcard{background:rgba(255,255,255,.97);border-radius:12px;border-top:4px solid #d98a2b;padding:14px;display:flex;flex-direction:column;gap:14px}
   .vcard.closed{opacity:.6}
   .fld{display:flex;flex-direction:column;gap:6px}
   .lab .sub{font-size:14px;font-weight:400;color:#44506a}
   .radios{display:flex;flex-wrap:wrap;gap:6px}
   .pill{position:relative;display:block;cursor:pointer;flex:none}
   .pill input{position:absolute;opacity:0}
-  .pill span{display:block;text-align:center;padding:3px 8px;border:2px solid #12284c;border-radius:999px;font-size:17px;line-height:1.3;white-space:nowrap;font-weight:700;color:#12284c;background:#fff}
-  .pill input:checked+span{background:#12284c;color:#fff;border-color:#b8913a}
-  .pill input:focus-visible+span{outline:3px solid #b8913a;outline-offset:2px}
+  .pill span{display:block;text-align:center;padding:3px 8px;border:2px solid #8a3d12;border-radius:999px;font-size:17px;line-height:1.3;white-space:nowrap;font-weight:700;color:#8a3d12;background:#fff}
+  .pill input:checked+span{background:#8a3d12;color:#fff;border-color:#d98a2b}
+  .pill input:focus-visible+span{outline:3px solid #d98a2b;outline-offset:2px}
   .vcard input[type=text]{font-family:inherit;font-size:19px;padding:10px 12px;border:1.5px solid #8f9db8;border-radius:8px;color:#1b1f2a;min-width:0;box-sizing:border-box;width:100%}
   .nrow{display:flex;gap:6px;align-items:center}
-  .nrow .no{width:26px;height:26px;border-radius:50%;background:#12284c;color:#fff;font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none}
+  .nrow .no{width:26px;height:26px;border-radius:50%;background:#8a3d12;color:#fff;font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none}
   .nrow input{flex:1}
   .nrow .del{flex:none;width:44px;height:44px;border:1.5px solid #b42318;border-radius:8px;background:#fff;color:#b42318;display:flex;align-items:center;justify-content:center;padding:0;cursor:pointer}
   .prow{display:flex;align-items:center;gap:8px;border:1.5px solid #c9d3e6;border-radius:10px;padding:8px 10px;background:#f7f9fd}
-  .ptitle{font-weight:700;border-left:5px solid #b8913a;padding-left:8px;flex:none;width:6.2em}
+  .ptitle{font-weight:700;border-left:5px solid #d98a2b;padding-left:8px;flex:none;width:6.2em}
   .prow input{flex:1}
-  .addnom{font-family:inherit;font-size:17px;font-weight:700;color:#7a5a12;background:#fbf5e3;border:2px dashed #b8913a;border-radius:8px;padding:10px;min-height:44px;cursor:pointer}
-  .vsubmit{font-family:inherit;border:2px solid #b8913a;border-radius:10px;padding:13px;min-height:52px;cursor:pointer;width:100%}
+  .addnom{font-family:inherit;font-size:17px;font-weight:700;color:#8a3d12;background:#fff1d6;border:2px dashed #d98a2b;border-radius:8px;padding:10px;min-height:44px;cursor:pointer}
+  .vsubmit{font-family:inherit;border:2px solid #d98a2b;border-radius:10px;padding:13px;min-height:52px;cursor:pointer;width:100%}
   .vhint{line-height:1.45;white-space:pre-line}
-  .vcopy{margin-top:auto;text-align:right;font-size:12px;color:rgba(255,255,255,.85);padding-top:6px}
+  .vcopy{margin-top:auto;text-align:right;font-size:12px;color:#4a2a10;padding-top:6px}
   .vcard button:disabled,.vcard input:disabled{cursor:not-allowed}
   .demo{background:#fff3cd;color:#5c430b;text-align:center;font-size:14px;padding:5px 8px;border-bottom:2px solid #b8913a}
   .ovl{position:fixed;left:0;top:0;right:0;bottom:0;background:rgba(10,20,40,.35);z-index:1000}
@@ -254,6 +260,16 @@ function mockRpc(name, a) {
   const d = dbLoad();
   const bad = () => ({ ok: false, error: 'BAD_PASSWORD' });
   if (name === 'get_public') return { ok: true, config: d.config, start_at: iso(d.start), end_at: iso(d.end), now: iso(Date.now()) };
+  if (name === 'get_status') {
+    const nom = {};
+    POS_KEYS.forEach((pk) => {
+      const m = new Map();
+      d.votes.forEach((v) => { const seen = new Set(); nomOf(v)[pk].forEach((n) => { const k = norm(n); if (!k || seen.has(k)) return; seen.add(k); const e = m.get(k) || { name: n, votes: 0, inRoster: d.roster.some((r) => norm(r.name) === k) }; e.votes++; m.set(k, e); }); });
+      nom[pk] = Array.from(m.values()).sort((a, b) => b.votes - a.votes || String(a.name).localeCompare(String(b.name), 'ko'));
+    });
+    return { ok: true, config: { pos: d.config.pos || null, al: d.config.al || null }, start_at: iso(d.start), end_at: iso(d.end), now: iso(Date.now()), submitted: d.votes.length,
+      roster: d.roster.map((r) => { const v = d.votes.find((x) => x.part === r.part && norm(x.name) === norm(r.name)); return { part: r.part, name: r.name, time: v ? v.time : null }; }), nominees: nom };
+  }
   if (name === 'get_period') return { ok: true, start_at: iso(d.start), end_at: iso(d.end), now: iso(Date.now()) };
   if (name === 'cast_vote') {
     const now = Date.now();
@@ -325,6 +341,19 @@ function mockRpc(name, a) {
     v.part = rm.part; v.name = rm.name; v.key = k; dbSave();
     return { ok: true, merged: merged, kept: 'fixed' };
   }
+  if (name === 'admin_fix_nominee') {
+    const to = String(a.p_to || '').trim(), fk = norm(a.p_from);
+    if (!d.roster.some((r) => norm(r.name) === norm(to))) return { ok: false, error: 'NOT_IN_ROSTER' };
+    const rn = d.roster.find((r) => norm(r.name) === norm(to)).name;
+    let changed = 0;
+    d.votes.forEach((v) => {
+      const o = nomOf(v); let hit = false;
+      POS_KEYS.forEach((k) => { o[k] = o[k].map((x) => { if (norm(x) === fk) { hit = true; return rn; } return x; }); });
+      if (hit) { v.nominees = o; changed++; }
+    });
+    dbSave();
+    return { ok: true, changed: changed };
+  }
   if (name === 'admin_delete_member') { d.roster = d.roster.filter((r) => r.id !== a.p_id); mockParts(d); dbSave(); return { ok: true }; }
   if (name === 'admin_set_period') {
     const s = Date.parse(a.p_start), e = Date.parse(a.p_end);
@@ -357,7 +386,7 @@ function buildVoter(root, o) {
   root.classList.toggle('preview', !!o.preview);
   root.innerHTML =
     '<div class="vbg"><div class="vwrap">' +
-    '<div class="vstat open"><div class="vs1">&nbsp;</div><div class="vs2">&nbsp;</div></div>' +
+    '<div class="vstat open" style="font-size:' + Math.max(11, Math.round((Number(S.title.size) || 32) * 0.7)) + 'px"><div class="vs1">&nbsp;</div><div class="vs2">&nbsp;</div></div>' +
     '<h1 class="vtitle" style="' + stl(S.title) + '">' + esc(c.title) + '</h1>' +
     '<div class="vnotice" style="' + stl(S.notice) + '">' + esc(c.notice) + '</div>' +
     '<form class="vcard" autocomplete="off" novalidate>' +
@@ -366,7 +395,7 @@ function buildVoter(root, o) {
     '</div></div>' +
     '<div class="fld"><label class="lab" for="nm' + uid + '" style="' + stl(S.label) + '">' + esc(c.labels.name) + ' <span class="sub">(직접 입력)</span></label><input type="text" id="nm' + uid + '" class="nm" maxlength="20" placeholder="본인 이름을 입력하세요"></div>' +
     '<div class="fld"><div class="lab" style="' + stl(S.label) + '">' + esc(c.labels.nom) + ' <span class="sub">(직책마다 1명 · 모두 필수)</span></div>' +
-    POS_KEYS.map((k, i) => '<div class="prow" data-k="' + k + '"><label class="ptitle" for="nom' + k + uid + '" style="' + stl(S.label) + '">' + esc(PL[i]) + '</label><input type="text" id="nom' + k + uid + '" maxlength="20" autocomplete="off" placeholder="추천할 대원 이름 (필수)" aria-required="true"></div>').join('') + '</div>' +
+    POS_KEYS.map((k, i) => '<div class="prow" data-k="' + k + '"><label class="ptitle" for="nom' + k + uid + '" style="' + stl(S.label) + '">' + esc(PL[i]) + '</label><input type="text" id="nom' + k + uid + '" maxlength="20" autocomplete="off" placeholder="이름 입력 (필수)" aria-required="true"></div>').join('') + '</div>' +
     '<button type="submit" class="vsubmit" style="' + stl(S.button) + 'background:' + safeColor(S.button.bg, '#12284c') + '">' + esc(c.btn) + '</button>' +
     '<div class="vhint" style="' + stl(S.hint) + '">' + esc(c.hint) + '</div>' +
     '</form>' +
