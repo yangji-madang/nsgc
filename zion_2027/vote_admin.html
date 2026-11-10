@@ -40,6 +40,13 @@ button{font-family:inherit;cursor:pointer}
 .tb td{padding:5px 8px;border:1px solid #c9d1df;text-align:center}
 .tb tr:nth-child(even) td{background:#f4f6fa}
 .tb td.l{text-align:left}.tb td.b{font-weight:700}
+.tb.fit{width:auto}.tb.fit th,.tb.fit td{white-space:nowrap}
+.pp{display:flex;gap:10px;align-items:center}.pp>.tb{flex:none}.pp>.pie{flex:1;min-width:0;cursor:zoom-in}.pp svg{width:100%;height:auto;display:block;max-width:400px;margin:0 auto}
+@media (max-width:600px){.pp .tb th:first-child,.pp .tb td:first-child{display:none}.pp .tb{font-size:12.5px}.pp .tb th,.pp .tb td{padding:3px 4px}}
+.tb tr.mv td{background:#fff6c2!important}.tb tr.mn td{background:#ececec!important}
+.tb td.stv{color:#7a5a00;font-weight:700}.tb td.stn{color:#555;font-weight:700}
+.nx{color:#b42318;font-weight:700;cursor:pointer;text-decoration:underline dotted}
+@media print{.tb tr.mv td{background:#fff6c2!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}.tb tr.mn td{background:#ececec!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}}
 .st-ok{background:#e3f4ea!important;color:#14633a;font-weight:700}.st-no{background:#fde8e6!important;color:#b42318;font-weight:700}
 .bar{height:16px;background:#e3e8f1;border-radius:4px}.bar i{display:block;height:16px;background:#12284c;border-radius:4px}
 .ptl{font-weight:700;color:#12284c;border-left:5px solid #b8913a;padding-left:8px;margin:10px 0 4px}
@@ -397,6 +404,19 @@ function mockRpc(name, a) {
     v.part = rm.part; v.name = rm.name; v.key = k; dbSave();
     return { ok: true, merged: merged, kept: 'fixed' };
   }
+  if (name === 'admin_fix_nominee') {
+    const to = String(a.p_to || '').trim(), fk = norm(a.p_from);
+    if (!d.roster.some((r) => norm(r.name) === norm(to))) return { ok: false, error: 'NOT_IN_ROSTER' };
+    const rn = d.roster.find((r) => norm(r.name) === norm(to)).name;
+    let changed = 0;
+    d.votes.forEach((v) => {
+      const o = nomOf(v); let hit = false;
+      POS_KEYS.forEach((k) => { o[k] = o[k].map((x) => { if (norm(x) === fk) { hit = true; return rn; } return x; }); });
+      if (hit) { v.nominees = o; changed++; }
+    });
+    dbSave();
+    return { ok: true, changed: changed };
+  }
   if (name === 'admin_delete_member') { d.roster = d.roster.filter((r) => r.id !== a.p_id); mockParts(d); dbSave(); return { ok: true }; }
   if (name === 'admin_set_period') {
     const s = Date.parse(a.p_start), e = Date.parse(a.p_end);
@@ -692,35 +712,62 @@ function buildVoter(root, o) {
   function htmlAnalysis() {
     const A = analyze(), mem = filteredMembers(A);
     const half = Math.ceil(mem.length / 2);
-    const mrow = (m) => '<tr><td>' + esc(m.part) + '</td><td class="b">' + esc(m.name) + '</td><td class="' + (m.voted ? 'ok' : 'no') + '">' + (m.voted ? '참여' : '미참여') + '</td><td>' + (m.voted ? esc(fmtKST(m.time)) : '-') + '</td></tr>';
+    const mrow = (m) => '<tr class="' + (m.voted ? 'mv' : 'mn') + '"><td>' + esc(m.part) + '</td><td class="b">' + esc(m.name) + '</td><td class="' + (m.voted ? 'stv' : 'stn') + '">' + (m.voted ? '참여' : '미참여') + '</td><td>' + (m.voted ? esc(fmtKST(m.time)) : '-') + '</td></tr>';
     const mtab = (arr) => '<table class="tb"><thead><tr><th>파트</th><th>이름</th><th>투표여부</th><th>최종투표시간</th></tr></thead><tbody>' + (arr.map(mrow).join('') || '<tr><td colspan="4">표시할 대원이 없습니다.</td></tr>') + '</tbody></table>';
     const partOpts = ['전체'].concat(A.partRows.map((p) => p.part)).map((p) => '<option' + (p === ui.f2 ? ' selected' : '') + '>' + esc(p) + '</option>').join('');
     const sortBtns = '<span class="row noprint"><button type="button" class="btn sm' + (ui.sort === 'votes' ? ' on' : '') + '" data-act="sort" data-v="votes">득표수순</button><button type="button" class="btn sm' + (ui.sort === 'name' ? ' on' : '') + '" data-act="sort" data-v="name">이름순</button></span>';
     const PAL = ['#12284c', '#b8913a', '#2c7a7b', '#b42318', '#6b4fa0', '#3b82c4', '#7a8b3a', '#c46a2b', '#8a8f98', '#c78c9b'];
     const PC = ['#12284c', '#d9b45a', '#2c7a7b'], PT = ['#fff', '#12284c', '#fff'];
-    const nomTag = (n) => '<td class="' + (n.inRoster ? '' : 'no') + '">' + (n.inRoster ? '명단 대원' : '명단 외') + '</td>';
+    const lum = (h) => { const v = parseInt(h.slice(1), 16); return (0.299 * ((v >> 16) & 255) + 0.587 * ((v >> 8) & 255) + 0.114 * (v & 255)) / 255; };
+    const nmCell = (n) => n.inRoster ? esc(n.name) : '<span class="nx" data-act="nfix" data-n="' + esc(n.name) + '" title="명단에 없는 이름입니다. 눌러서 명단 대원으로 연결">' + esc(n.name) + '</span>';
     function pie(list) {
       const tot = list.reduce((x, n) => x + n.votes, 0);
-      if (!tot) return '<div class="note" style="align-self:center;text-align:center">아직 추천 내용이 없습니다.</div>';
-      let ang = -Math.PI / 2, sl = '';
-      const pt = (t) => (100 + 90 * Math.cos(t)).toFixed(2) + ' ' + (100 + 90 * Math.sin(t)).toFixed(2);
+      if (!tot) return '<div class="note" style="text-align:center">아직 추천 내용이 없습니다.</div>';
+      const W = 400, H = 270, CX = 200, CY = 135, R = 102, RI = 24, RL = 63;
+      const P = (r, t) => [CX + r * Math.cos(t), CY + r * Math.sin(t)];
+      const f1 = (v) => v.toFixed(1);
+      let ang = -Math.PI / 2, sl = '', tx = '', outs = [];
       list.forEach((n, i) => {
-        const col = PAL[i % PAL.length], tip = '<title>' + esc(n.name) + ' ' + n.votes + '표 · ' + pct(n.votes, A.submitted) + '</title>';
-        if (n.votes === tot) { sl += '<circle cx="100" cy="100" r="90" fill="' + col + '">' + tip + '</circle>'; return; }
-        const d = n.votes / tot * Math.PI * 2, e = ang + d;
-        sl += '<path d="M100 100 L' + pt(ang) + ' A90 90 0 ' + (d > Math.PI ? 1 : 0) + ' 1 ' + pt(e) + ' Z" fill="' + col + '" stroke="#fff" stroke-width="2">' + tip + '</path>';
+        const col = PAL[i % PAL.length], frac = n.votes / tot, d = frac * Math.PI * 2, mid = ang + d / 2, e = ang + d;
+        const lab = esc(n.name), cnt = n.votes + '표(' + pct(n.votes, A.submitted) + ')';
+        if (frac > 0.9999) {
+          sl += '<path fill-rule="evenodd" fill="' + col + '" d="M' + (CX - R) + ' ' + CY + 'a' + R + ' ' + R + ' 0 1 0 ' + (2 * R) + ' 0a' + R + ' ' + R + ' 0 1 0 ' + (-2 * R) + ' 0ZM' + (CX - RI) + ' ' + CY + 'a' + RI + ' ' + RI + ' 0 1 0 ' + (2 * RI) + ' 0a' + RI + ' ' + RI + ' 0 1 0 ' + (-2 * RI) + ' 0Z"><title>' + lab + ' ' + cnt + '</title></path>';
+        } else {
+          const a0 = P(R, ang), a1 = P(R, e), b1 = P(RI, e), b0 = P(RI, ang), lg = d > Math.PI ? 1 : 0;
+          sl += '<path d="M' + a0.map(f1).join(' ') + 'A' + R + ' ' + R + ' 0 ' + lg + ' 1 ' + a1.map(f1).join(' ') + 'L' + b1.map(f1).join(' ') + 'A' + RI + ' ' + RI + ' 0 ' + lg + ' 0 ' + b0.map(f1).join(' ') + 'Z" fill="' + col + '" stroke="#fff" stroke-width="2"><title>' + lab + ' ' + cnt + '</title></path>';
+        }
+        if (frac >= 0.22) {
+          const c = P(RL, frac > 0.9999 ? Math.PI / 2 : mid), tc = lum(col) > 0.6 ? '#12284c' : '#fff';
+          tx += '<text x="' + f1(c[0]) + '" y="' + f1(c[1] - 3) + '" text-anchor="middle" font-size="13" font-weight="700" fill="' + tc + '">' + lab + '</text><text x="' + f1(c[0]) + '" y="' + f1(c[1] + 12) + '" text-anchor="middle" font-size="12" font-weight="700" fill="' + tc + '">' + cnt + '</text>';
+        } else {
+          const side = Math.cos(mid) >= 0 ? 1 : -1;
+          outs.push({ side: side, y0: P(R + 14, mid)[1], from: P(R, mid), elbow: P(R + 10, mid), lab: lab, cnt: cnt });
+        }
         ang = e;
       });
-      return '<svg viewBox="0 0 200 200" width="190" height="190" role="img" aria-label="득표 비중 원그래프" style="align-self:center;justify-self:center">' + sl + '<circle cx="100" cy="100" r="38" fill="#fff"/><text x="100" y="97" text-anchor="middle" font-size="12" fill="#555">총 득표</text><text x="100" y="117" text-anchor="middle" font-size="20" font-weight="700" fill="#12284c">' + tot + '</text></svg>';
+      [1, -1].forEach((sd) => {
+        const arr = outs.filter((o) => o.side === sd).sort((x, y) => x.y0 - y.y0);
+        let prev = -1e9;
+        arr.forEach((o) => { o.y = Math.max(o.y0, prev + 32); prev = o.y; });
+        for (let i = arr.length - 1; i >= 0; i--) { const lim = (i === arr.length - 1 ? H - 14 : arr[i + 1].y - 32); if (arr[i].y > lim) arr[i].y = lim; }
+        arr.forEach((o) => {
+          const xl = CX + sd * (R + 22);
+          tx += '<polyline fill="none" stroke="#444" stroke-width="1.2" points="' + o.from.map(f1).join(',') + ' ' + o.elbow.map(f1).join(',') + ' ' + f1(xl) + ',' + f1(o.y + 2) + '"/>' +
+            '<text x="' + f1(xl + sd * 4) + '" y="' + f1(o.y - 2) + '" text-anchor="' + (sd === 1 ? 'start' : 'end') + '" font-size="13" font-weight="700" fill="#1b1f2a">' + o.lab + '</text>' +
+            '<text x="' + f1(xl + sd * 4) + '" y="' + f1(o.y + 12) + '" text-anchor="' + (sd === 1 ? 'start' : 'end') + '" font-size="12" font-weight="700" fill="#1b1f2a">' + o.cnt + '</text>';
+        });
+      });
+      return '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="득표 원그래프">' + sl + '<circle cx="' + CX + '" cy="' + CY + '" r="' + RI + '" fill="#fff"/>' +
+        '<text x="' + CX + '" y="' + (CY - 3) + '" text-anchor="middle" font-size="13" font-weight="700" fill="#444">총투표</text><text x="' + CX + '" y="' + (CY + 15) + '" text-anchor="middle" font-size="19" font-weight="700" fill="#12284c">' + tot + '</text>' + tx + '</svg>';
     }
     const sec1 = '<section class="card"><div class="row" style="justify-content:space-between"><h2>① 임원별 피추천인 현황 · 득표수 / 득표율</h2>' + sortBtns + '</div>' +
-      A.byPos.map((g) => {
+      A.byPos.map((g, gi) => {
         const noms = sortedNoms(g.noms);
-        const tb = '<table class="tb"><thead><tr><th style="width:34px">색</th><th style="width:44px">순번</th><th>피추천인</th><th>득표수</th><th>득표율</th><th>명단 확인</th></tr></thead><tbody>' +
-          (noms.map((n, i) => '<tr><td><i class="sw" style="background:' + PAL[i % PAL.length] + '"></i></td><td>' + (i + 1) + '</td><td class="b">' + esc(n.name) + '</td><td>' + n.votes + '</td><td class="b">' + pct(n.votes, A.submitted) + '</td>' + nomTag(n) + '</tr>').join('') || '<tr><td colspan="6">아직 추천 내용이 없습니다.</td></tr>') + '</tbody></table>';
-        return '<div class="ptl">' + esc(g.label) + '</div><div class="g2" style="align-items:start">' + tb + pie(noms) + '</div>';
+        const tb = '<table class="tb fit"><thead><tr><th>순번</th><th>피추천인</th><th>득표수</th><th>득표율</th></tr></thead><tbody>' +
+          (noms.map((n, i) => '<tr><td>' + (i + 1) + '</td><td class="b">' + nmCell(n) + '</td><td>' + n.votes + '</td><td class="b">' + pct(n.votes, A.submitted) + '</td></tr>').join('') || '<tr><td colspan="4">아직 추천 내용이 없습니다.</td></tr>') + '</tbody></table>';
+        return '<div class="ptl">' + esc(g.label) + '</div><div class="pp">' + tb + '<div class="pie" data-act="pbig" data-g="' + gi + '" title="누르면 크게 보기">' + pie(noms) + '</div></div>';
       }).join('') +
-      '<div class="note">득표율 = 득표수 ÷ 전체 투표 제출자 ' + A.submitted + '명 · 직책마다 1명만 추천할 수 있으며, 같은 사람이 여러 직책에 추천받으면 직책별로 각각 계산합니다. 원그래프는 해당 직책 전체 득표 중 각 피추천인이 차지하는 비중이며, 색은 왼쪽 표의 색과 같습니다.</div></section>';
+      '<div class="note">득표율 = 득표수 ÷ 전체 투표 제출자 ' + A.submitted + '명 · 직책마다 1명만 추천할 수 있으며, 같은 사람이 여러 직책에 추천받으면 직책별로 각각 계산합니다. 원그래프는 해당 직책 전체 득표 중 각 피추천인의 비중이며, 누르면 크게 볼 수 있습니다. 빨간 이름은 명단에 없는 피추천인이며, 누르면 명단 대원으로 연결할 수 있습니다.</div></section>';
     const pm = new Map();
     A.byPos.forEach((g, gi) => g.noms.forEach((n) => { const k = norm(n.name); const e = pm.get(k) || { name: n.name, v: [0, 0, 0], inRoster: n.inRoster }; e.v[gi] = n.votes; pm.set(k, e); }));
     const people = Array.from(pm.values()).map((e) => ({ name: e.name, v: e.v, t: e.v[0] + e.v[1] + e.v[2], inRoster: e.inRoster }));
@@ -728,14 +775,18 @@ function buildVoter(root, o) {
     const pmax = Math.max.apply(null, [1].concat(people.map((x) => x.t)));
     const legend = A.byPos.map((g, gi) => '<span class="row" style="gap:5px"><i class="sw" style="background:' + PC[gi] + '"></i><b>' + esc(g.label) + '</b></span>').join('');
     const sec2 = '<section class="card"><div class="row" style="justify-content:space-between"><h2>② 피추천인별 득표 현황 (직책 통합)</h2>' + sortBtns + '</div><div class="row" style="margin-bottom:6px">' + legend + '<span class="note">한 사람이 여러 직책에 추천받은 경우 직책별로 나누어 한 줄에 표시합니다.</span></div>' +
-      '<table class="tb"><thead><tr><th style="width:44px">순번</th><th>피추천인</th><th style="width:34%">직책별 득표 (누적 막대)</th>' + A.byPos.map((g) => '<th>' + esc(g.label) + '<br>득표수 · 득표율</th>').join('') + '<th>총 추천수</th><th>명단 확인</th></tr></thead><tbody>' +
-      (people.map((x, i) => '<tr><td>' + (i + 1) + '</td><td class="b">' + esc(x.name) + '</td><td><div class="sb">' + x.v.map((c, gi) => c ? '<i style="width:' + (c * 100 / pmax).toFixed(1) + '%;background:' + PC[gi] + ';color:' + PT[gi] + '">' + c + '</i>' : '').join('') + '</div></td>' +
-        x.v.map((c) => '<td>' + (c ? c + '표 · ' + pct(c, A.submitted) : '-') + '</td>').join('') + '<td class="b">' + x.t + '</td>' + nomTag(x) + '</tr>').join('') || '<tr><td colspan="7">아직 추천 내용이 없습니다.</td></tr>') +
+      '<table class="tb"><thead><tr><th style="width:44px">순번</th><th>피추천인</th><th style="width:34%">직책별 득표 (누적 막대)</th>' + A.byPos.map((g) => '<th>' + esc(g.label) + '<br>득표수 · 득표율</th>').join('') + '<th>총 추천수</th></tr></thead><tbody>' +
+      (people.map((x, i) => '<tr><td>' + (i + 1) + '</td><td class="b">' + nmCell(x) + '</td><td><div class="sb">' + x.v.map((c, gi) => c ? '<i style="width:' + (c * 100 / pmax).toFixed(1) + '%;background:' + PC[gi] + ';color:' + PT[gi] + '">' + c + '</i>' : '').join('') + '</div></td>' +
+        x.v.map((c) => '<td>' + (c ? c + '표 · ' + pct(c, A.submitted) : '-') + '</td>').join('') + '<td class="b">' + x.t + '</td></tr>').join('') || '<tr><td colspan="6">아직 추천 내용이 없습니다.</td></tr>') +
       '</tbody></table><div class="note">총 추천수 = 세 직책의 득표수 합계입니다. 득표율의 분모는 전체 투표 제출자 ' + A.submitted + '명입니다.</div></section>';
-    const sec3 = '<section class="card"><h2>③ 파트별 투표 참여 인원 · 투표율</h2><table class="tb"><thead><tr><th>파트</th><th>파트 재적</th><th>전체 대원 중 비중</th><th>투표자수</th><th>파트 재적 대비 투표율</th><th>전체 대원 대비 투표율</th><th style="width:24%">파트 투표율 그래프</th></tr></thead><tbody>' +
-      (A.partRows.map((p) => '<tr><td class="b">' + esc(p.part) + '</td><td>' + p.total + '명</td><td>' + pct(p.total, A.total) + '</td><td>' + p.voted + '명</td><td class="b">' + pct(p.voted, p.total) + '</td><td>' + pct(p.voted, A.total) + '</td><td><div class="bar"><i style="width:' + pct(p.voted, p.total) + '"></i></div></td></tr>').join('') || '<tr><td colspan="7">대원명단을 먼저 등록해 주세요.</td></tr>') +
-      '<tr style="background:#f1e4bf" class="b"><td class="b">전체</td><td class="b">' + A.total + '명</td><td class="b">100.0%</td><td class="b">' + A.voted + '명</td><td class="b">' + pct(A.voted, A.total) + '</td><td class="b">' + pct(A.voted, A.total) + '</td><td></td></tr></tbody></table>' +
-      '<div class="note">투표자 = 명단과 파트·이름이 모두 일치한 사람 · 파트 재적 대비 = 투표자 ÷ 해당 파트 대원수 · 전체 대원 대비 = 투표자 ÷ 전체 대원수 · 투표 제출 ' + A.submitted + '건 중 명단 불일치 ' + A.unmatched.length + '건</div></section>';
+    const sec3 = '<section class="card"><h2>③ 파트별 투표 참여 인원 · 투표율</h2><table class="tb"><thead><tr><th>파트</th><th>파트 재적</th><th>전체 대원 중 비중</th><th>투표자수</th><th>파트 재적 대비 투표율</th><th style="width:24%">파트 투표율 그래프</th></tr></thead><tbody>' +
+      (A.partRows.map((p) => '<tr><td class="b">' + esc(p.part) + '</td><td>' + p.total + '명</td><td>' + pct(p.total, A.total) + '</td><td>' + p.voted + '명</td><td class="b">' + pct(p.voted, p.total) + '</td><td><div class="bar"><i style="width:' + pct(p.voted, p.total) + '"></i></div></td></tr>').join('') || '<tr><td colspan="6">대원명단을 먼저 등록해 주세요.</td></tr>') +
+      '<tr style="background:#f1e4bf" class="b"><td class="b">전체</td><td class="b">' + A.total + '명</td><td class="b">100.0%</td><td class="b">' + A.voted + '명</td><td class="b">' + pct(A.voted, A.total) + '</td><td></td></tr></tbody></table>' +
+      '<div class="note">투표자 = 명단과 파트·이름이 모두 일치한 사람 · 파트 재적 대비 투표율 = 투표자 ÷ 해당 파트 대원수 · 투표 제출 ' + A.submitted + '건 중 명단 불일치 ' + A.unmatched.length + '건</div></section>';
+    const nx = people.filter((x) => !x.inRoster);
+    const sec6 = '<section class="card"><h2 style="border-left-color:#b42318">⑥ 명단에 없는 피추천인 → 명단 대원으로 연결</h2><table class="tb fit"><thead><tr><th>입력된 이름</th>' + A.byPos.map((g) => '<th>' + esc(g.label) + '</th>').join('') + '<th class="noprint">연결</th></tr></thead><tbody>' +
+      (nx.map((x) => '<tr><td class="b" style="color:#b42318">' + esc(x.name) + '</td>' + x.v.map((c) => '<td>' + (c ? c + '표' : '-') + '</td>').join('') + '<td class="noprint"><button type="button" class="btn sm pri" data-act="nfix" data-n="' + esc(x.name) + '">명단 대원으로 연결</button></td></tr>').join('') || '<tr><td colspan="5">명단에 없는 피추천인이 없습니다.</td></tr>') +
+      '</tbody></table><div class="note">철자가 다르게 입력된 이름을 명단의 이름으로 바꿔 득표를 합산합니다. 이미 제출된 모든 투표에 적용됩니다.</div></section>';
     return sec1 + sec2 + sec3 +
       '<section class="card"><div class="row" style="justify-content:space-between"><h2>④ 대원별 투표 여부 · 최종투표시간 (대원명단 대비)</h2><span class="row noprint">' +
       '<label for="f1" class="note">보기</label><select id="f1" data-f="f1">' + ['전체', '참여', '미참여'].map((x) => '<option' + (x === ui.f1 ? ' selected' : '') + '>' + x + '</option>').join('') + '</select>' +
@@ -744,7 +795,7 @@ function buildVoter(root, o) {
       '<div class="g2">' + mtab(mem.slice(0, half)) + mtab(mem.slice(half)) + '</div></section>' +
       '<section class="card"><h2 style="border-left-color:#b42318">⑤ 명단 대조 불일치 입력</h2><table class="tb"><thead><tr><th>입력 파트</th><th>입력 이름</th><th>사유</th><th>최종투표시간</th><th class="noprint">수정</th></tr></thead><tbody>' +
       (A.unmatched.map((u) => '<tr><td>' + esc(u.part) + '</td><td class="b">' + esc(u.name) + '</td><td class="l">' + esc(u.reason) + '</td><td>' + esc(fmtKST(u.time)) + '</td><td class="noprint"><button type="button" class="btn sm pri" data-act="vfix" data-id="' + u.id + '">명단 대원으로 수정</button></td></tr>').join('') || '<tr><td colspan="5">불일치 입력이 없습니다.</td></tr>') +
-      '</tbody></table><div class="note">명단과 맞지 않는 입력도 투표는 그대로 저장되며, 「명단 대원으로 수정」으로 올바른 대원에 연결하면 투표 여부에 반영됩니다. 추천 내용은 그대로 유지됩니다.</div></section>';
+      '</tbody></table><div class="note">명단과 맞지 않는 입력도 투표는 그대로 저장되며, 「명단 대원으로 수정」으로 올바른 대원에 연결하면 투표 여부에 반영됩니다. 추천 내용은 그대로 유지됩니다.</div></section>' + sec6;
   }
   function download(name, text) {
     const b = new Blob(['﻿' + text], { type: 'text/csv;charset=utf-8' });
@@ -761,8 +812,8 @@ function buildVoter(root, o) {
     t += '\n[명단 대조 불일치 입력]\n입력파트,입력이름,사유,최종투표시간\n';
     A.unmatched.forEach((u) => { t += [q(u.part), q(u.name), q(u.reason), q(fmtKST(u.time))].join(',') + '\n'; });
     A.byPos.forEach((g) => {
-      t += '\n[' + g.label + ' 피추천인 현황] (득표율=득표수/전체 투표 제출자 ' + A.submitted + '명)\n순번,피추천인,득표수,득표율,명단확인\n';
-      sortedNoms(g.noms).forEach((n, i) => { t += [i + 1, q(n.name), n.votes, pct(n.votes, A.submitted), n.inRoster ? '명단 대원' : '명단 외'].join(',') + '\n'; });
+      t += '\n[' + g.label + ' 피추천인 현황] (득표율=득표수/전체 투표 제출자 ' + A.submitted + '명)\n순번,피추천인,득표수,득표율\n';
+      sortedNoms(g.noms).forEach((n, i) => { t += [i + 1, q(n.name), n.votes, pct(n.votes, A.submitted)].join(',') + '\n'; });
     });
     download('zion_2027_vote_result.csv', t);
   }
@@ -952,6 +1003,29 @@ function buildVoter(root, o) {
     else if (a === 'csv') exportCsv();
     else if (a === 'rpreview') rosterPreview();
     else if (a === 'rtemplate') download('zion_2027_roster_template.csv', '파트,이름\n소프라노,홍길동\n알토,김영희\n테너,이철수\n베이스,박민수\n');
+    else if (a === 'pbig') {
+      const g = Number(b.getAttribute('data-g')), A2 = analyze(), grp = A2.byPos[g];
+      modal(grp.label + ' 득표 현황', '<div id="bigpie" style="min-width:min(80vw,560px)"></div>', [{ t: '닫기', cls: 'pri' }]);
+      document.getElementById('bigpie').innerHTML = b.querySelector('svg') ? b.querySelector('svg').outerHTML.replace('<svg ', '<svg style="width:100%;max-width:560px;display:block;margin:0 auto" ') : '';
+    }
+    else if (a === 'nfix') {
+      const from = b.getAttribute('data-n'), fk = norm(from);
+      const lev = (x, y) => { const m = [], xl = x.length, yl = y.length; for (let i = 0; i <= xl; i++) { m[i] = [i]; } for (let j = 1; j <= yl; j++) m[0][j] = j; for (let i = 1; i <= xl; i++) for (let j = 1; j <= yl; j++) m[i][j] = Math.min(m[i - 1][j] + 1, m[i][j - 1] + 1, m[i - 1][j - 1] + (x[i - 1] === y[j - 1] ? 0 : 1)); return m[xl][yl]; };
+      const names = []; D.roster.forEach((r) => { if (names.indexOf(r.name) < 0) names.push(r.name); });
+      const near = names.filter((n) => lev(norm(n), fk) <= 1);
+      const guess = near.length === 1 ? near[0] : '';
+      const parts = []; D.roster.forEach((r) => { if (parts.indexOf(r.part) < 0) parts.push(r.part); });
+      const opts = '<option value="">대원을 선택하세요</option>' + parts.map((p) => '<optgroup label="' + esc(p) + '">' + D.roster.filter((r) => r.part === p).map((r) => '<option value="' + esc(r.name) + '"' + (r.name === guess ? ' selected' : '') + '>' + esc(r.name) + '</option>').join('') + '</optgroup>').join('');
+      modal('피추천인을 명단 대원으로 연결', '입력된 이름: <b>' + esc(from) + '</b><br>명단의 올바른 대원을 선택하면, 이미 제출된 모든 투표에서 이 이름이 선택한 이름으로 바뀌어 득표가 합산됩니다.<br><select id="nfsel" style="margin:8px 0;font-size:17px;padding:8px;width:100%">' + opts + '</select>',
+        [{ t: '취소' }, { t: '연결 적용', cls: 'pri', fn: async () => {
+          const to = document.querySelector('.dlg #nfsel').value;
+          if (!to) { notice('입력 확인', '명단 대원을 선택해 주세요.'); return false; }
+          const r = await adminRpc('admin_fix_nominee', { p_from: from, p_to: to });
+          if (!r || !r.ok) { notice('오류', '연결하지 못했습니다.' + (LAST_ERR ? '<br><small>' + esc(LAST_ERR) + '</small>' : '')); return false; }
+          await loadAll(); renderPanel();
+          notice('연결 완료', esc(from) + ' → ' + esc(to) + '<br>' + r.changed + '건의 투표가 수정되었습니다.');
+        } }]);
+    }
     else if (a === 'vfix') {
       const vid = Number(b.getAttribute('data-id')), v = D.votes.find((x) => x.id === vid);
       if (!v) return;
