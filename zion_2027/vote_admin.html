@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>찬양대 임원 추천 투표 관리</title>
+<link rel="icon" href="data:,">
+<style>
+*{box-sizing:border-box}
+body{background:#eef1f6;min-height:100vh}
+button{font-family:inherit;cursor:pointer}
+.lg{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px;background:linear-gradient(160deg,#12284c,#2c5190)}
+.lgc{width:100%;max-width:440px;background:rgba(255,255,255,.97);border-radius:12px;border-top:4px solid #b8913a;padding:18px;display:flex;flex-direction:column;gap:12px}
+.lgt{font-size:26px;font-weight:700;color:#12284c;text-align:center}
+.lgs{font-size:15px;color:#38445e;text-align:center;line-height:1.45}
+.lgl{font-size:18px;font-weight:700;color:#12284c}
+.lgc input{font-family:inherit;font-size:19px;padding:10px 12px;border:1.5px solid #8f9db8;border-radius:8px;width:100%}
+.lge{background:#fde8e6;border:1.5px solid #b42318;border-radius:8px;padding:7px 12px;font-size:15px;color:#8a1a11}
+.btnp{font-size:20px;font-weight:700;color:#fff;background:#12284c;border:2px solid #b8913a;border-radius:10px;padding:12px;min-height:50px}
+.ahead{background:#12284c;border-bottom:4px solid #b8913a;padding:0 18px;display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.atitle{font-size:22px;font-weight:700;color:#fff;padding:12px 0}
+.tabs{display:flex;gap:4px;align-items:flex-end;flex-wrap:wrap}
+.tabs button{font-size:18px;font-weight:700;color:#e8d5a3;background:transparent;border:0;padding:9px 16px;border-radius:8px 8px 0 0}
+.tabs button.on{color:#12284c;background:#f1e4bf}
+.hrow{display:flex;gap:8px;align-items:center;padding:8px 0;flex-wrap:wrap}
+.chip{font-size:15px;font-weight:700;padding:5px 12px;border-radius:999px;background:#e3f4ea;color:#14633a}
+.chip.before{background:#fbf5e3;color:#5c430b}.chip.closed{background:#fde8e6;color:#8a1a11}
+.hbtn{font-size:15px;font-weight:700;color:#12284c;background:#f1e4bf;border:2px solid #b8913a;border-radius:8px;padding:4px 12px;min-height:36px}
+.main{padding:12px 18px;display:flex;flex-direction:column;gap:12px;max-width:1400px;margin:0 auto}
+.card{background:#fff;border:1px solid #c9d1df;border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.card h2{margin:0;font-size:20px;color:#12284c;border-left:5px solid #b8913a;padding-left:8px}
+.g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.g4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.kpi{background:#fff;border:1px solid #c9d1df;border-top:4px solid #12284c;border-radius:10px;padding:10px 14px}
+.kpi.gold{border-top-color:#b8913a}.kpi.red{border-top-color:#b42318}
+.kpi .k1{font-size:16px;color:#38445e}.kpi .k2{font-size:34px;font-weight:700;color:#12284c}.kpi.red .k2{color:#b42318}.kpi.gold .k2{color:#7a5a12}
+.kpi .k2 small{font-size:18px}
+.tb{width:100%;border-collapse:collapse;font-size:16px}
+.tb th{background:#12284c;color:#fff;font-weight:700;padding:6px 8px;text-align:center;border:1px solid #12284c}
+.tb td{padding:5px 8px;border:1px solid #c9d1df;text-align:center}
+.tb tr:nth-child(even) td{background:#f4f6fa}
+.tb td.l{text-align:left}.tb td.b{font-weight:700}
+.st-ok{background:#e3f4ea!important;color:#14633a;font-weight:700}.st-no{background:#fde8e6!important;color:#b42318;font-weight:700}
+.bar{height:16px;background:#e3e8f1;border-radius:4px}.bar i{display:block;height:16px;background:#12284c;border-radius:4px}
+.ptl{font-weight:700;color:#12284c;border-left:5px solid #b8913a;padding-left:8px;margin:10px 0 4px}
+.sw{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:middle}
+.sb{display:flex;height:24px;background:#e3e8f1;border-radius:4px;overflow:hidden}.sb i{display:flex;align-items:center;justify-content:center;font-style:normal;font-size:13px;font-weight:700;min-width:0;overflow:hidden}
+.brow{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.brow .bl{width:78px;font-size:16px;font-weight:700;text-align:right;color:#12284c;flex:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.brow .bt{flex:1;height:20px;background:#e3e8f1;border-radius:4px}.brow .bt i{display:block;height:20px;background:#b8913a;border-radius:4px}
+.brow .bv{width:112px;font-size:15px;flex:none}
+.note{font-size:14px;color:#38445e;line-height:1.5}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.btn{font-size:17px;font-weight:700;color:#12284c;background:#fff;border:2px solid #12284c;border-radius:8px;padding:6px 16px;min-height:42px}
+.btn.pri{color:#fff;background:#12284c;border-color:#b8913a}
+.btn.dng{color:#b42318;border-color:#b42318}
+.btn.sm{font-size:15px;min-height:36px;padding:4px 12px}
+.btn.on{color:#fff;background:#12284c;border-color:#b8913a}
+select,input[type=text],input[type=number],input[type=datetime-local],textarea{font-family:inherit;font-size:17px;padding:7px 10px;border:1.5px solid #8f9db8;border-radius:8px;color:#1b1f2a;max-width:100%}
+textarea{width:100%;line-height:1.5}
+input[type=color]{width:44px;height:34px;padding:1px;border:1.5px solid #12284c;border-radius:6px;background:#fff}
+.dz{border:2px dashed #b8913a;background:#fbf5e3;border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:8px;align-items:center;text-align:center}
+.scroll{max-height:520px;overflow:auto;border:1px solid #c9d1df;border-radius:6px}
+.scroll .tb th{position:sticky;top:0}
+.stbox{background:#12284c;border-radius:10px;border-bottom:4px solid #b8913a;padding:14px;display:flex;flex-direction:column;gap:6px;align-items:center;text-align:center;color:#fff}
+.stbox .big{font-size:38px;font-weight:700}
+.fg{display:grid;grid-template-columns:110px minmax(0,1fr);gap:8px;align-items:start}
+.fg label{font-size:17px;font-weight:700;color:#12284c;padding-top:7px}
+.al{font-size:14px;font-weight:700;border:1.5px solid #8f9db8;background:#fff;color:#12284c;border-radius:6px;padding:3px 8px;min-width:30px}
+.al.on{background:#12284c;color:#fff;border-color:#b8913a}
+.chk{font-size:16px;display:inline-flex;align-items:center;gap:5px}
+.edl{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,4fr);gap:12px;align-items:start}
+.pvwrap{position:sticky;top:8px}
+.pvbox{border:2px solid #12284c;border-radius:10px;overflow:hidden;max-height:82vh;overflow-y:auto}
+.copyr{text-align:right;font-size:13px;color:#38445e;padding:6px 18px 10px}
+.lgc .copyr{padding:0}
+@media (max-width:900px){.g2,.g4,.edl{grid-template-columns:1fr}.g4{grid-template-columns:repeat(2,minmax(0,1fr))}.fg{grid-template-columns:1fr}.fg label{padding-top:0}.pvwrap{position:static}}
+@media print{.ahead,.noprint{display:none!important}body{background:#fff;font-size:12pt}.card,.kpi{break-inside:avoid;border-color:#888}.main{padding:0}}
+</style>
+</head>
+<body>
+<script>
+window.onerror = function (m, s, l, c) {
+  var d = document.createElement('div');
+  d.style.cssText = 'padding:20px;margin:20px;background:#fff3f2;border:2px solid #b42318;color:#7a1a10;font:16px/1.6 sans-serif;word-break:break-all';
+  d.innerHTML = '<b>화면을 불러오지 못했습니다.</b><br>HTML 파일 맨 위쪽의 SB_URL, SB_KEY 두 줄을 확인해 주세요. 따옴표(\') 안에 주소와 키만 넣고, 따옴표와 세미콜론(;)은 지워지지 않아야 합니다.<br><small>오류 내용: ' + String(m).replace(/</g, '&lt;') + ' (줄 ' + l + ')</small>';
+  document.body.insertBefore(d, document.body.firstChild);
+};
+</script>
+<div id="demo" class="demo" hidden>시험 모드입니다. 입력한 내용은 이 브라우저에만 저장됩니다. (비밀번호 0000)</div>
+<div id="app"></div>
+<script>
+/* ============================================================
+   zion_2027 찬양대 임원 추천 투표 - 공통 모듈
+   ※ 아래 두 값을 Supabase 프로젝트 값으로 채우면 실제 저장소에 연결됩니다.
+   ※ 비워 두면 '시험 모드'로 동작하며, 이 브라우저에만 저장됩니다.
+   ============================================================ */
+const SB_URL = 'https://xuddrmandykwiowvvwey.supabase.co';   // 예: https://abcdxyz.supabase.co
+const SB_KEY = 'sb_publishable_9sx857y-aIpCS6GqCe0Omw_GeXvrNWl';   // Supabase의 anon public key (공개용 키)
+const _U = String(SB_URL).trim().replace(/\/+$/, '').replace(/\/rest\/v1.*$/, '');
+const _K = String(SB_KEY).trim();
+const DEMO = !(_U && _K);
+let LAST_ERR = '';
+
+const FONTS = {
+  '맑은 고딕': "'Malgun Gothic','맑은 고딕',sans-serif",
+  '돋움': "Dotum,'돋움',sans-serif",
+  '굴림': "Gulim,'굴림',sans-serif",
+  '바탕': "Batang,'바탕',serif",
+  '궁서': "Gungsuh,'궁서',serif",
+  'Arial': "Arial,sans-serif",
+  'Georgia': "Georgia,serif"
+};
+
+const POS_KEYS = ['d', 'm', 'f'];
+function posLabels(c) { const a = (c && Array.isArray(c.pos)) ? c.pos : []; return POS_KEYS.map((k, i) => String(a[i] || DEFAULT_CFG.pos[i])); }
+function nomOf(v) { const n = v && v.nominees; const o = {}; POS_KEYS.forEach((k) => { o[k] = []; }); if (Array.isArray(n)) o.d = n.slice(); else if (isObj(n)) POS_KEYS.forEach((k) => { if (Array.isArray(n[k])) o[k] = n[k]; }); return o; }
+
+const DEFAULT_CFG = {
+  title: '찬양대 임원 추천 투표',
+  notice: '본인의 소속 파트와 이름을 입력하신 후,\n임원으로 추천하실 분의 이름을 입력해 주세요.\n투표 기간 내에는 다시 제출하여 수정할 수 있습니다.',
+  footer: '문의: 찬양대 총무\n투표 내용은 임원 선출 집계 목적으로만 사용됩니다.',
+  labels: { part: '① 소속 파트', name: '② 이름', nom: '③ 직책별 추천하는 분' },
+  pos: ['대장', '총무(남자)', '총무(여자)'],
+  btn: '투표 제출',
+  styles: {
+    title:  { font: '맑은 고딕', size: 32, color: '#ffffff', align: 'center', bold: true },
+    notice: { font: '맑은 고딕', size: 17, color: '#f6efd9', align: 'center', bold: false },
+    label:  { font: '맑은 고딕', size: 18, color: '#12284c', align: 'left', bold: true },
+    button: { font: '맑은 고딕', size: 21, color: '#ffffff', align: 'center', bold: true, bg: '#12284c' },
+    footer: { font: '맑은 고딕', size: 15, color: '#e9edf5', align: 'center', bold: false }
+  },
+  bg: { img: '', c1: '#12284c', c2: '#2c5190', dir: 160, op: 85 },
+  parts: []
+};
+
+/* ---------- 공용 도우미 ---------- */
+const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const norm = (s) => String(s || '').replace(/\s+/g, '');
+const p2 = (n) => String(n).padStart(2, '0');
+const isObj = (x) => x && typeof x === 'object' && !Array.isArray(x);
+
+function deepMerge(base, over) {
+  const out = Array.isArray(base) ? base.slice() : Object.assign({}, base);
+  if (!isObj(over)) return out;
+  Object.keys(over).forEach((k) => {
+    if (isObj(over[k]) && isObj(base[k])) out[k] = deepMerge(base[k], over[k]);
+    else out[k] = over[k];
+  });
+  return out;
+}
+function mergeCfg(raw) { return deepMerge(DEFAULT_CFG, isObj(raw) ? raw : {}); }
+function clone(o) { return JSON.parse(JSON.stringify(o)); }
+
+function fmtKST(v) {
+  const d = new Date(v);
+  if (isNaN(d)) return '-';
+  return d.toLocaleString('sv-SE', { timeZone: 'Asia/Seoul', hour12: false }).replace('T', ' ');
+}
+function toInput(ms) {
+  const d = new Date(ms);
+  return d.getFullYear() + '-' + p2(d.getMonth() + 1) + '-' + p2(d.getDate()) + 'T' + p2(d.getHours()) + ':' + p2(d.getMinutes());
+}
+function remainText(ms) {
+  if (ms < 0) ms = 0;
+  const s = Math.floor(ms / 1000);
+  const d = Math.floor(s / 86400), h = Math.floor((s % 86400) / 3600), m = Math.floor((s % 3600) / 60), sc = s % 60;
+  return (d ? d + '일 ' : '') + p2(h) + '시간 ' + p2(m) + '분' + (d ? '' : ' ' + p2(sc) + '초');
+}
+function safeColor(c, d) { return /^#[0-9a-fA-F]{6}$/.test(c || '') ? c : d; }
+function stl(s) {
+  const f = FONTS[s.font] || FONTS['맑은 고딕'];
+  const size = Math.min(80, Math.max(10, Number(s.size) || 16));
+  const al = ['left', 'center', 'right'].indexOf(s.align) >= 0 ? s.align : 'left';
+  return 'font-family:' + f + ';font-size:' + size + 'px;color:' + safeColor(s.color, '#000000') + ';text-align:' + al + ';font-weight:' + (s.bold ? 700 : 400) + ';';
+}
+function rgba(h, a) {
+  const n = parseInt(safeColor(h, '#000000').slice(1), 16);
+  return 'rgba(' + ((n >> 16) & 255) + ',' + ((n >> 8) & 255) + ',' + (n & 255) + ',' + a + ')';
+}
+function bgCss(b) {
+  const a = b.img ? Math.min(100, Math.max(0, Number(b.op))) / 100 : 1;
+  const g = 'linear-gradient(' + (Number(b.dir) || 0) + 'deg,' + rgba(b.c1, a) + ',' + rgba(b.c2, a) + ')';
+  return b.img ? 'background:' + g + ',url("' + b.img + '") center/cover no-repeat;' : 'background:' + g + ';';
+}
+function copyright() { return '(C)' + new Date().getFullYear() + '. YOON HYUNCHUL,&nbsp; ALL RIGHT RESERVED.'; }
+
+/* ---------- 공용 스타일(투표 화면 + 팝업) ---------- */
+(function injectCss() {
+  const css = `
+  body{margin:0;font-family:'Malgun Gothic','맑은 고딕',sans-serif;color:#1b1f2a}
+  .vbg{min-height:100vh;padding:14px 12px 10px;box-sizing:border-box;display:flex;flex-direction:column}
+  .preview .vbg{min-height:0}
+  .vwrap{width:100%;max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:10px;flex:1}
+  .vstat{background:#e3f4ea;color:#14633a;border-radius:10px;padding:6px 10px;text-align:center}
+  .vstat.before{background:#fbf5e3;color:#5c430b}
+  .vstat.closed{background:#fde8e6;color:#8a1a11}
+  .vstat .vs1{font-size:16px;font-weight:700}.vstat .vs2{font-size:14px}
+  .vtitle{margin:4px 0 0;line-height:1.25}
+  .vnotice,.vfoot{line-height:1.45;white-space:pre-line}
+  .vcard{background:rgba(255,255,255,.97);border-radius:12px;border-top:4px solid #b8913a;padding:14px;display:flex;flex-direction:column;gap:14px}
+  .vcard.closed{opacity:.6}
+  .fld{display:flex;flex-direction:column;gap:6px}
+  .lab .sub{font-size:14px;font-weight:400;color:#44506a}
+  .radios{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .pill{position:relative;display:block;cursor:pointer}
+  .pill input{position:absolute;opacity:0}
+  .pill span{display:block;text-align:center;padding:9px 6px;border:2px solid #12284c;border-radius:999px;font-size:18px;font-weight:700;color:#12284c;background:#fff}
+  .pill input:checked+span{background:#12284c;color:#fff;border-color:#b8913a}
+  .pill input:focus-visible+span{outline:3px solid #b8913a;outline-offset:2px}
+  .vcard input[type=text]{font-family:inherit;font-size:19px;padding:10px 12px;border:1.5px solid #8f9db8;border-radius:8px;color:#1b1f2a;min-width:0;box-sizing:border-box;width:100%}
+  .nrow{display:flex;gap:6px;align-items:center}
+  .nrow .no{width:26px;height:26px;border-radius:50%;background:#12284c;color:#fff;font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none}
+  .nrow input{flex:1}
+  .nrow .del{flex:none;width:44px;height:44px;border:1.5px solid #b42318;border-radius:8px;background:#fff;color:#b42318;display:flex;align-items:center;justify-content:center;padding:0;cursor:pointer}
+  .pgrp{display:flex;flex-direction:column;gap:6px;border:1.5px solid #c9d3e6;border-radius:10px;padding:10px;background:#f7f9fd}
+  .ptitle{font-weight:700;border-left:5px solid #b8913a;padding-left:8px}
+  .addnom{font-family:inherit;font-size:17px;font-weight:700;color:#7a5a12;background:#fbf5e3;border:2px dashed #b8913a;border-radius:8px;padding:10px;min-height:44px;cursor:pointer}
+  .vsubmit{font-family:inherit;border:2px solid #b8913a;border-radius:10px;padding:13px;min-height:52px;cursor:pointer;width:100%}
+  .vhint{font-size:14px;line-height:1.45;color:#38445e}
+  .vcopy{margin-top:auto;text-align:right;font-size:12px;color:rgba(255,255,255,.85);padding-top:6px}
+  .vcard button:disabled,.vcard input:disabled{cursor:not-allowed}
+  .demo{background:#fff3cd;color:#5c430b;text-align:center;font-size:14px;padding:5px 8px;border-bottom:2px solid #b8913a}
+  .ovl{position:fixed;left:0;top:0;right:0;bottom:0;background:rgba(10,20,40,.35);z-index:1000}
+  .dlg{position:fixed;width:min(460px,calc(100vw - 16px));background:#fff;border:2px solid #12284c;border-radius:10px;box-shadow:0 8px 24px rgba(18,40,76,.35);font-family:'Malgun Gothic','맑은 고딕',sans-serif}
+  .dh{background:#12284c;color:#fff;padding:9px 12px;font-size:17px;font-weight:700;display:flex;justify-content:space-between;gap:8px;border-bottom:3px solid #b8913a;cursor:move;touch-action:none;border-radius:7px 7px 0 0;user-select:none}
+  .dh .dhint{font-size:12px;font-weight:400;color:#e8d5a3;align-self:center}
+  .db{padding:12px 14px;font-size:17px;line-height:1.55;color:#1b1f2a}
+  .db input[type=text],.db input[type=password]{font-family:inherit;font-size:18px;padding:8px 10px;border:1.5px solid #8f9db8;border-radius:8px;width:100%;box-sizing:border-box;margin-top:6px}
+  .df{padding:0 14px 12px;display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+  .mbtn{font-family:inherit;font-size:17px;font-weight:700;color:#12284c;background:#fff;border:2px solid #12284c;border-radius:8px;padding:6px 18px;min-height:40px;cursor:pointer}
+  .mbtn.pri{color:#fff;background:#12284c;border-color:#b8913a}
+  .mbtn.dng{color:#fff;background:#b42318;border-color:#b42318}
+  `;
+  const st = document.createElement('style');
+  st.textContent = css;
+  document.head.appendChild(st);
+})();
+
+/* ---------- 이동 가능한 팝업 ---------- */
+function modal(title, html, btns) {
+  const ov = document.createElement('div');
+  ov.className = 'ovl';
+  const dlg = document.createElement('div');
+  dlg.className = 'dlg';
+  dlg.setAttribute('role', 'dialog');
+  dlg.setAttribute('aria-modal', 'true');
+  dlg.innerHTML = '<div class="dh"><span>' + esc(title) + '</span><span class="dhint">제목줄을 끌어 이동</span></div><div class="db">' + html + '</div><div class="df"></div>';
+  const df = dlg.querySelector('.df');
+  const onKey = (e) => { if (e.key === 'Escape') close(); };
+  function close() { ov.remove(); document.removeEventListener('keydown', onKey); }
+  (btns && btns.length ? btns : [{ t: '확인', cls: 'pri' }]).forEach((b) => {
+    const x = document.createElement('button');
+    x.type = 'button';
+    x.className = 'mbtn ' + (b.cls || '');
+    x.textContent = b.t;
+    x.onclick = async () => {
+      if (b.fn) { const r = await b.fn(dlg); if (r === false) return; }
+      close();
+    };
+    df.appendChild(x);
+  });
+  ov.appendChild(dlg);
+  document.body.appendChild(ov);
+  dlg.style.left = Math.max(8, (window.innerWidth - dlg.offsetWidth) / 2) + 'px';
+  dlg.style.top = Math.max(8, (window.innerHeight - dlg.offsetHeight) / 3) + 'px';
+  const dh = dlg.querySelector('.dh');
+  let drag = false, sx = 0, sy = 0, ox = 0, oy = 0;
+  dh.addEventListener('pointerdown', (e) => { drag = true; sx = e.clientX; sy = e.clientY; ox = dlg.offsetLeft; oy = dlg.offsetTop; try { dh.setPointerCapture(e.pointerId); } catch (x) { /* 무시 */ } });
+  dh.addEventListener('pointermove', (e) => {
+    if (!drag) return;
+    dlg.style.left = Math.min(Math.max(0, ox + e.clientX - sx), window.innerWidth - 60) + 'px';
+    dlg.style.top = Math.min(Math.max(0, oy + e.clientY - sy), window.innerHeight - 40) + 'px';
+  });
+  const end = () => { drag = false; };
+  dh.addEventListener('pointerup', end);
+  dh.addEventListener('pointercancel', end);
+  document.addEventListener('keydown', onKey);
+  const first = dlg.querySelector('input');
+  if (first) first.focus();
+  return { dlg, close };
+}
+function notice(title, msg) { return modal(title, msg, [{ t: '확인', cls: 'pri' }]); }
+
+/* ---------- 저장소 호출 (Supabase RPC / 시험 모드) ---------- */
+async function rpc(name, args) {
+  if (!DEMO) {
+    try {
+      const r = await fetch(_U + '/rest/v1/rpc/' + name, {
+        method: 'POST',
+        headers: Object.assign({ 'apikey': _K, 'Content-Type': 'application/json' }, /^eyJ/.test(_K) ? { 'Authorization': 'Bearer ' + _K } : {}),
+        body: JSON.stringify(args || {})
+      });
+      if (!r.ok) { let t = ''; try { t = (await r.text()).slice(0, 200); } catch (e2) { /* 무시 */ } LAST_ERR = 'HTTP ' + r.status + ' ' + t; return { ok: false, error: 'SERVER' }; }
+      const j = await r.json();
+      return j || { ok: false, error: 'EMPTY' };
+    } catch (e) { LAST_ERR = String(e && e.message || e); return { ok: false, error: 'NETWORK' }; }
+  }
+  return mockRpc(name, args || {});
+}
+
+/* 시험 모드: 서버 함수와 같은 규칙을 이 브라우저 안에서 흉내 냅니다. */
+let memDb = null;
+const DEMO_KEY = 'zion2027_demo_v1';
+function dbLoad() {
+  try { const r = localStorage.getItem(DEMO_KEY); if (r) { memDb = JSON.parse(r); return memDb; } } catch (e) { /* 무시 */ }
+  if (!memDb) {
+    const n = Date.now();
+    memDb = { config: { parts: [] }, start: n - 3600e3, end: n + 3 * 86400e3, roster: [], votes: [], seq: 1, pw: '0000' };
+  }
+  return memDb;
+}
+function dbSave() { try { localStorage.setItem(DEMO_KEY, JSON.stringify(memDb)); } catch (e) { /* 무시 */ } }
+function iso(ms) { return new Date(ms).toISOString(); }
+function mockParts(d) {
+  const ps = [];
+  d.roster.forEach((r) => { if (ps.indexOf(r.part) < 0) ps.push(r.part); });
+  d.config.parts = ps;
+}
+function mockRpc(name, a) {
+  const d = dbLoad();
+  const bad = () => ({ ok: false, error: 'BAD_PASSWORD' });
+  if (name === 'get_public') return { ok: true, config: d.config, start_at: iso(d.start), end_at: iso(d.end), now: iso(Date.now()) };
+  if (name === 'get_period') return { ok: true, start_at: iso(d.start), end_at: iso(d.end), now: iso(Date.now()) };
+  if (name === 'cast_vote') {
+    const now = Date.now();
+    if (now < d.start) return { ok: false, error: 'NOT_STARTED' };
+    if (now >= d.end) return { ok: false, error: 'CLOSED' };
+    const nm = String(a.p_name || '').trim();
+    if (!nm || nm.length > 20) return { ok: false, error: 'BAD_NAME' };
+    const part = String(a.p_part || '').trim();
+    const parts = d.config.parts || [];
+    if (parts.length ? parts.indexOf(part) < 0 : (!part || part.length > 20)) return { ok: false, error: 'BAD_PART' };
+    if (!isObj(a.p_nominees)) return { ok: false, error: 'BAD_NOMINEE' };
+    const clean = {}; let total = 0;
+    for (const pk of POS_KEYS) {
+      const src = a.p_nominees[pk];
+      clean[pk] = [];
+      if (src == null) continue;
+      if (!Array.isArray(src)) return { ok: false, error: 'BAD_NOMINEE' };
+      const seen = [];
+      for (const el of src) {
+        const v = String(el || '').trim(), k = norm(v);
+        if (!k) continue;
+        if (v.length > 20) return { ok: false, error: 'BAD_NOMINEE' };
+        if (seen.indexOf(k) >= 0) continue;
+        seen.push(k); clean[pk].push(v);
+        if (clean[pk].length >= 20) break;
+      }
+      total += clean[pk].length;
+    }
+    if (!total) return { ok: false, error: 'NO_NOMINEE' };
+    const nk = norm(nm);
+    const ex = d.votes.find((v) => v.part === part && v.key === nk);
+    const t = iso(now);
+    if (ex) { ex.name = nm; ex.nominees = clean; ex.time = t; } else d.votes.push({ part: part, name: nm, key: nk, nominees: clean, time: t });
+    dbSave();
+    return { ok: true, updated: !!ex, time: t };
+  }
+  if (a.p_pw !== d.pw) return bad();
+  if (name === 'admin_get_all') {
+    return { ok: true, now: iso(Date.now()), config: d.config, start_at: iso(d.start), end_at: iso(d.end),
+      roster: d.roster.map((r) => ({ id: r.id, part: r.part, name: r.name })),
+      votes: d.votes.map((v) => ({ part: v.part, name: v.name, nominees: v.nominees, time: v.time })) };
+  }
+  if (name === 'admin_set_roster') {
+    if (a.p_mode === 'replace') d.roster = [];
+    let n = 0;
+    (a.p_rows || []).forEach((r) => {
+      const p = String(r.part || '').trim(), nm = String(r.name || '').trim();
+      if (!p || !nm || p.length > 20 || nm.length > 20) return;
+      const k = norm(nm);
+      if (d.roster.some((x) => x.part === p && norm(x.name) === k)) return;
+      d.roster.push({ id: d.seq++, part: p, name: nm }); n++;
+    });
+    mockParts(d); dbSave();
+    return { ok: true, added: n };
+  }
+  if (name === 'admin_delete_member') { d.roster = d.roster.filter((r) => r.id !== a.p_id); mockParts(d); dbSave(); return { ok: true }; }
+  if (name === 'admin_set_period') {
+    const s = Date.parse(a.p_start), e = Date.parse(a.p_end);
+    if (isNaN(s) || isNaN(e) || e <= s) return { ok: false, error: 'BAD_PERIOD' };
+    d.start = s; d.end = e; dbSave();
+    return { ok: true };
+  }
+  if (name === 'admin_set_config') {
+    const parts = d.config.parts || [];
+    d.config = Object.assign({}, a.p_config, { parts: parts }); dbSave();
+    return { ok: true };
+  }
+  if (name === 'admin_set_password') {
+    if (String(a.p_new || '').length < 6) return { ok: false, error: 'SHORT_PASSWORD' };
+    d.pw = a.p_new; dbSave();
+    return { ok: true };
+  }
+  if (name === 'admin_clear_votes') { d.votes = []; dbSave(); return { ok: true }; }
+  return { ok: false, error: 'UNKNOWN' };
+}
+
+/* ---------- 투표자 화면 (실제 화면과 관리자 미리보기가 같은 코드를 씁니다) ---------- */
+let uidSeq = 0;
+function buildVoter(root, o) {
+  const c = o.cfg, S = c.styles;
+  const uid = ++uidSeq;
+  const parts = (c.parts && c.parts.length) ? c.parts : ['소프라노', '알토', '테너', '베이스'];
+  const delSvg = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg>';
+  const PL = posLabels(c);
+  root.classList.toggle('preview', !!o.preview);
+  root.innerHTML =
+    '<div class="vbg"><div class="vwrap">' +
+    '<div class="vstat open"><div class="vs1">&nbsp;</div><div class="vs2">&nbsp;</div></div>' +
+    '<h1 class="vtitle" style="' + stl(S.title) + '">' + esc(c.title) + '</h1>' +
+    '<div class="vnotice" style="' + stl(S.notice) + '">' + esc(c.notice) + '</div>' +
+    '<form class="vcard" autocomplete="off" novalidate>' +
+    '<div class="fld"><div class="lab" style="' + stl(S.label) + '">' + esc(c.labels.part) + ' <span class="sub">(하나 선택)</span></div><div class="radios">' +
+    parts.map((p) => '<label class="pill"><input type="radio" name="part' + uid + '" value="' + esc(p) + '"><span>' + esc(p) + '</span></label>').join('') +
+    '</div></div>' +
+    '<div class="fld"><label class="lab" for="nm' + uid + '" style="' + stl(S.label) + '">' + esc(c.labels.name) + ' <span class="sub">(직접 입력)</span></label><input type="text" id="nm' + uid + '" class="nm" maxlength="20" placeholder="본인 이름을 입력하세요"></div>' +
+    '<div class="fld"><div class="lab" style="' + stl(S.label) + '">' + esc(c.labels.nom) + ' <span class="sub">(직책마다 여러 명 입력 가능 · 비워도 됩니다)</span></div>' +
+    POS_KEYS.map((k, i) => '<div class="pgrp" data-k="' + k + '"><div class="ptitle" style="' + stl(S.label) + '">' + esc(PL[i]) + '</div><div class="noms" style="display:flex;flex-direction:column;gap:6px"></div><button type="button" class="addnom">＋ ' + esc(PL[i]) + ' 입력칸 추가</button></div>').join('') + '</div>' +
+    '<button type="submit" class="vsubmit" style="' + stl(S.button) + 'background:' + safeColor(S.button.bg, '#12284c') + '">' + esc(c.btn) + '</button>' +
+    '<div class="vhint">같은 파트·이름으로 다시 제출하면 기존 내용이 새 내용으로 바뀝니다. 새로 접속하면 이전에 입력한 내용은 화면에 표시되지 않습니다.</div>' +
+    '</form>' +
+    '<div class="vfoot" style="' + stl(S.footer) + '">' + esc(c.footer) + '</div>' +
+    '<div class="vcopy">' + copyright() + '</div>' +
+    '</div></div>';
+  root.querySelector('.vbg').style.cssText += bgCss(c.bg);
+  const form = root.querySelector('.vcard');
+  const MAXN = 10;
+  const groups = POS_KEYS.map((k, gi) => {
+    const g = root.querySelector('.pgrp[data-k="' + k + '"]');
+    const box = g.querySelector('.noms');
+    const renum = () => Array.prototype.forEach.call(box.children, (r, i) => { r.querySelector('.no').textContent = i + 1; r.querySelector('input').setAttribute('aria-label', PL[gi] + ' 추천인 ' + (i + 1)); });
+    const addRow = (v) => {
+      if (box.children.length >= MAXN) return;
+      const d = document.createElement('div');
+      d.className = 'nrow';
+      d.innerHTML = '<span class="no"></span><input type="text" maxlength="20" placeholder="' + esc(PL[gi]) + ' 추천할 대원 이름"><button type="button" class="del" aria-label="삭제">' + delSvg + '</button>';
+      d.querySelector('input').value = v || '';
+      d.querySelector('.del').onclick = () => {
+        if (box.children.length <= 1) d.querySelector('input').value = '';
+        else { d.remove(); renum(); }
+      };
+      box.appendChild(d);
+      renum();
+    };
+    const reset = () => { box.innerHTML = ''; addRow(''); };
+    reset();
+    g.querySelector('.addnom').onclick = () => {
+      if (box.children.length >= MAXN) { notice('안내', PL[gi] + ' 추천인 입력칸은 최대 ' + MAXN + '개까지 추가할 수 있습니다.'); return; }
+      addRow('');
+      box.lastChild.querySelector('input').focus();
+    };
+    return { k: k, box: box, reset: reset };
+  });
+  function resetRows() { groups.forEach((g) => g.reset()); }
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (o.preview || !o.onSubmit) return;
+    const chk = form.querySelector('input[name="part' + uid + '"]:checked');
+    const part = chk ? chk.value : '';
+    const name = form.querySelector('.nm').value.trim();
+    const noms = {}; let cnt = 0;
+    groups.forEach((g) => { noms[g.k] = Array.prototype.map.call(g.box.querySelectorAll('input'), (i) => i.value.trim()).filter((v) => v); cnt += noms[g.k].length; });
+    if (!part) { notice('입력 확인', '소속 파트를 선택해 주세요.'); return; }
+    if (!name) { notice('입력 확인', '이름을 입력해 주세요.'); return; }
+    if (!cnt) { notice('입력 확인', '추천하실 분의 이름을 한 직책 이상에 1명 이상 입력해 주세요.'); return; }
+    const btn = form.querySelector('.vsubmit');
+    btn.disabled = true;
+    const r = await o.onSubmit({ part: part, name: name, nominees: noms });
+    btn.disabled = (root.__state !== 'open');
+    if (r && r.ok) {
+      notice('투표 완료', (r.updated ? '기존 내용이 새 내용으로 수정되었습니다.' : '투표가 저장되었습니다.') + '<br>저장 시각: ' + esc(fmtKST(r.time)));
+      form.reset(); resetRows();
+    } else {
+      const m = { CLOSED: '투표가 종료되어 제출할 수 없습니다.', NOT_STARTED: '아직 투표 시작 전입니다.', BAD_PART: '소속 파트를 다시 선택해 주세요.', BAD_NAME: '이름은 1~20자로 입력해 주세요.', NO_NOMINEE: '추천하실 분의 이름을 한 직책 이상에 1명 이상 입력해 주세요.', BAD_NOMINEE: '추천인 이름은 1~20자로 입력해 주세요.', NETWORK: '네트워크 연결을 확인한 뒤 다시 시도해 주세요.' };
+      notice('제출하지 못했습니다', esc((r && m[r.error]) || '잠시 후 다시 시도해 주세요.'));
+    }
+  });
+  return {
+    setStatus(s) {
+      root.__state = s.state;
+      const st = root.querySelector('.vstat');
+      st.className = 'vstat ' + s.state;
+      const a = st.querySelector('.vs1'), b = st.querySelector('.vs2');
+      if (s.state === 'before') { a.textContent = '투표는 ' + fmtKST(s.start).slice(0, 16) + '에 시작됩니다.'; b.textContent = '시작 전에는 제출할 수 없습니다.'; }
+      else if (s.state === 'closed') { a.textContent = '투표가 종료되었습니다.'; b.textContent = '종료 시각: ' + fmtKST(s.end).slice(0, 16); }
+      else { a.textContent = '투표 진행 중 · 종료까지 ' + remainText(s.end - s.now); b.textContent = '투표기간 ' + fmtKST(s.start).slice(0, 16) + ' ~ ' + fmtKST(s.end).slice(0, 16); }
+      const off = s.state !== 'open';
+      form.classList.toggle('closed', off);
+      if (!o.preview) form.querySelectorAll('input,button').forEach((x) => { x.disabled = off; });
+    }
+  };
+}
+
+</script>
+<script>
+(function () {
+  const app = document.getElementById('app');
+  const PWK = 'zion2027_admin_pw';
+  let memPw = '';
+  const getPw = () => { try { return sessionStorage.getItem(PWK) || memPw; } catch (e) { return memPw; } };
+  const setPw = (v) => { memPw = v; try { if (v) sessionStorage.setItem(PWK, v); else sessionStorage.removeItem(PWK); } catch (e) { /* 무시 */ } };
+  let D = null, E = null, off = 0, dirty = false, timer = null;
+  const ui = { tab: 'analysis', sort: 'votes', f1: '전체', f2: '전체' };
+  const STYLE_KEYS = [['title', '상단 제목'], ['notice', '안내문구'], ['label', '항목명'], ['button', '제출 버튼'], ['footer', '하단 footer']];
+  const pct = (a, b) => (b ? (a * 100 / b).toFixed(1) : '0.0') + '%';
+  const ko = (a, b) => String(a).localeCompare(String(b), 'ko');
+
+  if (DEMO) document.getElementById('demo').hidden = false;
+
+  async function adminRpc(name, args) {
+    const r = await rpc(name, Object.assign({ p_pw: getPw() }, args || {}));
+    if (r && (r.error === 'BAD_PASSWORD' || r.error === 'LOCKED')) {
+      logout(r.error === 'LOCKED' ? '로그인 시도가 많아 잠시 잠겼습니다. 10분 뒤 다시 시도해 주세요.' : '비밀번호가 올바르지 않습니다.');
+    }
+    return r;
+  }
+  async function loadAll() {
+    const r = await adminRpc('admin_get_all');
+    if (!r || !r.ok) return r || { ok: false, error: 'NETWORK' };
+    D = r;
+    D.config = mergeCfg(r.config);
+    D.start = Date.parse(r.start_at);
+    D.end = Date.parse(r.end_at);
+    off = Date.parse(r.now) - Date.now();
+    return r;
+  }
+  function stateNow() { const n = Date.now() + off; return n < D.start ? 'before' : (n >= D.end ? 'closed' : 'open'); }
+  function logout(msg) { setPw(''); D = null; E = null; dirty = false; showLogin(msg); }
+
+  /* ---------- 로그인 ---------- */
+  function showLogin(msg) {
+    clearInterval(timer);
+    app.innerHTML = '<div class="lg"><form id="lgf" class="lgc"><div class="lgt">ADMIN 로그인</div>' +
+      '<div class="lgs">찬양대 임원 추천 투표 관리자만 접근할 수 있습니다.</div>' +
+      '<label for="lgp" class="lgl">관리자 비밀번호</label><input id="lgp" type="password" autocomplete="current-password" placeholder="비밀번호를 입력하세요">' +
+      '<div id="lge" class="lge"' + (msg ? '' : ' hidden') + '>' + esc(msg || '') + '</div>' +
+      '<button class="btnp" type="submit">로그인</button>' +
+      (DEMO ? '<div class="lgs">시험 모드 비밀번호: 0000</div>' : '') +
+      '<div class="copyr">' + copyright() + '</div></form></div>';
+    const f = document.getElementById('lgf');
+    document.getElementById('lgp').focus();
+    f.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const v = document.getElementById('lgp').value;
+      const eb = document.getElementById('lge');
+      if (!v) { eb.hidden = false; eb.textContent = '비밀번호를 입력해 주세요.'; return; }
+      setPw(v);
+      const r = await loadAll();
+      if (r && r.ok) { start(); return; }
+      setPw('');
+      eb.hidden = false;
+      eb.textContent = r && r.error === 'LOCKED' ? '로그인 시도가 많아 잠시 잠겼습니다. 10분 뒤 다시 시도해 주세요.' :
+        (r && r.error === 'BAD_PASSWORD' ? '비밀번호가 올바르지 않습니다. 다시 입력해 주세요.' : '서버에 연결하지 못했습니다. 잠시 후 다시 시도해 주세요.' + (LAST_ERR ? ' [' + LAST_ERR + ']' : ''));
+    });
+  }
+
+  /* ---------- 공통 틀 ---------- */
+  function start() {
+    app.innerHTML =
+      '<header class="ahead"><div style="display:flex;align-items:flex-end;gap:22px;flex-wrap:wrap"><div class="atitle">ADMIN · 찬양대 임원 추천 투표 관리</div>' +
+      '<nav class="tabs" id="tabs"></nav></div>' +
+      '<div class="hrow"><span class="chip" id="chip"></span><button type="button" class="hbtn" data-top="pw">비밀번호 변경</button><button type="button" class="hbtn" data-top="out">로그아웃</button></div></header>' +
+      '<main class="main" id="panel"></main><div class="copyr">' + copyright() + '</div>';
+    document.getElementById('tabs').addEventListener('click', onTab);
+    app.querySelector('.hrow').addEventListener('click', onTop);
+    const panel = document.getElementById('panel');
+    panel.addEventListener('click', onClick);
+    panel.addEventListener('input', onInput);
+    panel.addEventListener('change', onInput);
+    drawTabs();
+    renderPanel();
+    clearInterval(timer);
+    let n = 0;
+    timer = setInterval(async () => {
+      n++;
+      tick();
+      if (n % 30 === 0 && ui.tab === 'analysis') { const r = await loadAll(); if (r && r.ok) renderPanel(); }
+    }, 1000);
+    tick();
+  }
+  function drawTabs() {
+    const T = [['analysis', '투표 현황·분석'], ['roster', '대원명단'], ['period', '투표기간'], ['design', '화면 편집']];
+    document.getElementById('tabs').innerHTML = T.map((t) => '<button type="button" data-tab="' + t[0] + '" class="' + (ui.tab === t[0] ? 'on' : '') + '">' + t[1] + '</button>').join('');
+  }
+  function tick() {
+    if (!D) return;
+    const s = stateNow(), chip = document.getElementById('chip');
+    if (!chip) return;
+    chip.className = 'chip ' + s;
+    chip.textContent = s === 'open' ? '투표 진행 중 · 종료 ' + fmtKST(D.end).slice(0, 16) : (s === 'before' ? '투표 시작 전 · 시작 ' + fmtKST(D.start).slice(0, 16) : '투표 종료됨 · ' + fmtKST(D.end).slice(0, 16));
+    const sb = document.getElementById('stbox');
+    if (sb) {
+      const n = Date.now() + off;
+      sb.querySelector('.sp').textContent = s === 'open' ? '투표 진행 중' : (s === 'before' ? '투표 시작 전' : '투표 종료');
+      sb.querySelector('.sl').textContent = s === 'before' ? '시작까지 남은 시간' : '종료까지 남은 시간';
+      sb.querySelector('.big').textContent = s === 'closed' ? '종료되었습니다' : remainText((s === 'before' ? D.start : D.end) - n);
+    }
+  }
+  async function onTab(e) {
+    const b = e.target.closest('[data-tab]');
+    if (!b) return;
+    const t = b.getAttribute('data-tab');
+    if (t === ui.tab) return;
+    if (ui.tab === 'design' && dirty) {
+      modal('저장하지 않은 변경', '화면 편집 내용이 저장되지 않았습니다.<br>저장하지 않고 이동할까요?', [{ t: '머무르기' }, { t: '저장 없이 이동', cls: 'dng', fn: () => { dirty = false; E = null; ui.tab = t; drawTabs(); renderPanel(); } }]);
+      return;
+    }
+    if (t !== 'design') await loadAll();
+    ui.tab = t; E = null; drawTabs(); renderPanel();
+  }
+  function onTop(e) {
+    const b = e.target.closest('[data-top]');
+    if (!b) return;
+    if (b.getAttribute('data-top') === 'out') { logout(); return; }
+    modal('비밀번호 변경', '<label>새 비밀번호 (6자 이상)<input type="password" id="np1" autocomplete="new-password"></label><br><label>새 비밀번호 확인<input type="password" id="np2" autocomplete="new-password"></label>', [
+      { t: '취소' },
+      { t: '변경', cls: 'pri', fn: async (dlg) => {
+        const a = dlg.querySelector('#np1').value, c = dlg.querySelector('#np2').value;
+        if (a.length < 6) { notice('입력 확인', '비밀번호는 6자 이상으로 입력해 주세요.'); return false; }
+        if (a !== c) { notice('입력 확인', '두 비밀번호가 서로 다릅니다.'); return false; }
+        const r = await adminRpc('admin_set_password', { p_new: a });
+        if (!r || !r.ok) { notice('오류', '비밀번호를 변경하지 못했습니다.'); return false; }
+        setPw(a);
+        notice('완료', '비밀번호가 변경되었습니다.');
+      } }
+    ]);
+  }
+
+  function renderPanel() {
+    const p = document.getElementById('panel');
+    if (!p || !D) return;
+    if (ui.tab === 'analysis') p.innerHTML = htmlAnalysis();
+    else if (ui.tab === 'roster') p.innerHTML = htmlRoster();
+    else if (ui.tab === 'period') p.innerHTML = htmlPeriod();
+    else { if (!E) { E = clone(D.config); dirty = false; } p.innerHTML = htmlDesign(); drawPreview(); }
+    tick();
+  }
+
+  /* ---------- 1. 현황·분석 ---------- */
+  function analyze() {
+    const roster = D.roster, votes = D.votes;
+    const rIdx = new Map(roster.map((r) => [r.part + '|' + norm(r.name), r]));
+    const nameIdx = new Map();
+    roster.forEach((r) => { const k = norm(r.name); if (!nameIdx.has(k)) nameIdx.set(k, []); nameIdx.get(k).push(r.part); });
+    const voted = new Map(), unmatched = [];
+    votes.forEach((v) => {
+      const k = v.part + '|' + norm(v.name);
+      if (rIdx.has(k)) voted.set(k, v);
+      else unmatched.push({ part: v.part, name: v.name, time: v.time, reason: nameIdx.has(norm(v.name)) ? '파트 불일치 (명단: ' + Array.from(new Set(nameIdx.get(norm(v.name)))).join(', ') + ')' : '명단에 없음' });
+    });
+    const parts = [];
+    roster.forEach((r) => { if (parts.indexOf(r.part) < 0) parts.push(r.part); });
+    const partRows = parts.map((p) => {
+      const m = roster.filter((r) => r.part === p);
+      return { part: p, total: m.length, voted: m.filter((r) => voted.has(p + '|' + norm(r.name))).length };
+    });
+    const members = [];
+    parts.forEach((p) => {
+      roster.filter((r) => r.part === p).sort((a, b) => ko(a.name, b.name)).forEach((r) => {
+        const v = voted.get(p + '|' + norm(r.name));
+        members.push({ part: p, name: r.name, voted: !!v, time: v ? v.time : '' });
+      });
+    });
+    const PL = posLabels(D.config);
+    const byPos = POS_KEYS.map((pk, pi) => {
+      const nm = new Map();
+      votes.forEach((v) => {
+        const seen = new Set();
+        nomOf(v)[pk].forEach((n) => {
+          const k = norm(n);
+          if (!k || seen.has(k)) return;
+          seen.add(k);
+          const e = nm.get(k) || { name: n, n: 0 };
+          e.n++; nm.set(k, e);
+        });
+      });
+      return { key: pk, label: PL[pi], noms: Array.from(nm.entries()).map((x) => ({ name: x[1].name, votes: x[1].n, inRoster: nameIdx.has(x[0]) })) };
+    });
+    return { total: roster.length, voted: voted.size, submitted: votes.length, partRows: partRows, members: members, unmatched: unmatched, byPos: byPos };
+  }
+  function sortedNoms(list) {
+    const a = list.slice();
+    if (ui.sort === 'name') a.sort((x, y) => ko(x.name, y.name));
+    else a.sort((x, y) => (y.votes - x.votes) || ko(x.name, y.name));
+    return a;
+  }
+  function filteredMembers(A) {
+    return A.members.filter((m) => (ui.f1 === '전체' || (ui.f1 === '참여') === m.voted) && (ui.f2 === '전체' || m.part === ui.f2));
+  }
+  function htmlAnalysis() {
+    const A = analyze(), mem = filteredMembers(A);
+    const half = Math.ceil(mem.length / 2);
+    const mrow = (m) => '<tr><td>' + esc(m.part) + '</td><td class="b">' + esc(m.name) + '</td><td class="' + (m.voted ? 'ok' : 'no') + '">' + (m.voted ? '참여' : '미참여') + '</td><td>' + (m.voted ? esc(fmtKST(m.time)) : '-') + '</td></tr>';
+    const mtab = (arr) => '<table class="tb"><thead><tr><th>파트</th><th>이름</th><th>투표여부</th><th>최종투표시간</th></tr></thead><tbody>' + (arr.map(mrow).join('') || '<tr><td colspan="4">표시할 대원이 없습니다.</td></tr>') + '</tbody></table>';
+    const partOpts = ['전체'].concat(A.partRows.map((p) => p.part)).map((p) => '<option' + (p === ui.f2 ? ' selected' : '') + '>' + esc(p) + '</option>').join('');
+    const sortBtns = '<span class="row noprint"><button type="button" class="btn sm' + (ui.sort === 'votes' ? ' on' : '') + '" data-act="sort" data-v="votes">득표수순</button><button type="button" class="btn sm' + (ui.sort === 'name' ? ' on' : '') + '" data-act="sort" data-v="name">이름순</button></span>';
+    const PAL = ['#12284c', '#b8913a', '#2c7a7b', '#b42318', '#6b4fa0', '#3b82c4', '#7a8b3a', '#c46a2b', '#8a8f98', '#c78c9b'];
+    const PC = ['#12284c', '#d9b45a', '#2c7a7b'], PT = ['#fff', '#12284c', '#fff'];
+    const nomTag = (n) => '<td class="' + (n.inRoster ? '' : 'no') + '">' + (n.inRoster ? '명단 대원' : '명단 외') + '</td>';
+    function pie(list) {
+      const tot = list.reduce((x, n) => x + n.votes, 0);
+      if (!tot) return '<div class="note" style="align-self:center;text-align:center">아직 추천 내용이 없습니다.</div>';
+      let ang = -Math.PI / 2, sl = '';
+      const pt = (t) => (100 + 90 * Math.cos(t)).toFixed(2) + ' ' + (100 + 90 * Math.sin(t)).toFixed(2);
+      list.forEach((n, i) => {
+        const col = PAL[i % PAL.length], tip = '<title>' + esc(n.name) + ' ' + n.votes + '표 · ' + pct(n.votes, A.submitted) + '</title>';
+        if (n.votes === tot) { sl += '<circle cx="100" cy="100" r="90" fill="' + col + '">' + tip + '</circle>'; return; }
+        const d = n.votes / tot * Math.PI * 2, e = ang + d;
+        sl += '<path d="M100 100 L' + pt(ang) + ' A90 90 0 ' + (d > Math.PI ? 1 : 0) + ' 1 ' + pt(e) + ' Z" fill="' + col + '" stroke="#fff" stroke-width="2">' + tip + '</path>';
+        ang = e;
+      });
+      return '<svg viewBox="0 0 200 200" width="190" height="190" role="img" aria-label="득표 비중 원그래프" style="align-self:center;justify-self:center">' + sl + '<circle cx="100" cy="100" r="38" fill="#fff"/><text x="100" y="97" text-anchor="middle" font-size="12" fill="#555">총 득표</text><text x="100" y="117" text-anchor="middle" font-size="20" font-weight="700" fill="#12284c">' + tot + '</text></svg>';
+    }
+    const sec1 = '<section class="card"><div class="row" style="justify-content:space-between"><h2>① 임원별 피추천인 현황 · 득표수 / 득표율</h2>' + sortBtns + '</div>' +
+      A.byPos.map((g) => {
+        const noms = sortedNoms(g.noms);
+        const tb = '<table class="tb"><thead><tr><th style="width:34px">색</th><th style="width:44px">순번</th><th>피추천인</th><th>득표수</th><th>득표율</th><th>명단 확인</th></tr></thead><tbody>' +
+          (noms.map((n, i) => '<tr><td><i class="sw" style="background:' + PAL[i % PAL.length] + '"></i></td><td>' + (i + 1) + '</td><td class="b">' + esc(n.name) + '</td><td>' + n.votes + '</td><td class="b">' + pct(n.votes, A.submitted) + '</td>' + nomTag(n) + '</tr>').join('') || '<tr><td colspan="6">아직 추천 내용이 없습니다.</td></tr>') + '</tbody></table>';
+        return '<div class="ptl">' + esc(g.label) + '</div><div class="g2" style="align-items:start">' + tb + pie(noms) + '</div>';
+      }).join('') +
+      '<div class="note">득표율 = 득표수 ÷ 전체 투표 제출자 ' + A.submitted + '명 · 한 사람이 한 직책에서 같은 이름을 여러 칸에 적어도 1표로 계산합니다. 원그래프는 해당 직책 전체 득표 중 각 피추천인이 차지하는 비중이며, 색은 왼쪽 표의 색과 같습니다.</div></section>';
+    const pm = new Map();
+    A.byPos.forEach((g, gi) => g.noms.forEach((n) => { const k = norm(n.name); const e = pm.get(k) || { name: n.name, v: [0, 0, 0], inRoster: n.inRoster }; e.v[gi] = n.votes; pm.set(k, e); }));
+    const people = Array.from(pm.values()).map((e) => ({ name: e.name, v: e.v, t: e.v[0] + e.v[1] + e.v[2], inRoster: e.inRoster }));
+    if (ui.sort === 'name') people.sort((x, y) => ko(x.name, y.name)); else people.sort((x, y) => (y.t - x.t) || ko(x.name, y.name));
+    const pmax = Math.max.apply(null, [1].concat(people.map((x) => x.t)));
+    const legend = A.byPos.map((g, gi) => '<span class="row" style="gap:5px"><i class="sw" style="background:' + PC[gi] + '"></i><b>' + esc(g.label) + '</b></span>').join('');
+    const sec2 = '<section class="card"><div class="row" style="justify-content:space-between"><h2>② 피추천인별 득표 현황 (직책 통합)</h2>' + sortBtns + '</div><div class="row" style="margin-bottom:6px">' + legend + '<span class="note">한 사람이 여러 직책에 추천받은 경우 직책별로 나누어 한 줄에 표시합니다.</span></div>' +
+      '<table class="tb"><thead><tr><th style="width:44px">순번</th><th>피추천인</th><th style="width:34%">직책별 득표 (누적 막대)</th>' + A.byPos.map((g) => '<th>' + esc(g.label) + '<br>득표수 · 득표율</th>').join('') + '<th>총 추천수</th><th>명단 확인</th></tr></thead><tbody>' +
+      (people.map((x, i) => '<tr><td>' + (i + 1) + '</td><td class="b">' + esc(x.name) + '</td><td><div class="sb">' + x.v.map((c, gi) => c ? '<i style="width:' + (c * 100 / pmax).toFixed(1) + '%;background:' + PC[gi] + ';color:' + PT[gi] + '">' + c + '</i>' : '').join('') + '</div></td>' +
+        x.v.map((c) => '<td>' + (c ? c + '표 · ' + pct(c, A.submitted) : '-') + '</td>').join('') + '<td class="b">' + x.t + '</td>' + nomTag(x) + '</tr>').join('') || '<tr><td colspan="7">아직 추천 내용이 없습니다.</td></tr>') +
+      '</tbody></table><div class="note">총 추천수 = 세 직책의 득표수 합계입니다. 득표율의 분모는 전체 투표 제출자 ' + A.submitted + '명입니다.</div></section>';
+    const sec3 = '<section class="card"><h2>③ 파트별 투표 참여 인원 · 투표율</h2><table class="tb"><thead><tr><th>파트</th><th>파트 재적</th><th>전체 대원 중 비중</th><th>투표자수</th><th>파트 재적 대비 투표율</th><th>전체 대원 대비 투표율</th><th style="width:24%">파트 투표율 그래프</th></tr></thead><tbody>' +
+      (A.partRows.map((p) => '<tr><td class="b">' + esc(p.part) + '</td><td>' + p.total + '명</td><td>' + pct(p.total, A.total) + '</td><td>' + p.voted + '명</td><td class="b">' + pct(p.voted, p.total) + '</td><td>' + pct(p.voted, A.total) + '</td><td><div class="bar"><i style="width:' + pct(p.voted, p.total) + '"></i></div></td></tr>').join('') || '<tr><td colspan="7">대원명단을 먼저 등록해 주세요.</td></tr>') +
+      '<tr style="background:#f1e4bf" class="b"><td class="b">전체</td><td class="b">' + A.total + '명</td><td class="b">100.0%</td><td class="b">' + A.voted + '명</td><td class="b">' + pct(A.voted, A.total) + '</td><td class="b">' + pct(A.voted, A.total) + '</td><td></td></tr></tbody></table>' +
+      '<div class="note">투표자 = 명단과 파트·이름이 모두 일치한 사람 · 파트 재적 대비 = 투표자 ÷ 해당 파트 대원수 · 전체 대원 대비 = 투표자 ÷ 전체 대원수 · 투표 제출 ' + A.submitted + '건 중 명단 불일치 ' + A.unmatched.length + '건</div></section>';
+    return sec1 + sec2 + sec3 +
+      '<section class="card"><div class="row" style="justify-content:space-between"><h2>④ 대원별 투표 여부 · 최종투표시간 (대원명단 대비)</h2><span class="row noprint">' +
+      '<label for="f1" class="note">보기</label><select id="f1" data-f="f1">' + ['전체', '참여', '미참여'].map((x) => '<option' + (x === ui.f1 ? ' selected' : '') + '>' + x + '</option>').join('') + '</select>' +
+      '<label for="f2" class="note">파트</label><select id="f2" data-f="f2">' + partOpts + '</select>' +
+      '<button type="button" class="btn sm" data-act="reload">새로고침</button><button type="button" class="btn sm" data-act="print">인쇄</button><button type="button" class="btn sm pri" data-act="csv">CSV 내려받기</button></span></div>' +
+      '<div class="g2">' + mtab(mem.slice(0, half)) + mtab(mem.slice(half)) + '</div></section>' +
+      '<section class="card"><h2 style="border-left-color:#b42318">⑤ 명단 대조 불일치 입력</h2><table class="tb"><thead><tr><th>입력 파트</th><th>입력 이름</th><th>사유</th><th>최종투표시간</th></tr></thead><tbody>' +
+      (A.unmatched.map((u) => '<tr><td>' + esc(u.part) + '</td><td class="b">' + esc(u.name) + '</td><td class="l">' + esc(u.reason) + '</td><td>' + esc(fmtKST(u.time)) + '</td></tr>').join('') || '<tr><td colspan="4">불일치 입력이 없습니다.</td></tr>') +
+      '</tbody></table><div class="note">명단과 맞지 않는 입력도 투표는 그대로 저장되며, 이 표에서 확인할 수 있습니다.</div></section>';
+  }
+  function download(name, text) {
+    const b = new Blob(['﻿' + text], { type: 'text/csv;charset=utf-8' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(b); a.download = name;
+    document.body.appendChild(a); a.click();
+    setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+  }
+  const q = (s) => '"' + String(s).replace(/"/g, '""') + '"';
+  function exportCsv() {
+    const A = analyze();
+    let t = '[대원별 투표 여부]\n파트,이름,투표여부,최종투표시간\n';
+    A.members.forEach((m) => { t += [q(m.part), q(m.name), m.voted ? '참여' : '미참여', m.voted ? q(fmtKST(m.time)) : '-'].join(',') + '\n'; });
+    t += '\n[명단 대조 불일치 입력]\n입력파트,입력이름,사유,최종투표시간\n';
+    A.unmatched.forEach((u) => { t += [q(u.part), q(u.name), q(u.reason), q(fmtKST(u.time))].join(',') + '\n'; });
+    A.byPos.forEach((g) => {
+      t += '\n[' + g.label + ' 피추천인 현황] (득표율=득표수/전체 투표 제출자 ' + A.submitted + '명)\n순번,피추천인,득표수,득표율,명단확인\n';
+      sortedNoms(g.noms).forEach((n, i) => { t += [i + 1, q(n.name), n.votes, pct(n.votes, A.submitted), n.inRoster ? '명단 대원' : '명단 외'].join(',') + '\n'; });
+    });
+    download('zion_2027_vote_result.csv', t);
+  }
+
+  /* ---------- 2. 대원명단 ---------- */
+  function htmlRoster() {
+    const chips = [];
+    const cnt = {};
+    D.roster.forEach((r) => { cnt[r.part] = (cnt[r.part] || 0) + 1; if (chips.indexOf(r.part) < 0) chips.push(r.part); });
+    return '<div class="g2" style="align-items:start"><div style="display:flex;flex-direction:column;gap:12px;min-width:0">' +
+      '<section class="card"><h2>① 대원명단 업로드</h2><div class="dz"><div style="font-size:18px;font-weight:700;color:#12284c">CSV · TXT 파일을 선택하세요</div>' +
+      '<input type="file" id="rfile" accept=".csv,.txt,.tsv"><div class="note">한 줄에 「파트,이름」 형식입니다. 엑셀에서 파트·이름 두 열을 복사해 아래 칸에 붙여넣어도 됩니다.</div></div>' +
+      '<label for="paste" style="font-size:17px;font-weight:700;color:#12284c">또는 직접 붙여넣기</label><textarea id="paste" rows="7" placeholder="파트,이름&#10;소프라노,홍길동&#10;알토,김영희"></textarea>' +
+      '<div class="row"><b style="color:#12284c">적용 방식</b><label class="chk"><input type="radio" name="mode" value="replace" checked> 기존 명단 덮어쓰기</label><label class="chk"><input type="radio" name="mode" value="append"> 기존 명단에 추가</label></div>' +
+      '<div class="row"><button type="button" class="btn pri" data-act="rpreview">미리보기 후 적용</button><button type="button" class="btn" data-act="rtemplate">명단 양식(CSV) 받기</button></div></section></div>' +
+      '<section class="card"><div class="row" style="justify-content:space-between"><h2>② 현재 등록된 대원명단</h2><button type="button" class="btn dng sm" data-act="rclear">명단 전체 삭제</button></div>' +
+      '<div class="row"><span class="chip" style="background:#12284c;color:#fff">총 ' + D.roster.length + '명</span>' + chips.map((p) => '<span class="chip" style="background:#f1e4bf;color:#12284c">' + esc(p) + ' ' + cnt[p] + '명</span>').join('') + '</div>' +
+      '<div class="scroll"><table class="tb"><thead><tr><th style="width:60px">번호</th><th>파트</th><th>이름</th><th style="width:80px">삭제</th></tr></thead><tbody>' +
+      (D.roster.map((r, i) => '<tr><td>' + (i + 1) + '</td><td>' + esc(r.part) + '</td><td class="b">' + esc(r.name) + '</td><td><button type="button" class="btn dng sm" data-act="rdel" data-id="' + r.id + '" data-nm="' + esc(r.name) + '" aria-label="' + esc(r.name) + ' 삭제">삭제</button></td></tr>').join('') || '<tr><td colspan="4">등록된 대원이 없습니다.</td></tr>') +
+      '</tbody></table></div><div class="note">파트 순서는 명단에 처음 나온 순서를 따르며, 투표 화면의 파트 선택 버튼도 이 순서로 만들어집니다.</div></section></div>';
+  }
+  function parseRoster(text) {
+    const rows = [], seen = new Set();
+    let bad = 0, dup = 0, first = true;
+    String(text).replace(/^﻿/, '').split(/\r?\n/).forEach((ln) => {
+      const t = ln.trim();
+      if (!t) return;
+      const sep = t.indexOf('\t') >= 0 ? /\t/ : (t.indexOf(',') >= 0 ? /,/ : /\s+/);
+      const c = t.split(sep).map((x) => x.trim().replace(/^"|"$/g, '').trim()).filter(Boolean);
+      const isFirst = first; first = false;
+      if (c.length < 2) { bad++; return; }
+      if (isFirst && /파트/.test(c[0]) && /(이름|성명)/.test(c[1])) return;
+      if (c[0].length > 20 || c[1].length > 20) { bad++; return; }
+      const k = c[0] + '|' + norm(c[1]);
+      if (seen.has(k)) { dup++; return; }
+      seen.add(k);
+      rows.push({ part: c[0], name: c[1] });
+    });
+    return { rows: rows, bad: bad, dup: dup };
+  }
+  async function readText(file) {
+    const buf = await file.arrayBuffer();
+    try { return new TextDecoder('utf-8', { fatal: true }).decode(buf); } catch (e) { return new TextDecoder('euc-kr').decode(buf); }
+  }
+  function rosterPreview() {
+    const r = parseRoster(document.getElementById('paste').value);
+    if (!r.rows.length) { notice('명단 확인', '등록할 명단이 없습니다.<br>한 줄에 「파트,이름」 형식으로 입력해 주세요.'); return; }
+    const mode = document.querySelector('input[name="mode"]:checked').value;
+    const cnt = {};
+    r.rows.forEach((x) => { cnt[x.part] = (cnt[x.part] || 0) + 1; });
+    modal('명단 적용 확인',
+      '총 <b>' + r.rows.length + '명</b>을 등록합니다. (' + (mode === 'replace' ? '덮어쓰기' : '추가') + ')<br>' +
+      Object.keys(cnt).map((p) => esc(p) + ' ' + cnt[p] + '명').join(' · ') + '<br><span class="note">형식 오류로 제외된 줄: ' + r.bad + '건 · 중복 제외: ' + r.dup + '건</span>' +
+      (mode === 'replace' ? '<br><span class="note" style="color:#b42318">기존 명단은 모두 지워집니다. 투표 내용은 그대로 유지됩니다.</span>' : ''),
+      [{ t: '취소' }, { t: '적용', cls: 'pri', fn: async () => {
+        const res = await adminRpc('admin_set_roster', { p_rows: r.rows, p_mode: mode });
+        if (!res || !res.ok) { notice('오류', '명단을 저장하지 못했습니다.'); return false; }
+        await loadAll(); renderPanel();
+      } }]);
+  }
+
+  /* ---------- 3. 투표기간 ---------- */
+  function htmlPeriod() {
+    return '<div class="g2" style="align-items:start"><section class="card"><h2>현재 투표 상태</h2>' +
+      '<div class="stbox" id="stbox"><span class="chip sp"></span><div class="sl" style="color:#e8d5a3"></div><div class="big"></div></div>' +
+      '<table class="tb"><tbody><tr><th style="width:36%">투표 시작</th><td class="l">' + esc(fmtKST(D.start).slice(0, 16)) + '</td></tr><tr><th>투표 종료</th><td class="l b">' + esc(fmtKST(D.end).slice(0, 16)) + '</td></tr></tbody></table>' +
+      '<div class="note">시각 판정은 투표자의 휴대폰이 아니라 서버 시각을 기준으로 합니다. 종료 시각이 되면 투표 화면이 자동으로 잠깁니다.</div></section>' +
+      '<section class="card"><h2>투표기간 설정 · 수정</h2>' +
+      '<div class="g2"><div><label for="ps" style="font-size:18px;font-weight:700;color:#12284c">투표 시작 일시</label><br><input type="datetime-local" id="ps" value="' + toInput(D.start) + '"></div>' +
+      '<div><label for="pe" style="font-size:18px;font-weight:700;color:#12284c">투표 종료 일시</label><br><input type="datetime-local" id="pe" value="' + toInput(D.end) + '"></div></div>' +
+      '<div class="note">종료 시간 빠르게 연장 (입력 칸에 반영된 뒤 「저장」을 눌러야 적용됩니다)</div>' +
+      '<div class="row"><button type="button" class="btn" data-act="padd" data-h="1">＋1시간</button><button type="button" class="btn" data-act="padd" data-h="24">＋1일</button><button type="button" class="btn" data-act="padd" data-h="72">＋3일</button></div>' +
+      '<div class="row"><button type="button" class="btn pri" data-act="psave">저장</button><button type="button" class="btn dng" data-act="pnow">지금 즉시 종료</button></div>' +
+      '<div class="note">종료 시각을 뒤로 수정하면 투표를 다시 열 수 있습니다. 종료 일시는 시작 일시보다 뒤여야 합니다.</div>' +
+      '<h2 style="border-left-color:#b42318;margin-top:8px">투표 데이터 초기화</h2><div class="note">시험 투표를 지우고 본 투표를 시작할 때 사용합니다. 대원명단과 화면 설정은 유지되고, 지금까지 제출된 투표 ' + D.votes.length + '건이 모두 삭제됩니다.</div>' +
+      '<div><button type="button" class="btn dng" data-act="pclear">투표 내용 모두 삭제</button></div></section></div>';
+  }
+  async function savePeriod(sv, ev, doneMsg) {
+    const r = await adminRpc('admin_set_period', { p_start: new Date(sv).toISOString(), p_end: new Date(ev).toISOString() });
+    if (!r || !r.ok) { notice('저장하지 못했습니다', r && r.error === 'BAD_PERIOD' ? '종료 일시는 시작 일시보다 뒤여야 합니다.' : '잠시 후 다시 시도해 주세요.'); return false; }
+    await loadAll(); renderPanel();
+    notice('저장 완료', doneMsg);
+    return true;
+  }
+
+  /* ---------- 4. 화면 편집 ---------- */
+  function htmlDesign() {
+    const c = E;
+    const rows = STYLE_KEYS.map((k) => {
+      const s = c.styles[k[0]];
+      return '<tr><td class="l b">' + k[1] + '</td><td><select data-p="styles.' + k[0] + '.font" aria-label="' + k[1] + ' 글꼴">' + Object.keys(FONTS).map((f) => '<option' + (f === s.font ? ' selected' : '') + '>' + f + '</option>').join('') + '</select></td>' +
+        '<td><input type="number" min="10" max="80" style="width:70px" data-p="styles.' + k[0] + '.size" value="' + esc(s.size) + '" aria-label="' + k[1] + ' 크기"></td>' +
+        '<td><input type="color" data-p="styles.' + k[0] + '.color" value="' + safeColor(s.color, '#000000') + '" aria-label="' + k[1] + ' 색"></td>' +
+        '<td>' + ['left', 'center', 'right'].map((a, i) => '<button type="button" class="al' + (s.align === a ? ' on' : '') + '" data-act="al" data-k="' + k[0] + '" data-a="' + a + '">' + ['좌', '중', '우'][i] + '</button>').join(' ') + '</td>' +
+        '<td><label class="chk"><input type="checkbox" data-p="styles.' + k[0] + '.bold"' + (s.bold ? ' checked' : '') + '> 굵게</label></td></tr>';
+    }).join('');
+    const dirs = [[160, '대각선 (160도)'], [180, '위에서 아래'], [0, '아래에서 위'], [90, '왼쪽에서 오른쪽'], [270, '오른쪽에서 왼쪽']];
+    return '<div class="edl"><div style="display:flex;flex-direction:column;gap:12px;min-width:0">' +
+      '<div class="row noprint" style="justify-content:flex-end"><button type="button" class="btn" data-act="dreset">기본값으로 되돌리기</button><button type="button" class="btn pri" data-act="dsave">저장</button></div>' +
+      '<section class="card"><h2>① 문구 입력</h2><div class="fg">' +
+      '<label for="d1">상단 제목</label><input type="text" id="d1" data-p="title" value="' + esc(c.title) + '">' +
+      '<label for="d2">안내문구</label><textarea id="d2" rows="4" data-p="notice">' + esc(c.notice) + '</textarea>' +
+      '<label for="d3">하단 footer</label><textarea id="d3" rows="3" data-p="footer">' + esc(c.footer) + '</textarea>' +
+      '<label for="d4">항목명</label><div class="row"><input type="text" id="d4" data-p="labels.part" value="' + esc(c.labels.part) + '" aria-label="파트 항목명" style="width:30%"><input type="text" data-p="labels.name" value="' + esc(c.labels.name) + '" aria-label="이름 항목명" style="width:30%"><input type="text" data-p="labels.nom" value="' + esc(c.labels.nom) + '" aria-label="피추천인 항목명" style="width:30%"></div>' +
+      '<label for="d4b">직책명</label><div class="row"><input type="text" id="d4b" data-p="pos.0" value="' + esc(posLabels(c)[0]) + '" aria-label="직책 1 이름" style="width:30%"><input type="text" data-p="pos.1" value="' + esc(posLabels(c)[1]) + '" aria-label="직책 2 이름" style="width:30%"><input type="text" data-p="pos.2" value="' + esc(posLabels(c)[2]) + '" aria-label="직책 3 이름" style="width:30%"></div>' +
+      '<label for="d5">버튼 문구</label><input type="text" id="d5" data-p="btn" value="' + esc(c.btn) + '" style="max-width:260px"></div></section>' +
+      '<section class="card"><h2>② 글꼴 서식 (모든 항목)</h2><div style="overflow-x:auto"><table class="tb"><thead><tr><th>항목</th><th>글꼴</th><th>크기(px)</th><th>색</th><th>정렬</th><th>굵게</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
+      '<div class="row"><b style="color:#12284c">제출 버튼 배경색</b><input type="color" data-p="styles.button.bg" value="' + safeColor(c.styles.button.bg, '#12284c') + '" aria-label="제출 버튼 배경색"></div>' +
+      '<div class="note">글꼴은 대원 휴대폰·PC에 기본 설치된 글꼴 중에서 고릅니다.</div></section>' +
+      '<section class="card"><h2>③ 배경 사진 · 그라데이션</h2><div class="row"><input type="file" id="bgfile" accept="image/*" aria-label="배경 사진 선택"><button type="button" class="btn sm" data-act="bgdel">사진 제거</button><span class="note" id="bgnote">' + (c.bg.img ? '현재: 사진 사용 중' : '현재: 사진 없음') + ' · 올릴 때 자동으로 크기를 줄입니다.</span></div>' +
+      '<div class="row"><b style="color:#12284c">시작 색</b><input type="color" data-p="bg.c1" value="' + safeColor(c.bg.c1, '#12284c') + '" aria-label="그라데이션 시작 색"><b style="color:#12284c">끝 색</b><input type="color" data-p="bg.c2" value="' + safeColor(c.bg.c2, '#2c5190') + '" aria-label="그라데이션 끝 색">' +
+      '<label for="bgdir" style="font-weight:700;color:#12284c">방향</label><select id="bgdir" data-p="bg.dir">' + dirs.map((d) => '<option value="' + d[0] + '"' + (Number(c.bg.dir) === d[0] ? ' selected' : '') + '>' + d[1] + '</option>').join('') + '</select></div>' +
+      '<div class="row"><label for="bgop" style="font-weight:700;color:#12284c">사진 위 그라데이션 진하기</label><input type="range" id="bgop" min="0" max="100" data-p="bg.op" value="' + esc(c.bg.op) + '"><span id="bgopv">' + esc(c.bg.op) + '%</span></div>' +
+      '<div class="note">사진이 없으면 그라데이션만 표시하고, 사진이 있으면 사진 위에 그라데이션을 덮어 글자가 또렷하게 읽히도록 합니다.</div></section></div>' +
+      '<section class="card pvwrap"><h2>미리보기 (실시간 반영)</h2><div class="pvbox" id="pv"></div><div class="note">왼쪽에서 바꾸면 이 미리보기에 바로 반영되고, 「저장」을 누르면 대원들의 투표 화면에 적용됩니다.</div></section></div>';
+  }
+  function drawPreview() {
+    const pv = document.getElementById('pv');
+    if (!pv || !E) return;
+    const v = buildVoter(pv, { cfg: E, preview: true });
+    pv.style.pointerEvents = 'none';
+    v.setStatus({ state: 'open', start: D.start, end: D.end, now: Date.now() + off });
+  }
+  function setPath(o, path, val) {
+    const k = path.split('.');
+    let t = o;
+    for (let i = 0; i < k.length - 1; i++) t = t[k[i]];
+    t[k[k.length - 1]] = val;
+  }
+  function resizeImg(file, max, qual) {
+    return new Promise((res, rej) => {
+      const fr = new FileReader();
+      fr.onload = () => {
+        const im = new Image();
+        im.onload = () => {
+          const sc = Math.min(1, max / Math.max(im.width, im.height));
+          const cv = document.createElement('canvas');
+          cv.width = Math.round(im.width * sc); cv.height = Math.round(im.height * sc);
+          cv.getContext('2d').drawImage(im, 0, 0, cv.width, cv.height);
+          res(cv.toDataURL('image/jpeg', qual));
+        };
+        im.onerror = rej;
+        im.src = fr.result;
+      };
+      fr.onerror = rej;
+      fr.readAsDataURL(file);
+    });
+  }
+
+  /* ---------- 이벤트 ---------- */
+  function onInput(e) {
+    const t = e.target;
+    if (t.id === 'rfile' && e.type === 'change' && t.files[0]) {
+      readText(t.files[0]).then((x) => { document.getElementById('paste').value = x; });
+      return;
+    }
+    if (t.id === 'bgfile' && e.type === 'change' && t.files[0]) {
+      resizeImg(t.files[0], 1280, 0.78).then((d) => (d.length > 900000 ? resizeImg(t.files[0], 960, 0.6) : d)).then((d) => {
+        E.bg.img = d; dirty = true; drawPreview();
+        document.getElementById('bgnote').textContent = '현재: 사진 사용 중 · 올릴 때 자동으로 크기를 줄입니다.';
+      }).catch(() => notice('사진 오류', '사진을 불러오지 못했습니다. 다른 사진으로 시도해 주세요.'));
+      return;
+    }
+    const f = t.getAttribute && t.getAttribute('data-f');
+    if (f) { ui[f] = t.value; renderPanel(); return; }
+    const p = t.getAttribute && t.getAttribute('data-p');
+    if (p && E) {
+      let v;
+      if (t.type === 'checkbox') v = t.checked;
+      else if (t.type === 'number' || t.type === 'range' || p === 'bg.dir') v = Number(t.value);
+      else v = t.value;
+      if (p.slice(-5) === '.size') v = Math.min(80, Math.max(10, Number(v) || 16));
+      setPath(E, p, v);
+      if (p === 'bg.op') document.getElementById('bgopv').textContent = v + '%';
+      dirty = true;
+      drawPreview();
+    }
+  }
+  async function onClick(e) {
+    const b = e.target.closest('[data-act]');
+    if (!b) return;
+    const a = b.getAttribute('data-act');
+    if (a === 'sort') { ui.sort = b.getAttribute('data-v'); renderPanel(); }
+    else if (a === 'reload') { const r = await loadAll(); if (r && r.ok) renderPanel(); }
+    else if (a === 'print') window.print();
+    else if (a === 'csv') exportCsv();
+    else if (a === 'rpreview') rosterPreview();
+    else if (a === 'rtemplate') download('zion_2027_roster_template.csv', '파트,이름\n소프라노,홍길동\n알토,김영희\n테너,이철수\n베이스,박민수\n');
+    else if (a === 'rdel') {
+      const id = Number(b.getAttribute('data-id')), nm = b.getAttribute('data-nm');
+      modal('대원 삭제', esc(nm) + ' 님을 명단에서 삭제할까요?<br><span class="note">이미 제출된 투표는 그대로 유지됩니다.</span>', [{ t: '취소' }, { t: '삭제', cls: 'dng', fn: async () => {
+        const r = await adminRpc('admin_delete_member', { p_id: id });
+        if (!r || !r.ok) { notice('오류', '삭제하지 못했습니다.'); return false; }
+        await loadAll(); renderPanel();
+      } }]);
+    }
+    else if (a === 'rclear') {
+      modal('명단 전체 삭제', '등록된 대원명단 ' + D.roster.length + '명을 모두 삭제할까요?<br><span class="note">투표 화면의 파트 선택 버튼은 기본값(소프라노·알토·테너·베이스)으로 돌아갑니다.</span>', [{ t: '취소' }, { t: '전체 삭제', cls: 'dng', fn: async () => {
+        const r = await adminRpc('admin_set_roster', { p_rows: [], p_mode: 'replace' });
+        if (!r || !r.ok) { notice('오류', '삭제하지 못했습니다.'); return false; }
+        await loadAll(); renderPanel();
+      } }]);
+    }
+    else if (a === 'padd') {
+      const el = document.getElementById('pe');
+      let base = Date.parse(el.value);
+      if (isNaN(base)) base = D.end;
+      el.value = toInput(base + Number(b.getAttribute('data-h')) * 3600e3);
+    }
+    else if (a === 'psave') {
+      const sv = document.getElementById('ps').value, ev = document.getElementById('pe').value;
+      if (!sv || !ev || isNaN(Date.parse(sv)) || isNaN(Date.parse(ev))) { notice('입력 확인', '시작·종료 일시를 모두 입력해 주세요.'); return; }
+      if (Date.parse(ev) <= Date.parse(sv)) { notice('입력 확인', '종료 일시는 시작 일시보다 뒤여야 합니다.'); return; }
+      await savePeriod(sv, ev, '투표기간이 저장되었습니다.');
+    }
+    else if (a === 'pnow') {
+      modal('즉시 종료', '지금 바로 투표를 종료할까요?<br><span class="note">종료 후에도 종료 일시를 뒤로 수정하면 다시 열 수 있습니다.</span>', [{ t: '취소' }, { t: '지금 종료', cls: 'dng', fn: async () => {
+        const n = Date.now() + off;
+        const ok = await savePeriod(Math.min(D.start, n - 1000), n, '투표가 종료되었습니다.');
+        if (!ok) return false;
+      } }]);
+    }
+    else if (a === 'pclear') {
+      modal('투표 내용 모두 삭제', '제출된 투표 ' + D.votes.length + '건이 모두 삭제되며 되돌릴 수 없습니다.<br>계속하려면 아래 칸에 <b>삭제</b>라고 입력하세요.<input type="text" id="cf">', [{ t: '취소' }, { t: '삭제', cls: 'dng', fn: async (dlg) => {
+        if (dlg.querySelector('#cf').value.trim() !== '삭제') { notice('입력 확인', '「삭제」를 정확히 입력해 주세요.'); return false; }
+        const r = await adminRpc('admin_clear_votes');
+        if (!r || !r.ok) { notice('오류', '삭제하지 못했습니다.'); return false; }
+        await loadAll(); renderPanel();
+      } }]);
+    }
+    else if (a === 'al') { setPath(E, 'styles.' + b.getAttribute('data-k') + '.align', b.getAttribute('data-a')); dirty = true; const p = document.getElementById('panel'); const y = window.scrollY; p.innerHTML = htmlDesign(); drawPreview(); window.scrollTo(0, y); }
+    else if (a === 'bgdel') { E.bg.img = ''; dirty = true; document.getElementById('bgnote').textContent = '현재: 사진 없음 · 올릴 때 자동으로 크기를 줄입니다.'; const f = document.getElementById('bgfile'); if (f) f.value = ''; drawPreview(); }
+    else if (a === 'dreset') {
+      modal('기본값으로 되돌리기', '문구·서식·배경을 처음 상태로 되돌릴까요?<br><span class="note">「저장」을 누르기 전까지는 대원 화면에 적용되지 않습니다.</span>', [{ t: '취소' }, { t: '되돌리기', cls: 'dng', fn: () => {
+        E = deepMerge(DEFAULT_CFG, { parts: D.config.parts }); dirty = true; document.getElementById('panel').innerHTML = htmlDesign(); drawPreview();
+      } }]);
+    }
+    else if (a === 'dsave') {
+      const r = await adminRpc('admin_set_config', { p_config: E });
+      if (!r || !r.ok) { notice('저장하지 못했습니다', '배경 사진 용량이 크면 더 작은 사진으로 바꿔 다시 시도해 주세요.'); return; }
+      await loadAll(); E = clone(D.config); dirty = false;
+      notice('저장 완료', '화면 설정이 저장되었습니다. 대원들의 투표 화면에 바로 적용됩니다.');
+    }
+  }
+
+  window.addEventListener('beforeunload', (e) => { if (dirty) { e.preventDefault(); e.returnValue = ''; } });
+
+  (async function init() {
+    if (getPw()) {
+      const r = await loadAll();
+      if (r && r.ok) { start(); return; }
+    }
+    showLogin('');
+  })();
+})();
+</script>
+</body>
+</html>
