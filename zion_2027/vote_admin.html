@@ -51,6 +51,8 @@ button{font-family:inherit;cursor:pointer}
 .st-ok{background:#e3f4ea!important;color:#14633a;font-weight:700}.st-no{background:#fde8e6!important;color:#b42318;font-weight:700}
 .bar{height:12px;background:#e3e8f1;border-radius:4px}.bar i{display:block;height:12px;background:#12284c;border-radius:4px}
 .ptl{font-weight:700;color:#12284c;border-left:5px solid #b8913a;padding-left:8px;margin:2px 0 0}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,500px),1fr));gap:4px 14px}.pblk{min-width:0}
+.lgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:6px 8px}.lcard{border:1px solid #c9d1df;border-radius:6px;overflow:hidden;background:#fff}.lh{display:flex;justify-content:space-between;align-items:center;background:#e6ecf7;padding:2px 8px;color:#12284c}.lh span{font-size:13px}.lcard .tb{border:0;width:100%}
 .card.an{gap:4px;padding:8px 12px;overflow-x:auto}.card.an .tb th,.card.an .tb td{white-space:nowrap}.card.an .sb{min-width:120px}.card.an h2{font-size:19px}
 .brow{margin-bottom:2px}
 .sw{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:middle}
@@ -147,7 +149,7 @@ const DEFAULT_CFG = {
   bg: { img: '', c1: '#fbe3b0', c2: '#eda265', dir: 160, op: 85 },
   al: {
     s1: '임원별 피추천인 현황 · 득표수 / 득표율', s2: '피추천인별 득표 현황 (직책 통합)', s3: '파트별 투표 참여 인원 · 투표율',
-    s4: '대원별 투표 여부 · 최종투표시간 (대원명단 대비)', s5: '명단 대조 불일치 입력', s6: '명단에 없는 피추천인 → 명단 대원으로 연결',
+    s4: '대원별 투표 여부 · 최종투표시간 (대원명단 대비)', lead: '파트장 추천 현황 (파트별)', s5: '명단 대조 불일치 입력', s6: '명단에 없는 피추천인 → 명단 대원으로 연결',
     no: 'No', nom: '피추천인', cnt: '득표수', rate: '득표율', tot: '총 추천수', bar: '직책별 득표',
     part: '파트', enr: '재적', share: '전체 대원 중 비중', vtr: '투표자수', prate: '파트투표율', name: '이름', time: '최종투표시간', all: '전체'
   },
@@ -373,7 +375,13 @@ function mockRpc(name, a) {
       d.votes.forEach((v) => { const seen = new Set(); nomOf(v)[pk].forEach((n) => { const k = norm(n); if (!k || seen.has(k)) return; seen.add(k); const e = m.get(k) || { name: n, votes: 0, inRoster: d.roster.some((r) => norm(r.name) === k) }; e.votes++; m.set(k, e); }); });
       nom[pk] = Array.from(m.values()).sort((a, b) => b.votes - a.votes || String(a.name).localeCompare(String(b.name), 'ko'));
     });
-    return { ok: true, config: { pos: d.config.pos || null, al: d.config.al || null }, start_at: iso(d.start), end_at: iso(d.end), now: iso(Date.now()), submitted: d.votes.length,
+    const leaders = [];
+    Array.from(new Set(d.votes.filter((v) => v.part !== '기타').map((v) => v.part))).forEach((pt) => {
+      const m = new Map(), pv = d.votes.filter((v) => v.part === pt);
+      pv.forEach((v) => { const seen = new Set(); nomOf(v).p.forEach((n) => { const k = norm(n); if (!k || seen.has(k)) return; seen.add(k); const e = m.get(k) || { name: n, votes: 0, inRoster: d.roster.some((r) => norm(r.name) === k) }; e.votes++; m.set(k, e); }); });
+      leaders.push({ part: pt, voters: pv.length, noms: Array.from(m.values()).sort((a, b) => b.votes - a.votes) });
+    });
+    return { ok: true, leaders: leaders, config: { pos: d.config.pos || null, al: d.config.al || null }, start_at: iso(d.start), end_at: iso(d.end), now: iso(Date.now()), submitted: d.votes.length,
       roster: d.roster.map((r) => { const v = d.votes.find((x) => x.part === r.part && norm(x.name) === norm(r.name)); return { part: r.part, name: r.name, time: v ? v.time : null }; }), nominees: nom };
   }
   if (name === 'get_period') return { ok: true, start_at: iso(d.start), end_at: iso(d.end), now: iso(Date.now()) };
@@ -600,7 +608,9 @@ function analyzeStatus(S, cfg) {
   });
   const nom = S.nominees || {};
   const byPos = POS_KEYS.map((pk, i) => ({ key: pk, label: PL[i], noms: (Array.isArray(nom[pk]) ? nom[pk] : []).map((n) => ({ name: n.name, votes: Number(n.votes) || 0, inRoster: !!n.inRoster })) }));
-  return { total: roster.length, voted: members.filter((m) => m.voted).length, submitted: Number(S.submitted) || 0, partRows: partRows, members: members, unmatched: [], byPos: byPos };
+  const lead = new Map((S.leaders || []).map((l) => [l.part, l]));
+  const leaders = parts.filter((p) => p !== '기타').map((p) => { const l = lead.get(p); return { part: p, voters: l ? Number(l.voters) || 0 : 0, noms: l ? (l.noms || []).map((n) => ({ name: n.name, votes: Number(n.votes) || 0, inRoster: !!n.inRoster })) : [] }; });
+  return { total: roster.length, voted: members.filter((m) => m.voted).length, submitted: Number(S.submitted) || 0, partRows: partRows, members: members, unmatched: [], byPos: byPos, leaders: leaders };
 }
 
 function sortedNoms(list, ui) {
@@ -668,23 +678,30 @@ function renderAnalysis(A, ui, L, o) {
       '<text x="' + CX + '" y="' + (CY - 3) + '" text-anchor="middle" font-size="13" font-weight="700" fill="#444">총투표</text><text x="' + CX + '" y="' + (CY + 15) + '" text-anchor="middle" font-size="19" font-weight="700" fill="#12284c">' + tot + '</text>' + tx + '</svg>';
   }
   const sec1 = '<section class="card an"><div class="row" style="justify-content:space-between"><h2>1. ' + esc(L.s1) + '</h2>' + sortBtns + '</div>' +
-    A.byPos.map((g, gi) => {
+    '<div class="pgrid">' + A.byPos.map((g, gi) => {
+      if (g.key === 'p') return '';
       const noms = sortedNoms(g.noms, ui);
       const tb = '<table class="tb fit"><thead><tr><th>' + esc(L.no) + '</th><th>' + esc(L.nom) + '</th><th>' + esc(L.cnt) + '</th><th>' + esc(L.rate) + '</th></tr></thead><tbody>' +
         (noms.map((n, i) => '<tr><td>' + (i + 1) + '</td><td class="b">' + nmCell(n) + '</td><td>' + n.votes + '</td><td class="b">' + pct(n.votes, A.submitted) + '</td></tr>').join('') || '<tr><td colspan="4">아직 추천 내용이 없습니다.</td></tr>') + '</tbody></table>';
-      return '<div class="ptl">' + esc(g.label) + '</div><div class="pp">' + tb + '<div class="pie" data-act="pbig" data-g="' + gi + '" title="누르면 크게 보기">' + pie(noms) + '</div></div>';
-    }).join('') +
+      return '<div class="pblk"><div class="ptl">' + esc(g.label) + '</div><div class="pp">' + tb + '<div class="pie" data-act="pbig" data-g="' + gi + '" title="누르면 크게 보기">' + pie(noms) + '</div></div></div>';
+    }).join('') + '</div>' +
+    '<div class="ptl">' + esc(L.lead) + '</div><div class="lgrid">' +
+    (A.leaders || []).map((l) => {
+      const noms = sortedNoms(l.noms, ui);
+      return '<div class="lcard"><div class="lh"><b>' + esc(l.part) + '</b><span>투표 ' + l.voters + '명</span></div><table class="tb"><thead><tr><th>' + esc(L.no) + '</th><th>' + esc(L.nom) + '</th><th>' + esc(L.cnt) + '</th><th>' + esc(L.rate) + '</th></tr></thead><tbody>' +
+        (noms.map((n, i) => '<tr><td>' + (i + 1) + '</td><td class="b">' + nmCell(n) + '</td><td>' + n.votes + '</td><td class="b">' + pct(n.votes, l.voters) + '</td></tr>').join('') || '<tr><td colspan="4">추천 없음</td></tr>') + '</tbody></table></div>';
+    }).join('') + '</div>' +
     '<div class="note">원그래프를 누르면 크게 볼 수 있습니다</div></section>';
   const pm = new Map();
-  A.byPos.forEach((g, gi) => g.noms.forEach((n) => { const k = norm(n.name); const e = pm.get(k) || { name: n.name, v: [0, 0, 0], inRoster: n.inRoster }; e.v[gi] = n.votes; pm.set(k, e); }));
-  const people = Array.from(pm.values()).map((e) => ({ name: e.name, v: e.v, t: e.v[0] + e.v[1] + e.v[2], inRoster: e.inRoster }));
+  A.byPos.forEach((g, gi) => g.noms.forEach((n) => { const k = norm(n.name); const e = pm.get(k) || { name: n.name, v: A.byPos.map(() => 0), inRoster: n.inRoster }; e.v[gi] = n.votes; pm.set(k, e); }));
+  const people = Array.from(pm.values()).map((e) => ({ name: e.name, v: e.v, t: e.v.reduce((a, b) => a + b, 0), inRoster: e.inRoster }));
   if (ui.sort === 'name') people.sort((x, y) => ko(x.name, y.name)); else people.sort((x, y) => (y.t - x.t) || ko(x.name, y.name));
   const pmax = Math.max.apply(null, [1].concat(people.map((x) => x.t)));
   const legend = A.byPos.map((g, gi) => '<span class="row" style="gap:5px"><i class="sw" style="background:' + PC[gi] + '"></i><b>' + esc(g.label) + '</b></span>').join('');
   const sec2 = '<section class="card an"><div class="row" style="justify-content:space-between"><h2>2. ' + esc(L.s2) + '</h2>' + sortBtns + '</div><div class="row" style="margin-bottom:6px">' + legend + '<span class="note">한 사람이 여러 직책에 추천받은 경우 직책별로 나누어 한 줄에 표시합니다.</span></div>' +
     '<table class="tb"><thead><tr><th style="width:44px">' + esc(L.no) + '</th><th>' + esc(L.nom) + '</th><th>' + esc(L.tot) + '</th><th style="width:34%">' + esc(L.bar) + '</th>' + A.byPos.map((g) => '<th>' + esc(g.label) + '</th>').join('') + '</tr></thead><tbody>' +
     (people.map((x, i) => '<tr><td>' + (i + 1) + '</td><td class="b">' + nmCell(x) + '</td><td class="b">' + x.t + '</td><td><div class="sb">' + x.v.map((c, gi) => c ? '<i style="width:' + (c * 100 / pmax).toFixed(1) + '%;background:' + PC[gi] + ';color:' + PT[gi] + '">' + c + '</i>' : '').join('') + '</div></td>' +
-      x.v.map((c) => '<td>' + (c ? c + '표 · ' + pct(c, A.submitted) : '-') + '</td>').join('') + '</tr>').join('') || '<tr><td colspan="7">아직 추천 내용이 없습니다.</td></tr>') +
+      x.v.map((c, gi) => '<td>' + (c ? (A.byPos[gi].key === 'p' ? c + '표' : c + '표 · ' + pct(c, A.submitted)) : '-') + '</td>').join('') + '</tr>').join('') || '<tr><td colspan="9">아직 추천 내용이 없습니다.</td></tr>') +
     '</tbody></table></section>';
   const sec3 = '<section class="card an"><h2>3. ' + esc(L.s3) + '</h2><table class="tb"><thead><tr><th>' + esc(L.part) + '</th><th>' + esc(L.enr) + '</th><th>' + esc(L.share) + '</th><th>' + esc(L.vtr) + '</th><th colspan="2" style="text-align:center">' + esc(L.prate) + '</th></tr></thead><tbody>' +
     (A.partRows.map((p) => '<tr><td class="b">' + esc(p.part) + '</td><td>' + p.total + '명</td><td>' + pct(p.total, A.total) + '</td><td>' + p.voted + '명</td><td class="b">' + pct(p.voted, p.total) + '</td><td style="width:24%"><div class="bar"><i style="width:' + pct(p.voted, p.total) + '"></i></div></td></tr>').join('') || '<tr><td colspan="6">대원명단을 먼저 등록해 주세요.</td></tr>') +
@@ -889,7 +906,17 @@ function renderAnalysis(A, ui, L, o) {
       });
       return { key: pk, label: PL[pi], noms: Array.from(nm.entries()).map((x) => ({ name: x[1].name, votes: x[1].n, inRoster: nameIdx.has(x[0]) })) };
     });
-    return { total: roster.length, voted: voted.size, submitted: votes.length, partRows: partRows, members: members, unmatched: unmatched, byPos: byPos };
+    const lparts = parts.filter((p) => p !== '기타');
+    votes.forEach((v) => { if (v.part !== '기타' && lparts.indexOf(v.part) < 0) lparts.push(v.part); });
+    const leaders = lparts.map((p) => {
+      const pv = votes.filter((v) => v.part === p), nm = new Map();
+      pv.forEach((v) => {
+        const seen = new Set();
+        nomOf(v).p.forEach((n) => { const k = norm(n); if (!k || seen.has(k)) return; seen.add(k); const e = nm.get(k) || { name: n, n: 0 }; e.n++; nm.set(k, e); });
+      });
+      return { part: p, voters: pv.length, noms: Array.from(nm.entries()).map((x) => ({ name: x[1].name, votes: x[1].n, inRoster: nameIdx.has(x[0]) })) };
+    });
+    return { total: roster.length, voted: voted.size, submitted: votes.length, partRows: partRows, members: members, unmatched: unmatched, byPos: byPos, leaders: leaders };
   }
   function htmlAnalysis() { return renderAnalysis(analyze(), ui, D.config.al, { admin: true }); }
   function download(name, text) {
@@ -1026,6 +1053,7 @@ function renderAnalysis(A, ui, L, o) {
       '<div class="note">사진이 없으면 그라데이션만 표시하고, 사진이 있으면 사진 위에 그라데이션을 덮어 글자가 또렷하게 읽히도록 합니다.</div></section>' +
       '<section class="card"><h2>④ 현황 화면 항목명 (문구만 수정)</h2><div class="note">현황·분석 탭과 공개 현황 페이지(vote_status.html)에 같이 적용됩니다. 번호(1. 2. …)는 자동으로 붙습니다.</div><div class="fg">' +
       [['s1', '1번 제목'], ['s2', '2번 제목'], ['s3', '3번 제목'], ['s4', '4번 제목'], ['s5', '5번 제목'], ['s6', '6번 제목']].map((x) => '<label for="al_' + x[0] + '">' + x[1] + '</label><input type="text" id="al_' + x[0] + '" data-p="al.' + x[0] + '" value="' + esc(c.al[x[0]]) + '">').join('') +
+      '<label for="al_lead">파트장 소제목</label><input type="text" id="al_lead" data-p="al.lead" value="' + esc(c.al.lead) + '">' +
       '<label>표 제목줄</label><div class="row">' + [['no', 'No'], ['nom', '피추천인'], ['cnt', '득표수'], ['rate', '득표율'], ['tot', '총 추천수'], ['bar', '직책별 득표'], ['part', '파트'], ['enr', '재적'], ['share', '비중 열'], ['vtr', '투표자수'], ['prate', '파트투표율'], ['name', '이름'], ['time', '시간 열'], ['all', '합계 행']].map((x) => '<input type="text" data-p="al.' + x[0] + '" value="' + esc(c.al[x[0]]) + '" aria-label="표 제목 ' + x[1] + '" style="width:' + (x[0] === 'share' || x[0] === 'bar' ? 150 : 100) + 'px">').join('') + '</div></div></section>' +
       '</div>' +
       '<section class="card pvwrap"><h2>미리보기 (실시간 반영)</h2><div class="pvbox" id="pv"></div><div class="note">왼쪽에서 바꾸면 이 미리보기에 바로 반영되고, 「저장」을 누르면 대원들의 투표 화면에 적용됩니다.</div></section></div>';

@@ -65,7 +65,7 @@ const DEFAULT_CFG = {
   bg: { img: '', c1: '#fbe3b0', c2: '#eda265', dir: 160, op: 85 },
   al: {
     s1: '임원별 피추천인 현황 · 득표수 / 득표율', s2: '피추천인별 득표 현황 (직책 통합)', s3: '파트별 투표 참여 인원 · 투표율',
-    s4: '대원별 투표 여부 · 최종투표시간 (대원명단 대비)', s5: '명단 대조 불일치 입력', s6: '명단에 없는 피추천인 → 명단 대원으로 연결',
+    s4: '대원별 투표 여부 · 최종투표시간 (대원명단 대비)', lead: '파트장 추천 현황 (파트별)', s5: '명단 대조 불일치 입력', s6: '명단에 없는 피추천인 → 명단 대원으로 연결',
     no: 'No', nom: '피추천인', cnt: '득표수', rate: '득표율', tot: '총 추천수', bar: '직책별 득표',
     part: '파트', enr: '재적', share: '전체 대원 중 비중', vtr: '투표자수', prate: '파트투표율', name: '이름', time: '최종투표시간', all: '전체'
   },
@@ -291,7 +291,13 @@ function mockRpc(name, a) {
       d.votes.forEach((v) => { const seen = new Set(); nomOf(v)[pk].forEach((n) => { const k = norm(n); if (!k || seen.has(k)) return; seen.add(k); const e = m.get(k) || { name: n, votes: 0, inRoster: d.roster.some((r) => norm(r.name) === k) }; e.votes++; m.set(k, e); }); });
       nom[pk] = Array.from(m.values()).sort((a, b) => b.votes - a.votes || String(a.name).localeCompare(String(b.name), 'ko'));
     });
-    return { ok: true, config: { pos: d.config.pos || null, al: d.config.al || null }, start_at: iso(d.start), end_at: iso(d.end), now: iso(Date.now()), submitted: d.votes.length,
+    const leaders = [];
+    Array.from(new Set(d.votes.filter((v) => v.part !== '기타').map((v) => v.part))).forEach((pt) => {
+      const m = new Map(), pv = d.votes.filter((v) => v.part === pt);
+      pv.forEach((v) => { const seen = new Set(); nomOf(v).p.forEach((n) => { const k = norm(n); if (!k || seen.has(k)) return; seen.add(k); const e = m.get(k) || { name: n, votes: 0, inRoster: d.roster.some((r) => norm(r.name) === k) }; e.votes++; m.set(k, e); }); });
+      leaders.push({ part: pt, voters: pv.length, noms: Array.from(m.values()).sort((a, b) => b.votes - a.votes) });
+    });
+    return { ok: true, leaders: leaders, config: { pos: d.config.pos || null, al: d.config.al || null }, start_at: iso(d.start), end_at: iso(d.end), now: iso(Date.now()), submitted: d.votes.length,
       roster: d.roster.map((r) => { const v = d.votes.find((x) => x.part === r.part && norm(x.name) === norm(r.name)); return { part: r.part, name: r.name, time: v ? v.time : null }; }), nominees: nom };
   }
   if (name === 'get_period') return { ok: true, start_at: iso(d.start), end_at: iso(d.end), now: iso(Date.now()) };
