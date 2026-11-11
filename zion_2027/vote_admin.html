@@ -221,7 +221,7 @@ function copyright() { return '(C)' + new Date().getFullYear() + '. YOON HYUNCHU
   .vcard{background:rgba(255,255,255,.97);border-radius:12px;border-top:4px solid #d98a2b;padding:14px;display:flex;flex-direction:column;gap:14px}
   .vcard.closed{opacity:.6}
   .fld{display:flex;flex-direction:column;gap:6px}
-  .lab .sub{font-size:14px;font-weight:400;color:#44506a}
+  .lab .sub{font-size:1em;font-weight:400;color:#44506a}
   .radios{display:flex;flex-wrap:wrap;gap:6px}
   .pill{position:relative;display:block;cursor:pointer;flex:none}
   .pill input{position:absolute;opacity:0}
@@ -241,11 +241,14 @@ function copyright() { return '(C)' + new Date().getFullYear() + '. YOON HYUNCHU
   .vhint{line-height:1.45;white-space:pre-line}
   .vcopy{margin-top:auto;text-align:right;font-size:12px;color:#4a2a10;padding-top:6px}
   .vcard button:disabled,.vcard input:disabled{cursor:not-allowed}
-  .labrow .sub{white-space:nowrap}
-  .labrow{display:flex;align-items:center;justify-content:space-between;gap:8px}
-  .mview{flex:none;background:#0b7285;color:#fff;border:0;border-radius:5px;padding:2px 6px;font:700 13px/1.3 inherit;font-family:inherit;cursor:pointer;white-space:nowrap}
+  .labrow .sub{white-space:nowrap;display:inline-block}.labrow>span{min-width:0}
+  .labrow{display:flex;align-items:center;justify-content:space-between;gap:4px}
+  .mview{flex:none;align-self:flex-start;background:#0b7285;color:#fff;border:0;border-radius:6px;padding:0 6px;font-weight:900;line-height:1;font-family:inherit;cursor:pointer;white-space:nowrap}
   .mview:hover{background:#085a69}
-  .prow[data-k=p] input::placeholder{font-size:var(--phfs,13px)}
+  .prow[data-k=p] input:disabled{background:#ece7de}
+  .phw{position:relative;flex:1;min-width:0;display:block}
+  .ph{position:absolute;left:12px;right:6px;top:50%;transform:translateY(-50%);font-size:12.5px;line-height:1.25;color:#7d7468;pointer-events:none;display:none;font-weight:400}
+  .phw input:placeholder-shown~.ph{display:block}
   .mimg-ov{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:99999;display:flex;align-items:center;justify-content:center;padding:8px}
   .mimg-box{background:#fff;border-radius:10px;max-width:100%;max-height:100%;display:flex;flex-direction:column;overflow:hidden}
   .mimg-bar{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:6px 10px;background:#0b7285;color:#fff;font-weight:700}
@@ -390,6 +393,7 @@ function mockRpc(name, a) {
       clean[pk] = [];
       if (src == null) continue;
       if (!Array.isArray(src)) return { ok: false, error: 'BAD_NOMINEE' };
+      if (pk === 'p' && part === '기타') continue;  // 기타 파트는 파트장 추천 없음
       const seen = [];
       for (const el of src) {
         const v = String(el || '').trim(), k = norm(v);
@@ -402,7 +406,7 @@ function mockRpc(name, a) {
       if (clean[pk].length > 1) return { ok: false, error: 'MULTI_NOMINEE' };
       total += clean[pk].length;
     }
-    if (POS_KEYS.some((pk) => !clean[pk].length)) return { ok: false, error: 'MISSING_NOMINEE' };
+    if (POS_KEYS.some((pk) => !clean[pk].length && !(pk === 'p' && part === '기타'))) return { ok: false, error: 'MISSING_NOMINEE' };
     const nk = norm(nm);
     const ex = d.votes.find((v) => v.part === part && v.key === nk);
     const t = iso(now);
@@ -496,9 +500,9 @@ function buildVoter(root, o) {
     '<div class="fld"><div class="lab" style="' + stl(S.label) + '">' + esc(c.labels.part) + ' <span class="sub">(하나 선택)</span></div><div class="radios">' +
     parts.map((p) => '<label class="pill"><input type="radio" name="part' + uid + '" value="' + esc(p) + '" aria-label="' + esc(p) + '"><span title="' + esc(p) + '">' + esc(partAbbr(p)) + '</span></label>').join('') +
     '</div></div>' +
-    '<div class="fld"><label class="lab" for="nm' + uid + '" style="' + stl(S.label) + '">' + esc(c.labels.name) + ' <span class="sub">(직접 입력)</span></label><input type="text" id="nm' + uid + '" class="nm" maxlength="20" placeholder="본인 이름을 입력하세요"></div>' +
-    '<div class="fld"><div class="lab labrow" style="' + stl(S.label) + '"><span>' + esc(c.labels.nom) + ' <span class="sub">(직책마다 1명 · 모두 필수)</span></span><button type="button" class="mview">찬양대원 현황 보기</button></div>' +
-    POS_KEYS.map((k, i) => '<div class="prow" data-k="' + k + '"><label class="ptitle" for="nom' + k + uid + '" style="' + stl(S.label) + '">' + esc(PL[i]) + '</label><input type="text" id="nom' + k + uid + '" maxlength="20" autocomplete="off" placeholder="' + (k === 'p' ? '파트장님을 추천해 주세요.(필수)' : '이름 입력 (필수)') + '" aria-required="true"></div>').join('') + '</div>' +
+    '<div class="fld"><label class="lab" for="nm' + uid + '" style="' + stl(S.label) + '">' + esc(c.labels.name) + ' <span class="sub">(직접 입력)</span></label><input type="text" id="nm' + uid + '" class="nm" maxlength="20" placeholder="본인 이름을 입력하세요. (직분 생략)"></div>' +
+    '<div class="fld"><div class="lab labrow" style="' + stl(S.label) + '"><span>' + esc(c.labels.nom) + ' <span class="sub">(직책마다 1명 · 모두 필수)</span></span><button type="button" class="mview" style="height:' + Math.round((Number(S.label.size) || 18) * 1.4) + 'px;font-size:' + Math.round((Number(S.label.size) || 18) * 0.8) + 'px">찬양대원 현황 보기</button></div>' +
+    POS_KEYS.map((k, i) => '<div class="prow" data-k="' + k + '"><label class="ptitle" for="nom' + k + uid + '" style="' + stl(S.label) + '">' + esc(PL[i]) + '</label><span class="phw"><input type="text" id="nom' + k + uid + '" maxlength="20" autocomplete="off" placeholder=" " aria-required="true"><span class="ph">' + (k === 'p' ? '파트장님을 추천해 주세요.(필수)' : '이름 입력(직분 생략)') + '</span></span></div>').join('') + '</div>' +
     '<button type="submit" class="vsubmit" style="' + stl(S.button) + 'background:' + safeColor(S.button.bg, '#12284c') + '">' + esc(c.btn) + '</button>' +
     '<div class="vhint" style="' + stl(S.hint) + '">' + esc(c.hint) + '</div>' +
     '</form>' +
@@ -516,22 +520,17 @@ function buildVoter(root, o) {
     const chk = form.querySelector('input[name="part' + uid + '"]:checked');
     const pin = root.querySelector('.prow[data-k="p"] input');
     if (!pin) return;
-    pin.placeholder = (chk ? partAbbr(chk.value) : '') + '파트장님을 추천해 주세요.(필수)';
-    fitPh(pin);
+    const ph = root.querySelector('.prow[data-k="p"] .ph');
+    if (chk && chk.value === '기타') {
+      pin.value = ''; pin.disabled = true; ph.textContent = '파트장님을 추천하지 않으셔도 됩니다.';
+    } else {
+      pin.disabled = !o.preview && !!root.__state && root.__state !== 'open';
+      ph.textContent = (chk ? partAbbr(chk.value) : '') + '파트장님을 추천해 주세요.(필수)';
+    }
   }
-  function fitPh(pin) {
-    const w = pin.clientWidth;
-    if (!w) return;
-    const cs = getComputedStyle(pin), cv = fitPh.cv || (fitPh.cv = document.createElement('canvas').getContext('2d'));
-    const avail = w - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight) - 4;
-    cv.font = '400 100px ' + cs.fontFamily;
-    const need = cv.measureText(pin.placeholder).width / 100;
-    pin.style.setProperty('--phfs', Math.max(8.5, Math.min(15, Math.floor(avail / need * 8.2) / 10)) + 'px');
-  }
-  window.addEventListener('resize', () => { const pin = root.querySelector('.prow[data-k="p"] input'); if (pin) fitPh(pin); });
-  setTimeout(updatePh, 0);
   form.addEventListener('change', (e) => { if (e.target && e.target.type === 'radio') updatePh(); });
   root.querySelector('.mview').addEventListener('click', showMemberImg);
+  setTimeout(updatePh, 0);
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     if (o.preview || !o.onSubmit) return;
@@ -542,7 +541,8 @@ function buildVoter(root, o) {
     groups.forEach((g) => { const v = g.input.value.trim(); noms[g.k] = v ? [v] : []; cnt += noms[g.k].length; });
     if (!part) { notice('입력 확인', '소속 파트를 선택해 주세요.'); return; }
     if (!name) { notice('입력 확인', '이름을 입력해 주세요.'); return; }
-    const miss = groups.filter((g) => !noms[g.k].length);
+    if (part === '기타') noms.p = [];  // 기타 파트는 파트장 추천 없음
+    const miss = groups.filter((g) => !noms[g.k].length && !(g.k === 'p' && part === '기타'));
     if (miss.length) { notice('입력 확인', '<b>' + miss.map((g) => esc(PL[POS_KEYS.indexOf(g.k)])).join(', ') + '</b> 추천인을 입력해 주세요.<br>모든 직책이 필수 입력입니다.'); miss[0].input.focus(); return; }
     const yes = await new Promise((res) => {
       modal('제출 확인', '<div style="line-height:1.7">입력한 대로 제출합니다.<br>투표 기간중에는 계속 수정하여 제출할 수 있습니다.</div>',
@@ -570,10 +570,11 @@ function buildVoter(root, o) {
       const a = st.querySelector('.vs1'), b = st.querySelector('.vs2');
       if (s.state === 'before') { a.textContent = '투표는 ' + fmtKST(s.start).slice(0, 16) + '에 시작됩니다.'; b.textContent = '시작 전에는 제출할 수 없습니다.'; }
       else if (s.state === 'closed') { a.textContent = '투표가 종료되었습니다.'; b.textContent = '종료 시각: ' + fmtKST(s.end).slice(0, 16); }
-      else { a.textContent = '투표 진행 중 : 종료까지 ' + remainText(s.end - s.now); b.textContent = '투표기간 : ' + fmtKST(s.start).slice(0, 16) + ' ~ ' + fmtKST(s.end).slice(0, 16); }
+      else { a.textContent = '투표 진행 중 : 종료까지 ' + remainText(s.end - s.now); b.textContent = '투표 기간 : ~ ' + fmtKST(s.end).slice(0, 16).replace(/^(\d+)-(\d+)-(\d+) /, '$1.$2.$3. '); }
       const off = s.state !== 'open';
       form.classList.toggle('closed', off);
       if (!o.preview) form.querySelectorAll('input,button:not(.mview)').forEach((x) => { x.disabled = off; });
+      updatePh();
     }
   };
 }
