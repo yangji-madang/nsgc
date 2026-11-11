@@ -328,6 +328,7 @@ function mockRpc(name, a) {
         if (clean[pk].length >= 20) break;
       }
       if (clean[pk].length > 1) return { ok: false, error: 'MULTI_NOMINEE' };
+      if (clean[pk].length && POS_KEYS.slice(0, POS_KEYS.indexOf(pk)).some((q) => clean[q] && clean[q].length && norm(clean[q][0]) === norm(clean[pk][0]))) return { ok: false, error: 'DUPLICATE_NOMINEE' };
       total += clean[pk].length;
     }
     if (POS_KEYS.some((pk) => !clean[pk].length && !(pk === 'p' && part === '기타'))) return { ok: false, error: 'MISSING_NOMINEE' };
@@ -468,6 +469,14 @@ function buildVoter(root, o) {
     if (part === '기타') noms.p = [];  // 기타 파트는 파트장 추천 없음
     const miss = groups.filter((g) => !noms[g.k].length && !(g.k === 'p' && part === '기타'));
     if (miss.length) { notice('입력 확인', '<b>' + miss.map((g) => esc(PL[POS_KEYS.indexOf(g.k)])).join(', ') + '</b> 추천인을 입력해 주세요.<br>모든 직책이 필수 입력입니다.'); miss[0].input.focus(); return; }
+    const byName = new Map();
+    groups.forEach((g) => { const v = noms[g.k][0]; if (!v) return; const key = norm(v); if (!byName.has(key)) byName.set(key, []); byName.get(key).push(PL[POS_KEYS.indexOf(g.k)]); });
+    const dups = Array.from(byName.values()).filter((l) => l.length > 1);
+    if (dups.length) {
+      const wa = (lb) => { const t = String(lb).replace(/\(.*\)\s*$/, '').trim(), c = t.charCodeAt(t.length - 1); return (c >= 0xAC00 && c <= 0xD7A3 && (c - 0xAC00) % 28 === 0) ? '와' : '과'; };
+      notice('입력 확인', dups.map((l) => esc((l.length === 2 ? "'" + l[0] + "'" + wa(l[0]) + " '" + l[1] + "'" : l.map((x) => "'" + x + "'").join(', ')) + '의 피추천인이 중복되었습니다.')).join('<br>') + '<br>다시 투표해 주세요.');
+      return;
+    }
     const yes = await new Promise((res) => {
       modal('제출 확인', '<div style="line-height:1.7">입력한 대로 제출합니다.<br>투표 기간중에는 계속 수정하여 제출할 수 있습니다.</div>',
         [{ t: '취소', fn: () => { res(false); } }, { t: '제출', cls: 'pri', fn: () => { res(true); } }]);
@@ -481,7 +490,7 @@ function buildVoter(root, o) {
       notice('투표 완료', (r.updated ? '기존 내용이 새 내용으로 수정되었습니다.' : '투표가 저장되었습니다.') + '<br>저장 시각: ' + esc(fmtKST(r.time)));
       form.reset(); resetRows();
     } else {
-      const m = { CLOSED: '투표가 종료되어 제출할 수 없습니다.', NOT_STARTED: '아직 투표 시작 전입니다.', BAD_PART: '소속 파트를 다시 선택해 주세요.', BAD_NAME: '이름은 1~20자로 입력해 주세요.', MULTI_NOMINEE: '직책마다 추천할 수 있는 분은 1명입니다.',
+      const m = { DUPLICATE_NOMINEE: '직책 간 피추천인이 중복되었습니다.<br>다시 투표해 주세요.', CLOSED: '투표가 종료되어 제출할 수 없습니다.', NOT_STARTED: '아직 투표 시작 전입니다.', BAD_PART: '소속 파트를 다시 선택해 주세요.', BAD_NAME: '이름은 1~20자로 입력해 주세요.', MULTI_NOMINEE: '직책마다 추천할 수 있는 분은 1명입니다.',
     NO_NOMINEE: '모든 직책의 추천인을 입력해 주세요.', MISSING_NOMINEE: '모든 직책의 추천인을 입력해 주세요.', BAD_NOMINEE: '추천인 이름은 1~20자로 입력해 주세요.', NETWORK: '네트워크 연결을 확인한 뒤 다시 시도해 주세요.' };
       notice('제출하지 못했습니다', esc((r && m[r.error]) || '잠시 후 다시 시도해 주세요.'));
     }
