@@ -1,6 +1,6 @@
 {
  "v": 1,
- "updated": "2026-11-04T23:13:37.380Z",
+ "updated": "2026-11-12T07:27:34.365Z",
  "bookOrder": [
   "시온2",
   "시온3",
@@ -1162,7 +1162,12 @@
    "composer": "주민정",
    "page": 13,
    "chk": false,
-   "dates": []
+   "dates": [
+    {
+     "d": "2026-11-08",
+     "url": "https://youtu.be/U7Y34nU2-sM"
+    }
+   ]
   },
   {
    "id": "s056",
