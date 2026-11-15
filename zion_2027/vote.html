@@ -428,7 +428,7 @@ function buildVoter(root, o) {
   root.innerHTML =
     '<div class="vbg"><div class="vwrap">' +
     '<div class="vstat open" style="font-size:' + Math.max(11, Math.round((Number(S.title.size) || 32) * 0.7)) + 'px"><div class="vs1">&nbsp;</div><div class="vs2">&nbsp;</div></div>' +
-    '<h1 class="vtitle" style="' + stl(S.title) + '">' + esc(c.title) + '</h1>' +
+    '<h1 class="vtitle" style="' + stl(S.title) + '">' + esc(c.title).replace(/\r?\n/g, '<br>') + '</h1>' +
     '<div class="vnotice" style="' + stl(S.notice) + '">' + esc(c.notice) + '</div>' +
     '<form class="vcard" autocomplete="off" novalidate>' +
     '<div class="fld"><div class="lab" style="' + stl(S.label) + '">' + esc(c.labels.part) + ' <span class="sub">(하나 선택)</span></div><div class="radios">' +

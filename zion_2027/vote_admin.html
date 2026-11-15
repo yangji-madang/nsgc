@@ -512,7 +512,7 @@ function buildVoter(root, o) {
   root.innerHTML =
     '<div class="vbg"><div class="vwrap">' +
     '<div class="vstat open" style="font-size:' + Math.max(11, Math.round((Number(S.title.size) || 32) * 0.7)) + 'px"><div class="vs1">&nbsp;</div><div class="vs2">&nbsp;</div></div>' +
-    '<h1 class="vtitle" style="' + stl(S.title) + '">' + esc(c.title) + '</h1>' +
+    '<h1 class="vtitle" style="' + stl(S.title) + '">' + esc(c.title).replace(/\r?\n/g, '<br>') + '</h1>' +
     '<div class="vnotice" style="' + stl(S.notice) + '">' + esc(c.notice) + '</div>' +
     '<form class="vcard" autocomplete="off" novalidate>' +
     '<div class="fld"><div class="lab" style="' + stl(S.label) + '">' + esc(c.labels.part) + ' <span class="sub">(하나 선택)</span></div><div class="radios">' +
@@ -1054,7 +1054,7 @@ function renderAnalysis(A, ui, L, o) {
     return '<div class="edl"><div style="display:flex;flex-direction:column;gap:12px;min-width:0">' +
       '<div class="row noprint" style="justify-content:flex-end"><button type="button" class="btn" data-act="dreset">기본값으로 되돌리기</button><button type="button" class="btn pri" data-act="dsave">저장</button></div>' +
       '<section class="card"><h2>① 문구 입력</h2><div class="fg">' +
-      '<label for="d1">상단 제목</label><input type="text" id="d1" data-p="title" value="' + esc(c.title) + '">' +
+      '<label for="d1">상단 제목 <span class="note">(Enter로 줄바꿈)</span></label><textarea id="d1" rows="2" data-p="title">' + esc(c.title) + '</textarea>' +
       '<label for="d2">안내문구</label><textarea id="d2" rows="4" data-p="notice">' + esc(c.notice) + '</textarea>' +
       '<label for="d2b">제출 버튼 아래 안내</label><textarea id="d2b" rows="3" data-p="hint">' + esc(c.hint) + '</textarea>' +
       '<label for="d3">하단 footer</label><textarea id="d3" rows="3" data-p="footer">' + esc(c.footer) + '</textarea>' +
