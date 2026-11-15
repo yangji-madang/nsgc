@@ -124,7 +124,7 @@ const FONTS = {
   'Georgia': "Georgia,serif"
 };
 
-const POS_KEYS = ['d', 'm', 'f', 's', 'p'];  // 대장·총무(남)·총무(여)·봉사부·파트장
+const POS_KEYS = ['d', 'm', 'f', 's', 'a', 'b', 'p'];  // 대장·총무(남)·총무(여)·봉사부장·봉사부원1·봉사부원2·파트장
 const ABBR = { '소프라노': 'Sop.', '알토': 'Alt.', '테너': 'Ten.', '베이스': 'Bas.', '오케스트라': 'Orc.', '오케': 'Orc.' };
 function partAbbr(p) { return ABBR[String(p).trim()] || p; }
 function posLabels(c) { const a = (c && Array.isArray(c.pos)) ? c.pos : []; return POS_KEYS.map((k, i) => String(a[i] || DEFAULT_CFG.pos[i])); }
@@ -135,7 +135,7 @@ const DEFAULT_CFG = {
   notice: '본인의 소속 파트와 이름을 입력하신 후,\n임원으로 추천하실 분의 이름을 입력해 주세요.\n투표 기간 내에는 다시 제출하여 수정할 수 있습니다.',
   footer: '문의: 찬양대 총무\n투표 내용은 임원 선출 집계 목적으로만 사용됩니다.',
   labels: { part: '① 소속 파트', name: '② 이름', nom: '③ 직책별 추천하는 분' },
-  pos: ['대장', '총무(남자)', '총무(여자)', '봉사부', '파트장'],
+  pos: ['대장', '총무(남자)', '총무(여자)', '봉사부장', '봉사부원 1', '봉사부원 2', '파트장'],
   btn: '투표 제출',
   hint: '같은 파트·이름으로 다시 제출하면 기존 내용이 새 내용으로 바뀝니다. 새로 접속하면 이전에 입력한 내용은 화면에 표시되지 않습니다.',
   styles: {
@@ -171,7 +171,16 @@ function deepMerge(base, over) {
   });
   return out;
 }
-function mergeCfg(raw) { return deepMerge(DEFAULT_CFG, isObj(raw) ? raw : {}); }
+function mergeCfg(raw) {
+  const r = isObj(raw) ? clone(raw) : {};
+  if (Array.isArray(r.pos)) {
+    let a = r.pos.slice();
+    if (a.length === 5) a = [a[0], a[1], a[2], a[3], DEFAULT_CFG.pos[4], DEFAULT_CFG.pos[5], a[4]];  // 예전 5개 직책 설정 → 7개로 이전
+    if (a[3] === '봉사부') a[3] = '봉사부장';
+    r.pos = a;
+  }
+  return deepMerge(DEFAULT_CFG, r);
+}
 function clone(o) { return JSON.parse(JSON.stringify(o)); }
 
 function fmtKST(v) {
@@ -640,7 +649,7 @@ function renderAnalysis(A, ui, L, o) {
   const partOpts = ['전체'].concat(A.partRows.map((p) => p.part)).map((p) => '<option' + (p === ui.f2 ? ' selected' : '') + '>' + esc(p) + '</option>').join('');
   const sortBtns = '<span class="row noprint"><button type="button" class="btn sm' + (ui.sort === 'votes' ? ' on' : '') + '" data-act="sort" data-v="votes">득표수순</button><button type="button" class="btn sm' + (ui.sort === 'name' ? ' on' : '') + '" data-act="sort" data-v="name">이름순</button></span>';
   const PAL = ['#12284c', '#b8913a', '#2c7a7b', '#b42318', '#6b4fa0', '#3b82c4', '#7a8b3a', '#c46a2b', '#8a8f98', '#c78c9b'];
-  const PC = ['#12284c', '#d9b45a', '#2c7a7b', '#b42318', '#6b4fa0'], PT = ['#fff', '#12284c', '#fff', '#fff', '#fff'];
+  const PC = ['#12284c', '#d9b45a', '#2c7a7b', '#b42318', '#e07b39', '#8a9a2e', '#6b4fa0'], PT = ['#fff', '#12284c', '#fff', '#fff', '#fff', '#fff', '#fff'];
   const lum = (h) => { const v = parseInt(h.slice(1), 16); return (0.299 * ((v >> 16) & 255) + 0.587 * ((v >> 8) & 255) + 0.114 * (v & 255)) / 255; };
   const nmCell = (n) => (n.inRoster || !o.admin) ? esc(n.name) : '<span class="nx" data-act="nfix" data-n="' + esc(n.name) + '" title="명단에 없는 이름입니다. 눌러서 명단 대원으로 연결">' + esc(n.name) + '</span>';
   function pie(list) {
@@ -710,7 +719,7 @@ function renderAnalysis(A, ui, L, o) {
   const sec2 = '<section class="card an"><div class="row" style="justify-content:space-between"><h2>2. ' + esc(L.s2) + '</h2>' + sortBtns + '</div><div class="row" style="margin-bottom:6px">' + legend + '<span class="note">한 사람이 여러 직책에 추천받은 경우 직책별로 나누어 한 줄에 표시합니다.</span></div>' +
     '<table class="tb"><thead><tr><th style="width:44px">' + esc(L.no) + '</th><th>' + esc(L.nom) + '</th><th>' + esc(L.tot) + '</th><th style="width:34%">' + esc(L.bar) + '</th>' + A.byPos.map((g) => '<th>' + esc(g.label) + '</th>').join('') + '</tr></thead><tbody>' +
     (people.map((x, i) => '<tr><td>' + (i + 1) + '</td><td class="b">' + nmCell(x) + '</td><td class="b">' + x.t + '</td><td><div class="sb">' + x.v.map((c, gi) => c ? '<i style="width:' + (c * 100 / pmax).toFixed(1) + '%;background:' + PC[gi] + ';color:' + PT[gi] + '">' + c + '</i>' : '').join('') + '</div></td>' +
-      x.v.map((c, gi) => '<td>' + (c ? (A.byPos[gi].key === 'p' ? c + '표' : c + '표 · ' + pct(c, A.submitted)) : '-') + '</td>').join('') + '</tr>').join('') || '<tr><td colspan="9">아직 추천 내용이 없습니다.</td></tr>') +
+      x.v.map((c, gi) => '<td>' + (c ? (A.byPos[gi].key === 'p' ? c + '표' : c + '표 · ' + pct(c, A.submitted)) : '-') + '</td>').join('') + '</tr>').join('') || '<tr><td colspan="11">아직 추천 내용이 없습니다.</td></tr>') +
     '</tbody></table></section>';
   const sec3 = '<section class="card an"><h2>3. ' + esc(L.s3) + '</h2><table class="tb"><thead><tr><th>' + esc(L.part) + '</th><th>' + esc(L.enr) + '</th><th>' + esc(L.share) + '</th><th>' + esc(L.vtr) + '</th><th colspan="2" style="text-align:center">' + esc(L.prate) + '</th></tr></thead><tbody>' +
     (A.partRows.map((p) => '<tr><td class="b">' + esc(p.part) + '</td><td>' + p.total + '명</td><td>' + pct(p.total, A.total) + '</td><td>' + p.voted + '명</td><td class="b">' + pct(p.voted, p.total) + '</td><td style="width:24%"><div class="bar"><i style="width:' + pct(p.voted, p.total) + '"></i></div></td></tr>').join('') || '<tr><td colspan="6">대원명단을 먼저 등록해 주세요.</td></tr>') +
@@ -1050,7 +1059,7 @@ function renderAnalysis(A, ui, L, o) {
       '<label for="d2b">제출 버튼 아래 안내</label><textarea id="d2b" rows="3" data-p="hint">' + esc(c.hint) + '</textarea>' +
       '<label for="d3">하단 footer</label><textarea id="d3" rows="3" data-p="footer">' + esc(c.footer) + '</textarea>' +
       '<label for="d4">항목명</label><div class="row"><input type="text" id="d4" data-p="labels.part" value="' + esc(c.labels.part) + '" aria-label="파트 항목명" style="width:30%"><input type="text" data-p="labels.name" value="' + esc(c.labels.name) + '" aria-label="이름 항목명" style="width:30%"><input type="text" data-p="labels.nom" value="' + esc(c.labels.nom) + '" aria-label="피추천인 항목명" style="width:30%"></div>' +
-      '<label for="d4b">직책명</label><div class="row">' + [0, 1, 2, 3, 4].map((i) => '<input type="text"' + (i ? '' : ' id="d4b"') + ' data-p="pos.' + i + '" value="' + esc(posLabels(c)[i]) + '" aria-label="직책 ' + (i + 1) + ' 이름" style="width:18%">').join('') + '</div>' +
+      '<label for="d4b">직책명</label><div class="row">' + [0, 1, 2, 3, 4, 5, 6].map((i) => '<input type="text"' + (i ? '' : ' id="d4b"') + ' data-p="pos.' + i + '" value="' + esc(posLabels(c)[i]) + '" aria-label="직책 ' + (i + 1) + ' 이름" style="width:23%">').join('') + '</div>' +
       '<label for="d5">버튼 문구</label><input type="text" id="d5" data-p="btn" value="' + esc(c.btn) + '" style="max-width:260px"></div></section>' +
       '<section class="card"><h2>② 글꼴 서식 (모든 항목)</h2><div style="overflow-x:auto"><table class="tb"><thead><tr><th>항목</th><th>글꼴</th><th>크기(px)</th><th>색</th><th>정렬</th><th>굵게</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
       '<div class="row"><b style="color:#12284c">제출 버튼 배경색</b><input type="color" data-p="styles.button.bg" value="' + safeColor(c.styles.button.bg, '#12284c') + '" aria-label="제출 버튼 배경색"></div>' +

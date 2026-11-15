@@ -40,7 +40,7 @@ const FONTS = {
   'Georgia': "Georgia,serif"
 };
 
-const POS_KEYS = ['d', 'm', 'f', 's', 'p'];  // 대장·총무(남)·총무(여)·봉사부·파트장
+const POS_KEYS = ['d', 'm', 'f', 's', 'a', 'b', 'p'];  // 대장·총무(남)·총무(여)·봉사부장·봉사부원1·봉사부원2·파트장
 const ABBR = { '소프라노': 'Sop.', '알토': 'Alt.', '테너': 'Ten.', '베이스': 'Bas.', '오케스트라': 'Orc.', '오케': 'Orc.' };
 function partAbbr(p) { return ABBR[String(p).trim()] || p; }
 function posLabels(c) { const a = (c && Array.isArray(c.pos)) ? c.pos : []; return POS_KEYS.map((k, i) => String(a[i] || DEFAULT_CFG.pos[i])); }
@@ -51,7 +51,7 @@ const DEFAULT_CFG = {
   notice: '본인의 소속 파트와 이름을 입력하신 후,\n임원으로 추천하실 분의 이름을 입력해 주세요.\n투표 기간 내에는 다시 제출하여 수정할 수 있습니다.',
   footer: '문의: 찬양대 총무\n투표 내용은 임원 선출 집계 목적으로만 사용됩니다.',
   labels: { part: '① 소속 파트', name: '② 이름', nom: '③ 직책별 추천하는 분' },
-  pos: ['대장', '총무(남자)', '총무(여자)', '봉사부', '파트장'],
+  pos: ['대장', '총무(남자)', '총무(여자)', '봉사부장', '봉사부원 1', '봉사부원 2', '파트장'],
   btn: '투표 제출',
   hint: '같은 파트·이름으로 다시 제출하면 기존 내용이 새 내용으로 바뀝니다. 새로 접속하면 이전에 입력한 내용은 화면에 표시되지 않습니다.',
   styles: {
@@ -87,7 +87,16 @@ function deepMerge(base, over) {
   });
   return out;
 }
-function mergeCfg(raw) { return deepMerge(DEFAULT_CFG, isObj(raw) ? raw : {}); }
+function mergeCfg(raw) {
+  const r = isObj(raw) ? clone(raw) : {};
+  if (Array.isArray(r.pos)) {
+    let a = r.pos.slice();
+    if (a.length === 5) a = [a[0], a[1], a[2], a[3], DEFAULT_CFG.pos[4], DEFAULT_CFG.pos[5], a[4]];  // 예전 5개 직책 설정 → 7개로 이전
+    if (a[3] === '봉사부') a[3] = '봉사부장';
+    r.pos = a;
+  }
+  return deepMerge(DEFAULT_CFG, r);
+}
 function clone(o) { return JSON.parse(JSON.stringify(o)); }
 
 function fmtKST(v) {
