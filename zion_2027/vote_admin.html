@@ -214,7 +214,6 @@ function bgCss(b) {
   const g = 'linear-gradient(' + (Number(b.dir) || 0) + 'deg,' + rgba(b.c1, a) + ',' + rgba(b.c2, a) + ')';
   return b.img ? 'background:' + g + ',url("' + b.img + '") center/cover no-repeat;' : 'background:' + g + ';';
 }
-function copyright() { return '(C)' + new Date().getFullYear() + '. YOON HYUNCHUL,&nbsp; ALL RIGHT RESERVED.'; }
 
 /* ---------- 공용 스타일(투표 화면 + 팝업) ---------- */
 (function injectCss() {
@@ -525,7 +524,6 @@ function buildVoter(root, o) {
     '<div class="vhint" style="' + stl(S.hint) + '">' + esc(c.hint) + '</div>' +
     '</form>' +
     '<div class="vfoot" style="' + stl(S.footer) + '">' + esc(c.footer) + '</div>' +
-    '<div class="vcopy">' + copyright() + '</div>' +
     '</div></div>';
   root.querySelector('.vbg').style.cssText += bgCss(c.bg);
   const form = root.querySelector('.vcard');
@@ -784,7 +782,7 @@ function renderAnalysis(A, ui, L, o) {
       '<div id="lge" class="lge"' + (msg ? '' : ' hidden') + '>' + esc(msg || '') + '</div>' +
       '<button class="btnp" type="submit">로그인</button>' +
       (DEMO ? '<div class="lgs">시험 모드 비밀번호: 0000</div>' : '') +
-      '<div class="copyr">' + copyright() + '</div></form></div>';
+      '</form></div>';
     const f = document.getElementById('lgf');
     document.getElementById('lgp').focus();
     f.addEventListener('submit', async (e) => {
@@ -808,7 +806,7 @@ function renderAnalysis(A, ui, L, o) {
       '<header class="ahead"><div style="display:flex;align-items:flex-end;gap:22px;flex-wrap:wrap"><div class="atitle">ADMIN · 찬양대 임원 추천 투표 관리</div>' +
       '<nav class="tabs" id="tabs"></nav></div>' +
       '<div class="hrow"><span class="chip" id="chip"></span><a class="hbtn" href="vote.html" target="_blank" rel="noopener">투표화면</a><a class="hbtn" href="vote_status.html" target="_blank" rel="noopener">투표현황화면</a><button type="button" class="hbtn" data-top="pw">비밀번호 변경</button><button type="button" class="hbtn" data-top="out">로그아웃</button></div></header>' +
-      '<main class="main" id="panel"></main><div class="copyr">' + copyright() + '</div>';
+      '<main class="main" id="panel"></main>';
     document.getElementById('tabs').addEventListener('click', onTab);
     app.querySelector('.hrow').addEventListener('click', onTop);
     const panel = document.getElementById('panel');

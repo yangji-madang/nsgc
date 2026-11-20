@@ -110,7 +110,6 @@ window.onerror = function (m, s, l, c) {
   <div class="sbar noprint"><span class="note" id="upd">불러오는 중…</span></div>
   <div id="panel"></div>
 </div>
-<div class="copyr" id="cp"></div>
 <script>
 /* ============================================================
    zion_2027 찬양대 임원 추천 투표 - 공통 모듈
@@ -224,7 +223,6 @@ function bgCss(b) {
   const g = 'linear-gradient(' + (Number(b.dir) || 0) + 'deg,' + rgba(b.c1, a) + ',' + rgba(b.c2, a) + ')';
   return b.img ? 'background:' + g + ',url("' + b.img + '") center/cover no-repeat;' : 'background:' + g + ';';
 }
-function copyright() { return '(C)' + new Date().getFullYear() + '. YOON HYUNCHUL,&nbsp; ALL RIGHT RESERVED.'; }
 
 /* ---------- 공용 스타일(투표 화면 + 팝업) ---------- */
 (function injectCss() {
@@ -522,7 +520,7 @@ function buildVoter(root, o) {
   root.innerHTML =
     '<div class="vbg"><div class="vwrap">' +
     '<div class="vstat open" style="font-size:' + Math.max(11, Math.round((Number(S.title.size) || 32) * 0.7)) + 'px"><div class="vs1">&nbsp;</div><div class="vs2">&nbsp;</div></div>' +
-    '<h1 class="vtitle" style="' + stl(S.title) + '">' + esc(c.title) + '</h1>' +
+    '<h1 class="vtitle" style="' + stl(S.title) + '">' + esc(c.title).replace(/\r?\n/g, '<br>') + '</h1>' +
     '<div class="vnotice" style="' + stl(S.notice) + '">' + esc(c.notice) + '</div>' +
     '<form class="vcard" autocomplete="off" novalidate>' +
     '<div class="fld"><div class="lab" style="' + stl(S.label) + '">' + esc(c.labels.part) + ' <span class="sub">(하나 선택)</span></div><div class="radios">' +
@@ -535,7 +533,6 @@ function buildVoter(root, o) {
     '<div class="vhint" style="' + stl(S.hint) + '">' + esc(c.hint) + '</div>' +
     '</form>' +
     '<div class="vfoot" style="' + stl(S.footer) + '">' + esc(c.footer) + '</div>' +
-    '<div class="vcopy">' + copyright() + '</div>' +
     '</div></div>';
   root.querySelector('.vbg').style.cssText += bgCss(c.bg);
   const form = root.querySelector('.vcard');
@@ -757,7 +754,6 @@ function renderAnalysis(A, ui, L, o) {
   const ui = { sort: 'votes', f1: '전체', f2: '전체' };
   let S = null, cfg = mergeCfg({});
   const panel = document.getElementById('panel');
-  document.getElementById('cp').innerHTML = copyright();
   if (DEMO) document.getElementById('demo').hidden = false;
   function render() {
     if (!S) return;
