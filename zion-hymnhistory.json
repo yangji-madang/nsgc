@@ -1,6 +1,6 @@
 {
  "v": 1,
- "updated": "2026-11-12T07:27:34.365Z",
+ "updated": "2026-11-20T12:01:04.384Z",
  "bookOrder": [
   "시온2",
   "시온3",
@@ -1316,7 +1316,12 @@
    "composer": "조성은",
    "page": 3,
    "chk": false,
-   "dates": []
+   "dates": [
+    {
+     "d": "2026-11-15",
+     "url": "https://youtu.be/NbFguYqszg8?si=8ZDM4U1lwFagDsgt"
+    }
+   ]
   },
   {
    "id": "s072",
@@ -1329,6 +1334,10 @@
     {
      "d": "2026-11-01",
      "url": "https://youtu.be/tPP3iIbmlXI?si=lnhoNbjStc7LKqvb"
+    },
+    {
+     "d": "2026-11-15",
+     "url": "https://youtu.be/NbFguYqszg8?si=8ZDM4U1lwFagDsgt"
     }
    ]
   },
@@ -1339,7 +1348,12 @@
    "composer": "이율구",
    "page": 20,
    "chk": false,
-   "dates": []
+   "dates": [
+    {
+     "d": "2026-11-15",
+     "url": "https://youtu.be/NbFguYqszg8?si=8ZDM4U1lwFagDsgt"
+    }
+   ]
   },
   {
    "id": "s074",
@@ -1348,7 +1362,12 @@
    "composer": "신상우",
    "page": 27,
    "chk": false,
-   "dates": []
+   "dates": [
+    {
+     "d": "2026-11-15",
+     "url": "https://youtu.be/NbFguYqszg8?si=8ZDM4U1lwFagDsgt"
+    }
+   ]
   },
   {
    "id": "s075",
@@ -1361,6 +1380,10 @@
     {
      "d": "2026-10-11",
      "url": "https://youtu.be/qvlrtoyafeU?si=RyiZZC_Wn1gWM495"
+    },
+    {
+     "d": "2026-11-15",
+     "url": "https://youtu.be/NbFguYqszg8?si=8ZDM4U1lwFagDsgt"
     }
    ]
   },
@@ -1371,7 +1394,12 @@
    "composer": "김예은",
    "page": 47,
    "chk": false,
-   "dates": []
+   "dates": [
+    {
+     "d": "2026-11-15",
+     "url": "https://youtu.be/NbFguYqszg8?si=8ZDM4U1lwFagDsgt"
+    }
+   ]
   },
   {
    "id": "s077",
