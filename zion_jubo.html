@@ -3,7 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,viewport-fit=cover">
-<title>시온찬양대 주보</title>
+<title>'26.11.22. 시온찬양대 주보</title>
+<meta property="og:type" content="website">
+<meta property="og:title" content="'26.11.22. 시온찬양대 주보">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Do+Hyeon&family=Jua&family=Nanum+Gothic:wght@400;700;800&family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@400;500;700;900&family=Gowun+Batang:wght@400;700&family=Gowun+Dodum&family=Song+Myung&family=Gaegu:wght@400;700&family=Hi+Melody&family=Sunflower:wght@300;500;700&display=swap" rel="stylesheet">
 <style>
@@ -264,7 +266,7 @@ function utbl(id,ta){
   var st='--ub:'+esc(T.bd||'#999999')+';--uw:'+bw+'px;--ubg:'+(T.nbg?'transparent':esc(T.bg||'#ffffff'))+';--ual:'+(AM[T.al||'c']||'center')+';--ufs:'+(Number(T.fs)||13)+'px;--ufw:'+(T.b?700:400)+';--ufc:'+esc(T.fc||'#222222')+';--uhb:'+esc(T.hbg||'#dde7f3');
   var cov={},anc={};
   (T.m||[]).forEach(function(m){anc[m.r+','+m.c]=m;for(var i=0;i<m.rs;i++)for(var j=0;j<m.cs;j++)if(i||j)cov[(m.r+i)+','+(m.c+j)]=1;});
-  var rows=T.r.map(function(row,ri){return '<tr>'+(row||[]).map(function(v,ci){
+  var rows=T.r.map(function(row,ri){var rh=Number((T.h||[])[ri])||0;return '<tr'+(rh>0?' style="height:'+Math.min(600,Math.round(rh))+'px"':'')+'>'+(row||[]).map(function(v,ci){
     var k=ri+','+ci;if(cov[k])return '';
     var m=anc[k],sp=m?(m.rs>1?' rowspan="'+m.rs+'"':'')+(m.cs>1?' colspan="'+m.cs+'"':''):'';
     var ca=(T.ca||{})[k],cs=ca&&AM[ca]?' style="text-align:'+AM[ca]+'"':'';
@@ -337,7 +339,8 @@ function attSec(){
    +'<tr><th class="nw">출석/재적</th>'+vals.map(function(v,i){return '<td class="r1 nw'+sh(i)+'">'+v+'</td>';}).join('')+'</tr>'
    +'<tr><th class="nw">출 석 률</th>'+rts.map(function(v,i){return '<td class="nw'+sh(i)+'">'+v+'</td>';}).join('')+'</tr></table></div>';
 }
-function draw(){draw0();applyAuto();}
+function draw(){
+  try{var _t=fmtDate(D&&D.hd&&D.hd.date);document.title=(_t?"'"+_t+' ':'')+'시온찬양대 주보';}catch(e){}draw0();applyAuto();}
 var ATT=null;
 function attSrc(){return ATT||(ATT=fetch('zion/data.json?'+Date.now(),{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return r.json();}));}
 function applyAuto(){

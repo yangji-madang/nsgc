@@ -56,6 +56,21 @@ table.et{border-collapse:collapse;width:100%}
 table.et th,table.et td{border:1px solid #e1e5ec;padding:3px;vertical-align:top}
 table.et th{background:#eef2f8;font-size:12px}
 table.et input{min-width:70px}
+.tbwrap{padding:0 10px 10px 0;overflow-x:auto}
+.tbin{width:100%}
+table.tbg{border-collapse:collapse;table-layout:fixed;background:#fff}
+table.tbg td{position:relative;padding:0;vertical-align:top;box-shadow:inset 0 0 0 1px rgba(120,135,165,.35)}
+table.tbg td.tsel{box-shadow:inset 0 0 0 2px #1a56c4;background-image:linear-gradient(rgba(26,86,196,.16),rgba(26,86,196,.16))}
+.tbs{visibility:hidden;white-space:pre-wrap;overflow-wrap:anywhere;padding:.2em .45em;line-height:1.3;min-height:1.7em;pointer-events:none}
+table.tbg textarea{position:absolute;left:0;top:0;width:100%;height:100%;box-sizing:border-box;border:0;background:transparent;resize:none;overflow:hidden;padding:.2em .45em;line-height:1.3;font:inherit;color:inherit;text-align:inherit;font-weight:inherit;min-width:0;min-height:0;outline:none;white-space:pre-wrap;overflow-wrap:anywhere;margin:0}
+.tbh{position:absolute;z-index:3;touch-action:none;display:block}
+.tbhc{top:0;bottom:0;right:-5px;width:10px;cursor:col-resize}
+.tbhr{left:0;right:0;bottom:-5px;height:10px;cursor:row-resize}
+.tbh:hover{background:rgba(26,86,196,.4)}
+@media (pointer:coarse){.tbhc{width:20px;right:-10px}.tbhr{height:20px;bottom:-10px}}
+.tbwrap.tsm textarea{pointer-events:none}
+.tbwrap.tsm td{touch-action:none;cursor:cell;user-select:none}
+.tbwrap.tsm .tbh{display:none}
 .sub{font-size:12px;color:#666;margin:8px 0 2px;font-weight:700}
 .calc{font-size:12px;color:#1f3a5f;background:#eef4ff;border-radius:5px;padding:5px 8px;margin-top:6px;line-height:1.6}
 .thumb{width:90px;height:60px;object-fit:cover;border:1px solid #ccc;border-radius:5px}
@@ -411,54 +426,102 @@ async function bdRun(manual){
   if((D.ls.notice.bd||'')!==r.text){D.ls.notice.bd=r.text;render();save();}
   bdMsg(r.n?('주보 날짜('+dt+') 주간 생일자 '+r.n+'명을 입력했습니다.'):'주보 날짜('+dt+') 주간에는 생일자가 없습니다.');
 }
-function tbDef(){return {r:[['',''],['','']],w:['',''],ca:{},bd:'#999999',bw:1,bg:'#ffffff',nbg:false,al:'c',fs:13,b:false,fc:'#222222',hdr:true,hbg:'#dde7f3',fw:true};}
+function tbDef(){return {r:[['',''],['','']],w:[50,50],h:[],ca:{},bd:'#999999',bw:1,bg:'#ffffff',nbg:false,al:'c',fs:13,b:false,fc:'#222222',hdr:true,hbg:'#dde7f3',fw:true};}
 var MKR=/^\s*\[\[표:([A-Za-z0-9_]+)\]\]\s*$/;
 function tbIds(p){var o=[];String(G(p)||'').split('\n').forEach(function(l){var m=MKR.exec(l);if(m&&D.tbx&&D.tbx[m[1]]&&o.indexOf(m[1])<0)o.push(m[1]);});return o;}
-var TSEL={id:'',r:-1,c:-1},CELLSZ={};
+var TSEL={id:'',r:-1,c:-1,r2:-1,c2:-1},TSM={},TSELDRAG=false,TDRAG=null;
 function tbCov(T){var cov={},anc={};(T.m||[]).forEach(function(m){anc[m.r+','+m.c]=m;for(var i=0;i<m.rs;i++)for(var j=0;j<m.cs;j++)if(i||j)cov[(m.r+i)+','+(m.c+j)]=1;});return {cov:cov,anc:anc};}
 function tbFix(T){
   var R=T.r.length,C=T.r[0].length;
-  T.w=(T.w||[]).slice(0,C);T.ca=T.ca||{};Object.keys(T.ca).forEach(function(k){var s=k.split(',');if(+s[0]>=R||+s[1]>=C)delete T.ca[k];});
+  T.w=(T.w||[]).slice(0,C);T.h=(T.h||[]).slice(0,R);T.ca=T.ca||{};Object.keys(T.ca).forEach(function(k){var s=k.split(',');if(+s[0]>=R||+s[1]>=C)delete T.ca[k];});
   T.m=(T.m||[]).filter(function(m){return m.r<R&&m.c<C;}).map(function(m){m.rs=Math.min(m.rs,R-m.r);m.cs=Math.min(m.cs,C-m.c);return m;}).filter(function(m){return m.rs>1||m.cs>1;});
 }
-function tbMerge(T,r,c,dir){
-  var cv=tbCov(T),m=cv.anc[r+','+c];
-  if(cv.cov[r+','+c])return '병합된 칸 안의 칸입니다. 병합 칸(왼쪽 위 칸)을 선택하세요.';
-  var base=m||{r:r,c:c,rs:1,cs:1},nr=base.rs+(dir==='d'?1:0),nc=base.cs+(dir==='r'?1:0);
-  if(r+nr>T.r.length||c+nc>T.r[0].length)return '표의 끝이라 더 병합할 수 없습니다.';
-  var parts=[];
-  for(var i=0;i<nr;i++)for(var j=0;j<nc;j++){
-    if(i<base.rs&&j<base.cs)continue;
-    var k=(r+i)+','+(c+j);
-    if(cv.cov[k]||cv.anc[k])return '이미 병합된 칸과 겹칩니다. 먼저 분할해 주세요.';
-    var v=String(T.r[r+i][c+j]||'');if(v.trim())parts.push(v);T.r[r+i][c+j]='';
+/* 열 폭(%) — 보기 페이지(utbl)와 같은 규칙: 값이 하나라도 있으면 합계(최대 100%)만큼의 폭, 비어 있는 열은 남은 폭을 나눠 가짐 */
+function tbWs(T){
+  var nc=T.r[0].length,W=[],sum=0,un=0,any=false,j;
+  for(j=0;j<nc;j++){var w=Number((T.w||[])[j])||0;w=w>0?Math.min(100,w):0;W.push(w);if(w>0){any=true;sum+=w;}else un++;}
+  if(!any){W=W.map(function(){return 100/nc;});return {w:W,raw:100};}
+  var each=un?Math.max(5,(100-sum)/un):0;W=W.map(function(w){return w>0?w:each;});
+  return {w:W,raw:W.reduce(function(a,b){return a+b;},0)};
+}
+function tbRect(){
+  if(!TSEL.id||TSEL.r<0)return null;
+  var r2=TSEL.r2<0?TSEL.r:TSEL.r2,c2=TSEL.c2<0?TSEL.c:TSEL.c2;
+  return {id:TSEL.id,r1:Math.min(TSEL.r,r2),c1:Math.min(TSEL.c,c2),r2:Math.max(TSEL.r,r2),c2:Math.max(TSEL.c,c2)};
+}
+function tbHi(){
+  var R=tbRect();
+  document.querySelectorAll('td[data-cell]').forEach(function(td){
+    var s=td.dataset.cell.split('|'),r=+s[1],c=+s[2],rs=+td.dataset.rs||1,cs=+td.dataset.cs||1;
+    var on=R&&s[0]===R.id&&r<=R.r2&&r+rs-1>=R.r1&&c<=R.c2&&c+cs-1>=R.c1;
+    td.classList.toggle('tsel',!!on);
+  });
+  document.querySelectorAll('.tsl').forEach(function(l){
+    if(!R||l.dataset.id!==R.id){l.textContent='없음';return;}
+    l.textContent=(R.r1===R.r2&&R.c1===R.c2)?(R.r1+1)+'행 '+(R.c1+1)+'열':(R.r1+1)+'~'+(R.r2+1)+'행 · '+(R.c1+1)+'~'+(R.c2+1)+'열';
+  });
+}
+/* 선택 범위의 칸들을 하나로 병합 (이미 병합된 칸과 걸치면 그 칸까지 범위를 넓힘) */
+function tbMergeRect(T,R){
+  var r1=R.r1,c1=R.c1,r2=R.r2,c2=R.c2,ch=true,m;
+  while(ch){ch=false;(T.m||[]).forEach(function(m){
+    var mr2=m.r+m.rs-1,mc2=m.c+m.cs-1;
+    if(m.r<=r2&&mr2>=r1&&m.c<=c2&&mc2>=c1&&(m.r<r1||mr2>r2||m.c<c1||mc2>c2)){r1=Math.min(r1,m.r);r2=Math.max(r2,mr2);c1=Math.min(c1,m.c);c2=Math.max(c2,mc2);ch=true;}
+  });}
+  if(r1===r2&&c1===c2)return '병합할 칸을 2개 이상 선택하세요. ([범위 선택]을 켜고 칸들을 끌거나, Shift를 누른 채 클릭)';
+  var cv=tbCov(T),parts=[],lastR=-1,txt='';
+  for(var i=r1;i<=r2;i++)for(var j=c1;j<=c2;j++){
+    if(cv.cov[i+','+j])continue;
+    var v=String(T.r[i][j]||'');
+    if(v.trim()){txt+=(parts.length?(i===lastR?' ':'\n'):'')+v;parts.push(1);lastR=i;}
+    if(i!==r1||j!==c1){T.r[i][j]='';delete T.ca[i+','+j];}
   }
-  if(parts.length)T.r[r][c]=(String(T.r[r][c]||'')+' '+parts.join(' ')).trim();
-  base.rs=nr;base.cs=nc;if(!m){T.m=T.m||[];T.m.push(base);}
+  T.r[r1][c1]=txt;
+  T.m=(T.m||[]).filter(function(m){return !(m.r>=r1&&m.r+m.rs-1<=r2&&m.c>=c1&&m.c+m.cs-1<=c2);});
+  T.m.push({r:r1,c:c1,rs:r2-r1+1,cs:c2-c1+1});
+  TSEL={id:R.id,r:r1,c:c1,r2:r1,c2:c1};
   return '';
 }
 function tbEd(id,p){
   var T=D.tbx[id],q='tbx.'+id,bt=function(a,l,c){return '<button class="s'+(c?' '+c:'')+'" type="button" data-act="'+a+'" data-id="'+id+'" data-tp="'+p+'">'+l+'</button> ';};
-  var h='<div style="border:1px solid #b9c2d0;border-radius:6px;padding:6px 8px;margin:6px 0;background:#fafbfd"><div class="sub" style="margin-top:0">표 · 본문의 <b>[[표:'+id+']]</b> 줄 위치에 표시됩니다 (줄을 옮기면 표 위치가 바뀝니다)</div><div class="tw"><table class="et">';
-  var cv=tbCov(T);T.w=T.w||[];T.ca=T.ca||{};
-  var nc=T.r[0].length,wr='<tr>';
-  for(var jj=0;jj<nc;jj++){wr+='<td style="text-align:center;background:#f3f6fb;white-space:nowrap"><button class="s" type="button" data-act="tbw-" data-id="'+id+'" data-c="'+jj+'" title="폭 줄이기">◀</button><input type="number" min="5" max="100" step="1" data-p="'+q+'.w.'+jj+'" data-t="num" value="'+esc(T.w[jj]||'')+'" placeholder="자동" style="width:46px;min-width:46px">%<button class="s" type="button" data-act="tbw+" data-id="'+id+'" data-c="'+jj+'" title="폭 늘리기">▶</button></td>';}
-  h+=wr+'</tr>';
-  T.r.forEach(function(row,i){h+='<tr>'+row.map(function(_,j){
-    var k=i+','+j,m=cv.anc[k],sel=(TSEL.id===id&&TSEL.r===i&&TSEL.c===j),ck=id+'|'+i+'|'+j,sz=CELLSZ[ck]||[],ca=T.ca[k];
-    if(cv.cov[k])return '';
-    return '<td data-cell="'+ck+'"'+(m?(m.rs>1?' rowspan="'+m.rs+'"':'')+(m.cs>1?' colspan="'+m.cs+'"':''):'')+(sel?' style="outline:2px solid #1a56c4"':'')+'><textarea data-cell="'+ck+'" data-p="'+q+'.r.'+i+'.'+j+'" data-t="text" style="resize:both;overflow:auto;white-space:pre-wrap;min-width:90px;min-height:44px;width:'+(sz[0]||(m&&m.cs>1?(100*m.cs)+'px':'110px'))+';height:'+(sz[1]||'52px')+';text-align:'+({l:'left',c:'center',r:'right'}[ca]||'left')+'">'+esc(row[j])+'</textarea>'+(m?'<div style="font-size:10px;color:#1a56c4">병합 '+m.rs+'×'+m.cs+'</div>':'')+'</td>';}).join('')+'</tr>';});
+  var cv=tbCov(T);T.w=T.w||[];T.h=T.h||[];T.ca=T.ca||{};
+  var ws=tbWs(T),tot=Math.min(100,ws.raw);
+  var bw=T.bw==null?1:Math.max(0,Math.min(6,Number(T.bw)||0)),AMe={l:'left',c:'center',r:'right'};
+  var tdSt='border:'+bw+'px solid '+esc(T.bd||'#999999')+';font-size:'+(Number(T.fs)||13)+'px;font-weight:'+(T.b?700:400)+';color:'+esc(T.fc||'#222222');
+  var h='<div style="border:1px solid #b9c2d0;border-radius:6px;padding:6px 8px;margin:6px 0;background:#fafbfd"><div class="sub" style="margin-top:0">표 · 본문의 <b>[[표:'+id+']]</b> 줄 위치에 표시됩니다 (줄을 옮기면 표 위치가 바뀝니다)</div>';
+  h+='<div class="tbwrap'+(TSM[id]?' tsm':'')+'" data-id="'+id+'"><div class="tbin"><table class="tbg" style="width:'+tot.toFixed(2)+'%">';
+  h+='<colgroup>'+ws.w.map(function(w){return '<col style="width:'+(w/ws.raw*100).toFixed(2)+'%">';}).join('')+'</colgroup>';
+  T.r.forEach(function(row,i){
+    h+='<tr'+(Number(T.h[i])>0?' style="height:'+Math.round(T.h[i])+'px"':'')+'>';
+    row.forEach(function(_,j){
+      var k=i+','+j,m=cv.anc[k];if(cv.cov[k])return;
+      var rs=m?m.rs:1,cs=m?m.cs:1,ck=id+'|'+i+'|'+j,ca=T.ca[k]||T.al||'c',isH=T.hdr&&i===0;
+      var bgc=isH?(T.hbg||'#dde7f3'):(T.nbg?'#ffffff':(T.bg||'#ffffff'));
+      var v=String(row[j]==null?'':row[j]);
+      h+='<td data-cell="'+ck+'" data-rs="'+rs+'" data-cs="'+cs+'"'+(rs>1?' rowspan="'+rs+'"':'')+(cs>1?' colspan="'+cs+'"':'')
+       +' style="'+tdSt+';background-color:'+esc(bgc)+(isH?';font-weight:700':'')+';text-align:'+(AMe[ca]||'center')+'">'
+       +'<div class="tbs">'+esc(v)+'​</div>'
+       +'<textarea data-cell="'+ck+'" data-p="'+q+'.r.'+i+'.'+j+'" data-t="text" spellcheck="false">'+esc(v)+'</textarea>'
+       +'<i class="tbh tbhc" data-id="'+id+'" data-c="'+(j+cs-1)+'" title="끌어서 열 폭 조절"></i>'
+       +'<i class="tbh tbhr" data-id="'+id+'" data-r="'+(i+rs-1)+'" title="끌어서 행 높이 조절"></i></td>';
+    });
+    h+='</tr>';
+  });
   var ab=function(l,v){return '<button class="s" type="button" data-act="tbca" data-v="'+v+'" data-id="'+id+'">'+l+'</button> ';};
-  h+='</table></div><div class="rth" style="margin:2px 0">칸을 클릭해 선택한 뒤 아래 버튼을 쓰세요. 칸 안에서 Enter로 줄바꿈(입력한 그대로 표시)하고, 칸 모서리를 끌어 칸 크기를 키울 수 있습니다. 위쪽 ◀ ▶ 와 숫자는 열 폭(%)입니다 (비우면 자동, 양끝 열 포함).</div>'
-   +'<div class="rt" style="margin:3px 0">선택한 칸: <b class="tsl" data-id="'+id+'">'+(TSEL.id===id&&TSEL.r>=0?(TSEL.r+1)+'행 '+(TSEL.c+1)+'열':'없음')+'</b> '
+  h+='</table></div></div>'
+   +'<div class="rth" style="margin:2px 0">· <b>크기</b>: 칸 사이 경계선(오른쪽·아래쪽 선)을 끌면 열 폭·행 높이가 바뀝니다. · <b>병합</b>: [범위 선택]을 켜고 합칠 칸들을 끌어서 선택(또는 Shift+클릭)한 뒤 [병합]을 누르세요. · 칸 안에서 Enter로 줄바꿈(입력한 그대로 표시).</div>'
+   +'<div class="rt" style="margin:3px 0">선택한 칸: <b class="tsl" data-id="'+id+'">없음</b> '
+   +'<button class="s" type="button" data-act="tbsm" data-id="'+id+'" style="'+(TSM[id]?'background:#1a56c4;color:#fff':'')+'">'+(TSM[id]?'✔ 범위 선택 중':'▦ 범위 선택')+'</button> '
+   +bt('tbmg','병합')+bt('tbsp','분할')
+   +' <span style="color:#aaa">|</span> <b>B</b>·<u>U</u>·색·링크 (글자를 드래그해 선택 후) '
    +'<button class="s" type="button" data-act="rtb" data-tpsel="1" data-id="'+id+'"><b>B</b></button><button class="s" type="button" data-act="rtu" data-tpsel="1" data-id="'+id+'"><u>U</u></button>'
    +'<input type="color" value="#d11a1a" title="글자색"><button class="s" type="button" data-act="rtc" data-tpsel="1" data-id="'+id+'">색</button>'
    +'<button class="s" type="button" data-act="rta" data-tpsel="1" data-id="'+id+'">링크</button><button class="s" type="button" data-act="rtx" data-tpsel="1" data-id="'+id+'">서식 제거</button>'
    +' <span style="color:#aaa">|</span> 칸 정렬 '+ab('좌측','l')+ab('중앙','c')+ab('우측','r')+ab('표 기본','')+'</div>'
-   +'<div class="row">'+bt('tbr+','+ 행')+bt('tbr-','− 행')+bt('tbc+','+ 열')+bt('tbc-','− 열')+' <span style="color:#aaa">|</span> '+bt('tbmr','→ 오른쪽 병합')+bt('tbmd','↓ 아래 병합')+bt('tbsp','분할')+'</div>'
+   +'<div class="row">'+bt('tbr+','+ 행')+bt('tbr-','− 행')+bt('tbc+','+ 열')+bt('tbc-','− 열')+' <span style="color:#aaa">|</span> '+bt('tbwreset','크기 초기화')+'</div>'
    +'<div class="row"><label>테두리</label>'+C(q+'.bd')+' 두께 '+N(q+'.bw',0,6)+'px <label>셀 바탕</label>'+C(q+'.bg')+' '+CK(q+'.nbg','바탕 없음')+'</div>'
    +'<div class="row"><label>글자</label>크기 '+N(q+'.fs',8,40)+' '+C(q+'.fc')+' '+CK(q+'.b','굵게')+' <span class="alr" style="display:inline-flex;gap:4px;align-items:center;font-size:12px">정렬 '+AL(q+'.al','c')+'</span></div>'
-   +'<div class="row">'+CK(q+'.hdr','첫 행을 제목행으로')+' '+C(q+'.hbg')+' '+CK(q+'.fw','가로 꽉 채움')+' '+bt('tbdel','표 삭제','d')+'</div></div>';
+   +'<div class="row">'+CK(q+'.hdr','첫 행을 제목행으로')+' '+C(q+'.hbg')+' '+bt('tbdel','표 삭제','d')+'</div></div>';
   return h;
 }
 function TX(p,ph,rows){
@@ -658,13 +721,64 @@ var TTM=null;function toast(t,ms){var el=document.getElementById('toast');el.tex
 
 /* ---------- 입력 이벤트 ---------- */
 document.addEventListener('focusin',function(e){
-  var c=e.target&&e.target.dataset&&e.target.dataset.cell;if(!c)return;
-  var s=c.split('|');TSEL={id:s[0],r:+s[1],c:+s[2]};
-  document.querySelectorAll('.tsl').forEach(function(l){l.textContent=(l.dataset.id===s[0])?((+s[1]+1)+'행 '+(+s[2]+1)+'열'):'없음';});
-  document.querySelectorAll('td[data-cell]').forEach(function(td){td.style.outline=(td.dataset.cell===c)?'2px solid #1a56c4':'';});
+  var c=e.target&&e.target.dataset&&e.target.dataset.cell;if(!c||e.target.tagName!=='TEXTAREA')return;
+  var q=c.split('|');TSEL={id:q[0],r:+q[1],c:+q[2],r2:+q[1],c2:+q[2]};tbHi();
 });
-function saveCellSz(){document.querySelectorAll('textarea[data-cell]').forEach(function(x){if(x.style.width&&x.style.height)CELLSZ[x.dataset.cell]=[x.style.width,x.style.height];});}
-document.addEventListener('mouseup',saveCellSz);document.addEventListener('touchend',saveCellSz);
+/* 표: 범위 선택(범위 선택 모드 끌기 / Shift+클릭) · 경계선 끌어 폭·높이 조절 */
+document.addEventListener('pointerdown',function(e){
+  var t=e.target;if(!t||!t.closest)return;
+  var hd=t.closest('.tbh');
+  if(hd){
+    var id=hd.dataset.id,T=D.tbx[id],wrap=hd.closest('.tbin'),tbl=wrap.querySelector('table');if(!T)return;
+    e.preventDefault();
+    if(hd.classList.contains('tbhc')){
+      var ws=tbWs(T).w.slice(),sm=ws.reduce(function(a,b){return a+b;},0);if(sm>100)ws=ws.map(function(w){return w*100/sm;});
+      var j=+hd.dataset.c;TDRAG={k:'c',id:id,j:j,x0:e.clientX,ws:ws,base:ws.slice(),w0:ws[j],W:wrap.clientWidth,tbl:tbl,T:T};
+    }else{
+      var i=+hd.dataset.r,tr=tbl.rows[i];if(!tr)return;
+      TDRAG={k:'r',id:id,i:i,y0:e.clientY,h0:tr.getBoundingClientRect().height,tr:tr,T:T,h:null};
+    }
+    document.body.style.cursor=TDRAG.k==='c'?'col-resize':'row-resize';
+    return;
+  }
+  var td=t.closest('td[data-cell]');if(!td)return;
+  var s=td.dataset.cell.split('|'),id2=s[0],r=+s[1],c=+s[2],wr=td.closest('.tbwrap');
+  if(wr&&wr.classList.contains('tsm')){e.preventDefault();TSEL={id:id2,r:r,c:c,r2:r,c2:c};TSELDRAG=true;tbHi();}
+  else if(e.shiftKey&&TSEL.id===id2&&TSEL.r>=0){e.preventDefault();TSEL.r2=r;TSEL.c2=c;tbHi();}
+});
+document.addEventListener('pointermove',function(e){
+  if(TDRAG){
+    var d=TDRAG;
+    if(d.k==='c'){
+      var dp=(e.clientX-d.x0)/d.W*100,raw;
+      if(d.j<d.ws.length-1){ /* 가운데 경계선: 오른쪽 열과 폭을 주고받음 (표 전체 폭은 그대로) */
+        var pair=d.base[d.j]+d.base[d.j+1],nw=Math.max(5,Math.min(pair-5,d.w0+dp));
+        d.ws[d.j]=nw;d.ws[d.j+1]=pair-nw;raw=d.ws.reduce(function(a,b){return a+b;},0);
+      }else{ /* 맨 오른쪽 경계선: 표 전체 폭이 늘고 줄어듦 (최대 100%) */
+        var others=d.base.reduce(function(a,b){return a+b;},0)-d.w0,nw2=Math.max(5,Math.min(100-others,d.w0+dp));
+        d.ws[d.j]=nw2;raw=others+nw2;
+      }
+      d.tbl.style.width=Math.min(100,raw).toFixed(2)+'%';
+      var cols=d.tbl.querySelectorAll('col');for(var k=0;k<cols.length;k++)cols[k].style.width=(d.ws[k]/raw*100).toFixed(2)+'%';
+    }else{
+      var h=Math.max(22,Math.min(600,Math.round(d.h0+e.clientY-d.y0)));d.h=h;d.tr.style.height=h+'px';
+    }
+    return;
+  }
+  if(TSELDRAG){
+    var el=document.elementFromPoint(e.clientX,e.clientY),td=el&&el.closest&&el.closest('td[data-cell]');
+    if(td){var s=td.dataset.cell.split('|');if(s[0]===TSEL.id&&(TSEL.r2!==+s[1]||TSEL.c2!==+s[2])){TSEL.r2=+s[1];TSEL.c2=+s[2];tbHi();}}
+  }
+});
+function tbPtrUp(){
+  TSELDRAG=false;
+  if(!TDRAG)return;
+  var d=TDRAG;TDRAG=null;document.body.style.cursor='';
+  if(d.k==='c'){d.T.w=d.ws.map(function(w){return Math.round(w*10)/10;});}
+  else if(d.h!=null){d.T.h=d.T.h||[];for(var i=0;i<d.T.r.length;i++)if(d.T.h[i]==null)d.T.h[i]=0;d.T.h[d.i]=d.h;}
+  save();
+}
+document.addEventListener('pointerup',tbPtrUp);document.addEventListener('pointercancel',tbPtrUp);
 function onInput(e){
   var el=e.target;if(!el.dataset||!el.dataset.p)return;
   var v;
@@ -672,6 +786,7 @@ function onInput(e){
   else if(el.dataset.t==='num')v=el.value===''?0:Number(el.value);
   else v=el.value;
   S(el.dataset.p,v);
+  if(el.dataset.cell&&el.tagName==='TEXTAREA'){var sz=el.parentNode.querySelector('.tbs');if(sz)sz.textContent=el.value+'\u200b';}
   if(el.type==='range'){var ro=el.nextElementSibling;if(ro&&!ro.classList.contains('ro'))ro=ro.nextElementSibling;if(ro&&ro.classList.contains('ro'))ro.textContent=v;}
   if(el.dataset.p.indexOf('att.')===0)updCalc();
   save();
@@ -717,8 +832,9 @@ document.addEventListener('click',function(e){
   else if(a==='rowdn'){mv(D.tb[k].rows,i,1);}
   else if(a==='rtb'||a==='rtu'||a==='rtc'||a==='rta'||a==='rtx'){
     if(b.dataset.tpsel!=null){
-      if(TSEL.id!==b.dataset.id||TSEL.r<0)toast('먼저 표 안의 칸을 클릭해 선택하세요.');
-      else{b.dataset.tp='tbx.'+TSEL.id+'.r.'+TSEL.r+'.'+TSEL.c;rtApply(a,b);}
+      var Rr=tbRect();
+      if(!Rr||Rr.id!==b.dataset.id)toast('먼저 표 안의 칸을 클릭해 선택하세요.');
+      else{b.dataset.tp='tbx.'+Rr.id+'.r.'+Rr.r1+'.'+Rr.c1;rtApply(a,b);}
     }else rtApply(a,b);
     chg=false;
   }
@@ -746,30 +862,42 @@ document.addEventListener('click',function(e){
     delete D.tbx[id2];
   }
   else if(a==='tbr+'||a==='tbr-'||a==='tbc+'||a==='tbc-'){
-    var T=D.tbx[b.dataset.id];
+    var T=D.tbx[b.dataset.id];T.w=T.w||[];T.h=T.h||[];
     if(a==='tbr+'){T.r.push(T.r[0].map(function(){return '';}));}
     else if(a==='tbr-'){if(T.r.length>1)T.r.pop();}
-    else if(a==='tbc+'){T.r.forEach(function(r){r.push('');});T.w=T.w||[];}
-    else{if(T.r[0].length>1)T.r.forEach(function(r){r.pop();});}
-    tbFix(T);
+    else if(a==='tbc+'){
+      var W0=tbWs(T),nC=W0.w.length+1,sc=W0.w.length/nC,wn=Math.max(5,Math.round(100/nC));
+      T.r.forEach(function(r){r.push('');});
+      if(T.w.some(function(x){return Number(x)>0;})){T.w=W0.w.map(function(w){return Math.round(w*sc*10)/10;});T.w.push(wn);}
+    }
+    else if(T.r[0].length>1){
+      var W1=tbWs(T),keep=W1.w.slice(0,-1),sm0=Math.min(100,W1.raw),sm1=keep.reduce(function(a,b){return a+b;},0);
+      T.r.forEach(function(r){r.pop();});
+      if(T.w.some(function(x){return Number(x)>0;}))T.w=keep.map(function(w){return Math.round(w*sm0/sm1*10)/10;});
+    }
+    tbFix(T);TSEL={id:'',r:-1,c:-1,r2:-1,c2:-1};
   }
-  else if(a==='tbw-'||a==='tbw+'){
-    var Tw=D.tbx[b.dataset.id],cj=+b.dataset.c;Tw.w=Tw.w||[];
-    var cur=Number(Tw.w[cj])||Math.round(100/Tw.r[0].length);
-    Tw.w[cj]=Math.max(5,Math.min(100,cur+(a==='tbw+'?5:-5)));
+  else if(a==='tbwreset'){var Tz=D.tbx[b.dataset.id];Tz.w=[];Tz.h=[];}
+  else if(a==='tbsm'){
+    var idm=b.dataset.id;TSM[idm]=!TSM[idm];
+    var wr2=document.querySelector('.tbwrap[data-id="'+idm+'"]');if(wr2)wr2.classList.toggle('tsm',!!TSM[idm]);
+    b.textContent=TSM[idm]?'✔ 범위 선택 중':'▦ 범위 선택';b.style.background=TSM[idm]?'#1a56c4':'';b.style.color=TSM[idm]?'#fff':'';
+    if(TSM[idm])toast('합칠 칸들을 끌어서 선택한 뒤 [병합]을 누르세요.',3500);
+    chg=false;
   }
   else if(a==='tbca'){
-    var Ta=D.tbx[b.dataset.id];Ta.ca=Ta.ca||{};
-    if(TSEL.id!==b.dataset.id||TSEL.r<0){toast('먼저 표 안의 칸을 클릭해 선택하세요.');chg=false;}
-    else{var kk=TSEL.r+','+TSEL.c;if(b.dataset.v)Ta.ca[kk]=b.dataset.v;else delete Ta.ca[kk];}
+    var Ta=D.tbx[b.dataset.id];Ta.ca=Ta.ca||{};var Rc=tbRect();
+    if(!Rc||Rc.id!==b.dataset.id){toast('먼저 표 안의 칸을 클릭해 선택하세요.');chg=false;}
+    else{var cvA=tbCov(Ta);for(var ri=Rc.r1;ri<=Rc.r2;ri++)for(var ci=Rc.c1;ci<=Rc.c2;ci++){if(cvA.cov[ri+','+ci])continue;var kk=ri+','+ci;if(b.dataset.v)Ta.ca[kk]=b.dataset.v;else delete Ta.ca[kk];}}
   }
-  else if(a==='tbmr'||a==='tbmd'||a==='tbsp'){
-    var T2=D.tbx[b.dataset.id];
-    if(TSEL.id!==b.dataset.id||TSEL.r<0){toast('먼저 표 안의 칸을 클릭해 선택하세요.');chg=false;}
+  else if(a==='tbmg'||a==='tbsp'){
+    var T2=D.tbx[b.dataset.id],Rm=tbRect();
+    if(!Rm||Rm.id!==b.dataset.id){toast('먼저 표 안의 칸을 클릭해 선택하세요.');chg=false;}
     else if(a==='tbsp'){
-      var before=(T2.m||[]).length;T2.m=(T2.m||[]).filter(function(m){return !(m.r===TSEL.r&&m.c===TSEL.c);});
-      if(T2.m.length===before){toast('선택한 칸은 병합된 칸이 아닙니다.');chg=false;}
-    }else{var er=tbMerge(T2,TSEL.r,TSEL.c,a==='tbmr'?'r':'d');if(er){toast(er);chg=false;}}
+      var before=(T2.m||[]).length;
+      T2.m=(T2.m||[]).filter(function(m){return !(m.r<=Rm.r2&&m.r+m.rs-1>=Rm.r1&&m.c<=Rm.c2&&m.c+m.cs-1>=Rm.c1);});
+      if(T2.m.length===before){toast('선택한 범위에 병합된 칸이 없습니다.');chg=false;}
+    }else{var er=tbMergeRect(T2,Rm);if(er){toast(er);chg=false;}else TSM[b.dataset.id]=false;}
   }
   else if(a==='secadds'){
     D.simN=D.simN||0;var sid;do{sid='s'+(++D.simN);}while(D.sec.some(function(s){return s.id===sid;}));
@@ -814,7 +942,7 @@ document.addEventListener('click',function(e){
   else if(a==='loadpub'){loadPub();chg=false;}
   else if(a==='reset'){if(confirm('모든 내용을 초기 샘플로 되돌립니다. 계속할까요?')){D=def();}else chg=false;}
   else chg=false;
-  if(chg){render();save();}
+  if(chg){render();save();try{tbHi();}catch(e){}}
 });
 
 /* ---------- 이미지 (배경 / 공지 삽입) ---------- */
@@ -948,6 +1076,19 @@ async function putFile(tok,path,obj,msg){
   var p=await fetch('https://api.github.com/repos/'+REPO+'/contents/'+path,{method:'PUT',headers:{Authorization:'Bearer '+tok,Accept:'application/vnd.github+json','Content-Type':'application/json'},body:JSON.stringify(body)});
   if(!p.ok)throw new Error('저장 실패 '+p.status);
 }
+/* 링크 공유(미리보기) 제목: 카카오톡 등은 JS를 실행하지 않으므로 보기 페이지 HTML의 <title>·og:title 자체를 발행 때 바꿔 둔다 */
+function jbTitle(date){var m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(date||'');return (m?"'"+m[1].slice(2)+'.'+(+m[2])+'.'+(+m[3])+'. ':'')+'시온찬양대 주보';}
+async function putTitle(tok){
+  var path='zion_jubo.html',cur=await ghGet(tok,path);if(!cur||!cur.content)throw new Error('보기 페이지 조회 실패');
+  var html=unb64(cur.content),t=jbTitle(D.hd.date),esc=t.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+  var n=html.replace(/<title>[^<]*<\/title>/,function(){return '<title>'+esc+'</title>';});
+  if(/<meta property="og:title"[^>]*>/.test(n))n=n.replace(/<meta property="og:title"[^>]*>/,function(){return '<meta property="og:title" content="'+esc+'">';});
+  else n=n.replace(/<\/title>/,function(){return '</title>\n<meta property="og:title" content="'+esc+'">';});
+  if(n===html)return t;
+  var p=await fetch('https://api.github.com/repos/'+REPO+'/contents/'+path,{method:'PUT',headers:{Authorization:'Bearer '+tok,Accept:'application/vnd.github+json','Content-Type':'application/json'},body:JSON.stringify({message:'주보 링크 제목 갱신 '+t,content:b64(n),sha:cur.sha,branch:BRANCH})});
+  if(!p.ok)throw new Error('제목 갱신 실패 '+p.status);
+  return t;
+}
 function markSynced(){try{localStorage.setItem(SYNCKEY,canon(D));}catch(e){}BASESV=canon(D);}
 function nowKst(){return new Date().toLocaleString('sv-SE',{timeZone:'Asia/Seoul'}).slice(0,16);}
 async function saveDraft(){
@@ -972,11 +1113,12 @@ async function publish(){
     var day=new Date().toLocaleDateString('sv-SE',{timeZone:'Asia/Seoul'});
     await putFile(tok,FPATH,D,'주보 갱신 '+day);
     remember(tok);BASE=canon(D);updDirty();
+    var ttl='';try{ttl=await putTitle(tok);}catch(e){toast('주보는 발행했지만 링크 제목은 바꾸지 못했습니다 ('+e.message+')',5000);}
     try{await putFile(tok,DRAFTP,D,'주보 작업 저장(발행 시) '+nowKst());markSynced();}catch(e){}
     updDirty();
     toast('발행했습니다. 주보 이미지를 보관하는 중…',5000);
     var ok=await archive(false,true);
-    if(ok)toast('발행했고 주보 이미지(zion-jubo-yymmdd.png)도 보관했습니다. 보기 페이지에는 1~2분 뒤 나타납니다.',6000);
+    if(ok)toast('발행했고 주보 이미지(zion-jubo-yymmdd.png)도 보관했습니다. 링크 제목: '+(ttl||jbTitle(D.hd.date))+' · 보기 페이지에는 1~2분 뒤 나타납니다.',7000);
   }catch(e){toast('발행하지 못했습니다 ('+e.message+'). 토큰 권한(Contents 읽기·쓰기)을 확인해 주세요.',6000);}
   finally{btn.disabled=false;btn.textContent=old;}
 }
