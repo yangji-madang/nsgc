@@ -1,6 +1,6 @@
 {
  "v": 1,
- "updated": "2026-11-20T12:01:04.384Z",
+ "updated": "2026-11-26T14:41:53.709Z",
  "bookOrder": [
   "시온2",
   "시온3",
@@ -1307,7 +1307,12 @@
    "composer": "홍지열",
    "page": 130,
    "chk": false,
-   "dates": []
+   "dates": [
+    {
+     "d": "2026-11-22",
+     "url": "https://www.youtube.com/watch?v=q6Sv5tXjau4&list=PLGf8Obfd0OaNlgdqO9u-beAlpkDgnm6vS&index=1"
+    }
+   ]
   },
   {
    "id": "s071",
