@@ -73,6 +73,13 @@ table.tbg textarea{position:absolute;left:0;top:0;width:100%;height:100%;box-siz
 .tbwrap.tsm .tbh{display:none}
 .sub{font-size:12px;color:#666;margin:8px 0 2px;font-weight:700}
 .calc{font-size:12px;color:#1f3a5f;background:#eef4ff;border-radius:5px;padding:5px 8px;margin-top:6px;line-height:1.6}
+.bgpick{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:4px 0 8px}
+.bgpick .bi{border:2px solid #ccc;border-radius:6px;padding:3px;background:#fff;cursor:pointer;font-size:12px;color:#333;text-align:center}
+.bgpick .bi.on{border-color:#1a5fb4;box-shadow:0 0 0 2px #cfe0f8}
+.bgpick .bi .im8{display:block;width:100%;aspect-ratio:8/1;background-size:cover;background-position:center;border-radius:3px;background-color:#eee}
+.bgpick .bi .nm{display:block;margin-top:3px;word-break:keep-all}
+#bgadd canvas{width:100%;max-width:480px;aspect-ratio:8/1;border:1px solid #bbb;border-radius:4px;display:block;margin:4px 0}
+#bgadd .row input[type=text]{flex:1;min-width:0}
 .thumb{width:90px;height:60px;object-fit:cover;border:1px solid #ccc;border-radius:5px}
 .imgs{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0}
 .imgs .im{border:1px solid #e1e5ec;border-radius:6px;padding:5px;text-align:center;background:#fafbfd}
@@ -678,8 +685,12 @@ function render(){
    +'<div class="row"><label>날짜</label><input type="date" data-p="hd.date" data-t="text" value="'+esc(D.hd.date)+'"></div>'
    +'<div class="row"><label>말씀 띠</label></div>'+RT('hd.verse','제목 아래 말씀 (비우면 표시 안 됨)',2)+'<div class="alr"><label>말씀 정렬</label>'+AL('hd.vAl','c')+'</div>'
    +'<div class="row"><label>말씀 배경색</label>'+C('hd.verseBg')+'</div>'
-   +'<div class="row">'+CK('hd.mpl','상단 제목영역 가을 단풍 사진 배경')+' <label style="min-width:0">진하기</label>'+RA('hd.mpa',0,100,10)+'</div></div></details>';
-  h+='<details id="d-bg"><summary>배경 사진</summary><div class="bd">'
+   +'<div class="row">'+CK('hd.mpl','상단 제목영역 사진 배경')+' <label style="min-width:0">진하기</label>'+RA('hd.mpa',0,100,10)+'</div>'
+   +'<div class="row"><label>배경 사진</label><span style="color:#666;font-size:12px">아래에서 고르면 미리보기에 바로 적용됩니다</span></div>'
+   +'<div id="bgpick" class="bgpick">'+bgPickHtml()+'</div>'
+   +'<div class="row"><button class="s" data-act="bgadd">＋ 사진 추가</button><input type="file" id="fbgadd" accept="image/*" style="display:none"><span id="bgmsg" style="color:#666;font-size:12px"></span></div>'
+   +'<div id="bgadd"></div></div></details>';
+  h+='<details id="d-bg"><summary>페이지 바탕 사진(전체 배경)</summary><div class="bd">'
    +'<div class="row">'+(D.bg.img?'<img class="thumb" src="'+D.bg.img+'">':'<span style="color:#888">등록된 배경 없음</span>')
    +'<button class="s" data-act="pickimg">사진 선택</button>'+(D.bg.img?'<button class="s d" data-act="clearimg">배경 제거</button>':'')+'</div>'
    +'<div class="row">'+CK('bg.grad','그라데이션 적용 (해제하면 사진 원본)')+'</div>'
@@ -826,7 +837,11 @@ document.addEventListener('click',function(e){
   var b=e.target.closest('[data-act]');if(!b)return;
   var a=b.dataset.act,k=b.dataset.k,i=Number(b.dataset.i);
   var chg=true;
-  if(a==='addrow'){var t=D.tb[k];var cnt=t.cols.length+(t.link!=null?1:0);var r=[];for(var x=0;x<cnt;x++)r.push('');t.rows.push(r);}
+  if(a==='bgsel'){D.hd.bgf=b.dataset.f===BGDEF?'':b.dataset.f;}
+  else if(a==='bgadd'){document.getElementById('fbgadd').click();chg=false;}
+  else if(a==='bgsave'){bgSave();chg=false;}
+  else if(a==='bgcancel'){document.getElementById('bgadd').innerHTML='';BGSRC=null;chg=false;}
+  else if(a==='addrow'){var t=D.tb[k];var cnt=t.cols.length+(t.link!=null?1:0);var r=[];for(var x=0;x<cnt;x++)r.push('');t.rows.push(r);}
   else if(a==='delrow'){D.tb[k].rows.splice(i,1);}
   else if(a==='rowup'){mv(D.tb[k].rows,i,-1);}
   else if(a==='rowdn'){mv(D.tb[k].rows,i,1);}
@@ -945,6 +960,80 @@ document.addEventListener('click',function(e){
   if(chg){render();save();try{tbHi();}catch(e){}}
 });
 
+
+/* ---------- 상단 배경사진 선택 · 추가 ---------- */
+var BGDEF='zion_jubo_bg.jpg',BGMAN='zion_jubo_bgs.json',BGLIST=null,BGCACHE={},BGSRC=null;
+function bgOk(f){return /^[\w\-]+(\/[\w\-]+)*\.jpg$/.test(String(f||''));}
+function bgItems(){
+  var L=[{f:BGDEF,n:'기본(서리 낀 길)'}];
+  (BGLIST||[]).forEach(function(x){if(x&&bgOk(x.f)&&x.f!==BGDEF)L.push(x);});
+  return L;
+}
+function bgPickHtml(){
+  var cur=bgOk(D.hd.bgf)?D.hd.bgf:BGDEF;
+  return bgItems().map(function(x){
+    var u=BGCACHE[x.f]||x.f;
+    return '<div class="bi'+(x.f===cur?' on':'')+'" data-act="bgsel" data-f="'+esc(x.f)+'"><span class="im8" style="background-image:url(\''+esc(u)+'\')"></span><span class="nm">'+(x.f===cur?'✔ ':'')+esc(x.n||x.f)+'</span></div>';
+  }).join('');
+}
+function bgRefresh(){var el=document.getElementById('bgpick');if(el)el.innerHTML=bgPickHtml();}
+function bgLoad(){
+  return fetch(BGMAN+'?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():[];}).catch(function(){return [];}).then(function(j){BGLIST=Array.isArray(j)?j:[];bgRefresh();});
+}
+/* 가로 8:1(1600×200)로 자른 JPEG(약 100KB 이하) 데이터URL 생성. pos: 세로 위치 0~100 */
+function bgCrop(im,pos,cv){
+  var W=1600,H=200,c=cv||document.createElement('canvas');c.width=W;c.height=H;
+  var sc=Math.max(W/im.width,H/im.height),dw=im.width*sc,dh=im.height*sc,dx=(W-dw)/2,dy=-(dh-H)*pos/100;
+  var x=c.getContext('2d');x.drawImage(im,dx,dy,dw,dh);
+  var q=0.86,u=c.toDataURL('image/jpeg',q);
+  while(u.length*0.75>100000&&q>0.4){q-=0.06;u=c.toDataURL('image/jpeg',q);}
+  return u;
+}
+function bgOpenAdd(f){
+  var fr=new FileReader();
+  fr.onload=function(){
+    var im=new Image();
+    im.onload=function(){
+      BGSRC=im;
+      var box=document.getElementById('bgadd');
+      box.innerHTML='<canvas id="bgcv"></canvas><div class="row"><label>세로 위치</label><input type="range" id="bgpos" min="0" max="100" value="50"><span class="ro" id="bgposv">50</span></div>'
+       +'<div class="row"><label>이름</label><input type="text" id="bgnm" maxlength="20" placeholder="예: 눈 덮인 산능선"></div>'
+       +'<div class="row"><button class="s" data-act="bgsave">등록</button><button class="s d" data-act="bgcancel">취소</button><span style="color:#666;font-size:12px">원본의 가로 중앙 띠를 1600×200으로 잘라 저장합니다</span></div>';
+      var cv=document.getElementById('bgcv');bgCrop(im,50,cv);
+      document.getElementById('bgpos').addEventListener('input',function(e){document.getElementById('bgposv').textContent=e.target.value;bgCrop(BGSRC,Number(e.target.value),cv);});
+    };
+    im.onerror=function(){toast('이미지를 읽을 수 없습니다.');};
+    im.src=fr.result;
+  };
+  fr.readAsDataURL(f);
+}
+async function bgSave(){
+  var tok=getTok();
+  if(!tok){document.getElementById('d-gh').open=true;toast('GitHub 토큰을 먼저 입력해 주세요.');return;}
+  var cv=document.getElementById('bgcv');if(!cv||!BGSRC)return;
+  var nm=(document.getElementById('bgnm').value||'').trim()||'새 배경';
+  var u=bgCrop(BGSRC,Number(document.getElementById('bgpos').value)||0,cv);
+  var stamp=new Date().toLocaleString('sv-SE',{timeZone:'Asia/Seoul'}).replace(/\D/g,'').slice(2,12);
+  var path='zion_jubo_bgs/bg-'+stamp+'.jpg',btn=document.querySelector('[data-act=bgsave]');
+  btn.disabled=true;btn.textContent='등록 중…';
+  try{
+    var r=await fetch('https://api.github.com/repos/'+REPO+'/contents/'+path,{method:'PUT',headers:{Authorization:'Bearer '+tok,Accept:'application/vnd.github+json','Content-Type':'application/json'},body:JSON.stringify({message:'주보 배경사진 추가 '+nm,content:u.split(',')[1],branch:BRANCH})});
+    if(!r.ok)throw new Error('사진 저장 실패 '+r.status);
+    var cur=await ghGet(tok,BGMAN),list=[];
+    try{list=cur&&cur.content?JSON.parse(unb64(cur.content)):[];}catch(e){list=[];}
+    if(!Array.isArray(list))list=[];
+    list.push({f:path,n:nm});
+    var body={message:'주보 배경사진 목록 갱신',content:b64(JSON.stringify(list,null,1)),branch:BRANCH};if(cur)body.sha=cur.sha;
+    var m=await fetch('https://api.github.com/repos/'+REPO+'/contents/'+BGMAN,{method:'PUT',headers:{Authorization:'Bearer '+tok,Accept:'application/vnd.github+json','Content-Type':'application/json'},body:JSON.stringify(body)});
+    if(!m.ok)throw new Error('목록 갱신 실패 '+m.status);
+    BGLIST=list;BGCACHE[path]=u;D.hd.bgf=path;
+    document.getElementById('bgadd').innerHTML='';BGSRC=null;
+    render();save();toast('배경 사진을 등록하고 선택했습니다. 보기 페이지에는 [발행] 후 1~2분 뒤 나타납니다.',6000);
+  }catch(e){toast(String(e.message||e),5000);btn.disabled=false;btn.textContent='등록';}
+}
+document.getElementById('ed').addEventListener('change',function(e){
+  if(e.target&&e.target.id==='fbgadd'){var f=e.target.files[0];e.target.value='';if(f)bgOpenAdd(f);}
+});
 /* ---------- 이미지 (배경 / 공지 삽입) ---------- */
 function readImg(f,max){
   return new Promise(function(res,rej){
@@ -1169,6 +1258,7 @@ function loadPub(){
   else D=def();
   render();
   save();
+  try{bgLoad();}catch(e){}
   refreshAtt();
   var auxP=loadAux();
   function syncOrder(){
