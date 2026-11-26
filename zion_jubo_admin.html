@@ -78,6 +78,8 @@ table.tbg textarea{position:absolute;left:0;top:0;width:100%;height:100%;box-siz
 .bgpick .bi.on{border-color:#1a5fb4;box-shadow:0 0 0 2px #cfe0f8}
 .bgpick .bi .im8{display:block;width:100%;aspect-ratio:8/1;background-size:cover;background-position:center;border-radius:3px;background-color:#eee}
 .bgpick .bi .nm{display:block;margin-top:3px;word-break:keep-all}
+.bgpick .bi .bt{display:flex;gap:4px;justify-content:center;margin-top:4px}
+.bgpick .bi .bt button{padding:3px 8px;font-size:12px}
 #bgadd canvas{width:100%;max-width:480px;aspect-ratio:8/1;border:1px solid #bbb;border-radius:4px;display:block;margin:4px 0}
 #bgadd .row input[type=text]{flex:1;min-width:0}
 .thumb{width:90px;height:60px;object-fit:cover;border:1px solid #ccc;border-radius:5px}
@@ -838,9 +840,11 @@ document.addEventListener('click',function(e){
   var a=b.dataset.act,k=b.dataset.k,i=Number(b.dataset.i);
   var chg=true;
   if(a==='bgsel'){D.hd.bgf=b.dataset.f===BGDEF?'':b.dataset.f;}
-  else if(a==='bgadd'){document.getElementById('fbgadd').click();chg=false;}
+  else if(a==='bgadd'){BGPEND=null;document.getElementById('fbgadd').click();chg=false;}
   else if(a==='bgsave'){bgSave();chg=false;}
-  else if(a==='bgcancel'){document.getElementById('bgadd').innerHTML='';BGSRC=null;chg=false;}
+  else if(a==='bgedit'){bgEdit(b.dataset.f);chg=false;}
+  else if(a==='bgdel'){bgDel(b.dataset.f);chg=false;}
+  else if(a==='bgcancel'){document.getElementById('bgadd').innerHTML='';BGST=null;chg=false;}
   else if(a==='addrow'){var t=D.tb[k];var cnt=t.cols.length+(t.link!=null?1:0);var r=[];for(var x=0;x<cnt;x++)r.push('');t.rows.push(r);}
   else if(a==='delrow'){D.tb[k].rows.splice(i,1);}
   else if(a==='rowup'){mv(D.tb[k].rows,i,-1);}
@@ -961,8 +965,8 @@ document.addEventListener('click',function(e){
 });
 
 
-/* ---------- 상단 배경사진 선택 · 추가 ---------- */
-var BGDEF='zion_jubo_bg.jpg',BGMAN='zion_jubo_bgs.json',BGLIST=null,BGCACHE={},BGSRC=null;
+/* ---------- 상단 배경사진 선택 · 추가 · 자르기 수정 · 삭제 ---------- */
+var BGDEF='zion_jubo_bg.jpg',BGMAN='zion_jubo_bgs.json',BGLIST=null,BGCACHE={},BGST=null;
 function bgOk(f){return /^[\w\-]+(\/[\w\-]+)*\.jpg$/.test(String(f||''));}
 function bgItems(){
   var L=[{f:BGDEF,n:'기본(서리 낀 길)'}];
@@ -972,67 +976,130 @@ function bgItems(){
 function bgPickHtml(){
   var cur=bgOk(D.hd.bgf)?D.hd.bgf:BGDEF;
   return bgItems().map(function(x){
-    var u=BGCACHE[x.f]||x.f;
-    return '<div class="bi'+(x.f===cur?' on':'')+'" data-act="bgsel" data-f="'+esc(x.f)+'"><span class="im8" style="background-image:url(\''+esc(u)+'\')"></span><span class="nm">'+(x.f===cur?'✔ ':'')+esc(x.n||x.f)+'</span></div>';
+    var u=BGCACHE[x.f]||x.f,isd=x.f===BGDEF;
+    return '<div class="bi'+(x.f===cur?' on':'')+'" data-act="bgsel" data-f="'+esc(x.f)+'"><span class="im8" style="background-image:url(\''+esc(u)+'\')"></span><span class="nm">'+(x.f===cur?'✔ ':'')+esc(x.n||x.f)+'</span>'
+      +(isd?'':'<span class="bt"><button class="s" data-act="bgedit" data-f="'+esc(x.f)+'">자르기 수정</button><button class="s d" data-act="bgdel" data-f="'+esc(x.f)+'">삭제</button></span>')+'</div>';
   }).join('');
 }
 function bgRefresh(){var el=document.getElementById('bgpick');if(el)el.innerHTML=bgPickHtml();}
 function bgLoad(){
   return fetch(BGMAN+'?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():[];}).catch(function(){return [];}).then(function(j){BGLIST=Array.isArray(j)?j:[];bgRefresh();});
 }
-/* 가로 8:1(1600×200)로 자른 JPEG(약 100KB 이하) 데이터URL 생성. pos: 세로 위치 0~100 */
-function bgCrop(im,pos,cv){
+/* 가로 8:1(1600×200) 크롭. z: 확대 배율(1~3), x·y: 위치 0~100 */
+function bgCrop(im,P,cv){
   var W=1600,H=200,c=cv||document.createElement('canvas');c.width=W;c.height=H;
-  var sc=Math.max(W/im.width,H/im.height),dw=im.width*sc,dh=im.height*sc,dx=(W-dw)/2,dy=-(dh-H)*pos/100;
-  var x=c.getContext('2d');x.drawImage(im,dx,dy,dw,dh);
+  var z=Math.max(1,Math.min(3,Number(P.z)||1)),px=P.x==null?50:Number(P.x),py=P.y==null?50:Number(P.y);
+  var sc=Math.max(W/im.width,H/im.height)*z,dw=im.width*sc,dh=im.height*sc,dx=(W-dw)*px/100,dy=(H-dh)*py/100;
+  var x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,W,H);x.drawImage(im,dx,dy,dw,dh);
   var q=0.86,u=c.toDataURL('image/jpeg',q);
   while(u.length*0.75>100000&&q>0.4){q-=0.06;u=c.toDataURL('image/jpeg',q);}
   return u;
 }
-function bgOpenAdd(f){
-  var fr=new FileReader();
-  fr.onload=function(){
-    var im=new Image();
-    im.onload=function(){
-      BGSRC=im;
-      var box=document.getElementById('bgadd');
-      box.innerHTML='<canvas id="bgcv"></canvas><div class="row"><label>세로 위치</label><input type="range" id="bgpos" min="0" max="100" value="50"><span class="ro" id="bgposv">50</span></div>'
-       +'<div class="row"><label>이름</label><input type="text" id="bgnm" maxlength="20" placeholder="예: 눈 덮인 산능선"></div>'
-       +'<div class="row"><button class="s" data-act="bgsave">등록</button><button class="s d" data-act="bgcancel">취소</button><span style="color:#666;font-size:12px">원본의 가로 중앙 띠를 1600×200으로 잘라 저장합니다</span></div>';
-      var cv=document.getElementById('bgcv');bgCrop(im,50,cv);
-      document.getElementById('bgpos').addEventListener('input',function(e){document.getElementById('bgposv').textContent=e.target.value;bgCrop(BGSRC,Number(e.target.value),cv);});
-    };
-    im.onerror=function(){toast('이미지를 읽을 수 없습니다.');};
-    im.src=fr.result;
-  };
-  fr.readAsDataURL(f);
+/* 수정용 원본(가로 최대 2400px)을 JPEG로 보관 */
+function bgSrcUrl(im){
+  var sc=Math.min(1,2400/im.width),c=document.createElement('canvas');c.width=Math.round(im.width*sc);c.height=Math.round(im.height*sc);
+  c.getContext('2d').drawImage(im,0,0,c.width,c.height);return c.toDataURL('image/jpeg',0.84);
 }
-async function bgSave(){
-  var tok=getTok();
-  if(!tok){document.getElementById('d-gh').open=true;toast('GitHub 토큰을 먼저 입력해 주세요.');return;}
-  var cv=document.getElementById('bgcv');if(!cv||!BGSRC)return;
-  var nm=(document.getElementById('bgnm').value||'').trim()||'새 배경';
-  var u=bgCrop(BGSRC,Number(document.getElementById('bgpos').value)||0,cv);
-  var stamp=new Date().toLocaleString('sv-SE',{timeZone:'Asia/Seoul'}).replace(/\D/g,'').slice(2,12);
-  var path='zion_jubo_bgs/bg-'+stamp+'.jpg',btn=document.querySelector('[data-act=bgsave]');
-  btn.disabled=true;btn.textContent='등록 중…';
-  try{
-    var r=await fetch('https://api.github.com/repos/'+REPO+'/contents/'+path,{method:'PUT',headers:{Authorization:'Bearer '+tok,Accept:'application/vnd.github+json','Content-Type':'application/json'},body:JSON.stringify({message:'주보 배경사진 추가 '+nm,content:u.split(',')[1],branch:BRANCH})});
-    if(!r.ok)throw new Error('사진 저장 실패 '+r.status);
-    var cur=await ghGet(tok,BGMAN),list=[];
-    try{list=cur&&cur.content?JSON.parse(unb64(cur.content)):[];}catch(e){list=[];}
+function bgPanel(im,mode,ent,needSrc){
+  var P=(ent&&ent.p)||{z:1,x:50,y:50};
+  BGST={im:im,mode:mode,ent:ent||null,needSrc:!!needSrc};
+  var box=document.getElementById('bgadd');
+  function R(id,l,mn,mx,v){return '<div class="row"><label>'+l+'</label><input type="range" id="'+id+'" min="'+mn+'" max="'+mx+'" value="'+v+'"><span class="ro" id="'+id+'v">'+v+'</span></div>';}
+  box.innerHTML='<div style="font-weight:700;margin:6px 0 2px">'+(mode==='edit'?'사용할 부분 수정':'새 사진 추가')+'</div><canvas id="bgcv"></canvas>'
+   +R('bgz','확대 (%)',100,300,Math.round((P.z||1)*100))+R('bgx','가로 위치',0,100,P.x==null?50:P.x)+R('bgy','세로 위치',0,100,P.y==null?50:P.y)
+   +'<div class="row"><label>이름</label><input type="text" id="bgnm" maxlength="20" placeholder="예: 눈 덮인 산능선" value="'+esc(ent?ent.n:'')+'"></div>'
+   +'<div class="row"><button class="s" data-act="bgsave">'+(mode==='edit'?'수정 저장':'등록')+'</button><button class="s d" data-act="bgcancel">취소</button><span style="color:#666;font-size:12px">위 미리보기가 주보 상단에 들어갈 1600×200 띠입니다</span></div>';
+  var cv=document.getElementById('bgcv');
+  function cur(){return {z:Number(document.getElementById('bgz').value)/100,x:Number(document.getElementById('bgx').value),y:Number(document.getElementById('bgy').value)};}
+  function upd(e){var id=e.target.id;document.getElementById(id+'v').textContent=e.target.value;bgCrop(BGST.im,cur(),cv);}
+  ['bgz','bgx','bgy'].forEach(function(id){document.getElementById(id).addEventListener('input',upd);});
+  BGST.cur=cur;bgCrop(im,cur(),cv);
+  box.scrollIntoView({block:'nearest'});
+}
+function bgLoadImg(src){return new Promise(function(res,rej){var im=new Image();im.onload=function(){res(im);};im.onerror=function(){rej(new Error('img'));};im.src=src;});}
+function bgFile(f){
+  return new Promise(function(res,rej){var fr=new FileReader();fr.onload=function(){res(fr.result);};fr.onerror=function(){rej(new Error('read'));};fr.readAsDataURL(f);}).then(bgLoadImg);
+}
+var BGPEND=null;
+function bgPutBin(tok,path,dataUrl,msg){
+  return ghGet(tok,path).then(function(cur){
+    var body={message:msg,content:dataUrl.split(',')[1],branch:BRANCH};if(cur)body.sha=cur.sha;
+    return fetch('https://api.github.com/repos/'+REPO+'/contents/'+path,{method:'PUT',headers:{Authorization:'Bearer '+tok,Accept:'application/vnd.github+json','Content-Type':'application/json'},body:JSON.stringify(body)});
+  }).then(function(r){if(!r.ok)throw new Error('사진 저장 실패 '+r.status);});
+}
+function bgDelFile(tok,path,msg){
+  if(!path)return Promise.resolve();
+  return ghGet(tok,path).then(function(cur){
+    if(!cur)return;
+    return fetch('https://api.github.com/repos/'+REPO+'/contents/'+path,{method:'DELETE',headers:{Authorization:'Bearer '+tok,Accept:'application/vnd.github+json','Content-Type':'application/json'},body:JSON.stringify({message:msg,sha:cur.sha,branch:BRANCH})}).then(function(r){if(!r.ok)throw new Error('파일 삭제 실패 '+r.status);});
+  });
+}
+function bgPutMan(tok,fn){
+  return ghGet(tok,BGMAN).then(function(cur){
+    var list=[];try{list=cur&&cur.content?JSON.parse(unb64(cur.content)):[];}catch(e){list=[];}
     if(!Array.isArray(list))list=[];
-    list.push({f:path,n:nm});
+    list=fn(list);
     var body={message:'주보 배경사진 목록 갱신',content:b64(JSON.stringify(list,null,1)),branch:BRANCH};if(cur)body.sha=cur.sha;
-    var m=await fetch('https://api.github.com/repos/'+REPO+'/contents/'+BGMAN,{method:'PUT',headers:{Authorization:'Bearer '+tok,Accept:'application/vnd.github+json','Content-Type':'application/json'},body:JSON.stringify(body)});
-    if(!m.ok)throw new Error('목록 갱신 실패 '+m.status);
-    BGLIST=list;BGCACHE[path]=u;D.hd.bgf=path;
-    document.getElementById('bgadd').innerHTML='';BGSRC=null;
-    render();save();toast('배경 사진을 등록하고 선택했습니다. 보기 페이지에는 [발행] 후 1~2분 뒤 나타납니다.',6000);
-  }catch(e){toast(String(e.message||e),5000);btn.disabled=false;btn.textContent='등록';}
+    return fetch('https://api.github.com/repos/'+REPO+'/contents/'+BGMAN,{method:'PUT',headers:{Authorization:'Bearer '+tok,Accept:'application/vnd.github+json','Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(m){
+      if(!m.ok)throw new Error('목록 갱신 실패 '+m.status);BGLIST=list;
+    });
+  });
+}
+function bgTok(){
+  var tok=getTok();
+  if(!tok){document.getElementById('d-gh').open=true;toast('GitHub 토큰을 먼저 입력해 주세요.');return '';}
+  return tok;
+}
+function bgStamp(){return new Date().toLocaleString('sv-SE',{timeZone:'Asia/Seoul'}).replace(/\D/g,'').slice(2,12);}
+async function bgSave(){
+  var tok=bgTok();if(!tok||!BGST)return;
+  var S=BGST,cv=document.getElementById('bgcv'),P=S.cur();
+  var nm=(document.getElementById('bgnm').value||'').trim()||'새 배경';
+  var u=bgCrop(S.im,P,cv),btn=document.querySelector('[data-act=bgsave]'),old=btn.textContent;
+  btn.disabled=true;btn.textContent='저장 중…';
+  try{
+    var st=bgStamp(),ent=S.ent,path=ent?ent.f:'zion_jubo_bgs/bg-'+st+'.jpg',spath=ent&&ent.s&&!S.needSrc?ent.s:'zion_jubo_bgs/src-'+st+'.jpg';
+    await bgPutBin(tok,path,u,'주보 배경사진 '+(ent?'수정 ':'추가 ')+nm);
+    if(!ent||S.needSrc||!ent.s)await bgPutBin(tok,spath,bgSrcUrl(S.im),'주보 배경사진 원본 보관 '+nm);
+    var ne={f:path,n:nm,s:spath,p:{z:P.z,x:P.x,y:P.y}};
+    await bgPutMan(tok,function(list){
+      var i=-1;list.forEach(function(x,k){if(x&&x.f===path)i=k;});
+      if(i>=0)list[i]=ne;else list.push(ne);return list;
+    });
+    BGCACHE[path]=u;if(!ent)D.hd.bgf=path;
+    document.getElementById('bgadd').innerHTML='';BGST=null;
+    render();save();toast(ent?'수정했습니다. 보기 페이지에는 1~2분 뒤(브라우저에 따라 조금 더) 반영됩니다.':'배경 사진을 등록하고 선택했습니다. 보기 페이지에는 [발행] 후 1~2분 뒤 나타납니다.',6000);
+  }catch(e){toast(String(e.message||e),5000);btn.disabled=false;btn.textContent=old;}
+}
+async function bgEdit(f){
+  var ent=null;(BGLIST||[]).forEach(function(x){if(x&&x.f===f)ent=x;});if(!ent)return;
+  if(ent.s){
+    try{var im=await bgLoadImg(ent.s+'?t='+Date.now());bgPanel(im,'edit',ent,false);return;}catch(e){}
+  }
+  BGPEND={mode:'edit',ent:ent};
+  toast('이 사진은 원본이 저장돼 있지 않습니다. 원본 사진을 다시 선택해 주세요.',4500);
+  document.getElementById('fbgadd').click();
+}
+async function bgDel(f){
+  var ent=null;(BGLIST||[]).forEach(function(x){if(x&&x.f===f)ent=x;});if(!ent)return;
+  var pub=null;try{pub=BASE?JSON.parse(BASE).hd.bgf:null;}catch(e){}
+  if(pub===f){toast('현재 발행된 주보가 이 사진을 쓰고 있어 삭제할 수 없습니다. 다른 사진을 선택해 [발행]한 뒤 삭제해 주세요.',6000);return;}
+  if(!confirm('"'+(ent.n||f)+'" 사진을 삭제할까요? (저장소 파일도 함께 지워지며 되돌릴 수 없습니다)'))return;
+  var tok=bgTok();if(!tok)return;
+  try{
+    await bgPutMan(tok,function(list){return list.filter(function(x){return !(x&&x.f===f);});});
+    await bgDelFile(tok,f,'주보 배경사진 삭제 '+(ent.n||''));
+    if(ent.s)await bgDelFile(tok,ent.s,'주보 배경사진 원본 삭제');
+    if(D.hd.bgf===f)D.hd.bgf='';
+    delete BGCACHE[f];BGST=null;document.getElementById('bgadd').innerHTML='';
+    render();save();toast('삭제했습니다.'+(D.hd.bgf===''?' (선택은 기본 사진으로 돌아갑니다)':''),4000);
+  }catch(e){toast(String(e.message||e),5000);}
 }
 document.getElementById('ed').addEventListener('change',function(e){
-  if(e.target&&e.target.id==='fbgadd'){var f=e.target.files[0];e.target.value='';if(f)bgOpenAdd(f);}
+  if(e.target&&e.target.id==='fbgadd'){
+    var f=e.target.files[0];e.target.value='';var pend=BGPEND;BGPEND=null;if(!f)return;
+    bgFile(f).then(function(im){if(pend)bgPanel(im,'edit',pend.ent,true);else bgPanel(im,'add',null,true);}).catch(function(){toast('이미지를 읽을 수 없습니다.');});
+  }
 });
 /* ---------- 이미지 (배경 / 공지 삽입) ---------- */
 function readImg(f,max){
